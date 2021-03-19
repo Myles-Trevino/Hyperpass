@@ -1,0 +1,76 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "builds/hyperpass-core/stylesheets/styles.scss";
+
+
+/* Variables. */
+:root
+{
+	--navbar-height: 4.5rem;
+	--app-page-height: calc(100vh - var(--large-gap) * 2 -
+		var(--tile-title-height) - var(--navbar-height));
+
+
+	/* Mobile. */
+	@include mobile
+	{
+		--navbar-height: 5rem;
+		--app-page-height: calc(100vh - var(--tile-title-height) - var(--navbar-height));
+	}
+}
+
+
+/* Navbar. */
+.navbar-links
+{
+	display: grid;
+	grid-auto-flow: column;
+	align-items: center;
+	gap: var(--medium-gap);
+	white-space: nowrap;
+
+	a
+	{
+		font-family: "Open Sans Semibold";
+		letter-spacing: -0.01rem;
+		color: var(--text-color);
+	}
+}
+
+
+/* Pages. */
+.page, .centerer-page{ min-height: calc(100vh - var(--navbar-height)); }
+
+
+/* Separator. */
+.separator
+{
+	border-bottom: var(--separator-width) dashed
+		var(--semitransparent-text-color);
+}
+
+
+/* Introduction section. */
+.introduction-section
+{
+	display: grid;
+	gap: var(--medium-gap);
+	justify-items: center;
+	align-content: center;
+	margin: var(--large-gap);
+
+	h3{ text-align: center; }
+
+	p
+	{
+		text-align: justify;
+		max-width: var(--page-content-width-limit);
+	}
+
+	@include mobile{ margin: var(--large-gap) var(--small-gap); }
+}

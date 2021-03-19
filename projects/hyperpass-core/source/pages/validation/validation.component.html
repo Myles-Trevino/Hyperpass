@@ -1,0 +1,63 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Account Validation. -->
+<div *ngIf="!success" class="form-tile" @fadeInAnimation>
+
+	<h4>Account Validation</h4>
+
+	<div class="tile-content">
+
+		<!-- Notice. -->
+		<div class="tile-section">
+			<p>
+				There's just one more step before you can use Hyperpass. We need to confirm that you own the email address you entered. To validate your account, copy and paste the key we just emailed you into the input below. Remember to check your spam or wait a few minutes if the email isn't in your inbox. You can reach this page again by logging in.
+			</p>
+		</div>
+
+		<!-- Validation form. -->
+		<div class="tile-section">
+
+			<input type="text" class="tile-input" placeholder="Account Validation Key" spellcheck="false" #accountValidationKeyInput>
+
+			<div class="tile-buttons">
+				<button (click)="sendEmail()">Resend</button>
+				<button (click)="validate(accountValidationKeyInput.value)">Validate</button>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+<!-- Success. -->
+<div *ngIf="success" class="form-tile" @fadeInAnimation>
+
+	<h4>Welcome!</h4>
+
+	<div class="tile-content">
+
+		<!-- Notice. -->
+		<div class="tile-section">
+			<p>
+				Your account has been validated! With your new account, you can log into Hyperpass anywhere. Try out the Web App to get started immediately, or for better integration, download the dedicated apps for your browsers, phones, and computers. Not sure where to start? Refer to the Introduction guide for more information.
+			</p>
+		</div>
+
+		<!-- Validation form. -->
+		<div class="tile-section">
+			<div class="tile-buttons">
+				<button routerLink="/support/introduction">Introduction</button>
+				<button routerLink="/app">Log In</button>
+			</div>
+		</div>
+
+	</div>
+
+</div>

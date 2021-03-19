@@ -1,0 +1,64 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Title. -->
+<div class="tile-setting">
+	<span>Title</span>
+	<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="title">
+</div>
+
+<!-- Username. -->
+<div class="tile-setting">
+
+	<span>Username</span>
+
+	<div class="app-button-input-container">
+		<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.username">
+		<hyperpass-svg svg="History Button" (click)="viewUsernameHistory()"></hyperpass-svg>
+	</div>
+
+</div>
+
+<!-- Password. -->
+<div class="tile-setting">
+
+	<span>Password</span>
+
+	<div class="app-button-input-container">
+
+		<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.password">
+
+		<div class="horizontal-container">
+			<hyperpass-svg svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
+			<hyperpass-svg svg="Generate Button" (click)="generatePassword()"></hyperpass-svg>
+		</div>
+
+	</div>
+
+</div>
+
+<!-- URL. -->
+<div class="tile-setting">
+	<span>URL</span>
+	<input type="text" spellcheck="false" autocomplete="off" [ngModel]="state.url" (ngModelChange)="urlChangeCallback($event)">
+	<p *ngIf="showUrlWarning" class="tile-setting-text warning-text">Avoid including unnecessary parts in the URL such as https://, www., and parts after the domain name.</p>
+</div>
+
+<!-- Note. -->
+<div class="tile-setting">
+
+	<span>Note</span>
+
+	<div class="app-button-input-container">
+		<textarea class="hidden-scrollbars" [(ngModel)]="state.note"></textarea>
+		<hyperpass-svg svg="History Button" (click)="viewNoteHistory()"></hyperpass-svg>
+	</div>
+
+</div>
+
+<!-- Tag list. -->
+<hyperpass-tag-list [(tags)]="state.tags" (pushTags)="pushTags()" (pullTags)="pullTags()"></hyperpass-tag-list>

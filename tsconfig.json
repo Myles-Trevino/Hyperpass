@@ -1,0 +1,38 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+{
+	"compileOnSave": false,
+	"compilerOptions":
+	{
+		"baseUrl": "./",
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"downlevelIteration": true,
+		"experimentalDecorators": true,
+		"moduleResolution": "node",
+		"importHelpers": true,
+		"target": "ES2015",
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"lib": ["ES2020", "DOM"],
+		"emitDecoratorMetadata": true,
+		"paths":
+		{
+			"hyperpass-core": ["builds/hyperpass-core"],
+			"hyperpass-core/*": ["builds/hyperpass-core/*"]
+		}
+	},
+	"angularCompilerOptions":
+	{
+		"strictInjectionParameters": true,
+		"strictInputAccessModifiers": true,
+		"strictTemplates": true
+	}
+}

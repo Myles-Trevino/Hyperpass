@@ -1,0 +1,86 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "../../../stylesheets/mixins.scss";
+
+
+:host
+{
+	position: relative;
+	@include mobile{ padding: 0; }
+}
+
+
+#app-tile
+{
+	@include mobile
+	{
+		border-radius: 0;
+		box-shadow: none;
+	}
+}
+
+
+#app-tabs
+{
+	display: grid;
+	grid-auto-flow: column;
+	justify-content: start;
+	gap: var(--medium-radius);
+	align-content: center;
+	margin: 0 var(--medium-radius);
+	height: var(--tile-title-height);
+
+	@include mobile
+	{
+		justify-content: center;
+		gap: 1.55rem;
+	}
+
+	h4
+	{
+		cursor: pointer;
+		color: var(--semitransparent-text-color);
+		transition: color var(--regular-transition-duration);
+
+		&.selected{ color: var(--text-color); }
+	}
+}
+
+
+#app-modal-overlay
+{
+	z-index: 2;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	padding: var(--large-gap);
+	background-color: var(--semitransparent-background-color);
+
+	@include mobile{ padding: var(--small-gap); }
+}
+
+
+.tile
+{
+	grid-template-rows: min-content 1fr;
+	width: 100%;
+	max-width: 60rem;
+}
+
+
+ion-slides
+{
+	height: var(--app-page-height); /* Avoids a scrollbar flash on load. */
+
+	@include mobile{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; }
+}

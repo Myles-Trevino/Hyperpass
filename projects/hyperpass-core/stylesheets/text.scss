@@ -1,0 +1,118 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+/* Fonts. */
+@font-face
+{
+	font-family: "DM Sans Medium";
+	src: url("../assets/fonts/dm-sans-medium.ttf");
+}
+
+@font-face
+{
+	font-family: "Open Sans Semibold";
+	src:  url("../assets/fonts/open-sans-semibold.ttf");
+}
+
+@font-face
+{
+	font-family: "Roboto Regular";
+	src:  url("../assets/fonts/roboto-regular.ttf");
+}
+
+@font-face
+{
+	font-family: "Iosevka SS08 Medium";
+	src:  url("../assets/fonts/iosevka-ss08-medium.ttf");
+}
+
+
+/* Text elements. */
+h1, h2, h3, h4, p, span, a{ color: var(--text-color); }
+
+h1, h2, h3, h4
+{
+	font-family: "DM Sans Medium";
+	font-weight: 500;
+}
+
+h1
+{
+	font-size: 4rem;
+	letter-spacing: -.15rem;
+
+	@include mobile{ font-size: 3.1rem; }
+}
+
+h2
+{
+	font-size: 2.7rem;
+	letter-spacing: -.1rem;
+}
+
+h3
+{
+	font-size: 2rem;
+	letter-spacing: -.05rem;
+
+	@include mobile{ font-size: 2rem; }
+}
+
+h4
+{
+	font-size: 1.73rem;
+	letter-spacing: -0.025rem;
+}
+
+p, span, button, input, textarea
+{
+	font-family: "Roboto Regular";
+	letter-spacing: -0.01rem;
+	font-size: 1rem;
+	line-height: 1.75rem;
+	color: var(--text-color);
+}
+
+p, p > a, input, textarea{ user-select: text; }
+
+input, textarea{ caret-color: var(--text-color); }
+
+a
+{
+	cursor: pointer;
+	text-decoration: underline;
+	transition: text-decoration-color var(--regular-transition-duration);
+	text-decoration-color: transparent;
+	width: fit-content;
+
+	&:hover{ text-decoration-color: var(--text-color); }
+}
+
+p > a{ text-decoration-color: var(--semitransparent-text-color); }
+
+
+/* Classes. */
+.dimmed-text, input::placeholder
+{
+	color: var(--semitransparent-text-color);
+	opacity: 1;
+}
+
+.warning-text{ color: var(--red-color); }
+
+
+/* Browser workarounds. */
+:-webkit-autofill::first-line /* Removes Chrome's autofill styling. */
+{
+	font-family: "Roboto Regular";
+	letter-spacing: -0.01rem;
+	font-size: 1rem;
+	line-height: 1.75rem;
+	color: var(--text-color);
+}
+
+input, textarea{ filter: none; /* Removes Firefox's autofill styling. */ }

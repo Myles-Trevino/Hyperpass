@@ -1,0 +1,213 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+/* General. */
+*
+{
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	box-sizing: border-box;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	outline: none;
+}
+
+:root{ @include mobile{ font-size: 4vw; } }
+
+::selection{ background-color: var(--selection-color); }
+
+::placeholder
+{
+	color: var(--text-color);
+	opacity: .3;
+}
+
+html{ background-color: var(--background-color); }
+
+
+/* Animations. */
+@keyframes fade-in
+{
+	from{ opacity: 0; }
+	to{ opacity: 1; }
+}
+
+
+/* Workaround to prevent Chrome's autofill color. */
+:-webkit-autofill
+{
+	transition: background-color 0s 2147483647s;
+	-webkit-text-fill-color: var(--text-color);
+}
+
+
+/* Pages. */
+.page, .centerer-page
+{
+	display: grid;
+	min-height: 100vh;
+	opacity: 0;
+	animation: fade-in var(--medium-transition-duration) forwards;
+}
+
+.centerer-page
+{
+	justify-items: center;
+	align-items: center;
+	padding: var(--large-gap);
+
+	@include mobile{ padding: var(--small-gap); }
+}
+
+
+/* Buttons and inputs. */
+button, input, textarea{ background-color: var(--main-color); }
+
+button, input
+{
+	height: var(--button-and-input-height);
+	border-radius: calc(var(--button-and-input-height) / 2);
+}
+
+button
+{
+	cursor: pointer;
+	white-space: nowrap;
+	width: fit-content;
+	min-width: var(--button-and-input-minimum-width);
+	padding: 0 var(--button-and-input-padding);
+	color: var(--text-color);
+	transition: background-color var(--regular-transition-duration);
+
+	@include shading-raised;
+
+	&:hover{ background-color: var(--accent-color); }
+}
+
+input, textarea{ @include shading-sunken; }
+
+input
+{
+	padding: 0 var(--button-and-input-padding);
+	width: 100%;
+	transition: box-shadow var(--regular-transition-duration),
+		background-color var(--regular-transition-duration);
+}
+
+textarea
+{
+	resize: none;
+	border-radius: var(--small-radius);
+	width: 100%;
+	height: 6.4rem;
+	padding: .4rem .75rem
+}
+
+
+/* SVGs. */
+hyperpass-svg{ height: 1.75rem; }
+
+svg
+{
+	height: 100%;
+	fill: var(--text-color);
+
+	.base{ fill: var(--alternate-color); }
+
+	.glyph
+	{
+		stroke: var(--text-color);
+		stroke-width: 1.5px;
+		fill: none;
+	}
+}
+
+.svg-button
+{
+	cursor: pointer;
+
+	.base{ transition: fill var(--regular-transition-duration); }
+
+	&:hover .base{ fill: var(--accent-color); }
+}
+
+.disabled
+{
+	pointer-events: none;
+	opacity: .5;
+}
+
+
+/* Code. */
+.code
+{
+	font-family: "Iosevka SS08 Medium";
+	font-weight: 500;
+}
+
+h4.code{ font-size: 1.3rem; }
+
+
+/* Overlay. */
+.overlay
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+
+/* Scrollbar. */
+ngx-simplebar
+{
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+
+	.simplebar-track.simplebar-vertical{ width: var(--scrollbar-width); }
+
+	.simplebar-track.simplebar-horizontal{ height: var(--scrollbar-width); }
+
+	.simplebar-scrollbar::before
+	{
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 0;
+		border-radius: 0;
+		background-color: var(--text-color) !important;
+	}
+
+	@include mobile{ .simplebar-track{ display: none; } }
+}
+
+.hidden-scrollbars
+{
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar{ display: none; }
+}
+
+
+/* Layout. */
+.vertical-container, .horizontal-container
+{
+	display: grid;
+	gap: var(--small-gap);
+}
+
+.horizontal-container{ grid-auto-flow: column; }
+
+.right-justified{ justify-self: right; }
+
+
+/* Shading. */
+.shaded{ @include shading-raised; }

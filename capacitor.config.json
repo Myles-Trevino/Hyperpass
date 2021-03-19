@@ -1,0 +1,11 @@
+{
+	"appName": "Hyperpass",
+	"appId": "com.laventh.hyperpass",
+	"rootDir": "builds/hyperpass-mobile",
+	"webDir": "build",
+	"backgroundColor": "#000000",
+	"bundledWebRuntime": false,
+	"hideLogs": true,
+	"npmClient": "npm",
+	"plugins": {"SplashScreen": {"launchAutoHide": false}}
+}

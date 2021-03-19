@@ -1,0 +1,130 @@
+{
+	"author": {
+		"name": "Myles Trevino",
+		"email": "myles@laventh.com"
+	},
+	"name": "hyperpass",
+	"productName": "Hyperpass",
+	"version": "2021.3.18",
+	"description": "A modern, unified password manager.",
+	"homepage": "hyperpass.org",
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Myles-Trevino/Hyperpass"
+	},
+	"main": "projects/hyperpass-desktop/electron.js",
+	"private": true,
+	"scripts": {
+		"ng": "ng",
+		"lint": "ng lint",
+		"build": "npm run build:core && npm run build:api && npm run build:desktop && npm run release:desktop && npm run build:extension && npm run build:mobile && npx cap add android && npx cap sync && npm run build:website",
+		"build:core": "ng build --project=hyperpass-core",
+		"build:api": "rm -rf ./builds/hyperpass-api && tsc --project projects/hyperpass-api/tsconfig.json && cp -r projects/hyperpass-api/source/email-templates ./builds/hyperpass-api && cp package.json ./builds/hyperpass-api",
+		"build:desktop": "ng build --project=hyperpass-desktop --prod --base-href ./",
+		"release:desktop": "electron-builder",
+		"start:desktop": "electron ./projects/hyperpass-desktop/electron.js",
+		"build:extension": "ng build --project=hyperpass-extension --prod",
+		"build:mobile": "ng build --project=hyperpass-mobile --prod",
+		"serve:website": "ng serve --project=hyperpass-website",
+		"build:website": "ng build --project=hyperpass-website --prod  && ng run hyperpass-website:server:production"
+	},
+	"build": {
+		"appId": "com.laventh.hyperpass",
+		"artifactName": "${productName} ${version}.${ext}",
+		"directories": {
+			"output": "builds/hyperpass-desktop/release",
+			"buildResources": "projects/hyperpass-desktop/release_resources"
+		},
+		"nsis": {
+			"oneClick": false,
+			"perMachine": true,
+			"uninstallDisplayName": "${productName}",
+			"createDesktopShortcut": "always"
+		},
+		"mac": {
+			"target": "pkg"
+		},
+		"linux": {
+			"target": "deb"
+		},
+		"deb": {
+			"synopsis": "A modern, unified password manager.",
+			"description": "The desktop application for the Hyperpass password manager."
+		}
+	},
+	"dependencies": {
+		"@angular/animations": "~11.2.5",
+		"@angular/cdk": "^11.2.4",
+		"@angular/common": "~11.2.5",
+		"@angular/compiler": "~11.2.5",
+		"@angular/core": "~11.2.5",
+		"@angular/forms": "~11.2.5",
+		"@angular/platform-browser": "~11.2.5",
+		"@angular/platform-browser-dynamic": "~11.2.5",
+		"@angular/platform-server": "^11.2.5",
+		"@angular/router": "~11.2.5",
+		"@capacitor/android": "^2.4.7",
+		"@capacitor/core": "^2.4.7",
+		"@ionic/angular": "^5.6.0",
+		"@nguniversal/express-engine": "^11.2.1",
+		"cors": "^2.8.5",
+		"date-fns": "^2.19.0",
+		"dotenv": "^8.2.0",
+		"fflate": "^0.6.7",
+		"file-saver": "^2.0.5",
+		"handlebars": "^4.7.7",
+		"hash-wasm": "^4.5.0",
+		"joi": "^17.4.0",
+		"libsodium-wrappers": "^0.7.9",
+		"lodash": "^4.17.21",
+		"mongodb": "^3.6.5",
+		"ngx-electron": "^2.2.0",
+		"nodemailer": "^6.5.0",
+		"papaparse": "^5.3.0",
+		"path": "^0.12.7",
+		"rxjs": "~6.6.0",
+		"simplebar-angular": "^3.0.0-beta.10",
+		"tslib": "^2.0.0",
+		"webextension-polyfill-ts": "^0.25.0",
+		"zone.js": "~0.11.3"
+	},
+	"devDependencies": {
+		"@angular-builders/custom-webpack": "^11.1.1",
+		"@angular-devkit/build-angular": "^0.1102.4",
+		"@angular-eslint/builder": "2.0.1",
+		"@angular-eslint/eslint-plugin": "2.0.1",
+		"@angular-eslint/eslint-plugin-template": "2.0.1",
+		"@angular-eslint/schematics": "2.0.1",
+		"@angular-eslint/template-parser": "2.0.1",
+		"@angular/cli": "~11.2.4",
+		"@angular/compiler-cli": "~11.2.5",
+		"@capacitor/cli": "^2.4.7",
+		"@ionic/angular-toolkit": "^3.1.0",
+		"@nguniversal/builders": "^11.2.1",
+		"@types/cors": "^2.8.10",
+		"@types/express": "^4.17.11",
+		"@types/file-saver": "^2.0.1",
+		"@types/libsodium-wrappers": "^0.7.9",
+		"@types/lodash": "^4.14.168",
+		"@types/mongodb": "^3.6.10",
+		"@types/node": "^14.14.35",
+		"@types/nodemailer": "^6.4.1",
+		"@types/papaparse": "^5.2.5",
+		"@types/simplebar": "^5.1.1",
+		"@typescript-eslint/eslint-plugin": "4.16.1",
+		"@typescript-eslint/parser": "4.16.1",
+		"electron": "^12.0.1",
+		"electron-builder": "^22.10.5",
+		"eslint": "^7.6.0",
+		"eslint-plugin-import": "2.22.1",
+		"eslint-plugin-jsdoc": "30.7.6",
+		"eslint-plugin-prefer-arrow": "1.2.2",
+		"ng-packagr": "^11.2.4",
+		"ts-node": "~8.3.0",
+		"typescript": "~4.1.5"
+	},
+	"browser": {
+		"crypto": false
+	}
+}

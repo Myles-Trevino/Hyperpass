@@ -1,0 +1,63 @@
+# Copyright Myles Trevino
+# Licensed under the Apache License, Version 2.0
+# http://www.apache.org/licenses/LICENSE-2.0
+
+
+version: 2.1
+
+
+executors:
+  hyperpass-executor:
+      docker:
+        - image: circleci/node:latest-browsers
+      working_directory: ~/hyperpass
+
+
+jobs:
+  install:
+    executor: hyperpass-executor
+    steps:
+      - checkout
+      - restore_cache:
+          key: hyperpass-{{.Branch}}-{{checksum "package-lock.json"}}
+      - run: npm install
+      - save_cache:
+          key: hyperpass-{{.Branch}}-{{checksum "package-lock.json"}}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  build:
+    executor: hyperpass-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - builds/hyperpass-core
+
+  lint:
+    executor: hyperpass-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: npm run lint
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - install
+      - build:
+          requires:
+            - install
+      - lint:
+          requires:
+            - build

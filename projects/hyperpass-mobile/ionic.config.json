@@ -1,0 +1,12 @@
+{
+	"defaultProject": "hyperpass-mobile",
+	"projects":
+	{
+		"hyperpass-mobile":
+		{
+			"name": "Hyperpass",
+			"integrations": {"capacitor": {}},
+			"type": "angular"
+		}
+	}
+}

@@ -1,0 +1,68 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Actions. -->
+<div class="app-top-bar">
+	<button (click)='logOut()'>Log Out</button>
+	<button id="options-sync-button" (click)='sync()'>Sync</button>
+</div>
+
+
+<!-- Options. -->
+<ngx-simplebar #simpleBar>
+<div class="tile-content">
+
+	<!-- Theme. -->
+	<div class="tile-setting">
+		<span>Theme</span>
+		<hyperpass-dropdown [options]="types.themes" [selectedOption]="settings.theme" (selectedOptionChange)="setTheme($event)"></hyperpass-dropdown>
+	</div>
+
+	<!-- Login timeout. -->
+	<div class="tile-setting">
+		<span>Login Timeout</span>
+		<hyperpass-dropdown [options]="types.loginTimeouts" [selectedOption]="settings.loginTimeout" (selectedOptionChange)="setLoginTimeout($event)"></hyperpass-dropdown>
+	</div>
+
+	<!-- Import and export. -->
+	<div id="options-import-and-export" class="tile-setting">
+		<span>Import and Export</span>
+
+		<div class="tile-buttons">
+			<button [routerLink]="['/app', {outlets: {'options': ['import-vault']}}]" [skipLocationChange]="true">Import</button>
+			<button [routerLink]="['/app', {outlets: {'options': ['export-vault']}}]" [skipLocationChange]="true">Export</button>
+		</div>
+	</div>
+
+	<!-- Change master password. -->
+	<div class="tile-setting">
+		<span>Change Master Password</span>
+		<button [routerLink]="['/app', {outlets: {'options': ['master-password']}}]" [skipLocationChange]="true">Change</button>
+	</div>
+
+	<!-- Help. -->
+	<div class="tile-setting">
+		<span>Need Help?</span>
+		<button (click)="support()">Support Page</button>
+	</div>
+
+	<!-- Support the project. -->
+	<div class="tile-setting">
+		<span>Support the Project ❤️</span>
+		<a class="donate-link" href="https://www.paypal.com/paypalme/mylestrevino" target="_blank">
+			<button>Donate</button>
+		</a>
+	</div>
+
+	<!-- Version. -->
+	<div class="tile-section">
+		<span>Version</span>
+		<span class="right-justified">2021.3.18</span>
+	</div>
+
+</div>
+</ngx-simplebar>

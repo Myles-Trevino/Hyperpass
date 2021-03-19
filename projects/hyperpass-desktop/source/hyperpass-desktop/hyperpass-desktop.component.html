@@ -1,0 +1,28 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Container. -->
+<div id="hyperpass-container">
+
+	<!-- Titlebar. -->
+	<div id="hyperpass-titlebar-container">
+		<div id="hyperpass-titlebar">
+			<div id="hyperpass-titlebar-buttons">
+				<div class="hyperpass-titlebar-button" (click)="minimize()"></div>
+				<div class="hyperpass-titlebar-button" (click)="maximize()"></div>
+				<div class="hyperpass-titlebar-button" (click)="close()"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Page. -->
+	<router-outlet></router-outlet>
+
+	<!-- Message. -->
+	<hyperpass-message #hyperpassMessage></hyperpass-message>
+
+</div>

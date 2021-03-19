@@ -1,0 +1,139 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "../../../../stylesheets/mixins.scss";
+
+
+:host
+{
+	position: relative;
+	grid-template-rows: min-content auto;
+	gap: 0;
+}
+
+.app-top-bar
+{
+	grid-template-columns: auto repeat(2, min-content);
+	margin-bottom: var(--small-gap);
+
+	input
+	{
+		justify-self: left;
+		max-width: 35rem;
+	}
+}
+
+:host ::ng-deep .app-top-bar hyperpass-svg
+{
+	height: var(--button-and-input-height);
+
+	.base{ fill: var(--main-color); }
+
+	.glyph{ stroke-width: 1.2px; }
+
+	&:hover .base{ fill: var(--accent-color); }
+}
+
+
+#vault-content
+{
+	display: grid;
+	gap: var(--small-gap);
+
+	.tile-content
+	{
+		cursor: pointer;
+
+		@include shading-raised;
+	}
+
+	.tile-section
+	{
+		padding: 1rem var(--medium-radius);
+		gap: 0;
+		border-bottom-color: none;
+	}
+}
+
+#vault-entries
+{
+	display: grid;
+	gap: var(--medium-radius);
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	overflow: hidden;
+	padding: var(--medium-radius);
+	border-radius: var(--medium-radius);
+	background-color: var(--alternate-color);
+
+	.tile-content
+	{
+		position: relative;
+		background-color: var(--main-color);
+		transition: background-color var(--regular-transition-duration) 49ms;
+
+		&:hover
+		{
+			background-color: var(--accent-color);
+			transition-delay: 0s;
+
+			.vault-buttons
+			{
+				opacity: 1;
+				transition-delay: 49ms;
+			}
+		}
+	}
+
+	.tile-section{ grid-auto-flow: row; }
+
+	span
+	{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+.vault-buttons
+{
+	position: absolute;
+	top: .77rem;
+	right: var(--medium-radius);
+	display: flex;
+	gap: var(--very-small-gap);
+	padding: .48rem 0 .48rem 1.25rem;
+	background-color: var(--semitransparent-accent-color);
+	opacity: 0;
+	transition: opacity var(--regular-transition-duration);
+}
+
+:host ::ng-deep hyperpass-svg:hover .base{ fill: var(--alternate-accent-color); }
+
+.vault-tag-container
+{
+	display: flex;
+	gap: var(--very-small-gap);
+	overflow: scroll;
+	margin: .25rem 0 .3rem;
+
+	.app-tag{ pointer-events: none; }
+}
+
+#page-controls
+{
+	position: absolute;
+	bottom: calc(var(--medium-radius) * 2);
+	right: calc(var(--medium-radius) * 2);
+	display: grid;
+	grid-auto-flow: column;
+	gap: var(--very-small-gap);
+	align-items: center;
+	background-color: var(--alternate-color);
+	margin: var(--very-small-gap);
+	padding: .35rem;
+	border-radius: 3rem;
+}

@@ -1,0 +1,86 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Main page. -->
+<div *ngIf="!key" @fadeInAnimation>
+
+	<!-- Top. -->
+	<div class="app-modal-top">
+		<button (click)="modalService.close()">Close</button>
+		<button id="tags-new-button" (click)="new()">New</button>
+	</div>
+
+
+	<!-- Content. -->
+	<div class="app-modal-content">
+
+		<!-- Tag list. -->
+		<ngx-simplebar *ngIf="hasTags">
+		<div id="tags-tag-list">
+
+			<ng-container *ngFor="let tag of vault.tags | keyvalue">
+			<div *ngIf="!reservedTags.includes(tag.key)" [attr.id]="getId(tag.key)" class="app-modal-entry" (click)="returnTag(tag.key)">
+
+				<!-- Tag color. -->
+				<hyperpass-tag-color [color]="tag.value.color" [displayNone]="true"></hyperpass-tag-color>
+
+				<!-- Tag name. -->
+				<span>{{tag.key}}</span>
+
+				<!-- Edit button. -->
+				<hyperpass-svg svg="Edit Button" (click)="edit(tag.key)"></hyperpass-svg>
+
+				<!-- Delete button. -->
+				<hyperpass-svg svg="Delete Button" (click)="delete(tag.key)"></hyperpass-svg>
+
+			</div>
+			</ng-container>
+
+		</div>
+		</ngx-simplebar>
+
+		<!-- No tags. -->
+		<div *ngIf="!hasTags" class="overlay">
+			<span class="dimmed-text">No Tags</span>
+		</div>
+
+	</div>
+
+</div>
+
+
+<!-- Editor. -->
+<div *ngIf="key" id="tags-editor" @fadeInAnimation>
+
+	<!-- Top. -->
+	<div class="app-modal-top">
+		<button (click)="exitEditing()">Cancel</button>
+		<button id="tags-new-button" (click)="save()">Save</button>
+	</div>
+
+	<!-- Content. -->
+	<div class="app-modal-content">
+
+		<!-- Color list. -->
+		<div id="tags-editor-color-list">
+			<hyperpass-tag-color *ngFor="let color of tagColors" [color]="color" (click)="tag.color = color" [displayNone]="true"></hyperpass-tag-color>
+		</div>
+
+		<!-- Input. -->
+		<div id="tags-editor-input">
+
+			<!-- Tag color. -->
+			<hyperpass-tag-color [color]="tag.color" [displayNone]="true"></hyperpass-tag-color>
+
+			<!-- Tag name. -->
+			<input type="text" placeholder="Tag Name" spellcheck="false" autocomplete="off" [(ngModel)]="name">
+
+		</div>
+
+	</div>
+
+</div>

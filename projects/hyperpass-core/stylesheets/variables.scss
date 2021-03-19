@@ -1,0 +1,74 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "mixins.scss";
+
+
+/* Variables. */
+:root
+{
+	/* Theme-independent colors. */
+	--red-color: rgb(255, 48, 65);
+	--red-glow-color: rgb(255, 0, 21, .3);
+	--orange-color: rgb(255, 165, 64);
+	--orange-glow-color: rgb(255, 134, 0, .3);
+	--yellow-color: rgb(255, 255, 108);
+	--yellow-glow-color: rgb(255, 255, 0, .3);
+	--green-color: rgb(130, 255, 85);
+	--green-glow-color: rgb(89, 255, 29, .3);
+	--cyan-color: rgb(110, 254, 255);
+	--cyan-glow-color: rgb(0, 253, 255, .3);
+	--blue-color: rgb(86, 160, 255);
+	--blue-glow-color: rgb(0, 112, 255, .3);
+	--purple-color: rgb(184, 84, 255);
+	--purple-glow-color: rgb(149, 0, 255, .3);
+	--pink-color: rgb(255, 110, 189);
+	--pink-glow-color: rgb(255, 0, 139, .3);
+
+	/* Sizes. */
+	--large-gap: 3.75rem;
+	--medium-gap: 2.5rem;
+	--small-gap: 1rem;
+	--very-small-gap: .5rem;
+	--separator-width: 1px;
+	--page-content-width-limit: 70rem;
+	--button-and-input-padding: 1.25rem;
+	--button-and-input-minimum-width: 6rem;
+	--dropdown-minimum-width: 13rem;
+	--scrollbar-width: calc(var(--small-gap) / 2);
+	--minimum-page-height: 26.8rem;
+	--line-width: .1rem;
+	--app-page-height: calc(100vh - var(--large-gap) * 2 - var(--tile-title-height));
+
+	--shading-specular-offset: -1px;
+	--shading-specular-diffuse: 1px;
+	--shading-light-offset: -.3rem;
+	--shading-light-diffuse: .6rem;
+	--shading-umbra-offset: .1rem;
+	--shading-umbra-diffuse: .2rem;
+	--shading-shadow-offset: .3rem;
+	--shading-shadow-diffuse: 1rem;
+
+	--small-radius: .5rem;
+	--medium-radius: 1.5rem;
+	--tile-title-height: 4.5rem;
+	--tile-section-height: 5.6rem;
+	--button-and-input-height: 2.5rem;
+
+	/* Durations. */
+	--regular-transition-duration: .16s;
+	--medium-transition-duration: .32s;
+
+	/* Mobile. */
+	@include mobile
+	{
+		--medium-radius: 1.1rem;
+		--large-gap: 3rem;
+		--medium-gap: 2rem;
+		--app-page-height: calc(100vh - var(--tile-title-height));
+	}
+}

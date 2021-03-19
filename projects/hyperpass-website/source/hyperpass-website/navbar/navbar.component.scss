@@ -1,0 +1,78 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "builds/hyperpass-core/stylesheets/mixins.scss";
+
+
+:host
+{
+	z-index: 5;
+	touch-action: none;
+	position: sticky;
+	top: 0;
+	display: grid;
+	grid-template-columns: var(--navbar-height) auto min-content;
+	background-color: var(--background-color);
+	box-shadow: 0 1px var(--shading-dark-color);
+	opacity: .95;
+
+	@include mobile
+	{
+		grid-template-columns: var(--navbar-height)
+			auto var(--navbar-height);
+	}
+}
+
+a{ width: auto; }
+
+#navbar-logo-svg, #navbar-menu-svg{ height: var(--navbar-height); }
+
+svg
+{
+	padding: .75rem;
+	height: 100%;
+}
+
+.navbar-menu-svg
+{
+	position: absolute;
+	right: 0;
+	display: none;
+
+	@include mobile{ display: block; }
+}
+
+:host > .navbar-links
+{
+	padding-right: var(--medium-gap);
+	padding-bottom: .15rem;
+
+	@include mobile{ display: none; }
+}
+
+
+#navbar-overlay
+{
+	z-index: 6;
+	touch-action: none;
+	position: absolute;
+	top: var(--navbar-height);
+	display: none;
+	justify-content: center;
+	align-content: center;
+	width: 100%;
+	height: calc(100vh - var(--navbar-height));
+	background-color: var(--background-color);
+
+	@include mobile{ display: grid; }
+
+	.navbar-links
+	{
+		grid-auto-flow: row;
+		justify-items: center;
+	}
+}

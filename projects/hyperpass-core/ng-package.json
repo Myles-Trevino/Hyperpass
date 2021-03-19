@@ -1,0 +1,25 @@
+{
+	"$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+	"dest": "../../builds/hyperpass-core",
+	"lib":
+	{
+		"entryFile": "source/public-api.ts",
+		"umdModuleIds":
+		{
+			"simplebar-angular": "SimplebarAngular",
+			"libsodium-wrappers": "Sodium",
+			"hash-wasm": "HashWasm",
+			"lodash": "_",
+			"fflate": "Fflate",
+			"file-saver": "FileSaver",
+			"papaparse": "PapaParse",
+			"@ionic/angular": "IonicAngular",
+			"@capacitor/core": "Capacitor"
+		}
+	},
+	"assets":
+	[
+		"assets",
+		"stylesheets"
+	]
+}

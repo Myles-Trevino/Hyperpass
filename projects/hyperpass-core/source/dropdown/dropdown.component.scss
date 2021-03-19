@@ -1,0 +1,59 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "../../stylesheets/mixins.scss";
+
+
+#dropdown-selected-option{ flex-grow: 1; }
+
+
+#dropdown-head, .dropdown-element
+{
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	height: var(--button-and-input-height);
+	min-width: var(--dropdown-minimum-width);
+	padding-left: 0.75rem;
+	background-color: var(--main-color);
+	transition: background-color var(--regular-transition-duration);
+
+	&:hover{ background-color: var(--accent-color); }
+}
+
+
+#dropdown-head
+{
+	position: relative;
+	border-radius: var(--small-radius);
+	@include shading-raised;
+}
+
+
+#dropdown-body
+{
+	z-index: 1;
+	display: grid;
+	position: absolute;
+	border-radius: var(--small-radius);
+	overflow: hidden;
+	margin-top: var(--very-small-gap);
+
+	.dropdown-element:not(:last-child){ border-bottom: 1px solid var(--alternate-color); }
+
+	@include shading-raised;
+}
+
+
+:host ::ng-deep hyperpass-svg
+{
+	position: absolute;
+	right: 0;
+	height: var(--button-and-input-height);
+
+	.glyph{ stroke-width: 1.2px; }
+}

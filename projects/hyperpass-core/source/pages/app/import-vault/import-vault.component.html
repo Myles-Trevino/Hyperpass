@@ -1,0 +1,75 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Top bar. -->
+<div class="app-top-bar">
+
+	<button [routerLink]="['/app', {outlets: {'options': null}}]" [skipLocationChange]="true">Back</button>
+	<button (click)='loadFile()'>Import</button>
+
+</div>
+
+
+<!-- Scrollable content. -->
+<ngx-simplebar>
+<div class="vertical-container">
+
+	<!-- Notice. -->
+	<div class="tile-content">
+	<div class="tile-section">
+		<p>Before importing, make sure the selected format matches that of the file you are importing from. For hyperpass vault exports, if the file's name ends in '.hy', it is encrypted. If it ends in '.json', it is unencrypted. Importing will add the entries contained in the selected file into your vault. How these entries are added is determined by the selected mode. If the 'trim' option is enabled, unnecessary parts of URLs, such as the protocol and path, will be removed.</p>
+	</div>
+	</div>
+
+	<!-- Options. -->
+	<div class="tile-content">
+
+		<!-- Format. -->
+		<div class="tile-setting">
+			<span>Format</span>
+			<hyperpass-dropdown [options]="types.importFormats"
+				[(selectedOption)]="format"></hyperpass-dropdown>
+		</div>
+
+		<!-- Master password. -->
+		<div *ngIf="format === 'HY Encrypted'" class="tile-setting">
+			<span>Master Password</span>
+			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="masterPassword">
+		</div>
+
+		<!-- Trim. -->
+		<div class="tile-setting">
+			<span>Trim</span>
+			<hyperpass-dropdown [options]="types.trimModes"
+				[(selectedOption)]="trim"></hyperpass-dropdown>
+		</div>
+
+		<!-- Mode. -->
+		<div class="tile-setting">
+			<span>Mode</span>
+			<hyperpass-dropdown [options]="types.importModes"
+				[(selectedOption)]="mode"></hyperpass-dropdown>
+		</div>
+
+		<!-- Mode descriptions. -->
+		<div class="tile-section">
+
+			<p *ngIf="mode === 'Append'">Append mode will add the entries contined in the selected file without touching your existing entries. If an imported entry has the same name as an existing entry, a number will be appended to its name. Fully duplicate entries will be skipped.</p>
+
+			<p *ngIf="mode === 'Merge'">In merge mode, if an imported entry has the same name as an existing entry, its values will replace the values of the existing entry. The entry's old values will be retained in history.</p>
+
+			<p *ngIf="mode === 'Overwrite'" class="warning-text">Overwrite mode will erase your current vault and replace it with the imported vault. It is recommended that you export your current vault before using this mode.</p>
+
+		</div>
+
+	</div>
+
+	<!-- File input. -->
+	<input type="file" style="display: none;" (change)="import(fileInput.files)" #fileInput/>
+
+</div>
+</ngx-simplebar>

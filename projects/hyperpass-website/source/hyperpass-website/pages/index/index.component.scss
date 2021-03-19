@@ -1,0 +1,148 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "builds/hyperpass-core/stylesheets/mixins.scss";
+
+
+/* Host. */
+:host
+{
+	grid-template-rows: auto min-content auto;
+
+	--maximum-column-width: 27rem;
+}
+
+
+/* Main. */
+#index-main
+{
+	display: grid;
+	justify-items: center;
+	align-items: center;
+	height: calc(100vh - var(--navbar-height));
+}
+
+#index-main .tile
+{
+	grid-template-rows: 13rem auto;
+	justify-items: center;
+	align-items: center;
+	margin-bottom: 2rem;
+
+	button{ width: 11rem; }
+
+	@include vertical
+	{
+		grid-template-rows: 8rem auto;
+		width: var(--maximum-column-width);
+
+		.tile-buttons
+		{
+			justify-self: center;
+			justify-items: center;
+			grid-auto-flow: row;
+		}
+	}
+
+	@include mobile{ width: calc(100% - var(--small-gap) * 2); }
+}
+
+
+/* Sections. */
+#index-sections
+{
+	display: grid;
+	gap: var(--large-gap);
+	margin: var(--large-gap) 0;
+	grid-auto-flow: row;
+	align-items: center;
+
+	@include mobile{ gap: 7rem; }
+}
+
+.index-section
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: var(--large-gap);
+
+	@include mobile{ padding: var(--small-gap); }
+}
+
+.index-section-content
+{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-items: center;
+	align-items: center;
+	gap: var(--large-gap);
+	width: 100%;
+	max-width: var(--page-content-width-limit);
+
+	@include vertical
+	{
+		grid-template-columns: auto;
+		grid-template-rows: 1fr 1fr;
+	}
+
+	@include mobile{ gap: var(--medium-gap); }
+}
+
+.index-section-text
+{
+	display: grid;
+	justify-items: center;
+	gap: 1rem;
+	width: 100%;
+	max-width: var(--maximum-column-width);
+	height: min-content;
+
+	p{ text-align: justify; }
+}
+
+
+/* Graphics. */
+.index-section .tile, .index-section .form-tile
+{
+	pointer-events: none;
+	height: 22rem;
+	width: 100%;
+	max-width: var(--maximum-column-width);
+}
+
+#index-better-digital-security .tile
+{
+	.tile-setting
+	{
+		grid-template-rows: 1fr;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	button
+	{
+		width: 100%;
+		padding: 0;
+	}
+
+	@include vertical{ grid-row-start: 2; }
+}
+
+#index-peace-of-mind
+{
+	.form-tile{ grid-template-rows: 6rem auto; }
+
+	.tile-section
+	{
+		height: 100%;
+		grid-template-rows: repeat(2, min-content) auto;
+	}
+
+	.tile-buttons{ align-self: end; }
+
+	h2{ text-align: center; }
+}

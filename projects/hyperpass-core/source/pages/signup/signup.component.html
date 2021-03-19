@@ -1,0 +1,45 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Sign Up. -->
+<div class="form-tile">
+
+	<h4>Sign Up</h4>
+
+	<div class="tile-content">
+
+		<!-- Notice. -->
+		<div class="tile-section">
+			<p class="warning-text">NOTICE: This software is currently not ready for general use. You will encounter bugs and your account may be deleted at any time.</p>
+
+			<p>
+				Your master password isn't sent to our servers in any form, meaning you alone control access to your personal data. With this security comes responsibility: if you forget your Hyperpass login credentials, we cannot unlock your data for you. As such, it's a good idea to keep a written copy of your Hyperpass login information in a secure location. This is the password which will guard all your other passwords, so make it a good one! You can click 'Generate' to have a master password created for you. Minor modifications are encouraged as human input makes generated passwords even more secure while also making them easier for you to remember.
+			</p>
+		</div>
+
+		<!-- Signup form. -->
+		<div class="tile-section">
+
+			<input type="text" class="tile-input" [(ngModel)]="emailAddress" placeholder="Email Address" spellcheck="false">
+
+			<div class="input-with-button">
+				<input type="text" class="tile-input" [(ngModel)]="masterPassword" placeholder="Master Password">
+				<button (click)="generateMasterPassword()">Generate</button>
+			</div>
+
+			<input type="text" class="tile-input" placeholder="Confirm Master Password" #confirmMasterPasswordInput>
+
+			<div class="tile-buttons">
+				<button routerLink="/login">Cancel</button>
+				<button (click)="signUp(confirmMasterPasswordInput.value)">Sign Up</button>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,361 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"newProjectRoot": "projects",
+	"projects":
+	{
+		"hyperpass-core":
+		{
+			"projectType": "library",
+			"root": "projects/hyperpass-core",
+			"sourceRoot": "projects/hyperpass-core/source",
+			"prefix": "hyperpass-core",
+			"architect":
+			{
+				"build":
+				{
+					"builder": "@angular-devkit/build-angular:ng-packagr",
+					"options": {"project": "projects/hyperpass-core/ng-package.json"}
+				},
+				"lint":
+				{
+					"builder": "@angular-eslint/builder:lint",
+					"options":
+					{
+						"lintFilePatterns":
+						[
+							"projects/hyperpass-core/**/*.ts",
+							"projects/hyperpass-core/**/*.html"
+						]
+					}
+				}
+			}
+		},
+		"hyperpass-desktop":
+		{
+			"projectType": "application",
+			"root": "projects/hyperpass-desktop",
+			"sourceRoot": "projects/hyperpass-desktop/source",
+			"prefix": "hyperpass-desktop",
+			"architect":
+			{
+				"build":
+				{
+					"asar": false,
+					"extends": null,
+					"builder": "@angular-devkit/build-angular:browser",
+					"options":
+					{
+						"outputPath": "builds/hyperpass-desktop/build",
+						"index": "projects/hyperpass-desktop/source/index.html",
+						"main": "projects/hyperpass-desktop/source/main.ts",
+						"polyfills": "projects/hyperpass-desktop/source/polyfills.ts",
+						"tsConfig": "projects/hyperpass-desktop/tsconfig.app.json",
+						"preserveSymlinks": true,
+						"assets":
+						[
+							"projects/hyperpass-desktop/source/favicon.ico",
+							"projects/hyperpass-desktop/source/assets"
+						],
+						"allowedCommonJsDependencies":
+						[
+							"libsodium-wrappers",
+							"lodash",
+							"file-saver",
+							"papaparse"
+						],
+						"styles": ["projects/hyperpass-desktop/source/global.scss"]
+					},
+					"configurations":
+					{
+						"production":
+						{
+							"fileReplacements":
+							[{
+								"replace": "projects/hyperpass-desktop/source/environments/environment.ts",
+								"with": "projects/hyperpass-desktop/source/environments/environment.prod.ts"
+							}],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						}
+					}
+				},
+				"lint":
+				{
+					"builder": "@angular-eslint/builder:lint",
+					"options":
+					{
+						"lintFilePatterns":
+						[
+							"projects/hyperpass-desktop/**/*.ts",
+							"projects/hyperpass-desktop/**/*.html"
+						]
+					}
+				}
+			}
+		},
+		"hyperpass-extension":
+		{
+			"projectType": "application",
+			"root": "projects/hyperpass-extension",
+			"sourceRoot": "projects/hyperpass-extension/source",
+			"prefix": "hyperpass-extension",
+			"architect":
+			{
+				"build":
+				{
+					"builder": "@angular-builders/custom-webpack:browser",
+					"options":
+					{
+						"customWebpackConfig": {"path": "projects/hyperpass-extension/custom-webpack.config.js"},
+						"outputPath": "builds/hyperpass-extension",
+						"index": "projects/hyperpass-extension/source/index.html",
+						"main": "projects/hyperpass-extension/source/main.ts",
+						"polyfills": "projects/hyperpass-extension/source/polyfills.ts",
+						"tsConfig": "projects/hyperpass-extension/tsconfig.app.json",
+						"preserveSymlinks": true,
+						"assets":
+						[
+							"projects/hyperpass-extension/source/favicon.png",
+							"projects/hyperpass-extension/source/assets",
+							"projects/hyperpass-extension/source/manifest.json"
+						],
+						"allowedCommonJsDependencies":
+						[
+							"libsodium-wrappers",
+							"lodash",
+							"file-saver",
+							"webextension-polyfill-ts",
+							"papaparse"
+						],
+						"styles": ["projects/hyperpass-extension/source/global.scss"],
+						"scripts": []
+					},
+					"configurations":
+					{
+						"production":
+						{
+							"fileReplacements":
+							[{
+								"replace": "projects/hyperpass-extension/source/environments/environment.ts",
+								"with": "projects/hyperpass-extension/source/environments/environment.prod.ts"
+							}],
+							"optimization": true,
+							"sourceMap": false,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						}
+					}
+				},
+				"lint":
+				{
+					"builder": "@angular-eslint/builder:lint",
+					"options":
+					{
+						"lintFilePatterns":
+						[
+							"projects/hyperpass-extension/**/*.ts",
+							"projects/hyperpass-extension/**/*.html"
+						]
+					}
+				}
+			}
+		},
+		"hyperpass-mobile":
+		{
+			"root": "projects/hyperpass-mobile",
+			"sourceRoot": "projects/hyperpass-mobile/source",
+			"projectType": "application",
+			"prefix": "hyperpass-mobile",
+			"architect":
+			{
+				"build":
+				{
+					"builder": "@angular-devkit/build-angular:browser",
+					"options":
+					{
+						"outputPath": "builds/hyperpass-mobile/build",
+						"index": "projects/hyperpass-mobile/source/index.html",
+						"main": "projects/hyperpass-mobile/source/main.ts",
+						"polyfills": "projects/hyperpass-mobile/source/polyfills.ts",
+						"tsConfig": "projects/hyperpass-mobile/tsconfig.app.json",
+						"preserveSymlinks": true,
+						"assets":
+						[
+							{
+								"glob": "**/*",
+								"input": "projects/hyperpass-mobile/source/assets",
+								"output": "assets"
+							}
+						],
+						"allowedCommonJsDependencies":
+						[
+							"libsodium-wrappers",
+							"lodash",
+							"file-saver",
+							"papaparse"
+						],
+						"styles": ["projects/hyperpass-mobile/source/global.scss"]
+					},
+					"configurations":
+					{
+						"production":
+						{
+							"fileReplacements":
+							[{
+								"replace": "projects/hyperpass-mobile/source/environments/environment.ts",
+								"with": "projects/hyperpass-mobile/source/environments/environment.prod.ts"
+							}],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						}
+					}
+				},
+				"lint":
+				{
+					"builder": "@angular-eslint/builder:lint",
+					"options":
+					{
+						"lintFilePatterns":
+						[
+							"projects/hyperpass-mobile/**/*.ts",
+							"projects/hyperpass-mobile/**/*.html"
+						]
+					}
+				}
+			}
+		},
+		"hyperpass-website":
+		{
+			"projectType": "application",
+			"root": "projects/hyperpass-website",
+			"sourceRoot": "projects/hyperpass-website/source",
+			"prefix": "hyperpass-website",
+			"architect":
+			{
+				"build":
+				{
+					"builder": "@angular-devkit/build-angular:browser",
+					"options":
+					{
+						"outputPath": "builds/hyperpass-website/browser",
+						"index": "projects/hyperpass-website/source/index.html",
+						"main": "projects/hyperpass-website/source/main.ts",
+						"polyfills": "projects/hyperpass-website/source/polyfills.ts",
+						"tsConfig": "projects/hyperpass-website/tsconfig.app.json",
+						"preserveSymlinks": true,
+						"assets":
+						[
+							"projects/hyperpass-website/source/favicon.png",
+							"projects/hyperpass-website/source/assets"
+						],
+						"styles": ["projects/hyperpass-website/source/global.scss"],
+						"allowedCommonJsDependencies":
+						[
+							"libsodium-wrappers",
+							"lodash",
+							"file-saver",
+							"papaparse"
+						],
+						"scripts": []
+					},
+					"configurations":
+					{
+						"production":
+						{
+							"fileReplacements":
+							[{
+								"replace": "projects/hyperpass-website/source/environments/environment.ts",
+								"with": "projects/hyperpass-website/source/environments/environment.prod.ts"
+							}],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {"browserTarget": "hyperpass-website:build"},
+					"configurations":
+					{"production": {"browserTarget": "hyperpass-website:build:production"}}
+				},
+				"lint":
+				{
+					"builder": "@angular-eslint/builder:lint",
+					"options":
+					{
+						"lintFilePatterns":
+						[
+							"projects/hyperpass-website/**/*.ts",
+							"projects/hyperpass-website/**/*.html"
+						]
+					}
+				},
+				"server":
+				{
+					"builder": "@angular-devkit/build-angular:server",
+					"options":
+					{
+						"outputPath": "builds/hyperpass-website/server",
+						"main": "projects/hyperpass-website/server.ts",
+						"tsConfig": "projects/hyperpass-website/tsconfig.server.json",
+						"preserveSymlinks": true
+					},
+					"configurations":
+					{
+						"production":
+						{
+							"outputHashing": "media",
+							"fileReplacements":
+							[{
+								"replace": "projects/hyperpass-website/source/environments/environment.ts",
+								"with": "projects/hyperpass-website/source/environments/environment.prod.ts"
+							}],
+							"sourceMap": false,
+							"optimization": true
+						}
+					}
+				},
+				"serve-ssr":
+				{
+					"builder": "@nguniversal/builders:ssr-dev-server",
+					"options":
+					{
+						"browserTarget": "hyperpass-website:build",
+						"serverTarget": "hyperpass-website:server"
+					},
+					"configurations":
+					{
+						"production":
+						{
+							"browserTarget": "hyperpass-website:build:production",
+							"serverTarget": "hyperpass-website:server:production"
+						}
+					}
+				}
+			}
+		}
+	},
+	"defaultProject": "hyperpass-core"
+}

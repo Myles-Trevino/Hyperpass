@@ -1,0 +1,55 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Loading overlay. -->
+<div *ngIf="tab === 'None'" class="overlay">
+	<ion-spinner name="crescent"></ion-spinner>
+</div>
+
+
+<!-- Tile. -->
+<div *ngIf="tab !== 'None'" id="app-tile" class="tile" @delayedFadeInAnimation>
+
+	<!-- Tabs. -->
+	<div id="app-tabs">
+		<h4 [ngClass]="{selected: tab =='Vault'}" (click)="setIonSlide(0)">Vault</h4>
+		<h4 [ngClass]="{selected: tab =='Generator'}" (click)="setIonSlide(1)">Generator</h4>
+		<h4 [ngClass]="{selected: tab =='Options'}" (click)="setIonSlide(2)">Options</h4>
+	</div>
+
+	<!-- Pages. -->
+	<ion-slides class="tile-content" [options]="{allowTouchMove: enableSwiping}" (ionSlideWillChange)="ionSlidesCallback()" #ionSlides>
+
+		<!-- Vault. -->
+		<ion-slide>
+			<router-outlet name="vault"></router-outlet>
+		</ion-slide>
+
+		<!-- Generator. -->
+		<ion-slide>
+			<hyperpass-generator></hyperpass-generator>
+		</ion-slide>
+
+		<!-- Options. -->
+		<ion-slide>
+			<router-outlet name="options"></router-outlet>
+		</ion-slide>
+
+	</ion-slides>
+
+</div>
+
+
+<!-- Modals. -->
+<div *ngIf="modalService.isOpen" id="app-modal-overlay"
+	(mousedown)="closeModal($event)" @fadeAnimation #modalOverlay>
+
+	<hyperpass-tags-modal *ngIf="modalService.type === 'Tags'"></hyperpass-tags-modal>
+	<hyperpass-input-history-modal *ngIf="modalService.type === 'Input History'"></hyperpass-input-history-modal>
+	<hyperpass-vault-history-modal *ngIf="modalService.type === 'Vault History'"></hyperpass-vault-history-modal>
+
+</div>

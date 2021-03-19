@@ -1,0 +1,38 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "../../../../../stylesheets/mixins.scss";
+
+
+#tag-list-container
+{
+	display: flex;
+	flex-flow: row wrap;
+	gap: var(--small-gap);
+	padding: var(--small-gap);
+	border-radius: var(--small-radius);
+	background-color: var(--main-color);
+
+	.app-tag{ cursor: pointer; }
+
+	@include shading-raised;
+}
+
+
+:host ::ng-deep .app-tag hyperpass-svg
+{
+	height: .75rem;
+	margin: 0 .2rem;
+
+	.glyph
+	{
+		stroke-width: 3.5px;
+		transition: stroke var(--regular-transition-duration);
+	}
+
+	&:hover .glyph{ stroke: var(--red-color); }
+}

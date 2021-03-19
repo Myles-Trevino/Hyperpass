@@ -1,0 +1,55 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+/* Tag list. */
+.app-modal-entry
+{
+	cursor: pointer;
+	grid-template-columns: min-content auto repeat(2, min-content);
+	transition: background-color var(--regular-transition-duration);
+
+	&:hover{ background-color: var(--accent-color); }
+}
+
+#tags-tag-list{ display: grid; }
+
+:host ::ng-deep hyperpass-svg:hover .base{ fill: var(--alternate-accent-color); }
+
+
+/* Editor. */
+#tags-editor .app-modal-content{ padding: var(--medium-radius); }
+
+#tags-editor-color-list
+{
+	display: grid;
+	grid-auto-flow: column;
+	gap: var(--small-gap);
+	margin-bottom: var(--medium-radius);
+
+	hyperpass-tag-color
+	{
+		cursor: pointer;
+		width: 100%;
+	}
+}
+
+#tags-editor-input
+{
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	hyperpass-tag-color
+	{
+		pointer-events: none;
+		position: absolute;
+		margin-left: 1rem;
+		transition: background-color var(--medium-transition-duration);
+	}
+
+	input{ padding-left: calc(1.5rem + var(--button-and-input-padding)); }
+}

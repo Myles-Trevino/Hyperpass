@@ -1,0 +1,16 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+#not-found-container
+{
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	margin: var(--small-gap);
+}
+
+.tile{ max-width: 30rem; }

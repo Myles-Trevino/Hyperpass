@@ -1,0 +1,55 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+/* Container. */
+#hyperpass-container
+{
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+}
+
+
+/* Titlebar. */
+#hyperpass-titlebar-container
+{
+	height: var(--titlebar-height);
+	padding: var(--resize-region-size);
+	padding-bottom: 0;
+	background-color: var(--alternate-color);
+}
+
+#hyperpass-titlebar
+{
+	-webkit-app-region: drag;
+	display: grid;
+	height: 100%;
+	padding-bottom: var(--resize-region-size);
+}
+
+#hyperpass-titlebar-buttons
+{
+	display: grid;
+	grid-template-columns: repeat(3, min-content);
+	justify-self: right;
+	align-content: center;
+	gap: .5rem;
+	padding-right: .25rem;
+}
+
+.hyperpass-titlebar-button
+{
+	-webkit-app-region: no-drag;
+	cursor: pointer;
+	width: var(--titlebar-button-diameter);
+	height: var(--titlebar-button-diameter);
+	border-radius: calc(var(--titlebar-button-diameter) / 2);
+	border: var(--line-width) solid var(--text-color);
+	transition: background-color var(--regular-transition-duration);
+
+	&:hover{ background-color: var(--text-color); }
+}

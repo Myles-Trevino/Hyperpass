@@ -1,0 +1,42 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Top. -->
+<div class="app-modal-top">
+	<button (click)="close()">Close</button>
+	<button (click)="clear()">Clear</button>
+</div>
+
+
+<!-- Content. -->
+<div class="app-modal-content">
+
+	<!-- Entries. -->
+	<ngx-simplebar *ngIf="hasHistory">
+	<div *ngFor="let entry of history; index as index" class="app-modal-entry">
+
+		<!-- Preview. -->
+		<div class="history-preview">
+			<span class="dimmed-text">{{utilityService.dateToString(entry.date)}}</span>
+			<span>{{entry.key}}</span>
+		</div>
+
+		<!-- Restore button. -->
+		<hyperpass-svg svg="Restore Button" (click)="restore(entry, index)"></hyperpass-svg>
+
+		<!-- Delete button. -->
+		<hyperpass-svg svg="Delete Button" (click)="delete(index)"></hyperpass-svg>
+
+	</div>
+	</ngx-simplebar>
+
+	<!-- No history. -->
+	<div *ngIf="!hasHistory" class="overlay">
+		<span class="dimmed-text">No History</span>
+	</div>
+
+</div>

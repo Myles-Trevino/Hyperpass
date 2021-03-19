@@ -1,0 +1,55 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+/* Layout. */
+@mixin mobile{ @media only screen and (max-width: 39rem){ @content; } }
+
+@mixin vertical{ @media only screen and (max-width: 48rem){ @content; } }
+
+
+/* Shading. */
+@mixin shading-raised
+{
+	box-shadow:
+
+		/* Specular. */
+		var(--shading-specular-offset) var(--shading-specular-offset)
+			var(--shading-specular-diffuse) var(--shading-specular-color),
+
+		/* Light. */
+		var(--shading-light-offset) var(--shading-light-offset)
+			var(--shading-light-diffuse) var(--shading-light-color),
+
+		/* Umbra. */
+		var(--shading-umbra-offset) var(--shading-umbra-offset)
+			var(--shading-umbra-diffuse) var(--shading-umbra-color),
+
+		/* Shadow. */
+		var(--shading-shadow-offset) var(--shading-shadow-offset)
+			var(--shading-shadow-diffuse) var(--shading-shadow-color);
+}
+
+@mixin shading-sunken
+{
+	box-shadow:
+
+		/* Specular. */
+		inset var(--shading-specular-offset) var(--shading-specular-offset)
+			var(--shading-specular-diffuse) var(--shading-specular-color),
+
+		/* Light. */
+		inset var(--shading-light-offset) var(--shading-light-offset)
+			var(--shading-light-diffuse) var(--shading-light-color),
+
+		/* Umbra. */
+		inset var(--shading-umbra-offset)  var(--shading-umbra-offset)
+			var(--shading-umbra-diffuse) var(--shading-umbra-color),
+
+		/* Shadow. */
+		inset var(--shading-shadow-offset) var(--shading-shadow-offset)
+			var(--shading-shadow-diffuse) var(--shading-shadow-color);
+}

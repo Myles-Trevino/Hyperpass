@@ -1,0 +1,38 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Top bar. -->
+<div class="app-top-bar">
+
+	<button [routerLink]="['/app', {outlets: {'vault': null}}]" [skipLocationChange]="true">Cancel</button>
+
+	<div class="tile-buttons">
+		<button *ngIf="key" (click)="events.next('delete')">Delete</button>
+		<button (click)="events.next('save')">Save</button>
+	</div>
+
+</div>
+
+
+<!-- Content. -->
+<ngx-simplebar>
+<div class="tile-content">
+
+	<!-- Type. -->
+	<div *ngIf="!key" class="tile-setting">
+		<span>Type</span>
+		<hyperpass-dropdown [options]="types.vaultEntryTypes"
+			[(selectedOption)]='type'></hyperpass-dropdown>
+	</div>
+
+	<!-- Vault Entry Settings. -->
+	<hyperpass-account *ngIf="type === 'Account'" [events]="events"></hyperpass-account>
+	<hyperpass-card *ngIf="type === 'Card'" [events]="events"></hyperpass-card>
+	<hyperpass-note *ngIf="type === 'Note'" [events]="events"></hyperpass-note>
+
+</div>
+</ngx-simplebar>

@@ -1,0 +1,130 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.app-top-bar
+{
+	display: grid;
+	grid-template-columns: auto min-content;
+	gap: var(--small-gap);
+	width: 100%;
+}
+
+.app-page
+{
+	display: grid;
+	grid-template-rows: min-content auto;
+	gap: var(--medium-radius);
+	height: var(--app-page-height);
+	min-height: var(--minimum-page-height);
+	overflow: hidden;
+	opacity: 0;
+	animation: fade-in var(--medium-transition-duration) forwards;
+}
+
+.app-tag
+{
+	display: flex;
+	align-items: center;
+	background-color: var(--alternate-color);
+	border-radius: var(--medium-radius);
+	padding: 0 .5rem;
+	span{ padding: 0 .5rem; }
+}
+
+.app-modal
+{
+	overflow: hidden;
+	width: 100%;
+	max-width: 29rem;
+	border-radius: var(--medium-radius);
+	background-color: var(--alternate-color);
+
+	@include shading-raised;
+}
+
+.app-modal-top
+{
+	display: grid;
+	grid-template-columns: auto min-content;
+	padding: var(--medium-radius);
+	background-color: var(--alternate-color);
+
+	button
+	{
+		background-color: var(--main-color);
+
+		&:hover{ background-color: var(--accent-color); }
+	}
+}
+
+.app-modal-content
+{
+	height: 17rem;
+	background-color: var(--main-color);
+}
+
+.app-modal-entry
+{
+	display: grid;
+	gap: var(--small-gap);
+	align-items: center;
+	padding: var(--small-gap) var(--medium-radius);
+	border-bottom: var(--separator-width) solid transparent;
+
+	&:not(:last-child){ border-bottom-color: var(--alternate-color); }
+
+	hyperpass-svg{ height: 1.6rem; }
+
+	.svg-button
+	{
+		opacity: 0;
+		transition: opacity var(--regular-transition-duration);
+	}
+
+	&:hover .svg-button{ opacity: 1; }
+}
+
+.app-button-input-container
+{
+	position: relative;
+
+	hyperpass-svg
+	{
+		opacity: 0;
+		transition: opacity var(--medium-transition-duration);
+	}
+
+	.horizontal-container, & > hyperpass-svg
+	{
+		position: absolute;
+		top: .37rem;
+		right: var(--very-small-gap);
+		gap: var(--very-small-gap);
+	}
+
+	&:hover hyperpass-svg{ opacity: 1; }
+}
+
+
+/* Ionic. */
+ion-slides
+{
+	width: 100%;
+
+	ion-slide.swiper-slide
+	{
+		text-align: unset;
+		height: var(--app-page-height);
+	}
+}
+
+ion-spinner
+{
+	--color: var(--text-color);
+	width: 3rem;
+	height: 3rem;
+}

@@ -1,0 +1,32 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Title. -->
+<span>Tags</span>
+
+
+<!-- Tag list. -->
+<div id="tag-list-container">
+
+	<!-- Tags. -->
+	<div *ngFor="let tag of tags; index as index" class="app-tag" [ngStyle]="{'cursor': (index != 0) ? 'pointer' : 'default'}" (click)="edit(tag, index)">
+
+		<!-- Color. -->
+		<hyperpass-tag-color *ngIf="vault.tags[tag].color" [color]="vault.tags[tag].color"></hyperpass-tag-color>
+
+		<!-- Name. -->
+		<span>{{tag}}</span>
+
+		<!-- Remove button. -->
+		<hyperpass-svg svg="Delete" *ngIf="index != 0" (click)="remove(tag)"></hyperpass-svg>
+
+	</div>
+
+	<!-- Add button. -->
+	<hyperpass-svg svg="Add Button" (click)="add()"></hyperpass-svg>
+
+</div>

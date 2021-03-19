@@ -1,0 +1,115 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "../../../../stylesheets/mixins.scss";
+@import "../../../../stylesheets/variables.scss";
+
+
+:host{ width: 100%; }
+
+
+:host ::ng-deep
+{
+	#generator-history .simplebar-content{ height: 100%; }
+
+	#history-container hyperpass-svg
+	{
+		.base{ fill: var(--main-color); }
+
+		&:hover .base{ fill: var(--accent-color); }
+	}
+}
+
+
+.app-page
+{
+	@include vertical
+	{
+		height: auto;
+		max-height: none;
+	}
+}
+
+
+#generator-scrollbar{ height: var(--app-page-height); }
+
+
+.password-input
+{
+	justify-self: start;
+	width: 100%;
+	background-color: transparent !important;
+	padding: 0;
+	border-radius: 0;
+	font-family: "Iosevka SS08";
+	font-size: 1.02rem;
+	font-weight: 500;
+}
+
+
+#generator-top-bar
+{
+	grid-template-columns: auto min-content;
+	gap: var(--small-gap);
+	padding: var(--medium-radius);
+
+	.password-input{ font-size: 1.5rem; }
+
+	input{ box-shadow: none; }
+
+	@media only screen and (max-width: 45rem)
+	{
+		grid-template-columns: 1fr;
+		grid-template-rows: repeat(2, auto);
+
+		input{ border-bottom: var(--separator-width) solid var(--alternate-color); }
+	}
+}
+
+
+#generator-content
+{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--small-gap);
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+
+	.tile-content
+	{
+		height: 100%;
+		grid-template-rows: min-content auto;
+	}
+
+	@include vertical
+	{
+		grid-template-columns: 1fr;
+		grid-template-rows: repeat(2, 22.4rem);
+	}
+}
+
+
+#history-container .tile-section
+{
+	padding: 0 var(--medium-radius);
+	grid-template-columns: auto repeat(2, min-content);
+
+	input
+	{
+		box-shadow: none;
+		height: 1.5rem;
+	}
+
+	hyperpass-svg
+	{
+		opacity: 0;
+		transition: opacity var(--regular-transition-duration);
+	}
+
+	&:hover hyperpass-svg{ opacity: 1; }
+}

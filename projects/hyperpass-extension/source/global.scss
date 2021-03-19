@@ -1,0 +1,25 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "builds/hyperpass-core/stylesheets/styles.scss";
+
+
+:root
+{
+	--large-gap: var(--medium-radius);
+	--app-page-height: calc(100vh - var(--tile-title-height));
+
+	.centerer-page{ padding: 0; }
+
+	#app-tile
+	{
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	ion-slides{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; }
+}

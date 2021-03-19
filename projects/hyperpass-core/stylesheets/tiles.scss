@@ -1,0 +1,117 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+.tile, .form-tile
+{
+	display: grid;
+	grid-template-rows: var(--tile-title-height) auto;
+	align-items: center;
+	height: min-content;
+	min-height: 0;
+	background-color: var(--alternate-color);
+	border-radius: var(--medium-radius);
+
+	@include shading-raised;
+
+	& > h4, & > input{ margin: 0 var(--medium-radius); }
+	& > input{ width: calc(100% - var(--medium-radius) * 2); }
+}
+
+
+.tile-content
+{
+	display: grid;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	background-color: var(--main-color);
+	border-radius: var(--medium-radius);
+	overflow: hidden;
+}
+
+
+.form-tile
+{
+	max-width: 40rem;
+
+	.tile-section{ grid-auto-flow: row; }
+
+	.tile-buttons:not(:first-child), & > button:not(:first-child){ margin-top: .5rem; }
+}
+
+
+.tile-section, .tile-setting
+{
+	display: grid;
+	gap: var(--small-gap);
+	grid-auto-flow: column;
+	align-items: center;
+	width: 100%;
+	padding: var(--medium-radius);
+	min-height: var(--tile-section-height);
+	border-bottom: var(--separator-width) solid transparent;
+
+	p{ text-align: justify; }
+
+	& > button, input, textarea, hyperpass-dropdown, hyperpass-switch
+	{ justify-self: right; }
+
+	input
+	{
+		width: 100%;
+		min-width: var(--button-and-input-minimum-width);
+	}
+
+	&:not(:last-child){ border-bottom-color: var(--alternate-color); }
+}
+
+.tile-setting
+{
+	grid-template-columns: 1fr 1fr;
+	grid-auto-flow: row;
+
+	@include mobile
+	{
+		grid-template-columns: auto;
+		grid-template-rows: auto auto;
+	}
+
+	a{ justify-self: right; }
+
+	.tile-setting-text{ grid-column: 1 / 3; }
+}
+
+.tile-buttons
+{
+	justify-self: right;
+	display: grid;
+	grid-auto-flow: column;
+	gap: var(--small-gap);
+}
+
+
+.tile-content
+{
+	.tile-content
+	{
+		height: min-content;
+		background-color: var(--alternate-color);
+
+		.tile-section, .tile-setting
+		{
+			&:not(:last-child){ border-bottom-color: var(--main-color); }
+		}
+	}
+}
+
+
+.input-with-button
+{
+	display: grid;
+	grid-template-columns: auto min-content;
+	gap: var(--small-gap);
+}

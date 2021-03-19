@@ -1,0 +1,54 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Logo. -->
+<a id="navbar-logo-svg" routerLink="/">
+
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+		<path d="M8,.75A7.25,7.25,0,1,1,.75,8,7.26,7.26,0,0,1,8,.75M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0Z"/>
+		<path d="M4.42,10.2V5.92H5.2V7.7H7.12V5.92H7.9V10.2H7.12V8.33H5.2V10.2Z"/>
+		<path d="M9.84,10.2V8.67L8.4,5.92h.89l1,2,.94-2h.87L10.62,8.67V10.2Z"/>
+	</svg>
+
+</a>
+
+<!-- Placeholder. -->
+<div></div>
+
+<!-- Links. -->
+<div class="navbar-links">
+	<a routerLink="/app">Web App</a>
+	<a routerLink="/download">Download</a>
+	<a routerLink="/support">Support</a>
+	<a href="https://www.paypal.me/mylestrevino" target="_blank">Donate</a>
+</div>
+
+
+<!-- Open menu SVG. -->
+<svg *ngIf="!overlay" (click)="showOverlay()" class="navbar-menu-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" @fadeAnimation>
+	<rect x="8.97" y="9.37" width="14" height="1.75"/>
+	<rect x="9" y="15" width="14" height="1.75"/>
+	<rect x="9" y="20.66" width="14" height="1.75"/>
+</svg>
+
+<!-- Close menu SVG. -->
+<svg *ngIf="overlay" (click)="hideOverlay()" class="navbar-menu-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" @fadeAnimation>
+	<polygon points="22.82 10.64 21.61 9.36 16 14.67 10.39 9.36 9.18 10.64 14.73 15.88 9.18 21.11 10.39 22.39 16 17.08 21.61 22.39 22.82 21.11 17.27 15.88 22.82 10.64"/>
+</svg>
+
+
+<!-- Overlay. -->
+<div *ngIf="overlay" id="navbar-overlay" [@navbarOverlayFadeAnimation]="overlayState">
+
+	<div class="navbar-links">
+		<a routerLink="/app">Web App</a>
+		<a routerLink="/download">Download</a>
+		<a routerLink="/support">Support</a>
+		<a href="https://www.paypal.me/mylestrevino" target="_blank">Donate</a>
+	</div>
+
+</div>

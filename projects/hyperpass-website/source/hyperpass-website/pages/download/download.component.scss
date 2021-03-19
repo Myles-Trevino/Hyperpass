@@ -1,0 +1,50 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+@import "builds/hyperpass-core/stylesheets/mixins.scss";
+
+
+:host
+{
+	grid-template-rows: auto min-content auto;
+}
+
+
+/* General. */
+#download-content
+{
+	justify-self: center;
+	display: grid;
+	align-content: center;
+	gap: calc(var(--large-gap) * 2);
+	margin: var(--large-gap);
+	width: calc(100% - var(--large-gap) * 2);
+	max-width: var(--page-content-width-limit);
+
+	@include mobile
+	{
+		margin: var(--large-gap) var(--small-gap);
+		width: calc(100% - var(--small-gap) * 2);
+	}
+}
+
+.download-section
+{
+	display: grid;
+	gap: var(--medium-gap);
+}
+
+
+/* Tiles. */
+.download-tiles
+{
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+	gap: var(--large-gap);
+}
+
+.tile-section a{ justify-self: right; }

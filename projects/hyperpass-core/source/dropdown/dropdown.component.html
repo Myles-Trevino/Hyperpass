@@ -1,0 +1,22 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Dropdown head. -->
+<div id="dropdown-head" class="dropdown-element" #dropdownHead>
+
+	<span id="dropdown-selected-option">{{selectedOption}}</span>
+	<hyperpass-svg *ngIf="!show" svg="Down Arrow" @fadeAnimation></hyperpass-svg>
+	<hyperpass-svg *ngIf="show" svg="Up Arrow" @fadeAnimation></hyperpass-svg>
+
+</div>
+
+<!-- Dropdown body. -->
+<div *ngIf="show" id="dropdown-body" @fadeAnimation>
+	<div *ngFor="let option of options" class="dropdown-element" (click)="set(option)">
+		<span>{{option}}</span>
+	</div>
+</div>

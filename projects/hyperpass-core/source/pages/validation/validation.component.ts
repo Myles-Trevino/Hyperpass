@@ -1,0 +1,96 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+import type {OnInit} from '@angular/core';
+import {Component, HostBinding} from '@angular/core';
+import {Router} from '@angular/router';
+
+import * as Animations from '../../animations';
+import {AccountService} from '../../services/account.service';
+import {MessageService} from '../../services/message.service';
+import {ApiService} from '../../services/api.service';
+
+@Component
+({
+	selector: 'hyperpass-validation',
+	templateUrl: './validation.component.html',
+	animations: [Animations.fadeInAnimation]
+})
+
+export class ValidationComponent implements OnInit
+{
+	@HostBinding('class') public readonly class = 'centerer-page';
+
+	public success = false;
+
+
+	public constructor(private readonly router: Router,
+		private readonly apiService: ApiService,
+		private readonly accountService: AccountService,
+		private readonly messageService: MessageService){}
+
+
+	public async ngOnInit(): Promise<void>
+	{
+		try
+		{
+			// Redirect to the login page if not logged in.
+			if(!this.accountService.loggedIn)
+			{
+				this.router.navigate(['/login']);
+				return;
+			}
+
+			// Send the account validation email.
+			await this.sendEmail();
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
+
+
+	// Sends an account validation email.
+	public async sendEmail(): Promise<void>
+	{
+		if(!this.accountService.emailAddress)
+			throw new Error('No email address was provided.');
+
+		await this.apiService.sendAccountValidationEmail(
+			this.accountService.getAccessData());
+
+		this.messageService.message(`An account validation email has been `+
+			`sent to ${this.accountService.emailAddress}.`);
+	}
+
+
+	// Validates the account with the given key.
+	public async validate(accountValidationKey: string): Promise<void>
+	{
+		try
+		{
+			// Check that a key was entered.
+			if(!accountValidationKey)
+				throw new Error('Please enter your account validation key.');
+
+			// Send the account validation request.
+			try
+			{
+				await this.apiService.validateAccount(
+					this.accountService.getAccessData(), accountValidationKey.trim());
+			}
+
+			catch(error: unknown){ throw new Error('Invalid key.'); }
+
+			// If the response was successful, log in and switch to the success tile.
+			this.success = true;
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
+}
