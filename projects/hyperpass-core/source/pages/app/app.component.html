@@ -45,11 +45,11 @@
 
 
 <!-- Modals. -->
-<div *ngIf="modalService.isOpen" id="app-modal-overlay"
+<div *ngIf="stateService.modalOpen" id="app-modal-overlay"
 	(mousedown)="closeModal($event)" @fadeAnimation #modalOverlay>
 
-	<hyperpass-tags-modal *ngIf="modalService.type === 'Tags'"></hyperpass-tags-modal>
-	<hyperpass-input-history-modal *ngIf="modalService.type === 'Input History'"></hyperpass-input-history-modal>
-	<hyperpass-vault-history-modal *ngIf="modalService.type === 'Vault History'"></hyperpass-vault-history-modal>
+	<hyperpass-tags-modal *ngIf="stateService.modalType === 'Tags'"></hyperpass-tags-modal>
+	<hyperpass-vault-entry-history-modal *ngIf="stateService.modalType === 'Vault Entry History'"></hyperpass-vault-entry-history-modal>
+	<hyperpass-vault-history-modal *ngIf="stateService.modalType === 'Vault History'"></hyperpass-vault-history-modal>
 
 </div>

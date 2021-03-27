@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"author": "Myles Trevino",
 	"name": "Hyperpass",
-	"version": "2021.3.18",
+	"version": "2021.3.26",
 	"description": "Access all your login information from a single account.",
 	"homepage_url": "https://hyperpass.org",
 	"icons":

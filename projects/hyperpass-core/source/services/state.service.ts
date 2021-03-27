@@ -6,8 +6,8 @@
 
 
 import {Injectable} from '@angular/core';
-import * as SimpleBar from 'simplebar';
-import {SimplebarAngularComponent} from 'simplebar-angular';
+import type * as SimpleBar from 'simplebar';
+import type {SimplebarAngularComponent} from 'simplebar-angular';
 
 import * as Types from '../types';
 import {UtilityService} from './utility.service';
@@ -20,9 +20,28 @@ export class StateService
 	public vault: Types.VaultState = Types.defaultVaultState;
 	public options: Types.ScrollState = Types.defaultScrollState;
 
+	public tagsModal: Types.TagsModalState = Types.defaultTagsModalState;
+	public vaultHistoryModal: Types.VaultHistoryModalState = Types.defaultVaultHistoryModalState;
+	public vaultEntryHistoryModal: Types.VaultEntryHistoryModalState = Types.defaultVaultEntryHistoryModalState;
+
+	public modalOpen = false;
+	public modalType?: string;
+
 
 	// Constructor.
 	public constructor(private readonly utillityService: UtilityService){}
+
+
+	// Opens the specified modal.
+	public openModal(type: string): void
+	{
+		this.modalOpen = true;
+		this.modalType = type;
+	}
+
+
+	// Closes any open modals.
+	public closeModals(): void { this.modalOpen = false; }
 
 
 	// Saves and restores SimpleBar's scroll position.

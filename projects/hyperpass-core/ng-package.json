@@ -14,7 +14,8 @@
 			"file-saver": "FileSaver",
 			"papaparse": "PapaParse",
 			"@ionic/angular": "IonicAngular",
-			"@capacitor/core": "Capacitor"
+			"@capacitor/core": "Capacitor",
+			"uuid": "UUID"
 		}
 	},
 	"assets":

@@ -6,9 +6,11 @@
 
 
 import {Injectable} from '@angular/core';
-import {browser, Tabs} from 'webextension-polyfill-ts';
+import type {Tabs} from 'webextension-polyfill-ts';
+import {browser} from 'webextension-polyfill-ts';
 
-import {UtilityService, AccountService, Types} from 'hyperpass-core';
+import type {Types} from 'hyperpass-core';
+import {UtilityService, AccountService} from 'hyperpass-core';
 
 
 @Injectable({providedIn: 'root'})

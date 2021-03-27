@@ -12,12 +12,18 @@
 {
 	display: flex;
 	flex-flow: row wrap;
-	gap: var(--small-gap);
+	gap: var(--very-small-gap);
 	padding: var(--small-gap);
 	border-radius: var(--small-radius);
 	background-color: var(--main-color);
 
-	.app-tag{ cursor: pointer; }
+	.app-tag
+	{
+		cursor: pointer;
+		transition: background-color var(--regular-transition-duration);
+
+		&:hover{ background-color: var(--accent-color); }
+	}
 
 	@include shading-raised;
 }

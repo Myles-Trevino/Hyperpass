@@ -19,7 +19,6 @@ import {Component, Input, HostBinding} from '@angular/core';
 export class TagColorComponent implements OnChanges
 {
 	@Input() public color = 'None';
-	@Input() public displayNone = false;
 	@HostBinding('style.backgroundColor') public backgroundColor = '';
 	@HostBinding('style.boxShadow') public boxShadow = 'none';
 	@HostBinding('style.display') public display = 'block';
@@ -30,8 +29,7 @@ export class TagColorComponent implements OnChanges
 	{
 		const noColor = (this.color === 'None');
 
-		this.display = (!noColor || this.displayNone) ? 'block' : 'none';
-		this.boxShadow = noColor ? 'inset 0 0 0 1.3px var(--text-color)' :
+		this.boxShadow = noColor ? 'inset 0 0 0 var(--line-width) var(--text-color)' :
 			`0 0 .3rem var(--${this.color.toLowerCase()}-glow-color)`;
 
 		this.backgroundColor = noColor ? 'transparent' :

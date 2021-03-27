@@ -35,7 +35,7 @@ export class AccountService implements OnDestroy
 	public loggedIn = false;
 	public loggingIn = false;
 	public loginTimeoutDuration?: number;
-	private accessKey?: Types.EncryptedKey;
+	public accessKey?: Types.EncryptedKey;
 	private nextAccessKey?: Types.EncryptedKey;
 	private automaticLoginKey?: string;
 	private vaultKey?: Types.Key;
@@ -83,7 +83,7 @@ export class AccountService implements OnDestroy
 
 			// Get the public information.
 			const publicInformation =
-			await this.apiService.getPublicInformation(emailAddress);
+				await this.apiService.getPublicInformation(emailAddress);
 
 			// Cache the automatic login key.
 			this.automaticLoginKey = publicInformation.automaticLoginKey;
@@ -105,17 +105,17 @@ export class AccountService implements OnDestroy
 			// Redirect to the validation page if the account has not been validated
 			if(!publicInformation.validated)
 			{
-				this.loggingIn = false;
 				if(this.navigate) this.router.navigate(['/validation']);
+				this.loggingIn = false;
 				return;
 			}
 
 			// Retrieve the vault.
 			await this.pullVault(masterPassword);
+			this.loggedIn = true;
 
 			// Redirect to the web app.
 			if(this.navigate) this.router.navigate(['/app']);
-			this.loggedIn = true;
 			this.loginSubject.next(this.loggedIn);
 		}
 

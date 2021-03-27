@@ -5,7 +5,8 @@
 */
 
 
-import {Component, OnInit} from '@angular/core';
+import type {OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import * as Capacitor from '@capacitor/core';
 
 import {UtilityService} from 'hyperpass-core';

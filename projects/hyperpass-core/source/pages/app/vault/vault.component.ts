@@ -15,7 +15,6 @@ import * as Types from '../../../types';
 import * as Animations from '../../../animations';
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
-import {ModalService} from '../../../services/modal.service';
 import {UtilityService} from '../../../services/utility.service';
 import {StateService} from '../../../services/state.service';
 
@@ -23,7 +22,6 @@ import {StateService} from '../../../services/state.service';
 type Entry =
 {
 	key: string;
-	type: string;
 	tags: string[];
 	preview: string;
 };
@@ -51,14 +49,13 @@ export class VaultComponent implements OnInit, OnDestroy
 	public vault: Types.Vault = Types.defaultVault;
 	public loading = true;
 
-	private historyModalSubscription?: Subscription;
+	private modalSubscription?: Subscription;
 	private updateSubscription?: Subscription;
 
 
 	// Constructor.
 	public constructor(
 		public readonly utilityService: UtilityService,
-		public readonly modalService: ModalService,
 		public readonly stateService: StateService,
 		private readonly changeDetectorRef: ChangeDetectorRef,
 		private readonly messageService: MessageService,
@@ -81,12 +78,12 @@ export class VaultComponent implements OnInit, OnDestroy
 	public ngOnDestroy(): void
 	{
 		this.updateSubscription?.unsubscribe();
-		this.historyModalSubscription?.unsubscribe();
+		this.modalSubscription?.unsubscribe();
 	}
 
 
-	// Blocks the given mouse event and sends a copy message.
-	public clickCallback(event: MouseEvent, name: string): void
+	// Blocks the given mouse event from propagating to the tile and sends a copy message.
+	public tileButtonClickCallback(event: MouseEvent, name: string): void
 	{
 		event.stopPropagation();
 		this.messageService.message(`${name} copied.`, 2);
@@ -108,17 +105,16 @@ export class VaultComponent implements OnInit, OnDestroy
 
 
 	// Opens the vault history modal.
-	public async openVaultHistoryModal(): Promise<void>
+	public openVaultHistoryModal(): void
 	{
 		// Open the modal.
-		this.historyModalSubscription?.unsubscribe();
-		this.modalService.open('Vault History');
-		await this.utilityService.sleep();
-		this.modalService.vaultHistorySubject.next(this.vault.history);
+		this.stateService.vaultHistoryModal.history = this.vault.history;
+		this.stateService.openModal('Vault History');
 
-		// Update the vault if necessary.
-		this.historyModalSubscription = this.modalService
-			.vaultHistorySubject.subscribe(() => { this.generatePage(); });
+		// Bind the callback.
+		this.modalSubscription?.unsubscribe();
+		this.modalSubscription = this.stateService.vaultHistoryModal
+			.subject.subscribe(() => { this.generatePage(); });
 	}
 
 
@@ -141,7 +137,7 @@ export class VaultComponent implements OnInit, OnDestroy
 
 
 	// Generates the page.
-	public generatePage(query?: string): void
+	public generatePage(rawQuery?: string): void
 	{
 		this.loading = true;
 		this.changeDetectorRef.detectChanges();
@@ -151,10 +147,11 @@ export class VaultComponent implements OnInit, OnDestroy
 		const queries: string[] = [];
 		const tagQueries: string[] = [];
 
-		if(query)
+		if(rawQuery)
 		{
-			this.stateService.vault.query = query;
-			const queryTokens = query.split(' ');
+			this.stateService.vault.query = rawQuery;
+			const queryTokens = rawQuery.split(' ');
+
 			queryTokens.forEach((token, index) =>
 			{
 				token = token.trim();
@@ -172,18 +169,35 @@ export class VaultComponent implements OnInit, OnDestroy
 
 		// Generate the entries list.
 		this.entries = [];
+		for(const [key, value] of Object.entries(this.vault.accounts))
+		{
+			// If the entry does not satisfy the query, skip it.
+			let matches = true;
 
-		this.addEntries(this.vault.accounts,
-			(e) => e.username, 'Account', queries, tagQueries);
-		this.addEntries(this.vault.cards,
-			(e) => e.cardNumber, 'Card', queries, tagQueries);
-		this.addEntries(this.vault.notes,
-			(e) => e.note.substring(0, 256), 'Note', queries, tagQueries);
+			// Tag queries.
+			for(const tagQuery of tagQueries)
+			{
+				let tagMatches = false;
+				for(const tag of value.tags)
+					if(tag.toLowerCase().includes(tagQuery)){ tagMatches = true; break; }
+
+				if(!tagMatches){ matches = false; break; }
+			}
+
+			// Regular queries.
+			for(const query of queries)
+				if(!key.toLowerCase().includes(query)){ matches = false; break; }
+
+			if(!matches) continue;
+
+			// Otherwise, add the entry.
+			this.entries.push({key, tags: value.tags, preview: value.username});
+		}
 
 		this.entries = this.utilityService.naturalSort(this.entries, (entry) => entry.key);
 
 		// Get the page entries.
-		if(query) this.stateService.vault.page = 1;
+		if(rawQuery) this.stateService.vault.page = 1;
 		this.pageCount = Math.floor(this.entries.length/this.pageSize)+1;
 		const startIndex = this.pageSize*(this.stateService.vault.page-1);
 		this.pageEntries = this.entries.slice(startIndex, startIndex+this.pageSize);
@@ -193,42 +207,5 @@ export class VaultComponent implements OnInit, OnDestroy
 
 		// Initialize SimpleBar.
 		this.stateService.initializeSimpleBar(this.stateService.vault, this.simpleBar);
-	}
-
-
-	// Adds the appropriate entries from the given subset to the tag groups record.
-	private addEntries<T extends Types.VaultEntry>(
-		entries: Record<string, T>, getPreviewCallback: (element: T) => string,
-		type: string, queries?: string[], tagQueries?: string[]): void
-	{
-		// For each entry...
-		for(const [key, value] of Object.entries(entries))
-		{
-			// If the entry does not satisfy the query, skip it.
-			if(queries && tagQueries)
-			{
-				let matches = true;
-
-				// Tag queries.
-				for(const tagQuery of tagQueries)
-				{
-					let tagMatches = false;
-					for(const tag of value.tags)
-						if(tag.toLowerCase().includes(tagQuery)){ tagMatches = true; break; }
-
-					if(!tagMatches){ matches = false; break; }
-				}
-
-				// Regular queries.
-				for(const query of queries)
-					if(!key.toLowerCase().includes(query)){ matches = false; break; }
-
-				if(!matches) continue;
-			}
-
-			// Otherwise, add the entry.
-			this.entries.push({key, type, tags: value.tags,
-				preview: getPreviewCallback(value)});
-		}
 	}
 }

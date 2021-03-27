@@ -5,16 +5,15 @@
 */
 
 
-import type {OnInit, ElementRef} from '@angular/core';
-import {Component, HostBinding, HostListener, ViewChild} from '@angular/core';
+import type {OnInit} from '@angular/core';
+import {ElementRef, Component, HostBinding, HostListener, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import * as Ionic from '@ionic/angular';
 
 import * as Animations from '../../animations';
 import {AccountService} from '../../services/account.service';
-import {ModalService} from '../../services/modal.service';
+import {StateService} from '../../services/state.service';
 import {VaultComponent} from '../../pages/app/vault/vault.component';
-import {UtilityService} from '../../services/utility.service';
 
 
 @Component
@@ -38,9 +37,8 @@ export class AppComponent implements OnInit
 
 	// Constructor.
 	public constructor(private readonly accountService: AccountService,
-		private readonly router: Router, public readonly modalService: ModalService,
-		private readonly ionicPlatform: Ionic.Platform,
-		private readonly utilityService: UtilityService){}
+		private readonly router: Router, public readonly stateService: StateService,
+		private readonly ionicPlatform: Ionic.Platform){}
 
 
 	// Pointer movement callback.
@@ -71,7 +69,7 @@ export class AppComponent implements OnInit
 	public closeModal(event: MouseEvent): void
 	{
 		if(event.target === this.modalOverlay?.nativeElement)
-			this.modalService.close();
+			this.stateService.closeModals();
 	}
 
 

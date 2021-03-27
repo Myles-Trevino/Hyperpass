@@ -6,19 +6,16 @@
 
 
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import type {Routes} from '@angular/router';
+import {RouterModule} from '@angular/router';
 
-import {AppComponent, LoginComponent, SignupComponent,
-	ValidationComponent} from 'hyperpass-core';
+import {AppComponent} from 'hyperpass-core';
 
 
 const routes: Routes =
 [
 	{path: '', redirectTo: '/app', pathMatch: 'full'},
-	{path: 'app', component: AppComponent},
-	{path: 'login', component: LoginComponent},
-	{path: 'signup', component: SignupComponent},
-	{path: 'validation', component: ValidationComponent}
+	{path: 'app', component: AppComponent}
 ];
 
 

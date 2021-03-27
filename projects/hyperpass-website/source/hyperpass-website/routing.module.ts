@@ -6,9 +6,8 @@
 
 
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-
-import {LoginComponent, SignupComponent, ValidationComponent} from 'hyperpass-core';
+import type {Routes} from '@angular/router';
+import {RouterModule} from '@angular/router';
 
 import {IndexComponent} from './pages/index/index.component';
 import {DownloadComponent} from './pages/download/download.component';
@@ -19,9 +18,6 @@ import {NotFoundComponent} from './pages/not-found/not-found.component';
 const routes: Routes =
 [
 	{path: '', pathMatch: 'full', component: IndexComponent},
-	{path: 'login', component: LoginComponent},
-	{path: 'signup', component: SignupComponent},
-	{path: 'validation', component: ValidationComponent},
 	{path: 'download', component: DownloadComponent},
 	{path: 'support', component: SupportComponent},
 	{path: '**', component: NotFoundComponent}

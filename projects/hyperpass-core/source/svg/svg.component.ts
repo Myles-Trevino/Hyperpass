@@ -7,8 +7,8 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding, Input} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import type {SafeHtml} from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import * as _ from 'lodash';
 
 
 const svgs: Record<string, string> =
@@ -197,7 +197,7 @@ export class SvgComponent implements OnInit
 	// Initializer.
 	public ngOnInit(): void
 	{
-		if(!this.svg || !svgs.hasOwnProperty(this.svg))
+		if(!this.svg || !_.has(svgs, this.svg))
 			throw new Error('Failed to load an SVG.');
 
 		this.innerHtml = this.domSanitizer.bypassSecurityTrustHtml(svgs[this.svg]);

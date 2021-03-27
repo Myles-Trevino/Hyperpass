@@ -74,6 +74,7 @@ export const changeMasterPasswordRequestSchema = securedRequestSchema.concat(Joi
 export const logOutRequestSchema = securedRequestSchema.concat(
 	Joi.object({newAccessKey: encryptedKeySchema.required()}));
 
+
 // Validates the given value with the given schema.
 export function validate(value: unknown, schema: Joi.Schema): unknown
 {

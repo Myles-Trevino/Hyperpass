@@ -13,20 +13,22 @@
 <div id="tag-list-container">
 
 	<!-- Tags. -->
-	<div *ngFor="let tag of tags; index as index" class="app-tag" [ngStyle]="{'cursor': (index != 0) ? 'pointer' : 'default'}" (click)="edit(tag, index)">
+	<div *ngFor="let tagKey of tags; index as index" class="app-tag" (click)="openTagsModal(tagKey)">
+	<ng-container *ngIf="vault.tags[tagKey] as tag">
 
 		<!-- Color. -->
-		<hyperpass-tag-color *ngIf="vault.tags[tag].color" [color]="vault.tags[tag].color"></hyperpass-tag-color>
+		<hyperpass-tag-color *ngIf="tag.color" [color]="tag.color"></hyperpass-tag-color>
 
 		<!-- Name. -->
-		<span>{{tag}}</span>
+		<span>{{tag.name}}</span>
 
 		<!-- Remove button. -->
-		<hyperpass-svg svg="Delete" *ngIf="index != 0" (click)="remove(tag)"></hyperpass-svg>
+		<hyperpass-svg svg="Delete" (click)="remove(tagKey)"></hyperpass-svg>
 
+	</ng-container>
 	</div>
 
 	<!-- Add button. -->
-	<hyperpass-svg svg="Add Button" (click)="add()"></hyperpass-svg>
+	<hyperpass-svg svg="Add Button" (click)="openTagsModal()"></hyperpass-svg>
 
 </div>

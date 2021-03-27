@@ -15,7 +15,7 @@
 	<hyperpass-svg svg="History Button" class="shaded" (click)="openVaultHistoryModal()"></hyperpass-svg>
 
 	<!-- Add button. -->
-	<hyperpass-svg svg="Add Button" class="shaded" [routerLink]="['/app', {outlets: {'vault': ['vault-entry']}}]" [queryParams]="{type: 'Account'}" [skipLocationChange]="true"></hyperpass-svg>
+	<hyperpass-svg svg="Add Button" class="shaded" [routerLink]="['/app', {outlets: {'vault': ['vault-entry']}}]" [skipLocationChange]="true"></hyperpass-svg>
 
 </div>
 
@@ -27,69 +27,42 @@
 	<!-- Entries. -->
 	<div id="vault-entries">
 
-		<div *ngFor="let entry of pageEntries" class="tile-content" [routerLink]="['/app', {outlets: {'vault': ['vault-entry']}}]" [queryParams]="{type: entry.type, key: entry.key}" [skipLocationChange]="true">
+		<div *ngFor="let entry of pageEntries" class="tile-content" [routerLink]="['/app', {outlets: {'vault': ['vault-entry']}}]" [queryParams]="{key: entry.key}" [skipLocationChange]="true">
 
 			<div class="tile-section">
 
-				<!-- Entry tags. -->
-				<div class="vault-tag-container hidden-scrollbars" (wheel)="tagContainerScrollCallback($event)">
+				<!-- Title and preview. -->
+				<div class="vault-tile-content">
+					<span>{{entry.key}}</span>
+					<span class="dimmed-text">{{entry.preview ? entry.preview : '-'}}</span>
+				</div>
 
-					<div *ngFor="let tag of entry.tags" class="app-tag">
+				<!-- Tags and buttons. -->
+				<div class="vault-tile-bar" *ngIf="vault.accounts[entry.key] as account">
 
-						<!-- Tag color. -->
-						<hyperpass-tag-color *ngIf="vault.tags[tag].color" [color]="vault.tags[tag].color"></hyperpass-tag-color>
+					<!-- Tags. -->
+					<div class="vault-tag-container hidden-scrollbars" (wheel)="tagContainerScrollCallback($event)">
 
-						<!-- Tag name. -->
-						<span class="dimmed-text">{{tag}}</span>
+						<div *ngFor="let tagKey of entry.tags" class="app-tag">
+						<ng-container *ngIf="vault.tags[tagKey] as tag">
+
+							<!-- Tag color. -->
+							<hyperpass-tag-color *ngIf="tag.color" [color]="tag.color"></hyperpass-tag-color>
+
+							<!-- Tag name. -->
+							<span class="dimmed-text">{{tag.name}}</span>
+
+						</ng-container>
+						</div>
 
 					</div>
 
-				</div>
-
-				<!-- Entry title. -->
-				<span>{{entry.key}}</span>
-
-				<!-- Entry preview. -->
-				<span class="dimmed-text">{{entry.preview ? entry.preview : '-'}}</span>
-
-				<!-- Entry buttons. -->
-				<div *ngIf="entry.type === 'Account'" class="vault-buttons">
-				<ng-container *ngIf="vault.accounts[entry.key]; let account">
-
 					<!-- Username button. -->
-					<hyperpass-svg svg="Username Button" *ngIf="account.username" [cdkCopyToClipboard]="account.username" (click)="clickCallback($event, 'Username')"></hyperpass-svg>
+					<hyperpass-svg svg="Username Button" *ngIf="account.username" [cdkCopyToClipboard]="account.username" (click)="tileButtonClickCallback($event, 'Username')"></hyperpass-svg>
 
 					<!-- Password button. -->
-					<hyperpass-svg svg="Password Button" *ngIf="account.password" [cdkCopyToClipboard]="account.password" (click)="clickCallback($event, 'Password')"></hyperpass-svg>
+					<hyperpass-svg svg="Password Button" *ngIf="account.password" [cdkCopyToClipboard]="account.password" (click)="tileButtonClickCallback($event, 'Password')"></hyperpass-svg>
 
-				</ng-container>
-				</div>
-
-				<div *ngIf="entry.type === 'Card'" class="vault-buttons">
-				<ng-container *ngIf="vault.cards[entry.key]; let card">
-
-					<!-- Holder button. -->
-					<hyperpass-svg svg="Holder Button" *ngIf="card.holder" [cdkCopyToClipboard]="card.holder" (click)="clickCallback($event, 'Cardholder')"></hyperpass-svg>
-
-					<!-- Number button. -->
-					<hyperpass-svg svg="Number Button" *ngIf="card.cardNumber" [cdkCopyToClipboard]="card.cardNumber" (click)="clickCallback($event, 'Card number')"></hyperpass-svg>
-
-					<!-- Expiration date button. -->
-					<hyperpass-svg svg="Expiration Date Button" *ngIf="card.expirationDate" [cdkCopyToClipboard]="card.expirationDate" (click)="clickCallback($event, 'Expiration date')"></hyperpass-svg>
-
-					<!-- Security code button. -->
-					<hyperpass-svg svg="Security Code Button" *ngIf="card.securityCode" [cdkCopyToClipboard]="card.securityCode" (click)="clickCallback($event, 'Security code')"></hyperpass-svg>
-
-				</ng-container>
-				</div>
-
-				<div *ngIf="entry.type === 'Note'" class="vault-buttons">
-				<ng-container *ngIf="vault.notes[entry.key]; let note">
-
-					<!-- Copy button. -->
-					<hyperpass-svg svg="Copy Button" *ngIf="note.note" [cdkCopyToClipboard]="note.note" (click)="clickCallback($event, 'Note')"></hyperpass-svg>
-
-				</ng-container>
 				</div>
 
 			</div>
@@ -114,7 +87,7 @@
 
 
 <!-- Page controls. -->
-<div id="page-controls">
+<div *ngIf="pageCount > 1" id="page-controls">
 	<hyperpass-svg svg="Previous Button" (click)="previousPage()" [ngClass]="{'disabled': stateService.vault.page === 1}"></hyperpass-svg>
 	<span>{{stateService.vault.page}} of {{pageCount}}</span>
 	<hyperpass-svg svg="Next Button" (click)="nextPage()" [ngClass]="{'disabled': stateService.vault.page === pageCount}"></hyperpass-svg>

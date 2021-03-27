@@ -190,6 +190,7 @@ ngx-simplebar
 
 .hidden-scrollbars
 {
+	overflow: scroll;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 

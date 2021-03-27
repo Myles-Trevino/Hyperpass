@@ -5,6 +5,9 @@
 */
 
 
+import {Subject} from 'rxjs';
+
+
 // State.
 export type ScrollState = {scrollPosition: number};
 
@@ -19,6 +22,51 @@ export type VaultState = ScrollState &
 
 export const defaultVaultState: VaultState =
 	{...defaultScrollState, page: 1, query: ''};
+
+
+export type TagsModalEvent =
+{
+	type: 'Select'|'Delete';
+	tag: string;
+};
+
+export type TagsModalState =
+{
+	subject: Subject<TagsModalEvent>;
+	singleEditTag?: string;
+};
+
+export const defaultTagsModalState: TagsModalState =
+{
+	subject: new Subject<TagsModalEvent>(),
+	singleEditTag: undefined
+};
+
+
+export type VaultHistoryModalState =
+{
+	subject: Subject<void>;
+	history: VaultHistoryEntry[];
+};
+
+export const defaultVaultHistoryModalState: VaultHistoryModalState =
+{
+	subject: new Subject<void>(),
+	history: []
+};
+
+
+export type VaultEntryHistoryModalState =
+{
+	subject: Subject<VaultEntryHistoryEntry[]>;
+	history: VaultEntryHistoryEntry[];
+};
+
+export const defaultVaultEntryHistoryModalState: VaultEntryHistoryModalState =
+{
+	subject: new Subject<VaultEntryHistoryEntry[]>(),
+	history: []
+};
 
 
 // Message.
@@ -142,47 +190,41 @@ export const defaultGeneratorState: GeneratorState =
 
 
 // Vault entries.
-export const vaultEntryTypes = ['Account', 'Card', 'Note'] as const;
-
-export type VaultEntryType = typeof vaultEntryTypes[number];
-
-
 export const tagColors = ['Red', 'Orange', 'Yellow',
 	'Green', 'Cyan', 'Blue', 'Purple', 'Pink', 'None'] as const;
 
 export type TagColor = typeof tagColors[number];
 
-export type Tag = { color: TagColor };
+export type Tag =
+{
+	name: string;
+	color: TagColor;
+};
 
-export const defaultTag: Tag = {color: 'None'};
+export const defaultTag: Tag =
+{
+	name: '',
+	color: 'None'
+};
 
-export const reservedTags = ['Account', 'Card', 'Note'];
 
-
-export type InputHistoryEntry =
+export type VaultEntryHistoryEntry =
 {
 	date: Date;
 	entry: string;
 };
 
 
-export type VaultEntry =
-{
-	note: string;
-	noteHistory: InputHistoryEntry[];
-	tags: string[];
-};
-
-export const defaultVaultEntry = {note: '', noteHistory: [], tags: []};
-
-
-export type Account = VaultEntry &
+export type Account =
 {
 	username: string;
-	usernameHistory: InputHistoryEntry[];
+	usernameHistory: VaultEntryHistoryEntry[];
 	password: string;
-	passwordHistory: InputHistoryEntry[];
+	passwordHistory: VaultEntryHistoryEntry[];
 	url: string;
+	note: string;
+	noteHistory: VaultEntryHistoryEntry[];
+	tags: string[];
 	default: boolean;
 };
 
@@ -196,53 +238,25 @@ export const defaultAccount: Account =
 	default: false,
 	note: '',
 	noteHistory: [],
-	tags: ['Account']
+	tags: []
 };
 
 export function areAccountsEqual(a: Account, b: Account): boolean
 { return checkEquality(a, b, ['username', 'password', 'url', 'note']); }
 
 
-export type Card = VaultEntry &
-{
-	holder: string;
-	cardNumber: string;
-	expirationDate: string;
-	securityCode: string;
-};
-
-export const defaultCard: Card =
-{
-	holder: '',
-	cardNumber: '',
-	expirationDate: '',
-	securityCode: '',
-	note: '',
-	noteHistory: [],
-	tags: ['Card']
-};
-
-
-export type Note = VaultEntry;
-
-export const defaultNote: Note = {note: '', noteHistory: [], tags: ['Note']};
-
-
 // Vault.
 export type VaultHistoryEntry =
 {
-	type: VaultEntryType;
 	date: Date;
 	key: string;
-	entry: Account|Card|Note;
+	value: Account;
 };
 
 
 export type Vault =
 {
 	accounts: Record<string, Account>;
-	cards: Record<string, Card>;
-	notes: Record<string, Note>;
 	tags: Record<string, Tag>;
 	history: VaultHistoryEntry[];
 	settings: Settings;
@@ -252,10 +266,8 @@ export type Vault =
 export const defaultVault: Vault =
 {
 	accounts: {},
-	cards: {},
-	notes: {},
 	history: [],
-	tags: {'Account': defaultTag, 'Card': defaultTag, 'Note': defaultTag},
+	tags: {},
 	settings: defaultSettings,
 	generatorState: defaultGeneratorState
 };

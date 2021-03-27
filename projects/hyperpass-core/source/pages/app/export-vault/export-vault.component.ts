@@ -71,7 +71,6 @@ export class ExportVaultComponent
 	private exportUnencrypted(): void
 	{
 		const vault = this.accountService.getVault();
-		const data = {accounts: vault.accounts, cards: vault.cards, notes: vault.notes};
-		this.save(JSON.stringify(data), 'json');
+		this.save(JSON.stringify(vault.accounts), 'json');
 	}
 }

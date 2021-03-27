@@ -5,7 +5,8 @@
 */
 
 
-import {Component, HostBinding, OnInit, OnDestroy} from '@angular/core';
+import type {OnInit, OnDestroy} from '@angular/core';
+import {Component, HostBinding} from '@angular/core';
 import {Router} from '@angular/router';
 
 

@@ -7,12 +7,12 @@
 
 import {browser} from 'webextension-polyfill-ts';
 
-import {Types} from 'hyperpass-core';
+import type {Types} from 'hyperpass-core';
 
 
 // Command callback.
 browser.runtime.onMessage.addListener((message: Types.Message) =>
-{ if(message.type === 'Autofill') autofill(message.data); });
+{ if(message.type === 'Autofill') autofill(message.data as string); });
 
 
 // Fills the currently focused input element with the given string.

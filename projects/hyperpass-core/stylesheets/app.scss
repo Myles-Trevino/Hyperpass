@@ -83,6 +83,8 @@
 	{
 		opacity: 0;
 		transition: opacity var(--regular-transition-duration);
+
+		@include mobile{ opacity: 1; }
 	}
 
 	&:hover .svg-button{ opacity: 1; }

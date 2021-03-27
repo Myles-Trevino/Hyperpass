@@ -5,11 +5,10 @@
 */
 
 
-import type {OnInit, OnDestroy} from '@angular/core';
 import {Component} from '@angular/core';
 
 import type * as Types from '../../../../types';
-import {ModalService} from '../../../../services/modal.service';
+import {StateService} from '../../../../services/state.service';
 import {MessageService} from '../../../../services/message.service';
 import {AccountService} from '../../../../services/account.service';
 import {UtilityService} from '../../../../services/utility.service';
@@ -24,22 +23,16 @@ import {HistoryModalBaseDirective} from '../history-modal-base.directive';
 })
 
 export class VaultHistoryModalComponent extends
-	HistoryModalBaseDirective<Types.VaultHistoryEntry> implements OnInit, OnDestroy
+	HistoryModalBaseDirective<Types.VaultHistoryEntry>
 {
 	// Constructor.
-	public constructor(protected readonly modalService: ModalService,
+	public constructor(protected readonly stateService: StateService,
 		protected readonly messageService: MessageService,
 		public readonly utilityService: UtilityService,
 		private readonly accountService: AccountService)
-	{ super(modalService, messageService); }
-
-
-	// Initializer.
-	public ngOnInit(): void { this.subscribe(this.modalService.vaultHistorySubject); }
-
-
-	// Destructor.
-	public ngOnDestroy(): void { this.unsubscribe(); }
+	{
+		super(stateService, messageService, stateService.vaultHistoryModal.history);
+	}
 
 
 	// Restores the given entry and pushes the vault.
@@ -47,23 +40,21 @@ export class VaultHistoryModalComponent extends
 	{
 		try
 		{
+			// Restore the entry to the vault.
 			const vault = this.accountService.getVault();
 
-			if(entry.type === 'Account') vault.accounts = this.utilityService.
-				uniqueAppend({test: entry.entry as Types.Account}, vault.accounts);
+			vault.accounts = this.utilityService.uniqueAppend(
+				{[entry.key]: entry.value}, vault.accounts);
 
-			else if(entry.type === 'Card') vault.cards = this.utilityService.
-				uniqueAppend({test: entry.entry as Types.Card}, vault.cards);
-
-			else vault.notes = this.utilityService.uniqueAppend(
-				{test: entry.entry as Types.Note}, vault.notes);
-
+			// Delete the entry from history.
 			this.delete(index);
+
+			// Push the vault and send a success message.
 			this.accountService.pushVault();
-			this.messageService.message(`${entry.type} restored.`);
+			this.messageService.message('Account restored.');
 		}
 
-		// Handle error.
+		// Handle errors.
 		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
@@ -73,5 +64,6 @@ export class VaultHistoryModalComponent extends
 	{
 		this.accountService.getVault().history = this.history;
 		this.accountService.pushVault();
+		this.stateService.vaultHistoryModal.subject.next();
 	}
 }

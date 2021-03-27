@@ -11,8 +11,8 @@
 	<button [routerLink]="['/app', {outlets: {'vault': null}}]" [skipLocationChange]="true">Cancel</button>
 
 	<div class="tile-buttons">
-		<button *ngIf="key" (click)="events.next('delete')">Delete</button>
-		<button (click)="events.next('save')">Save</button>
+		<button *ngIf="key" (click)="delete()">Delete</button>
+		<button (click)="save()">Save</button>
 	</div>
 
 </div>
@@ -22,17 +22,63 @@
 <ngx-simplebar>
 <div class="tile-content">
 
-	<!-- Type. -->
-	<div *ngIf="!key" class="tile-setting">
-		<span>Type</span>
-		<hyperpass-dropdown [options]="types.vaultEntryTypes"
-			[(selectedOption)]='type'></hyperpass-dropdown>
+	<!-- Title. -->
+	<div class="tile-setting">
+		<span>Title</span>
+		<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="title">
 	</div>
 
-	<!-- Vault Entry Settings. -->
-	<hyperpass-account *ngIf="type === 'Account'" [events]="events"></hyperpass-account>
-	<hyperpass-card *ngIf="type === 'Card'" [events]="events"></hyperpass-card>
-	<hyperpass-note *ngIf="type === 'Note'" [events]="events"></hyperpass-note>
+	<!-- Username. -->
+	<div class="tile-setting">
+
+		<span>Username</span>
+
+		<div class="app-button-input-container">
+			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.username">
+			<hyperpass-svg svg="History Button" (click)="viewUsernameHistory()"></hyperpass-svg>
+		</div>
+
+	</div>
+
+	<!-- Password. -->
+	<div class="tile-setting">
+
+		<span>Password</span>
+
+		<div class="app-button-input-container">
+
+			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.password">
+
+			<div class="horizontal-container">
+				<hyperpass-svg svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
+				<hyperpass-svg svg="Generate Button" (click)="generatePassword()"></hyperpass-svg>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- URLs. -->
+	<div class="tile-setting">
+		<span>URLs</span>
+		<input type="text" spellcheck="false" autocomplete="off" [ngModel]="state.url" (ngModelChange)="urlChangeCallback($event)">
+		<p *ngIf="showUrlWarning" class="tile-setting-text warning-text">Avoid including unnecessary parts in the URL such as https://, www., and parts after the domain name.</p>
+	</div>
+
+	<!-- Note. -->
+	<div class="tile-setting">
+
+		<span>Note</span>
+
+		<div class="app-button-input-container">
+			<textarea class="hidden-scrollbars" [(ngModel)]="state.note"></textarea>
+			<hyperpass-svg svg="History Button" (click)="viewNoteHistory()"></hyperpass-svg>
+		</div>
+
+	</div>
+
+	<!-- Tag list. -->
+	<hyperpass-tag-list [(tags)]="state.tags"></hyperpass-tag-list>
 
 </div>
 </ngx-simplebar>

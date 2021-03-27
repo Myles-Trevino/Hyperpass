@@ -21,6 +21,10 @@ import {ImportVaultComponent} from './pages/app/import-vault/import-vault.compon
 import {ExportVaultComponent} from './pages/app/export-vault/export-vault.component';
 import {MasterPasswordComponent} from './pages/app/master-password/master-password.component';
 
+import {LoginComponent} from './pages/login/login.component';
+import {SignupComponent} from './pages/signup/signup.component';
+import {ValidationComponent} from './pages/validation/validation.component';
+
 
 const routes: Routes =
 [
@@ -39,7 +43,11 @@ const routes: Routes =
 			{path: 'export-vault', component: ExportVaultComponent, outlet: 'options'},
 			{path: 'master-password', component: MasterPasswordComponent, outlet: 'options'}
 		]
-	}
+	},
+
+	{path: 'login', component: LoginComponent},
+	{path: 'signup', component: SignupComponent},
+	{path: 'validation', component: ValidationComponent}
 ];
 
 

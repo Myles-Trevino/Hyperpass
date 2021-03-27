@@ -5,15 +5,15 @@
 */
 
 
-import type {OnInit, OnDestroy} from '@angular/core';
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
-import type {Subscription} from 'rxjs';
+import {v4 as uuidv4} from 'uuid';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
 import * as Animations from '../../../animations';
 import {AccountService} from '../../../services/account.service';
-import {ModalService} from '../../../services/modal.service';
+import {StateService} from '../../../services/state.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
 
@@ -26,23 +26,19 @@ import {UtilityService} from '../../../services/utility.service';
 	animations: [Animations.fadeInAnimation]
 })
 
-export class TagsModalComponent implements OnInit, OnDestroy
+export class TagsModalComponent implements OnInit
 {
 	@HostBinding('class') public readonly class = 'app-modal';
 
-	public readonly reservedTags = Types.reservedTags;
 	public readonly tagColors = Types.tagColors;
 	public vault: Types.Vault = Types.defaultVault;
 	public hasTags = false;
 	public key = '';
 	public tag = Types.defaultTag;
-	public name = '';
-
-	private subscription?: Subscription;
 	private singleEditMode = false;
 
 
-	public constructor(public readonly modalService: ModalService,
+	public constructor(public readonly stateService: StateService,
 		private readonly accountService: AccountService,
 		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService){}
@@ -55,47 +51,32 @@ export class TagsModalComponent implements OnInit, OnDestroy
 		this.vault = _.cloneDeep(this.accountService.getVault());
 		this.updateHasTags();
 
-		// If a tag key was passed, enter single edit mode.
-		this.subscription = this.modalService.tagsSubject.subscribe((key) =>
+		// If a single edit key was specified, enter single edit mode.
+		if(this.stateService.tagsModal.singleEditTag)
 		{
-			this.subscription?.unsubscribe();
-
-			if(key)
-			{
-				this.singleEditMode = true;
-				this.edit(key);
-			}
-		});
+			this.singleEditMode = true;
+			this.edit(this.stateService.tagsModal.singleEditTag);
+		}
 	}
-
-
-	// Destructor.
-	public ngOnDestroy(): void { this.subscription?.unsubscribe(); }
 
 
 	// Returns the given tag and exits.
 	public returnTag(key: string): void
 	{
-		this.modalService.tagsSubject.next(key);
-		this.modalService.close();
+		this.stateService.tagsModal.subject.next({type: 'Select', tag: key});
+		this.stateService.closeModals();
 	}
 
 
 	// Adds a new tag.
 	public new(): void
 	{
-		// Generate a unique key.
-		let key = 'New Tag';
-		let enumerator = 2;
-
-		while(this.vault.tags.hasOwnProperty(key))
-		{
-			key = `New Tag ${enumerator}`;
-			++enumerator;
-		}
-
 		// Add the tag.
-		this.vault.tags[key] = Types.defaultTag;
+		const key = uuidv4();
+		const name = this.utilityService.generateUniqueName('New Tag', this.vault.tags,
+			(_name, entries) => Object.values(entries).some((e) => e.name === _name));
+
+		this.vault.tags[key] = {name, color: 'None'};
 		this.updateVault();
 
 		// Scroll the tag into view.
@@ -108,13 +89,11 @@ export class TagsModalComponent implements OnInit, OnDestroy
 	{
 		// Delete the tag.
 		delete this.vault.tags[key];
-
-		// Remove the tag from all vault entries.
 		this.replaceTag(key);
 
 		// Update.
 		this.updateVault();
-		this.modalService.tagsSubject.next();
+		this.stateService.tagsModal.subject.next({type: 'Delete', tag: key});
 	}
 
 
@@ -122,7 +101,6 @@ export class TagsModalComponent implements OnInit, OnDestroy
 	public edit(key: string): void
 	{
 		this.key = key;
-		this.name = key;
 		this.tag = _.cloneDeep(this.vault.tags[key]);
 	}
 
@@ -133,19 +111,15 @@ export class TagsModalComponent implements OnInit, OnDestroy
 		try
 		{
 			// Validate.
-			if(!this.name) throw new Error('Please enter a tag name.');
+			if(!this.tag.name) throw new Error('Please enter a tag name.');
 
-			if(this.name !== this.key && this.vault.tags.hasOwnProperty(this.name))
+			if(Object.entries(this.vault.tags).some(([k, v]) =>
+				(k !== this.key) && (v.name === this.tag.name)))
 				throw new Error('A tag with this name already exists.');
 
-			// Replace the old tag with the new one.
-			delete this.vault.tags[this.key];
-			this.vault.tags[this.name] = this.tag;
-			this.replaceTag(this.key, this.name);
-
 			// Update.
+			this.vault.tags[this.key] = this.tag;
 			this.updateVault();
-			this.modalService.tagsSubject.next();
 
 			// Return.
 			this.exitEditing();
@@ -167,11 +141,14 @@ export class TagsModalComponent implements OnInit, OnDestroy
 
 		// Reset the key.
 		this.key = '';
-		this.name = '';
 		this.tag = _.cloneDeep(Types.defaultTag);
 
 		// If in single edit mode, exit.
-		if(this.singleEditMode) this.modalService.close();
+		if(this.singleEditMode)
+		{
+			this.stateService.tagsModal.singleEditTag = undefined;
+			this.stateService.closeModals();
+		}
 
 		// Scroll to the tag that was being edited.
 		this.scrollTo(key, false);
@@ -180,38 +157,23 @@ export class TagsModalComponent implements OnInit, OnDestroy
 
 	// Updates whether there are displayable tags.
 	private updateHasTags(): void
-	{ this.hasTags = Object.keys(this.vault.tags).length > Types.reservedTags.length; }
+	{ this.hasTags = Object.keys(this.vault.tags).length > 0; }
 
 
-	// Removes the given tag from all vault entries
-	// and replaces it with the given replacement.
-	private replaceTag(tagKey: string, replacementTagKey?: string): void
+	// Removes the given tag from the given accounts.
+	private replaceTag(key: string): void
 	{
-		this.replaceTagSubset(tagKey, this.vault.accounts, replacementTagKey);
-		this.replaceTagSubset(tagKey, this.vault.cards, replacementTagKey);
-		this.replaceTagSubset(tagKey, this.vault.notes, replacementTagKey);
-	}
-
-
-	// Removes the given tag from the given vault entries
-	// and replaces it with the given replacement.
-	private replaceTagSubset<T extends Types.VaultEntry>(tagKey: string,
-		entries: Record<string, T>, replacementTagKey?: string): void
-	{
-		for(const [entryKey, entry] of Object.entries(entries))
+		for(const [entryKey, entry] of Object.entries(this.vault.accounts))
 		{
 			for(const tag of entry.tags)
 			{
 				// If the tag does not match the specified one, skip it.
-				if(tag !== tagKey) continue;
+				if(tag !== key) continue;
 
 				// Remove the tag.
-				const index = entries[entryKey].tags.indexOf(tagKey);
+				const index = this.vault.accounts[entryKey].tags.indexOf(key);
 				if(index <= -1) throw new Error('Failed to retrieve a tag\'s index.');
-				entries[entryKey].tags.splice(index, 1);
-
-				// Add the new tag if it was given.
-				if(replacementTagKey) entries[entryKey].tags.push(replacementTagKey);
+				this.vault.accounts[entryKey].tags.splice(index, 1);
 			}
 		}
 	}
@@ -235,9 +197,6 @@ export class TagsModalComponent implements OnInit, OnDestroy
 		const vault = this.accountService.getVault();
 		vault.tags = this.vault.tags;
 		vault.accounts = this.vault.accounts;
-		vault.cards = this.vault.cards;
-		vault.notes = this.vault.notes;
-
 		this.accountService.pushVault();
 		this.updateHasTags();
 	}

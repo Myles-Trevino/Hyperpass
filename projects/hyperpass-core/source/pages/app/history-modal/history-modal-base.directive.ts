@@ -6,9 +6,8 @@
 
 
 import {HostBinding, Directive} from '@angular/core';
-import type {Subject, Subscription} from 'rxjs';
 
-import {ModalService} from '../../../services/modal.service';
+import {StateService} from '../../../services/state.service';
 import {MessageService} from '../../../services/message.service';
 
 
@@ -20,13 +19,14 @@ export abstract class HistoryModalBaseDirective<T>
 	public history: T[] = [];
 	public hasHistory = false;
 
-	private subject?: Subject<T[]>;
-	private subscription?: Subscription;
-
 
 	// Constructor.
-	public constructor(protected readonly modalService: ModalService,
-		protected readonly messageService: MessageService){}
+	public constructor(protected readonly stateService: StateService,
+		protected readonly messageService: MessageService, history: T[])
+	{
+		this.history = history;
+		this.updateHasHistory();
+	}
 
 
 	// Deletes the entry at the given index.
@@ -46,39 +46,20 @@ export abstract class HistoryModalBaseDirective<T>
 
 
 	// Exits the modal.
-	public close(): void { this.modalService.close(); }
+	public close(): void { this.stateService.closeModals(); }
 
 
 	// Virtuals.
 	protected updateCallback(): void { /* Virtual. */ }
 
 
-	// Subscribes to the given history subject.
-	protected subscribe(subject: Subject<T[]>): void
+	// Update.
+	private update(): void
 	{
-		this.subject = subject;
-		this.subscription = subject.subscribe((history) =>
-		{
-			this.subscription?.unsubscribe();
-			this.history = history;
-			this.update(true);
-		});
+		this.updateHasHistory();
+		this.updateCallback();
 	}
 
-
-	// Unsubscribes from the given history subject.
-	protected unsubscribe(): void { this.subscription?.unsubscribe(); }
-
-
-	// Updates whether there are displayable history entries.
-	private update(initial = false): void
-	{
-		this.hasHistory = this.history.length > 0;
-
-		if(!initial)
-		{
-			this.updateCallback();
-			this.subject?.next(this.history);
-		}
-	}
+	// Update whether there are history entries.
+	private updateHasHistory(): void { this.hasHistory = this.history.length > 0; }
 }

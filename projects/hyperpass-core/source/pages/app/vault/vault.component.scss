@@ -53,9 +53,8 @@
 
 	.tile-section
 	{
-		padding: 1rem var(--medium-radius);
+		padding: 0;
 		gap: 0;
-		border-bottom-color: none;
 	}
 }
 
@@ -72,23 +71,23 @@
 	.tile-content
 	{
 		position: relative;
+		height: 9rem;
+		border: none;
 		background-color: var(--main-color);
-		transition: background-color var(--regular-transition-duration) 49ms;
+		transition: background-color var(--regular-transition-duration);
 
 		&:hover
 		{
 			background-color: var(--accent-color);
-			transition-delay: 0s;
-
-			.vault-buttons
-			{
-				opacity: 1;
-				transition-delay: 49ms;
-			}
+			.vault-tile-bar{ background-color: var(--main-color); }
 		}
 	}
 
-	.tile-section{ grid-auto-flow: row; }
+	.tile-section
+	{
+		grid-template-rows: auto min-content;
+		border: none;
+	}
 
 	span
 	{
@@ -98,29 +97,45 @@
 	}
 }
 
-.vault-buttons
+.vault-tile-bar, .vault-tile-content{ padding: 0 var(--medium-radius); }
+
+.vault-tile-content
 {
-	position: absolute;
-	top: .77rem;
-	right: var(--medium-radius);
-	display: flex;
-	gap: var(--very-small-gap);
-	padding: .48rem 0 .48rem 1.25rem;
-	background-color: var(--semitransparent-accent-color);
-	opacity: 0;
-	transition: opacity var(--regular-transition-duration);
+	display: grid;
+	gap: .6rem;
+	padding-top: .5rem;
 }
 
-:host ::ng-deep hyperpass-svg:hover .base{ fill: var(--alternate-accent-color); }
+.vault-tile-bar
+{
+	display: flex;
+	align-items: center;
+	gap: var(--very-small-gap);
+	height: 2.6rem;
+	min-width: 0;
+	background-color: var(--alternate-color);
+	transition: background-color var(--regular-transition-duration);
+}
+
+:host ::ng-deep hyperpass-svg
+{
+	.base{ fill: transparent; }
+
+	&:hover .base{ fill: var(--alternate-accent-color); }
+}
 
 .vault-tag-container
 {
 	display: flex;
-	gap: var(--very-small-gap);
-	overflow: scroll;
-	margin: .25rem 0 .3rem;
+	flex-grow: 1;
+	gap: .75rem;
 
-	.app-tag{ pointer-events: none; }
+	.app-tag
+	{
+		pointer-events: none;
+		background-color: transparent;
+		padding: 0;
+	}
 }
 
 #page-controls

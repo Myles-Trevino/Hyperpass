@@ -10,7 +10,7 @@
 
 	<!-- Top. -->
 	<div class="app-modal-top">
-		<button (click)="modalService.close()">Close</button>
+		<button (click)="stateService.closeModals()">Close</button>
 		<button id="tags-new-button" (click)="new()">New</button>
 	</div>
 
@@ -23,13 +23,13 @@
 		<div id="tags-tag-list">
 
 			<ng-container *ngFor="let tag of vault.tags | keyvalue">
-			<div *ngIf="!reservedTags.includes(tag.key)" [attr.id]="getId(tag.key)" class="app-modal-entry" (click)="returnTag(tag.key)">
+			<div [attr.id]="getId(tag.key)" class="app-modal-entry" (click)="returnTag(tag.key)">
 
 				<!-- Tag color. -->
-				<hyperpass-tag-color [color]="tag.value.color" [displayNone]="true"></hyperpass-tag-color>
+				<hyperpass-tag-color [color]="tag.value.color"></hyperpass-tag-color>
 
 				<!-- Tag name. -->
-				<span>{{tag.key}}</span>
+				<span>{{tag.value.name}}</span>
 
 				<!-- Edit button. -->
 				<hyperpass-svg svg="Edit Button" (click)="edit(tag.key)"></hyperpass-svg>
@@ -67,17 +67,17 @@
 
 		<!-- Color list. -->
 		<div id="tags-editor-color-list">
-			<hyperpass-tag-color *ngFor="let color of tagColors" [color]="color" (click)="tag.color = color" [displayNone]="true"></hyperpass-tag-color>
+			<hyperpass-tag-color *ngFor="let color of tagColors" [color]="color" (click)="tag.color = color"></hyperpass-tag-color>
 		</div>
 
 		<!-- Input. -->
 		<div id="tags-editor-input">
 
 			<!-- Tag color. -->
-			<hyperpass-tag-color [color]="tag.color" [displayNone]="true"></hyperpass-tag-color>
+			<hyperpass-tag-color [color]="tag.color"></hyperpass-tag-color>
 
 			<!-- Tag name. -->
-			<input type="text" placeholder="Tag Name" spellcheck="false" autocomplete="off" [(ngModel)]="name">
+			<input type="text" placeholder="Tag Name" spellcheck="false" autocomplete="off" [(ngModel)]="tag.name">
 
 		</div>
 

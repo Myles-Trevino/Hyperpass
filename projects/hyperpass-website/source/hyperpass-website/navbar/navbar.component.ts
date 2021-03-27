@@ -5,7 +5,8 @@
 */
 
 
-import {Component, OnInit} from '@angular/core';
+import type {OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
 
 import {Animations} from 'hyperpass-core';

@@ -94,26 +94,41 @@ export class UtilityService
 		for(const [key, value] of Object.entries(newEntries))
 		{
 			// If the new entry is a complete duplicate of an existing one, skip it.
-			if(duplicateCallback && existingEntries.hasOwnProperty(key) &&
+			if(duplicateCallback && _.has(existingEntries, key) &&
 				duplicateCallback(value, existingEntries[key])) continue;
 
-			// Otherwise, if not merging, make sure the key is unique.
-			let finalKey = key;
-			let enumerator = 2;
-
-			if(!merge)
-				while(existingEntries.hasOwnProperty(finalKey))
-				{
-					finalKey = `${key} ${enumerator}`;
-					++enumerator;
-				}
-
-			// Add the entry.
-			existingEntries[finalKey] = value;
+			// Add the entry. If not merging, make sure the key is unique.
+			existingEntries[merge ? key :
+				this.generateUniqueKey(key, existingEntries)] = value;
 		}
 
 		// Return.
 		return existingEntries;
+	}
+
+
+	// Generates a unique key using the given base and enumeration.
+	public generateUniqueKey<T>(base: string, entries: Record<string, T>): string
+	{
+		return this.generateUniqueName(base, entries,
+			(name, _entries) => _.has(_entries, name));
+	}
+
+
+	// Generates a unique name using the given base and enumeration.
+	public generateUniqueName<T>(base: string, entries: T,
+		isUnique: (name: string, entries: T) => boolean): string
+	{
+		let uniqueName = base;
+		let enumerator = 2;
+
+		while(isUnique(uniqueName, entries))
+		{
+			uniqueName = `${base} ${enumerator}`;
+			++enumerator;
+		}
+
+		return uniqueName;
 	}
 
 
@@ -133,6 +148,27 @@ export class UtilityService
 	{
 		const start = url.indexOf('://')+3;
 		return url.substring(start, url.indexOf('/', start)).replace('www.', '');
+	}
+
+
+	// Trims the given URL.
+	public trimUrl(url: string): string
+	{
+		// Make lowercase.
+		url = url.toLowerCase();
+
+		// Trim the protocol.
+		const start = url.indexOf('://');
+		if(start !== -1) url = url.substring(start+3);
+
+		// Trim the path.
+		const end = url.indexOf('/');
+		if(end !== -1) url = url.substring(0, end);
+
+		// Remove 'www.'.
+		url = url.replace('www.', '');
+
+		return url;
 	}
 
 

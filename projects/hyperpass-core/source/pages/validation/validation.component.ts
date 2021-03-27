@@ -38,8 +38,8 @@ export class ValidationComponent implements OnInit
 	{
 		try
 		{
-			// Redirect to the login page if not logged in.
-			if(!this.accountService.loggedIn)
+			// Redirect to the login page if an access key has not been obtained.
+			if(!this.accountService.accessKey)
 			{
 				this.router.navigate(['/login']);
 				return;
