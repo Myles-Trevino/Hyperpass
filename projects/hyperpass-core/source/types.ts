@@ -273,6 +273,17 @@ export const defaultVault: Vault =
 };
 
 
+export const queryModifiers = ['username:', 'url:', 'tag:'] as const;
+
+export type QueryModifier = typeof queryModifiers[number];
+
+export type QueryPart =
+{
+	modifier?: QueryModifier;
+	string: string;
+};
+
+
 // Import and export.
 export const importFormats =
 [

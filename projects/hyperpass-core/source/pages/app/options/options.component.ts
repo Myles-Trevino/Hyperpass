@@ -32,7 +32,8 @@ export class OptionsComponent implements OnInit, AfterViewInit
 	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
 
 	public readonly types = Types;
-	public settings: Types.Settings = Types.defaultSettings;
+	public settings = Types.defaultSettings;
+	public settings_ = Settings;
 
 
 	// Constructor.
@@ -67,7 +68,7 @@ export class OptionsComponent implements OnInit, AfterViewInit
 	{
 		await this.accountService.pullVault();
 		this.utilityService.updateVaultSubject.next();
-		this.messageService.message('Successfully synced.', 2);
+		this.messageService.message('Synced.', 2);
 	}
 
 
@@ -87,10 +88,6 @@ export class OptionsComponent implements OnInit, AfterViewInit
 		this.applySettings();
 		this.accountService.startLoginTimeout();
 	}
-
-
-	// Launches the support page.
-	public support(): void { window.open(`${Settings.websiteUrl}/support`, '_blank'); }
 
 
 	// Applies the settings to the vault and pushes the vault.

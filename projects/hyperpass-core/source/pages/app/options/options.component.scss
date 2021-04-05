@@ -8,4 +8,26 @@
 @import "../../../../stylesheets/mixins.scss";
 
 
+:host ::ng-deep
+{
+	#options-support-the-project-container hyperpass-svg
+	{
+		width: 1rem;
+
+		.glyph
+		{
+			stroke-width: 2.25px;
+			fill: var(--red-color);
+		}
+	}
+}
+
 #options-import-and-export{ @include mobile{ display: none; } }
+
+#options-support-the-project-container
+{
+	display: grid;
+	grid-auto-flow: column;
+	gap: var(--very-small-gap);
+	width: max-content;
+}

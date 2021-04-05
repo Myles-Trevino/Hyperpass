@@ -14,16 +14,11 @@
 	--titlebar-height: 2rem;
 	--titlebar-button-diameter: 1.05rem;
 	--resize-region-size: 5px;
-
+	--app-page-height: calc(100vh - var(--large-gap) * 2 -
+		var(--tile-title-height) - var(--titlebar-height));
 	--large-gap: 2.75rem;
 }
 
 
 /* Pages. */
 .page, .centerer-page{ min-height: calc(100vh - var(--titlebar-height)); }
-
-.app-page
-{
-	height: calc(100vh - var(--titlebar-height) -
-		var(--large-gap) * 2 - var(--tile-title-height));
-}

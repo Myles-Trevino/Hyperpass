@@ -9,6 +9,7 @@
 export const apiUrl = 'https://api.hyperpass.org';
 export const staticUrl = 'https://static.hyperpass.org';
 export const websiteUrl = 'https://hyperpass.org';
+export const donateUrl = 'https://www.paypal.com/donate?hosted_button_id=FADEAG6LWR23E';
 
 export const minimumMasterPasswordLength = 16;
 export const keyLength = 32; // crypto_aead_xchacha20poly1305_ietf_KEYBYTES

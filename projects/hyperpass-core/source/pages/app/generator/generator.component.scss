@@ -27,7 +27,7 @@
 
 .app-page
 {
-	@include vertical
+	@include app-vertical
 	{
 		height: auto;
 		max-height: none;
@@ -45,7 +45,7 @@
 	background-color: transparent !important;
 	padding: 0;
 	border-radius: 0;
-	font-family: "Iosevka SS08";
+	font-family: "Iosevka SS08 Medium";
 	font-size: 1.02rem;
 	font-weight: 500;
 }
@@ -86,7 +86,7 @@
 		grid-template-rows: min-content auto;
 	}
 
-	@include vertical
+	@include app-vertical
 	{
 		grid-template-columns: 1fr;
 		grid-template-rows: repeat(2, 22.4rem);
@@ -109,6 +109,8 @@
 	{
 		opacity: 0;
 		transition: opacity var(--regular-transition-duration);
+
+		@include mobile{ opacity: 1; }
 	}
 
 	&:hover hyperpass-svg{ opacity: 1; }

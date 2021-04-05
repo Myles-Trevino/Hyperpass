@@ -5,6 +5,8 @@
 */
 
 
+import {Settings} from 'hyperpass-core';
+
 import {Component, HostBinding} from '@angular/core';
 
 
@@ -16,4 +18,8 @@ import {Component, HostBinding} from '@angular/core';
 })
 
 export class DownloadComponent
-{ @HostBinding('class') protected readonly class = 'page'; }
+{
+	@HostBinding('class') protected readonly class = 'page';
+
+	public readonly settings = Settings;
+}

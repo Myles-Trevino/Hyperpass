@@ -1,0 +1,41 @@
+/*
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+*/
+
+
+svg
+{
+	width: 128px;
+	height: 128px;
+	stroke-width: .35px;
+	stroke: var(--background-color);
+}
+
+
+#image-loader-container
+{
+	display: flex;
+	position: relative;
+	overflow: hidden;
+	background-color: var(--main-color);
+	transition: background-color var(--regular-transition-duration);
+
+	&.loaded{ background-color: var(--main-color); }
+
+	img
+	{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		object-fit: contain;
+	}
+}
+
+
+#image-loader-container::before
+{
+	content: "";
+	padding-top: var(--aspect);
+}

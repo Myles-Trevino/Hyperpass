@@ -20,6 +20,7 @@ export class BackgroundService
 	private website = '';
 	private accounts: Record<string, Types.Account> = {};
 	private account?: Types.Account;
+	private logInPromise?: Promise<void>;
 
 
 	// Constructor.
@@ -39,14 +40,19 @@ export class BackgroundService
 			// Login and logout.
 			if(message.type === 'loginUpdate')
 			{
-				if(message.data as boolean) await this.accountService.automaticLogIn();
-				else this.accountService.logOut();
+				if(message.data as boolean)
+				{
+					this.logInPromise = this.accountService.automaticLogIn();
+					await this.logInPromise;
+				}
+				else await this.accountService.logOut();
 				this.update();
 			}
 
 			// Vault updates.
 			if(message.type === 'vaultUpdate')
 			{
+				await this.logInPromise; // Ensure the login has completed first.
 				await this.accountService.pullVault();
 				this.update();
 			}

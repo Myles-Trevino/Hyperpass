@@ -59,7 +59,8 @@ const darkTheme =
 
 export class ThemeService
 {
-	private theme: Types.Theme = 'Light';
+	public theme: Types.Theme = 'Light';
+	public lowercaseTheme = this.theme.toLowerCase();
 
 
 	// Constructor.
@@ -76,6 +77,7 @@ export class ThemeService
 		// Otherwise, automatically determine the preferred theme.
 		else theme = this.isDarkThemePreferred() ? 'Dark' : 'Light';
 		this.theme = theme;
+		this.lowercaseTheme = theme.toLowerCase();
 
 		// Apply the CSS.
 		const css = (theme === 'Dark') ? darkTheme : lightTheme;

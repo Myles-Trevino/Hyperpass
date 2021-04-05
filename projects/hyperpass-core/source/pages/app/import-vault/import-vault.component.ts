@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
+import * as Settings from '../../../settings';
 import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
 import {CryptoService} from '../../../services/crypto.service';
@@ -97,8 +98,8 @@ export class ImportVaultComponent implements OnInit
 			this.utilityService.updateVaultSubject.next();
 			this.accountService.pushVault();
 
-			// Go back to the settings page.
-			this.router.navigate(['/app', {outlets: {'options': null}}]);
+			// If a vault entry is open for editing, close it.
+			this.router.navigate(['/app', {outlets: {'vault': null}}]);
 		}
 
 		// Handle errors.
@@ -106,11 +107,30 @@ export class ImportVaultComponent implements OnInit
 	}
 
 
-	// Appends the given tags to the existing vault without modifying the old ones.
-	private appendTags(tags: Record<string, Types.Tag>): void
+	// Sets the tags if in overwrite mode.
+	private setTags(tags: Record<string, Types.Tag>): void
 	{
-		for(const [key, value] of Object.entries(tags))
-			if(!_.has(this.vault.tags, key)) this.vault.tags[key] = value;
+		if(this.mode === 'Overwrite') this.vault.tags = tags;
+	}
+
+
+	// Merges the two given accounts.
+	private mergeAccounts(a: Types.Account, b: Types.Account): Types.Account
+	{
+		const result = _.cloneDeep(b);
+		result.default = a.default;
+		result.tags = a.tags;
+
+		result.usernameHistory = this.utilityService
+			.addToVaultEntryHistory(a.usernameHistory, b.username);
+
+		result.passwordHistory = this.utilityService
+			.addToVaultEntryHistory(a.passwordHistory, b.password);
+
+		result.noteHistory = this.utilityService
+			.addToVaultEntryHistory(a.noteHistory, b.note);
+
+		return result;
 	}
 
 
@@ -125,12 +145,10 @@ export class ImportVaultComponent implements OnInit
 					account.url = this.utilityService.trimUrl(account.url);
 
 			// Import.
-			const merge = (this.mode === 'Merge');
-			const overwrite = (this.mode === 'Overwrite');
-
-			this.vault.accounts = overwrite ? _.cloneDeep(accounts) :
+			this.vault.accounts = (this.mode === 'Overwrite') ? accounts :
 				this.utilityService.uniqueAppend(accounts, this.vault.accounts,
-					Types.areAccountsEqual, merge);
+					Types.areAccountsEqual, (this.mode === 'Merge'),
+					(a, b) => this.mergeAccounts(a, b));
 
 			// Set URL defaults.
 			for(const account of Object.values(this.vault.accounts))
@@ -184,7 +202,7 @@ export class ImportVaultComponent implements OnInit
 		catch(error: unknown){ throw new Error('Invalid file or master password.'); }
 
 		// Append.
-		this.appendTags(importedVault.tags);
+		this.setTags(importedVault.tags);
 		this.appendAccounts(importedVault.accounts);
 	}
 
@@ -198,7 +216,7 @@ export class ImportVaultComponent implements OnInit
 		catch(error: unknown){ throw new Error('Invalid file.'); }
 
 		// Append.
-		this.appendTags(importedVault.tags);
+		this.setTags(importedVault.tags);
 		this.appendAccounts(importedVault.accounts);
 	}
 

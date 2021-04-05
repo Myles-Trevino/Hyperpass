@@ -25,7 +25,7 @@ import {AccountService} from '../../../../services/account.service';
 export class TagListComponent implements OnInit, OnDestroy
 {
 	@Input() public tags?: string[];
-	@HostBinding('class') public readonly class = 'tile-setting';
+	@HostBinding('class') public readonly class = 'wide-tile-setting';
 
 	public vault: Types.Vault = Types.defaultVault;
 	private modalSubscription?: Subscription;

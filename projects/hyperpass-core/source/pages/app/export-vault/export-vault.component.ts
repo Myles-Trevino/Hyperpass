@@ -57,8 +57,8 @@ export class ExportVaultComponent
 	{
 		const blob = new Blob([data]);
 
-		FileSaver.saveAs(blob, `Vault Export ${formatDate(
-			new Date(), 'y-M-d H-mm-ss', 'en')}.${extension}`);
+		FileSaver.saveAs(blob, `Hyperpass Export ${formatDate(
+			new Date(), 'y-M-d h-mm-ss-a', 'en')}.${extension}`);
 	}
 
 
@@ -71,6 +71,6 @@ export class ExportVaultComponent
 	private exportUnencrypted(): void
 	{
 		const vault = this.accountService.getVault();
-		this.save(JSON.stringify(vault.accounts), 'json');
+		this.save(JSON.stringify(vault), 'json');
 	}
 }

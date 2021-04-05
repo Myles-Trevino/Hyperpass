@@ -272,13 +272,14 @@ export class AccountService implements OnDestroy
 		if(!masterPassword) throw new Error('Please enter a master password.');
 
 		if(masterPassword.length < Settings.minimumMasterPasswordLength)
-			throw new Error('Your master password must be at least 16 characters.');
+			throw new Error(`Your master password must be at least ${
+				Settings.minimumMasterPasswordLength} characters.`);
 
 		if(!masterPasswordConfirmation)
 			throw new Error('Please confirm your master password.');
 
 		if(masterPassword !== masterPasswordConfirmation)
-			throw new Error('The entered passwords do not match.');
+			throw new Error('The entered master passwords do not match.');
 	}
 
 

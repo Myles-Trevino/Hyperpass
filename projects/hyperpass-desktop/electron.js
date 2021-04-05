@@ -44,7 +44,7 @@ function createWindow()
 	// window.webContents.openDevTools();
 
 	// Open new tab links in the browser.
-	window.webContents.setWindowOpenHandler((event, url) =>
+	window.webContents.on('new-window', function(event, url)
 	{
 		event.preventDefault();
 		Electron.shell.openExternal(url);

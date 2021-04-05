@@ -8,7 +8,9 @@
 /* Layout. */
 @mixin mobile{ @media only screen and (max-width: 39rem){ @content; } }
 
-@mixin vertical{ @media only screen and (max-width: 48rem){ @content; } }
+@mixin vertical{ @media only screen and (max-width: 59rem){ @content; } }
+
+@mixin app-vertical{ @media only screen and (max-width: 48rem){ @content; } }
 
 
 /* Shading. */

@@ -6,7 +6,7 @@
 
 
 import FS from 'fs';
-import Express from 'express';
+import type Express from 'express';
 import Handlebars from 'handlebars';
 import Nodemailer from 'nodemailer';
 
@@ -34,18 +34,19 @@ export function sendEmail(templateName: string, subject: string,
 		`./email-templates/${templateName}`, 'utf-8'))(context);
 
 	// Configure Nodemailer.
+	if(!process.env.EMAIL_HOST || !process.env.EMAIL_PORT ||
+		!process.env.EMAIL_USERNAME || !process.env.EMAIL_PASSWORD)
+		throw new Error('Missing email environment variables.');
+
 	const transporter = Nodemailer.createTransport
 	({
-		host: 'smtp.gmail.com',
-		port: 465,
+		host: process.env.EMAIL_HOST,
+		port: Number.parseInt(process.env.EMAIL_PORT),
 		secure: true,
 		auth:
 		{
-			type: 'OAuth2',
 			user: process.env.EMAIL_USERNAME,
-			clientId: process.env.EMAIL_CLIENT_ID,
-			clientSecret: process.env.EMAIL_CLIENT_SECRET,
-			refreshToken: process.env.EMAIL_REFRESH_TOKEN
+			pass: process.env.EMAIL_PASSWORD
 		}
 	});
 

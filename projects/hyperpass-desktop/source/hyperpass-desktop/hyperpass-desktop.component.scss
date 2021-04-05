@@ -48,7 +48,7 @@
 	width: var(--titlebar-button-diameter);
 	height: var(--titlebar-button-diameter);
 	border-radius: calc(var(--titlebar-button-diameter) / 2);
-	border: var(--line-width) solid var(--text-color);
+	box-shadow: inset 0 0 0 var(--line-width) var(--text-color);
 	transition: background-color var(--regular-transition-duration);
 
 	&:hover{ background-color: var(--text-color); }

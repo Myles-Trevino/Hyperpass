@@ -13,6 +13,8 @@
 	position: relative;
 	grid-template-rows: min-content auto;
 	gap: 0;
+
+	@include mobile{ padding: var(--medium-radius) 0 0 0; }
 }
 
 .app-top-bar
@@ -25,6 +27,8 @@
 		justify-self: left;
 		max-width: 35rem;
 	}
+
+	@include mobile{ padding: 0 var(--medium-radius); }
 }
 
 :host ::ng-deep .app-top-bar hyperpass-svg
@@ -71,10 +75,12 @@
 	.tile-content
 	{
 		position: relative;
-		height: 9rem;
+		height: 10rem;
 		border: none;
 		background-color: var(--main-color);
 		transition: background-color var(--regular-transition-duration);
+
+		@include mobile{ height: 9.5rem; }
 
 		&:hover
 		{
@@ -102,16 +108,16 @@
 .vault-tile-content
 {
 	display: grid;
-	gap: .6rem;
-	padding-top: .5rem;
+	padding-top: .2rem;
 }
 
 .vault-tile-bar
 {
-	display: flex;
+	display: grid;
+	grid-template-columns: auto repeat(2, min-content);
 	align-items: center;
 	gap: var(--very-small-gap);
-	height: 2.6rem;
+	height: 2.5rem;
 	min-width: 0;
 	background-color: var(--alternate-color);
 	transition: background-color var(--regular-transition-duration);
@@ -126,8 +132,9 @@
 
 .vault-tag-container
 {
-	display: flex;
-	flex-grow: 1;
+	display: grid;
+	grid-auto-flow: column;
+	width: min-content;
 	gap: .75rem;
 
 	.app-tag

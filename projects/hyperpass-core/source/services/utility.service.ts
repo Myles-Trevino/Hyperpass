@@ -89,7 +89,7 @@ export class UtilityService
 	// enumerating the new entry's key if necessary.
 	public uniqueAppend<T>(newEntries: Record<string, T>,
 		existingEntries: Record<string, T>, duplicateCallback?: (a: T, b: T) => boolean,
-		merge = false): Record<string, T>
+		merge = false, mergeCallback?: (a: T, b: T) => T): Record<string, T>
 	{
 		for(const [key, value] of Object.entries(newEntries))
 		{
@@ -97,8 +97,11 @@ export class UtilityService
 			if(duplicateCallback && _.has(existingEntries, key) &&
 				duplicateCallback(value, existingEntries[key])) continue;
 
-			// Add the entry. If not merging, make sure the key is unique.
-			existingEntries[merge ? key :
+			// Add the entry.
+			if(merge && _.has(existingEntries, key) && mergeCallback)
+				existingEntries[key] = mergeCallback(existingEntries[key], value);
+
+			else existingEntries[merge ? key :
 				this.generateUniqueKey(key, existingEntries)] = value;
 		}
 
@@ -172,6 +175,18 @@ export class UtilityService
 	}
 
 
-	// Return 0 for disabling Angular keyvalue pipe sorting.
-	public returnZero(): number { return 0; }
+	// Adds the given entry to vault entry history.
+	public addToVaultEntryHistory(history: Types.VaultEntryHistoryEntry[],
+		entry: string): Types.VaultEntryHistoryEntry[]
+	{
+		if(entry === '') return history;
+		const result = _.cloneDeep(history);
+
+		// Add the entry to history if it differs from the previous entry.
+		if(result.length === 0 || result[0].entry !== entry)
+			result.unshift({date: new Date(), entry});
+
+		// Limit the number of entries.
+		return result.slice(0, Settings.maximumHistoryEntries);
+	}
 }

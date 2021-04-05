@@ -34,7 +34,7 @@
 #support-tiles
 {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
 	gap: var(--large-gap);
 }
 
@@ -44,4 +44,26 @@
 {
 	grid-auto-flow: row;
 	gap: .5rem;
+}
+
+
+/* Articles. */
+.article
+{
+	display: grid;
+	min-height: calc(100vh - var(--navbar-height));
+}
+
+.article-section
+{
+	display: grid;
+	gap: var(--small-gap);
+	justify-self: center;
+	align-self: center;
+	max-width: var(--page-content-width-limit);
+	padding: var(--large-gap);
+
+	@include mobile{ padding: var(--medium-gap); }
+
+	p{ text-align: justify; }
 }

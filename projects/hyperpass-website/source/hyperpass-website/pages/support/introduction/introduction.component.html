@@ -1,0 +1,177 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<div class="article">
+
+	<!-- An Introduction to Hyperpass. -->
+	<div class="article-section">
+		<h3>An Introduction to Hyperpass</h3>
+
+		<p>With all the digital accounts we have, password management is essential. We need a secure place to keep all our digital account information, and we need to be able to access that information from anywhere. Hyperpass is a password manager with a modern and consistent user interface available across web, desktop, and mobile. You can securely store your account information in the Hyperpass vault and access it from any device.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Creating an Account. -->
+	<div class="article-section">
+		<h3>Creating an Account</h3>
+
+		<p>To get started, you will need to make an account. On the <a href="signup" target="_blank">Sign Up</a> page, enter the email address and master password you want to use. Unlike other services, your master password is not stored on Hyperpass servers in any form, and the information you store in your vault is always encrypted before it is sent to Hyperpass servers. This ensures that only you will be able to access your sensitive information, and that the data in your vault will be secure even in the event Hyperpass servers were compromised. However, because only you hold the keys, access to your Hyperpass account or vault cannot be restored if you forget your credentials. With this in mind, please store a physical (printed or written) copy of your Hyperpass login information in a secure location. Pressing the 'Generate' button will create a master password for you. To make your generated master password extra secure, add some human input to it. For example, you could add an additional word or symbol.</p>
+
+		<hyperpass-image-loader [url]="'support/signup-'+themeService.lowercaseTheme" [aspect]="100/43"></hyperpass-image-loader>
+
+		<p>When you are satisfied with your master password, press the 'Sign Up' button on the bottom right. You will then be redirected to the 'Validation' page. To confirm that you own the email address you entered, an email containing a validation code will be sent to you. Enter that code on the validation page to complete the signup process. If you do not see the email address in your inbox, please wait a few minutes or check your spam folder. You can also send the validation email again by pressing the 'Resend' button. After you have entered the code, press the 'Validate' button. You will now be able to log in to your account and start using Hyperpass.</p>
+
+		<hyperpass-image-loader [url]="'support/validation-'+themeService.lowercaseTheme" [aspect]="100/34"></hyperpass-image-loader>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- First Steps. -->
+	<div class="article-section">
+		<h3>First Steps</h3>
+
+		<p>Because Hyperpass is designed to be available wherever you need it, there are many options for app downloads and browser extensions. Using the web app is an easy way to get started as it requires no installation. You can access the web app at any time by going to this website and pressing the 'Web App' button in the navigation menu on the top right. However, if you are using a smartphone, you may want to start with the Android or iOS app instead as it provides a better mobile experience than the web version. Whichever your choice is, the interface of Hyperpass is consistent, so everything covered here can be applied no matter what platform you are using. Any features that are unique to individual platforms will be mentioned specifically.</p>
+
+
+		<hyperpass-image-loader [url]="'support/login-'+themeService.lowercaseTheme" [aspect]="100/30"></hyperpass-image-loader>
+
+		<p>To log in to the app, enter your username and master password, then press the 'Log In' button. You will be brought to the main Hyperpass app. The app has three pages: 'Vault', 'Generator', and 'Options'. By default, you will be on the Vault page. You can switch to the other pages by pressing their titles at the top of the app. Alternatively, if you're on mobile, you can swipe left and right to quickly move between pages.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Vault – Adding Entries. -->
+	<div class="article-section">
+		<h3>Vault – Adding Entries</h3>
+
+		<p>The vault is the main page of the app. This is where you will access all your account data. To add an account into your vault, you will need to create a new vault entry. First, make sure you're on the Vault page. Then, click the '+' icon on the top right of the app.</p>
+
+		<hyperpass-image-loader [url]="'support/empty-vault-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>At minimum, you must fill out the 'Title' input to create a vault entry. Make sure to give your entries descriptive titles so that you can easily identify them later. Below the 'Title' field, you will see the expected 'Username' and 'Password' inputs. The password input has a special button represented by an icon of a die. This icon will appear when you press on or hover over the input. Pressing the button will generate a password for you based on the settings specified on the Generator page.</p>
+
+		<hyperpass-image-loader [url]="'support/new-vault-entry-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>Next is the URL field. This field is essential to autofill functionality. Without an entry here, your account will not appear in the browser extension's autofill menu. Autofilling usernames and passwords will save you a lot of time, so always try to enter a URL into this field even if you do not plan to use the browser extension or autofill immediately. When entering the URL, try to keep them as terse as possible. An example of a good, terse URL is 'amazon.com', and an example of a URL that is too verbose is 'https://www.amazon.com/example-item'. Although usually not necessary, you can add multiple URLs into this field by separating them with commas.</p>
+
+		<p>Following the URL field is the 'Notes' section. Any extra information you want to associate with this vault entry can be added here.</p>
+
+		<p>Last is the 'Tags' section. Tags help you organize your vault. Press the '+' button in the tags section and the tags popup will appear. A list of all your created tags will be displayed on this main page of the popup. To create a new tag, press the 'New' button on the top right. To edit a tag, click the button with the pencil icon, and to delete a tag, click the button with the 'X' icon. If you are on desktop or laptop, you will need to hover over the tag entry for these buttons to appear. Pressing the edit button will take you to a separate 'edit' page where you can change the color and name of the tag. After you have made your modifications, click the 'Save' button and you will be brought back to the main page. To add a tag to the vault entry, click the desired tag entry in the list. The popup will close, and the new tag will appear in the 'Tags' section of the vault entry. You can quickly edit individual tags by clicking directly on them rather than on the '+' button. To remove a tag from the vault entry, press the 'X' button on its right.</p>
+
+		<hyperpass-image-loader [url]="'support/tags-popup-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>When you have finished creating your vault entry, click the 'Save' button on the top right of the app. You will be brought back to the main vault page and your new entry will have been added to the vault.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Vault – Editing Entries. -->
+	<div class="article-section">
+		<h3>Vault – Editing Entries</h3>
+
+		<p>Each entry is represented by a card. The entry's title is at the top, followed by the username and URL. The bar at the bottom contains a list of the entry's tags, as well as buttons for quickly copying the username and password to the clipboard.</p>
+
+		<hyperpass-image-loader [url]="'support/vault-single-entry-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>To edit the vault entry, click on the card. You will be brought back to the page covered in the previous section. However, you will now see a new 'history' button, represented by an icon of a clock encircled by a counterclockwise arrow. This icon is on the 'Username', 'Password', and 'Notes' inputs and will appear when you press on or hover over those inputs. Pressing this icon will open a popup containing the history of saved changes for that input. Each input of each vault entry has its own separate history which can contain a maximum of ten entries. If the history for an input exceeds ten entries, the oldest value will be discarded to make room for the new one.</p>
+
+		<hyperpass-image-loader [url]="'support/vault-entry-history-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>You can copy the history entry's value to the clipboard by clicking the button with the icon of two identical squares on top of each other, and you can delete the history entry by pressing the button with the 'X' icon. On laptop and desktop devices, you must hover over the entry to see these buttons.</p>
+
+		<p>Aside from that addition, the process for editing vault entries is the same as for creating them. When you have completed your changes, click the 'Save' button and you will be brought back to the main vault page.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Vault – Main Page. -->
+	<div class="article-section">
+		<h3>Vault – Main Page</h3>
+
+		<p>After you have added a few entries to your vault, you can try searching through them using the search bar at the top of the main vault page. By default, searching will display any entries whose titles contain a part of the typed value. There are three search modifiers you can use for more advanced searches: 'username:', 'url:', and 'tag:'. These modifiers will search for entries whose usernames, URLs, and tags contain the value following the colon. These tags can be used alongside the default search method as well as in conjunction with one another. To go back to displaying all entries, clear the search bar.</p>
+
+		<hyperpass-image-loader [url]="'support/vault-multiple-entries-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>To the right of the search bar, you will see the history icon mentioned in the last section. Clicking on this will display a list of previously deleted vault entries. You can restore these vault entries by clicking on the button with the icon of a counterclockwise arrow, and you can delete these entries by clicking the button with an 'X' icon. Again, these icons are always visible on mobile, while on laptop or desktop you must hover over the entry to see them.</p>
+
+		<hyperpass-image-loader [url]="'support/vault-history-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>You're now familiar with the vault page, where you can view, add, and edit your data. Next, we'll move on to the generator page.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Generator. -->
+	<div class="article-section">
+		<h3>Generator</h3>
+
+		<p>The generator page is the second of the Hyperpass app's three main pages. The topmost section on the generator page contains the generated password. To copy the displayed password to your clipboard click the 'Copy' button, and to generate a new password, click the 'Generate' button. The section on the bottom left specifies how the password will be generated. By default, these settings are set to a good balance of security and ease of typing. However, it's best to tweak these settings slightly. If your settings are different from the defaults, it will make your passwords more unique and thus more difficult to crack. Increasing the word or number count or changing the separator are good choices for modification. Having fewer than three words or two numbers in your final password is not recommended.</p>
+
+		<hyperpass-image-loader [url]="'support/generator-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>Using passphrases – passwords which use full words as a base – is recommended as they are relatively easy to type while also being secure. Although you generally will not have to type your passwords in manually thanks to Hyperpass' copy to clipboard and autofill functionality, there still may be times where you need to type a password in manually. Nonetheless, for some, the increased security of fully randomized passwords outweighs the potential tedium of typing them. Hyperpass supports both methods of password generation, and you can switch between the two using the 'Mode' dropdown menu.</p>
+
+		<p>Whenever you generate a new password, it will be added to password history, which is displayed on the bottom left. To copy the password to your clipboard, press the button with the icon of two squares on top of each other. To delete the password, press the button with the 'X' icon. On laptop and desktop you must hover over the entry to see these icons. You can clear all history entries by pressing the 'Clear' button on the top right.</p>
+
+		<p>Now you can generate all sorts of passwords with Hyperpass. Let's move on to the final page of the app.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Options. -->
+	<div class="article-section">
+		<h3>Options</h3>
+
+		<p>On the options page, there are some settings and tools you can use. Again, to switch pages, you can press the page's title on the top of the app, or if you are on mobile, you can swipe left and right. At the top of the page, there are two buttons: 'Log Out' and 'Sync'. Pressing 'Log Out' will log you out of Hyperpass on all platforms. You will need to re-enter your master password on each platform to log in on that platform again. Pressing 'Sync' will synchronize your account across all devices. This includes your vault, your generator settings, and the options set on this page.</p>
+
+		<hyperpass-image-loader [url]="'support/options-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>The first option is the 'Theme' option, which has two settings: 'Light' and 'Dark'. Your theme preference will be synchronized across all devices.</p>
+
+		<p>Following that is the 'Login Timeout' option. By default, it is set to 'Never', which means you will never be automatically logged out. For most users this is the most convenient option. However, if you are using Hyperpass on a potentially unattended computer in a public area, or if you just want an extra security measure, you may want to enable a login timeout.</p>
+
+		<p>Next are the import and export options. Note that these options are not available on mobile. Using these, you can create and restore backups of your Hyperpass vault, or import vaults exported from other password managers. First, let's go over the export option.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Options – Importing and Exporting. -->
+	<div class="article-section">
+		<h3>Options – Importing and Exporting</h3>
+
+		<p>When exporting, there are two options for the format: 'Encrypted', and 'Unencrypted'. When you have selected the format you want, press the 'Export' button and your file will be saved to your computer. With encrypted exports, your information will remain secure even if someone gets access to the exported file as long as they don't know your master password. Exporting encrypted vaults regularly and storing them as backups helps ensure that you will never lose your valuable account information. On the other hand, if you export an unencrypted vault, anyone who gets access to that vault file will be able to see all the passwords and other information in your vault. Because of this, only export unencrypted vaults when necessary, and be sure to erase the file after you are done with it.</p>
+
+		<hyperpass-image-loader [url]="'support/export-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>Importing is a bit more complex. First, you must choose the format of the vault you want to import. You can choose from the two Hyperpass formats (encrypted and unencrypted) as well as formats that can be exported by other password managers. If you want to import an encrypted vault, you will need to enter the master password you used at the time you exported that vault so that it can be unencrypted. For any format, you can choose whether you want to trim the URLs in the vault to remove superfluous parts. Enabling this is recommended as URLs with unnecessary parts can cause the browser extension to not recognize the associated account as matching the website you want it to. For example, if you enter an account's URL as 'http://...' and then later access the website using HTTPS, it will not match. Last is the 'Mode' setting, which determines how the new entries will be combined with the existing ones. The default is 'Merge', which replaces existing entries with the values of the new ones if they share the same title. 'Append' is the conservative option. It will not modify any of the existing entries, instead appending a number to any newly imported entries that have the same title as an existing one. 'Overwrite' completely erases all existing entries and then imports the new ones. It is recommended that you export a backup of your existing vault before using this option. When you've selected the import settings you want, you can then press the 'Import' button on the top right. A file selection popup will then allow you to select the vault file you want to import.</p>
+
+		<hyperpass-image-loader [url]="'support/import-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Options, Continued. -->
+	<div class="article-section">
+		<h3>Options, Continued</h3>
+
+		<p>After the 'Import' and 'Export' options is 'Master Password'. If you would like to change your master password, click the 'Change' button, enter the new master password you want to use, and confirm it. Then, press the 'Save' button and your vault will be encrypted using the new master password you entered from now on. The same considerations you made when creating your initial master password should apply. Additionally, because exported vaults are still encrypted using the master password you used at the time you exported them, it is recommended that you do not discard your previously used master passwords.</p>
+
+		<hyperpass-image-loader [url]="'support/master-password-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>Following the 'Master Password' option is the 'Support Page' button. Clicking this will open the support page in your browser in case you need to access this introduction guide or any of the other support articles. Below that is the 'Donate' button. Clicking this will take you to the PayPal donation page. Any support is appreciated! The last section on this page displays the version of Hyperpass you are currently running.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<!-- Congratulations!. -->
+	<div class="article-section">
+		<h3>Congratulations!</h3>
+
+		<p>With that, you have completed the tour. If you would like to revisit a specific topic in more detail, please refer to the individual articles on the support page. Have fun using Hyperpass!</p>
+	</div>
+</div>

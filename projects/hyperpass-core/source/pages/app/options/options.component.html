@@ -38,22 +38,29 @@
 		</div>
 	</div>
 
-	<!-- Change master password. -->
+	<!-- Master password. -->
 	<div class="tile-setting">
-		<span>Change Master Password</span>
+		<span>Master Password</span>
 		<button [routerLink]="['/app', {outlets: {'options': ['master-password']}}]" [skipLocationChange]="true">Change</button>
 	</div>
 
 	<!-- Help. -->
 	<div class="tile-setting">
 		<span>Need Help?</span>
-		<button (click)="support()">Support Page</button>
+		<a [href]="settings_.websiteUrl+'/support'" target="_blank">
+			<button>Support Page</button>
+		</a>
 	</div>
 
 	<!-- Support the project. -->
 	<div class="tile-setting">
-		<span>Support the Project ❤️</span>
-		<a class="donate-link" href="https://www.paypal.com/paypalme/mylestrevino" target="_blank">
+
+		<div id="options-support-the-project-container">
+			<span>Support the Project</span>
+			<hyperpass-svg svg="Heart"></hyperpass-svg>
+		</div>
+
+		<a [href]="settings_.donateUrl" target="_blank">
 			<button>Donate</button>
 		</a>
 	</div>
@@ -61,7 +68,7 @@
 	<!-- Version. -->
 	<div class="tile-section">
 		<span>Version</span>
-		<span class="right-justified">2021.3.26</span>
+		<span class="right-justified">2021.4.5</span>
 	</div>
 
 </div>

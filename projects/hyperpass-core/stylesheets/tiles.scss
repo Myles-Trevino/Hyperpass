@@ -44,7 +44,7 @@
 }
 
 
-.tile-section, .tile-setting
+.tile-section, .tile-setting, .wide-tile-setting
 {
 	display: grid;
 	gap: var(--small-gap);
@@ -69,20 +69,23 @@
 	&:not(:last-child){ border-bottom-color: var(--alternate-color); }
 }
 
-.tile-setting
+.tile-setting, .wide-tile-setting
 {
 	grid-template-columns: 1fr 1fr;
 	grid-auto-flow: row;
 
+	a{ justify-self: right; }
+
+	.tile-setting-text{ grid-column: 1 / 3; }
+}
+
+.wide-tile-setting
+{
 	@include mobile
 	{
 		grid-template-columns: auto;
 		grid-template-rows: auto auto;
 	}
-
-	a{ justify-self: right; }
-
-	.tile-setting-text{ grid-column: 1 / 3; }
 }
 
 .tile-buttons
@@ -101,7 +104,7 @@
 		height: min-content;
 		background-color: var(--alternate-color);
 
-		.tile-section, .tile-setting
+		.tile-section, .tile-setting, .wide-tile-setting
 		{
 			&:not(:last-child){ border-bottom-color: var(--main-color); }
 		}

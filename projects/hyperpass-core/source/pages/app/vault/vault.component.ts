@@ -23,7 +23,8 @@ type Entry =
 {
 	key: string;
 	tags: string[];
-	preview: string;
+	username: string;
+	url: string;
 };
 
 
@@ -144,26 +145,27 @@ export class VaultComponent implements OnInit, OnDestroy
 		this.vault = _.cloneDeep(this.accountService.getVault());
 
 		// Parse the query.
-		const queries: string[] = [];
-		const tagQueries: string[] = [];
+		const queryParts: Types.QueryPart[] = [];
 
 		if(rawQuery)
 		{
 			this.stateService.vault.query = rawQuery;
-			const queryTokens = rawQuery.split(' ');
+			const queryTokens = rawQuery.split(/(?=username:)|(?=url:)|(?=tag:)/);
 
-			queryTokens.forEach((token, index) =>
+			queryTokens.forEach((token) =>
 			{
-				token = token.trim();
-				queryTokens[index] = token;
+				if(!token) return;
+				token = token.trim().toLowerCase();
+				let modifier: Types.QueryModifier | undefined = undefined;
 
-				// Tag queries.
-				if(token.startsWith('tag:'))
-					for(const tagQuery of token.substring(4).split(','))
-						tagQueries.push(tagQuery.toLowerCase());
+				for(const queryModifier of Types.queryModifiers)
+					if(token.startsWith(queryModifier))
+					{
+						modifier = queryModifier;
+						token = token.substring(queryModifier.length);
+					}
 
-				// Normal queries.
-				else queries.push(token.toLowerCase());
+				queryParts.push({modifier, string: token});
 			});
 		}
 
@@ -171,27 +173,16 @@ export class VaultComponent implements OnInit, OnDestroy
 		this.entries = [];
 		for(const [key, value] of Object.entries(this.vault.accounts))
 		{
-			// If the entry does not satisfy the query, skip it.
+			// If the entry does not satisfy a query, skip it.
 			let matches = true;
-
-			// Tag queries.
-			for(const tagQuery of tagQueries)
-			{
-				let tagMatches = false;
-				for(const tag of value.tags)
-					if(tag.toLowerCase().includes(tagQuery)){ tagMatches = true; break; }
-
-				if(!tagMatches){ matches = false; break; }
-			}
-
-			// Regular queries.
-			for(const query of queries)
-				if(!key.toLowerCase().includes(query)){ matches = false; break; }
+			for(const queryPart of queryParts)
+				if(!this.matchesQuery(key, value, queryPart)){ matches = false; break; }
 
 			if(!matches) continue;
 
 			// Otherwise, add the entry.
-			this.entries.push({key, tags: value.tags, preview: value.username});
+			this.entries.push({key, tags: value.tags,
+				username: value.username, url: value.url});
 		}
 
 		this.entries = this.utilityService.naturalSort(this.entries, (entry) => entry.key);
@@ -207,5 +198,34 @@ export class VaultComponent implements OnInit, OnDestroy
 
 		// Initialize SimpleBar.
 		this.stateService.initializeSimpleBar(this.stateService.vault, this.simpleBar);
+	}
+
+
+	// Returns whether the given entry matches the given queries.
+	private matchesQuery(entryName: string,
+		entry: Types.Account, queryPart: Types.QueryPart): boolean
+	{
+		switch(queryPart.modifier)
+		{
+
+			// Username.
+			case 'username:': return entry.username.toLowerCase().includes(queryPart.string);
+
+			// URL.
+			case 'url:': return entry.url.toLowerCase().includes(queryPart.string);
+
+			// Tag.
+			case 'tag:':
+				for(const tagKey of entry.tags)
+				{
+					const tagName = this.vault.tags[tagKey].name;
+					if(tagName.toLowerCase().includes(queryPart.string)) return true;
+				}
+
+				return false;
+
+			// Regular.
+			default: return entryName.toLowerCase().includes(queryPart.string);
+		}
 	}
 }

@@ -1,0 +1,23 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<div class="article">
+
+	<!-- Creating and Restoring Vault Backups. -->
+	<div class="article-section">
+		<h3>Creating and Restoring Vault Backups</h3>
+
+		<p>Creating local backups of your vault helps ensure that you will never lose your valuable account information. To create a backup, first log in to the Hyperpass app and navigate to the Options page. Then, press the 'Export' button. The 'HY Encrypted' option is strongly recommended for backups. Using this option, the content of encrypted exports will be inaccessible to anyone that does not know your master password. On the other hand, if you create an unencrypted export, anyone with access to the file will be able to see the exported data. For this reason, only create backups using the unencrypted option if you know what you're doing. Note that encrypted vault exports can only be decrypted again using the master password that was in use at the time that export was created, so if you change your master password, be sure to keep your old credentials on hand.</p>
+
+		<hyperpass-image-loader [url]="'support/export-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+
+		<p>To restore the content of a backup, go to the Options page again and press the 'Import' button. Select the 'HY Encrypted' format to import an encrypted export file. Next, enter the master password that was in use at the time that export was created. Keeping the 'Trim' option enabled is recommended. Finally, select the 'Mode' you want. 'Merge' is suitable for most cases, while 'Append' is conservative and 'Overwrite' is destructive. If you are curious about the specifics of a mode, select it from the dropdown and its corresponding description will be displayed at the bottom of the page.</p>
+
+		<hyperpass-image-loader [url]="'support/import-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+	</div>
+
+</div>

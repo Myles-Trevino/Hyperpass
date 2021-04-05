@@ -58,9 +58,9 @@
 		<!-- Mode descriptions. -->
 		<div class="tile-section">
 
-			<p *ngIf="mode === 'Append'">Append mode will add the entries contined in the selected file without touching your existing entries. If an imported entry has the same name as an existing entry, a number will be appended to its name. Fully duplicate entries will be skipped.</p>
+			<p *ngIf="mode === 'Append'">Append mode will add the entries contined in the selected file without touching your existing entries. If an imported entry has the same title as an existing entry, a number will be appended to its name. Fully duplicate entries will be skipped.</p>
 
-			<p *ngIf="mode === 'Merge'">In merge mode, if an imported entry has the same name as an existing entry, its values will replace the values of the existing entry. The entry's old values will be retained in history.</p>
+			<p *ngIf="mode === 'Merge'">In merge mode, if an imported entry has the same title as an existing entry, its values will replace the values of the existing entry. The entry's old values will be retained in history.</p>
 
 			<p *ngIf="mode === 'Overwrite'" class="warning-text">Overwrite mode will erase your current vault and replace it with the imported vault. It is recommended that you export your current vault before using this mode.</p>
 

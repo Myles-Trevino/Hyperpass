@@ -23,25 +23,25 @@
 <div class="tile-content">
 
 	<!-- Title. -->
-	<div class="tile-setting">
+	<div class="wide-tile-setting">
 		<span>Title</span>
 		<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="title">
 	</div>
 
 	<!-- Username. -->
-	<div class="tile-setting">
+	<div class="wide-tile-setting">
 
 		<span>Username</span>
 
 		<div class="app-button-input-container">
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.username">
-			<hyperpass-svg svg="History Button" (click)="viewUsernameHistory()"></hyperpass-svg>
+			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewUsernameHistory()"></hyperpass-svg>
 		</div>
 
 	</div>
 
 	<!-- Password. -->
-	<div class="tile-setting">
+	<div class="wide-tile-setting">
 
 		<span>Password</span>
 
@@ -50,7 +50,7 @@
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.password">
 
 			<div class="horizontal-container">
-				<hyperpass-svg svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
+				<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
 				<hyperpass-svg svg="Generate Button" (click)="generatePassword()"></hyperpass-svg>
 			</div>
 
@@ -58,21 +58,21 @@
 
 	</div>
 
-	<!-- URLs. -->
-	<div class="tile-setting">
-		<span>URLs</span>
+	<!-- URL. -->
+	<div class="wide-tile-setting">
+		<span>URL</span>
 		<input type="text" spellcheck="false" autocomplete="off" [ngModel]="state.url" (ngModelChange)="urlChangeCallback($event)">
 		<p *ngIf="showUrlWarning" class="tile-setting-text warning-text">Avoid including unnecessary parts in the URL such as https://, www., and parts after the domain name.</p>
 	</div>
 
 	<!-- Note. -->
-	<div class="tile-setting">
+	<div class="wide-tile-setting">
 
 		<span>Note</span>
 
 		<div class="app-button-input-container">
 			<textarea class="hidden-scrollbars" [(ngModel)]="state.note"></textarea>
-			<hyperpass-svg svg="History Button" (click)="viewNoteHistory()"></hyperpass-svg>
+			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewNoteHistory()"></hyperpass-svg>
 		</div>
 
 	</div>

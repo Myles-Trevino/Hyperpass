@@ -12,11 +12,7 @@ import {RouterModule} from '@angular/router';
 import {AppComponent} from 'hyperpass-core';
 
 
-const routes: Routes =
-[
-	{path: '', redirectTo: '/app', pathMatch: 'full'},
-	{path: 'app', component: AppComponent}
-];
+const routes: Routes = [{path: 'app', component: AppComponent}];
 
 
 @NgModule

@@ -173,6 +173,12 @@ const svgs: Record<string, string> =
 	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 		<circle class="base" cx="16" cy="16" r="16"/>
 		<path class="glyph" d="M13.43,9.39l8.8,6a.74.74,0,0,1,0,1.22l-8.8,6a.76.76,0,0,1-1.2-.61V10A.76.76,0,0,1,13.43,9.39Z"/>
+	</svg>`,
+
+	// Heart.
+	'Heart':
+	`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.12 26.15">
+		<path class="glyph" d="M16,27.87c11.17-11,13.06-13.22,13.06-16.27,0-6.1-4.11-7.47-6.82-7.47a6.61,6.61,0,0,0-5.86,3.61.44.44,0,0,1-.76,0A6.61,6.61,0,0,0,9.76,4.13c-2.71,0-6.82,1.37-6.82,7.47C2.94,14.65,4.83,16.89,16,27.87Z" transform="translate(-1.94 -3.13)"/>
 	</svg>`
 };
 

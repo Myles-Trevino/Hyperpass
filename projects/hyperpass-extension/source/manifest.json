@@ -2,8 +2,8 @@
 	"manifest_version": 2,
 	"author": "Myles Trevino",
 	"name": "Hyperpass",
-	"version": "2021.3.26",
-	"description": "Access all your login information from a single account.",
+	"version": "2021.4.5",
+	"description": "A modern, unified password manager.",
 	"homepage_url": "https://hyperpass.org",
 	"icons":
 	{

@@ -76,7 +76,6 @@
 								"with": "projects/hyperpass-desktop/source/environments/environment.prod.ts"
 							}],
 							"optimization": true,
-							"outputHashing": "all",
 							"sourceMap": false,
 							"namedChunks": false,
 							"aot": true,
@@ -216,7 +215,6 @@
 								"with": "projects/hyperpass-mobile/source/environments/environment.prod.ts"
 							}],
 							"optimization": true,
-							"outputHashing": "all",
 							"sourceMap": false,
 							"namedChunks": false,
 							"aot": true,
@@ -284,7 +282,6 @@
 								"with": "projects/hyperpass-website/source/environments/environment.prod.ts"
 							}],
 							"optimization": true,
-							"outputHashing": "all",
 							"sourceMap": false,
 							"namedChunks": false,
 							"aot": true,
@@ -326,7 +323,6 @@
 					{
 						"production":
 						{
-							"outputHashing": "media",
 							"fileReplacements":
 							[{
 								"replace": "projects/hyperpass-website/source/environments/environment.ts",

@@ -33,7 +33,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 
 	public key?: string;
 	public title = '';
-	public state: Types.Account = Types.defaultAccount;
+	public state: Types.Account = _.cloneDeep(Types.defaultAccount);
 	public showUrlWarning = false;
 
 	private modalSubscription?: Subscription;
@@ -57,7 +57,6 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 		if(this.key)
 		{
 			this.title = this.key;
-
 			const account = this.getAccounts()[this.key];
 			this.state = _.cloneDeep(account);
 		}
@@ -114,9 +113,14 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 			if(!hasDefault) this.state.default = true;
 
 			// Update the history.
-			this.addToHistory(this.state.username, this.state.usernameHistory);
-			this.addToHistory(this.state.password, this.state.passwordHistory);
-			this.addToHistory(this.state.note, this.state.noteHistory);
+			this.state.usernameHistory = this.utilityService.addToVaultEntryHistory(
+				this.state.usernameHistory, this.state.username);
+
+			this.state.passwordHistory = this.utilityService.addToVaultEntryHistory(
+				this.state.passwordHistory, this.state.password);
+
+			this.state.noteHistory = this.utilityService.addToVaultEntryHistory(
+				this.state.noteHistory, this.state.note);
 
 			// Update the vault.
 			this.pushAndExit();
@@ -142,7 +146,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 			// Add the entry to history.
 			const vault = this.accountService.getVault();
 			vault.history.unshift({key: this.key, value: this.state, date: new Date()});
-			if(vault.history.length > Settings.maximumHistoryEntries) vault.history.pop();
+			vault.history = vault.history.slice(0, Settings.maximumHistoryEntries);
 
 			// Delete.
 			if(this.key) delete accounts[this.key];
@@ -205,20 +209,6 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 	// Returns the vault's account entries.
 	private getAccounts(): Record<string, Types.Account>
 	{ return this.accountService.getVault().accounts; }
-
-
-	// Appends the given entry to history if appropriate.
-	private addToHistory(entry: string, history: Types.VaultEntryHistoryEntry[]): void
-	{
-		if(!entry) return;
-
-		// Add the entry to history if it differs from the previous entry.
-		if(history.length === 0 || history[0].entry !== entry)
-			history.unshift({date: new Date(), entry});
-
-		// If the number of entries exceeds the maximum allowed, remove the oldest entry.
-		if(history.length > Settings.maximumHistoryEntries) history.pop();
-	}
 
 
 	// Opens the history modal for the given history entries.
