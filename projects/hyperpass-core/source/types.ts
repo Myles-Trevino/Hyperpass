@@ -17,7 +17,7 @@ export const defaultScrollState = {scrollPosition: 0};
 export type VaultState = ScrollState &
 {
 	page: number;
-	query: string;
+	query?: string;
 };
 
 export const defaultVaultState: VaultState =

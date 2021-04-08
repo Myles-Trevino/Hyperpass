@@ -99,10 +99,6 @@ export class ThemeService
 	}
 
 
-	// Returns the preferred theme name.
-	public getThemeName(): Types.Theme { return this.theme; }
-
-
 	// Returns whether the dark theme is preferred.
 	private isDarkThemePreferred(): boolean
 	{ return window.matchMedia('(prefers-color-scheme: dark)').matches; }

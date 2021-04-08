@@ -29,6 +29,8 @@
 
 html{ background-color: var(--background-color); }
 
+.hidden{ opacity: 0; }
+
 
 /* Animations. */
 @keyframes fade-in

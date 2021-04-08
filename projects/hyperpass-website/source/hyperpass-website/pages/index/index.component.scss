@@ -17,6 +17,17 @@
 }
 
 
+/* Canvas. */
+canvas
+{
+	z-index: -1;
+	position: fixed;
+	top: 0;
+	left: 0;
+	transition: opacity var(--regular-transition-duration);
+}
+
+
 /* Main. */
 #index-main
 {
@@ -47,9 +58,10 @@
 {
 	display: grid;
 	gap: var(--large-gap);
-	margin: var(--large-gap) 0;
+	padding: var(--large-gap) 0;
 	grid-auto-flow: row;
 	align-items: center;
+	background-color: var(--semitransparent-background-color);
 
 	@include mobile{ gap: 7rem; }
 }

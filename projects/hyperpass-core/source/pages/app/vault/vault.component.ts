@@ -138,19 +138,26 @@ export class VaultComponent implements OnInit, OnDestroy
 
 
 	// Generates the page.
-	public generatePage(rawQuery?: string): void
+	public generatePage(query?: string, newQuery = false): void
 	{
 		this.loading = true;
 		this.changeDetectorRef.detectChanges();
 		this.vault = _.cloneDeep(this.accountService.getVault());
 
+		// Update the state on new queries.
+		if(newQuery)
+		{
+			this.stateService.vault.query = query;
+			this.stateService.vault.page = 1;
+			this.stateService.vault.scrollPosition = 0;
+		}
+
 		// Parse the query.
 		const queryParts: Types.QueryPart[] = [];
-
-		if(rawQuery)
+		if(this.stateService.vault.query)
 		{
-			this.stateService.vault.query = rawQuery;
-			const queryTokens = rawQuery.split(/(?=username:)|(?=url:)|(?=tag:)/);
+			const queryTokens =
+				this.stateService.vault.query.split(/(?=username:)|(?=url:)|(?=tag:)/);
 
 			queryTokens.forEach((token) =>
 			{
@@ -188,7 +195,6 @@ export class VaultComponent implements OnInit, OnDestroy
 		this.entries = this.utilityService.naturalSort(this.entries, (entry) => entry.key);
 
 		// Get the page entries.
-		if(rawQuery) this.stateService.vault.page = 1;
 		this.pageCount = Math.floor(this.entries.length/this.pageSize)+1;
 		const startIndex = this.pageSize*(this.stateService.vault.page-1);
 		this.pageEntries = this.entries.slice(startIndex, startIndex+this.pageSize);

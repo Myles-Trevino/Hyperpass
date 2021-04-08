@@ -5,6 +5,6 @@
 -->
 
 
-<div id="image-loader-container" [ngClass]="{'loaded': !loading}" style="--aspect: {{1/aspect*100}}%;">
+<div id="image-loader-container" [ngClass]="{'loaded': !loading}" style="--aspect: {{1/aspect*100}}%; --vertical-aspect: {{1/verticalAspect*100}}%">
 	<img src="{{imageSource}}" [@imageFadeAnimation]="loading ? 'hide' : 'show'" (load)="loading = false">
 </div>

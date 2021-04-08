@@ -25,6 +25,7 @@ export class ImageLoaderComponent implements OnInit
 {
 	@Input() public url = '';
 	@Input() public aspect = 2/1;
+	@Input() public verticalAspect = 2/1;
 
 	public imageSource?: string;
 	public loading = true;

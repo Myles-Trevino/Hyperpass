@@ -94,7 +94,7 @@ export class SignupComponent implements OnInit
 
 			// Generate the initial vault, and compress and encrypt it.
 			const vault: Types.Vault = Types.defaultVault;
-			vault.settings.theme = this.themeService.getThemeName();
+			vault.settings.theme = this.themeService.theme;
 
 			const encryptedVault =
 				this.cryptoService.compressAndEncrypt(JSON.stringify(vault),

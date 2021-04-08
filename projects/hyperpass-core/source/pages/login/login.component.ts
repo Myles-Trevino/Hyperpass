@@ -6,7 +6,7 @@
 
 
 import type {OnInit} from '@angular/core';
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, HostListener} from '@angular/core';
 import {Router} from '@angular/router';
 
 import * as Settings from '../../settings';
@@ -29,6 +29,14 @@ export class LoginComponent implements OnInit
 
 	public emailAddress = '';
 	public masterPassword = '';
+
+
+	// Keypress callback.
+	@HostListener('document:keypress', ['$event'])
+	public handleKeyboardEvent(event: KeyboardEvent): void
+	{
+		if(event.key === 'Enter') this.logIn();
+	}
 
 
 	// Constructor.

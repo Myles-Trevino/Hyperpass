@@ -122,8 +122,12 @@
 						"assets":
 						[
 							"projects/hyperpass-extension/source/favicon.png",
-							"projects/hyperpass-extension/source/assets",
-							"projects/hyperpass-extension/source/manifest.json"
+							"projects/hyperpass-extension/source/manifest.json",
+							{
+								"glob": "*",
+								"input": "projects/hyperpass-extension/source/assets/icons",
+								"output": "."
+							}
 						],
 						"allowedCommonJsDependencies":
 						[

@@ -15,7 +15,7 @@
 
 		<p>Next, let's go through importing the exported data into Hyperpass. First, log in to the Hyperpass app, navigate to the Options page, and press the 'Import' button. Then, select the format of the vault you want to import. The format you select should correspond with the name of your previous password manager.</p>
 
-		<hyperpass-image-loader [url]="'support/import-'+themeService.lowercaseTheme"></hyperpass-image-loader>
+		<hyperpass-image-loader [url]="'support/import-'+themeService.lowercaseTheme" [verticalAspect]="100/66"></hyperpass-image-loader>
 
 		<p>In most cases, you will want to leave the 'Trim' option enabled. This will remove unnecessary parts of the URLs your accounts are associated with. Finally, select the 'Mode' you want. 'Merge' is suitable for most cases, while 'Append' is conservative and 'Overwrite' is destructive. If you are curious about the specifics of a mode, select it from the dropdown and its corresponding description will be displayed at the bottom of the page.</p>
 
