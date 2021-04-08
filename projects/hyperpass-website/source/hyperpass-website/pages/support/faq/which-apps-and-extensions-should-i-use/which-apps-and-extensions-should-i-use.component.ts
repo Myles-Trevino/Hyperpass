@@ -5,7 +5,10 @@
 */
 
 
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+
+import {MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -15,7 +18,22 @@ import {Component, HostBinding} from '@angular/core';
 	styleUrls: ['../../support.component.scss']
 })
 
-export class WhichAppsAndExtensionsShouldIUseComponent
+export class WhichAppsAndExtensionsShouldIUseComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
+
+
+	// Constructor.
+	public constructor(private readonly metadataService: MetadataService){}
+
+
+	// Initializer.
+	public ngOnInit(): void
+	{
+		this.metadataService.clear();
+		this.metadataService.setTitle('Which Apps and Extensions Should I Use? - Support');
+		this.metadataService.setDescription(
+			'Discover which Hyperpass apps and extensions work for you.');
+		this.metadataService.setImage('support');
+	}
 }

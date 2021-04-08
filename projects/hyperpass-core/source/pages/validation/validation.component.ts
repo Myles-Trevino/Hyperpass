@@ -13,6 +13,9 @@ import * as Animations from '../../animations';
 import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
 import {ApiService} from '../../services/api.service';
+import {MetadataService} from '../../services/metadata.service';
+import {PlatformService} from '../../services/platform.service';
+
 
 @Component
 ({
@@ -31,11 +34,22 @@ export class ValidationComponent implements OnInit
 	public constructor(private readonly router: Router,
 		private readonly apiService: ApiService,
 		private readonly accountService: AccountService,
-		private readonly messageService: MessageService){}
+		private readonly messageService: MessageService,
+		private readonly metadataService: MetadataService,
+		private readonly platformService: PlatformService){}
 
 
 	public async ngOnInit(): Promise<void>
 	{
+		// Metadata.
+		this.metadataService.clear();
+		this.metadataService.setTitle('Validation');
+		this.metadataService.setDescription(
+			'Validate your account to start using Hyperpass.');
+		this.metadataService.setImage('validation');
+
+		if(this.platformService.isServer()) return;
+
 		try
 		{
 			// Redirect to the login page if an access key has not been obtained.

@@ -9,6 +9,8 @@ import type {OnInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 import {Router} from '@angular/router';
 
+import {MetadataService} from 'hyperpass-core';
+
 
 @Component
 ({
@@ -28,11 +30,20 @@ export class NotFoundComponent implements OnInit, OnDestroy
 
 
 	// Constructor.
-	public constructor(private readonly router: Router){}
+	public constructor(private readonly router: Router,
+		private readonly metadataService: MetadataService){}
 
 
 	// Initializer.
-	public ngOnInit(): void { this.redirect(); }
+	public ngOnInit(): void
+	{
+		this.redirect();
+		this.metadataService.clear();
+		this.metadataService.setTitle('Not Found');
+		this.metadataService.setDescription('The requested '+
+			'page or resource couldn\'t be found.');
+		this.metadataService.setImage('not-found');
+	}
 
 
 	// Destructor.

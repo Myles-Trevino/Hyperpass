@@ -12,6 +12,7 @@ import {StateService} from '../../../../services/state.service';
 import {MessageService} from '../../../../services/message.service';
 import {AccountService} from '../../../../services/account.service';
 import {UtilityService} from '../../../../services/utility.service';
+import {PlatformService} from '../../../../services/platform.service';
 import {HistoryModalBaseDirective} from '../history-modal-base.directive';
 
 
@@ -26,12 +27,14 @@ export class VaultHistoryModalComponent extends
 	HistoryModalBaseDirective<Types.VaultHistoryEntry>
 {
 	// Constructor.
-	public constructor(protected readonly stateService: StateService,
+	public constructor(public readonly platformService: PlatformService,
+		protected readonly stateService: StateService,
 		protected readonly messageService: MessageService,
 		public readonly utilityService: UtilityService,
 		private readonly accountService: AccountService)
 	{
-		super(stateService, messageService, stateService.vaultHistoryModal.history);
+		super(platformService, stateService, messageService,
+			stateService.vaultHistoryModal.history);
 	}
 
 

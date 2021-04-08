@@ -9,7 +9,11 @@
 @import "../../../../stylesheets/variables.scss";
 
 
-:host{ width: 100%; }
+:host
+{
+	width: 100%;
+	min-height: var(--minimum-page-height);
+}
 
 
 :host ::ng-deep
@@ -97,21 +101,11 @@
 #history-container .tile-section
 {
 	padding: 0 var(--medium-radius);
-	grid-template-columns: auto repeat(2, min-content);
+	grid-template-columns: auto min-content;
 
 	input
 	{
 		box-shadow: none;
 		height: 1.5rem;
 	}
-
-	hyperpass-svg
-	{
-		opacity: 0;
-		transition: opacity var(--regular-transition-duration);
-
-		@include mobile{ opacity: 1; }
-	}
-
-	&:hover hyperpass-svg{ opacity: 1; }
 }

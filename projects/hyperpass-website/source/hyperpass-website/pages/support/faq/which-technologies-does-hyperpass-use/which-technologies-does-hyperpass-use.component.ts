@@ -5,7 +5,10 @@
 */
 
 
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+
+import {MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -15,7 +18,22 @@ import {Component, HostBinding} from '@angular/core';
 	styleUrls: ['../../support.component.scss']
 })
 
-export class WhichTechnologiesDoesHyperpassUseComponent
+export class WhichTechnologiesDoesHyperpassUseComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
+
+
+	// Constructor.
+	public constructor(private readonly metadataService: MetadataService){}
+
+
+	// Initializer.
+	public ngOnInit(): void
+	{
+		this.metadataService.clear();
+		this.metadataService.setTitle('Which Technologies Does Hyperpass Use? - Support');
+		this.metadataService.setDescription(
+			'Learn about the technologies that were used to create Hyperpass.');
+		this.metadataService.setImage('support');
+	}
 }

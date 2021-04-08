@@ -42,10 +42,10 @@ h1, h2, h3, h4
 
 h1
 {
-	font-size: 4rem;
-	letter-spacing: -.15rem;
+	font-size: 6rem;
+	letter-spacing: -.25rem;
 
-	@include mobile{ font-size: 3.1rem; }
+	@include mobile{ font-size: 4.6rem; }
 }
 
 h2

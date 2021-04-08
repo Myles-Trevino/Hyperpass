@@ -14,6 +14,8 @@ import * as Animations from '../../animations';
 import {AccountService} from '../../services/account.service';
 import {StateService} from '../../services/state.service';
 import {VaultComponent} from '../../pages/app/vault/vault.component';
+import {PlatformService} from '../../services/platform.service';
+import {MetadataService} from '../../services/metadata.service';
 
 
 @Component
@@ -36,9 +38,11 @@ export class AppComponent implements OnInit
 
 
 	// Constructor.
-	public constructor(private readonly accountService: AccountService,
-		private readonly router: Router, public readonly stateService: StateService,
-		private readonly ionicPlatform: Ionic.Platform){}
+	public constructor(private readonly router: Router,
+		private readonly accountService: AccountService,
+		public readonly stateService: StateService,
+		private readonly platformService: PlatformService,
+		private readonly metadataService: MetadataService){}
 
 
 	// Pointer movement callback.
@@ -49,6 +53,14 @@ export class AppComponent implements OnInit
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
+		// Metadata.
+		this.metadataService.clear();
+		this.metadataService.setTitle('Web App');
+		this.metadataService.setDescription('Access Hyperpass from your browser.');
+		this.metadataService.setImage('web-app');
+
+		if(this.platformService.isServer()) return;
+
 		// If not logged in, attempt to log in with the cached login data.
 		if(!this.accountService.loggedIn) await this.accountService.automaticLogIn();
 
@@ -60,7 +72,7 @@ export class AppComponent implements OnInit
 		}
 
 		// Otherwise, initialize.
-		this.enableSwiping = this.ionicPlatform.is('mobile');
+		this.enableSwiping = this.platformService.isMobile();
 		this.tab = 'Vault';
 	}
 

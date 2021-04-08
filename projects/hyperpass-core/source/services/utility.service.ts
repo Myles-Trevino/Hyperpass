@@ -5,9 +5,9 @@
 */
 
 
-import {Injectable, Inject, PLATFORM_ID} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {isPlatformServer, formatDate} from '@angular/common';
+import {formatDate} from '@angular/common';
 import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 
@@ -28,7 +28,6 @@ export class UtilityService
 
 	// Constructor.
 	public constructor(
-		@Inject(PLATFORM_ID) private readonly platformId: Object,
 		private readonly route: ActivatedRoute,
 		private readonly themeService: ThemeService,
 		private readonly cryptoService: CryptoService,
@@ -52,10 +51,6 @@ export class UtilityService
 		await this.cryptoService.initialize();
 		await this.generatorService.initialize();
 	}
-
-
-	// Checks whether the platform is the server or the browser.
-	public isServer(): boolean { return isPlatformServer(this.platformId); }
 
 
 	// Sleeps for the given duration in milliseconds.

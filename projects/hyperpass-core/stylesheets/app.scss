@@ -78,16 +78,6 @@
 	&:not(:last-child){ border-bottom-color: var(--alternate-color); }
 
 	hyperpass-svg{ height: 1.6rem; }
-
-	.svg-button
-	{
-		opacity: 0;
-		transition: opacity var(--regular-transition-duration);
-
-		@include mobile{ opacity: 1; }
-	}
-
-	&:hover .svg-button{ opacity: 1; }
 }
 
 .app-button-input-container
@@ -113,15 +103,11 @@
 
 
 /* Ionic. */
-ion-slides
+ion-slides ion-slide.swiper-slide
 {
-	width: 100%;
-
-	ion-slide.swiper-slide
-	{
-		text-align: unset;
-		height: var(--app-page-height);
-	}
+	text-align: unset;
+	height: var(--app-page-height);
+	min-height: var(--minimum-page-height);
 }
 
 ion-spinner

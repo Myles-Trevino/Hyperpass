@@ -5,7 +5,10 @@
 */
 
 
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+
+import {MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -15,7 +18,21 @@ import {Component, HostBinding} from '@angular/core';
 	styleUrls: ['../../support.component.scss']
 })
 
-export class WhoIsBehindThisProjectComponent
+export class WhoIsBehindThisProjectComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
+
+
+	// Constructor.
+	public constructor(private readonly metadataService: MetadataService){}
+
+
+	// Initializer.
+	public ngOnInit(): void
+	{
+		this.metadataService.clear();
+		this.metadataService.setTitle('Who is Behind This Project? - Support');
+		this.metadataService.setDescription('A message from the creator of Hyperpass.');
+		this.metadataService.setImage('support');
+	}
 }

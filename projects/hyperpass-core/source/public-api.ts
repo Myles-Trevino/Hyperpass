@@ -32,3 +32,5 @@ export * from './services/generator.service';
 export * from './services/message.service';
 export * from './services/theme.service';
 export * from './services/utility.service';
+export * from './services/platform.service';
+export * from './services/metadata.service';

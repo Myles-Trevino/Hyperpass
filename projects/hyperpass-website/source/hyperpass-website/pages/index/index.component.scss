@@ -24,31 +24,21 @@
 	justify-items: center;
 	align-items: center;
 	height: calc(100vh - var(--navbar-height));
-}
 
-#index-main .tile
-{
-	grid-template-rows: 13rem auto;
-	justify-items: center;
-	align-items: center;
-	margin-bottom: 2rem;
-
-	button{ width: 11rem; }
-
-	@include vertical
+	#main-container
 	{
-		grid-template-rows: 8rem auto;
-		width: var(--maximum-column-width);
-
-		.tile-buttons
-		{
-			justify-self: center;
-			justify-items: center;
-			grid-auto-flow: row;
-		}
+		display: grid;
+		gap: var(--medium-gap);
+		justify-items: center;
 	}
 
-	@include mobile{ width: calc(100% - var(--small-gap) * 2); }
+	.horizontal-container
+	{
+		justify-items: center;
+		width: 100%;
+
+		button{ width: 10rem; }
+	}
 }
 
 

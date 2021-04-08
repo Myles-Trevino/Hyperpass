@@ -10,7 +10,7 @@ import type {Routes} from '@angular/router';
 import {RouterModule} from '@angular/router';
 
 import {IndexComponent} from './pages/index/index.component';
-import {DownloadComponent} from './pages/download/download.component';
+import {DownloadsComponent} from './pages/downloads/downloads.component';
 import {SupportComponent} from './pages/support/support.component';
 import {NotFoundComponent} from './pages/not-found/not-found.component';
 
@@ -34,7 +34,7 @@ const routes: Routes =
 [
 	{path: '', pathMatch: 'full', component: IndexComponent},
 
-	{path: 'download', component: DownloadComponent},
+	{path: 'downloads', component: DownloadsComponent},
 
 	{path: 'support', component: SupportComponent},
 	{path: 'support/introduction', component: IntroductionComponent},

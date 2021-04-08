@@ -17,7 +17,7 @@
 
 	<!-- Entries. -->
 	<ngx-simplebar *ngIf="hasHistory">
-	<div *ngFor="let entry of history; index as index" class="app-modal-entry">
+	<div *ngFor="let entry of history; index as index" class="app-modal-entry hoverable-container">
 
 		<!-- Preview. -->
 		<div class="history-preview">
@@ -25,11 +25,15 @@
 			<span>{{entry.entry}}</span>
 		</div>
 
-		<!-- Copy button. -->
-		<hyperpass-svg svg="Copy Button" [cdkCopyToClipboard]="entry.entry" (click)="messageService.message('Copied.')"></hyperpass-svg>
+		<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
 
-		<!-- Delete button. -->
-		<hyperpass-svg svg="Delete Button" (click)="delete(index)"></hyperpass-svg>
+			<!-- Copy button. -->
+			<hyperpass-svg svg="Copy Button" [cdkCopyToClipboard]="entry.entry" (click)="messageService.message('Copied.')"></hyperpass-svg>
+
+			<!-- Delete button. -->
+			<hyperpass-svg svg="Delete Button" (click)="delete(index)"></hyperpass-svg>
+
+		</div>
 
 	</div>
 	</ngx-simplebar>

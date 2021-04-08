@@ -11,6 +11,7 @@ import type {Subscription} from 'rxjs';
 
 import type * as Types from '../types';
 import {MessageService} from '../services/message.service';
+import {PlatformService} from '../services/platform.service';
 import {UtilityService} from '../services/utility.service';
 
 
@@ -37,13 +38,14 @@ export class MessageComponent implements OnInit, OnDestroy
 
 	// Constructor.
 	public constructor(private readonly utilityService: UtilityService,
+		private readonly platformService: PlatformService,
 		private readonly messageService: MessageService){}
 
 
 	// Initializer.
 	public ngOnInit(): void
 	{
-		if(this.utilityService.isServer()) return;
+		if(this.platformService.isServer()) return;
 
 		this.subscription = this.messageService.messages.asObservable()
 			.subscribe((messageData) => { this.messageCallback(messageData); });

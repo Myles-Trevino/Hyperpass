@@ -5,9 +5,10 @@
 */
 
 
-import {ThemeService} from 'hyperpass-core';
-
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+
+import {ThemeService, MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -17,11 +18,23 @@ import {Component, HostBinding} from '@angular/core';
 	styleUrls: ['../../support.component.scss']
 })
 
-export class CreatingAndRestoringVaultBackupsComponent
+export class CreatingAndRestoringVaultBackupsComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
 
 
 	// Constructor.
-	public constructor(public readonly themeService: ThemeService){}
+	public constructor(public readonly themeService: ThemeService,
+		private readonly metadataService: MetadataService){}
+
+
+	// Initializer.
+	public ngOnInit(): void
+	{
+		this.metadataService.clear();
+		this.metadataService.setTitle('Creating and Restoring Vault Backups - Support');
+		this.metadataService.setDescription(
+			'How to create and restore vault backups in Hyperpass.');
+		this.metadataService.setImage('support');
+	}
 }

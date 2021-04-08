@@ -5,7 +5,7 @@
 */
 
 
-.app-modal-entry{ grid-template-columns: auto repeat(2, min-content); }
+.app-modal-entry{ grid-template-columns: auto min-content; }
 
 
 .history-preview

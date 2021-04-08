@@ -13,6 +13,7 @@ import * as Settings from '../../settings';
 import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
 import {StorageService} from '../../services/storage.service';
+import {MetadataService} from '../../services/metadata.service';
 
 
 @Component
@@ -34,12 +35,19 @@ export class LoginComponent implements OnInit
 	public constructor(private readonly router: Router,
 		public readonly accountService: AccountService,
 		private readonly messageService: MessageService,
-		private readonly storageService: StorageService){}
+		private readonly storageService: StorageService,
+		private readonly metadataService: MetadataService){}
 
 
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
+		// Metadata.
+		this.metadataService.clear();
+		this.metadataService.setTitle('Login');
+		this.metadataService.setDescription('Log in to start using the Hyperpass web app.');
+		this.metadataService.setImage('login');
+
 		// Load the cached email address if there is one.
 		const cachedEmailAddress =
 			await this.storageService.getData(Settings.emailAddressKey);

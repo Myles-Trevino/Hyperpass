@@ -8,6 +8,7 @@
 <ngx-simplebar id="generator-scrollbar">
 <div class="app-page tile-section">
 
+
 <!-- Top bar. -->
 <div id="generator-top-bar" class="tile-content">
 
@@ -72,7 +73,6 @@
 
 			</ng-template>
 
-
 			<!-- Password settings. -->
 			<ng-template #passwordSettings>
 
@@ -119,16 +119,18 @@
 		<ngx-simplebar id="history-container">
 
 			<!-- Entries. -->
-			<div *ngFor="let entry of state.history; index as index" class="tile-section">
+			<div *ngFor="let entry of state.history; index as index" class="tile-section hoverable-container">
 
 				<div>
 					<span class="dimmed-text">{{utilityService.dateToString(entry.date)}}</span>
 					<input class="password-input" type="text" readonly value="{{entry.password}}">
 				</div>
 
-				<hyperpass-svg svg="Copy Button" [cdkCopyToClipboard]="entry.password" (click)="sendCopiedMessage()"></hyperpass-svg>
+				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
+					<hyperpass-svg svg="Copy Button" [cdkCopyToClipboard]="entry.password" (click)="sendCopiedMessage()"></hyperpass-svg>
 
-				<hyperpass-svg svg="Delete Button" (click)="deleteHistoryEntry(index)"></hyperpass-svg>
+					<hyperpass-svg svg="Delete Button" (click)="deleteHistoryEntry(index)"></hyperpass-svg>
+				</div>
 
 			</div>
 

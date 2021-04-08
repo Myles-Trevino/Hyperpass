@@ -7,17 +7,18 @@
 
 import {Injectable} from '@angular/core';
 import * as Capacitor from '@capacitor/core';
-import * as Ionic from '@ionic/angular';
 
 import type * as Types from '../types';
 import * as Settings from '../settings';
 import {StorageService} from './storage.service';
+import {PlatformService} from '../services/platform.service';
 
 
 const lightTheme =
 {
 	'main-color': 'rgb(242, 244, 249)',
 	'alternate-color': 'rgb(229, 234, 244)',
+	'semitransparent-alternate-color': 'rgb(229, 234, 244, .75)',
 	'accent-color': 'rgb(249, 250, 252)',
 	'semitransparent-accent-color': 'rgb(252, 252, 253, .5)',
 	'alternate-accent-color': 'rgb(255, 255, 255)',
@@ -38,6 +39,7 @@ const darkTheme =
 {
 	'main-color': 'rgb(28, 31, 35)',
 	'alternate-color': 'rgb(20, 23, 27)',
+	'semitransparent-alternate-color': 'rgb(20, 23, 27, .75)',
 	'accent-color': 'rgb(37, 41, 47)',
 	'semitransparent-accent-color': 'rgb(37, 41, 47, .5)',
 	'alternate-accent-color': 'rgb(47, 52, 61)',
@@ -65,7 +67,7 @@ export class ThemeService
 
 	// Constructor.
 	public constructor(private readonly storageService: StorageService,
-		private readonly ionicPlatform: Ionic.Platform){}
+		private readonly platformService: PlatformService){}
 
 
 	// Sets the theme.
@@ -86,7 +88,7 @@ export class ThemeService
 			document.documentElement.style.setProperty(`--${key}`, value);
 
 		// If on mobile, set the status bar.
-		if(this.ionicPlatform.is('mobile'))
+		if(this.platformService.isMobile())
 		{
 			Capacitor.Plugins.StatusBar.setStyle({style: (theme === 'Dark') ?
 				Capacitor.StatusBarStyle.Dark : Capacitor.StatusBarStyle.Light});
@@ -112,6 +114,7 @@ export class ThemeService
 		const result = parseInt(decimal).toString(16);
 		return (result.length === 1) ? `0${result}` : result;
 	}
+
 
 	private rgbToHex(rgb: string): string
 	{

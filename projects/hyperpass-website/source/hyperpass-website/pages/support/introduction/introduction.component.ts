@@ -5,9 +5,10 @@
 */
 
 
-import {ThemeService} from 'hyperpass-core';
-
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+
+import {ThemeService, MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -17,11 +18,23 @@ import {Component, HostBinding} from '@angular/core';
 	styleUrls: ['../support.component.scss']
 })
 
-export class IntroductionComponent
+export class IntroductionComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
 
 
 	// Constructor.
-	public constructor(public readonly themeService: ThemeService){}
+	public constructor(public readonly themeService: ThemeService,
+		private readonly metadataService: MetadataService){}
+
+
+	// Initializer.
+	public ngOnInit(): void
+	{
+		this.metadataService.clear();
+		this.metadataService.setTitle('Introduction - Support');
+		this.metadataService.setDescription(
+			'Learn about how to get started with Hyperpass.');
+		this.metadataService.setImage('support');
+	}
 }

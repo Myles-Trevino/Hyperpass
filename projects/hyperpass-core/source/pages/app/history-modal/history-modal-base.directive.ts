@@ -8,6 +8,7 @@
 import {HostBinding, Directive} from '@angular/core';
 
 import {StateService} from '../../../services/state.service';
+import {PlatformService} from '../../../services/platform.service';
 import {MessageService} from '../../../services/message.service';
 
 
@@ -21,7 +22,8 @@ export abstract class HistoryModalBaseDirective<T>
 
 
 	// Constructor.
-	public constructor(protected readonly stateService: StateService,
+	public constructor(public readonly platformService: PlatformService,
+		protected readonly stateService: StateService,
 		protected readonly messageService: MessageService, history: T[])
 	{
 		this.history = history;

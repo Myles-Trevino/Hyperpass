@@ -16,6 +16,7 @@ import {AccountService} from '../../../services/account.service';
 import {StateService} from '../../../services/state.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
+import {PlatformService} from '../../../services/platform.service';
 
 
 @Component
@@ -39,6 +40,7 @@ export class TagsModalComponent implements OnInit
 
 
 	public constructor(public readonly stateService: StateService,
+		public readonly platformService: PlatformService,
 		private readonly accountService: AccountService,
 		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService){}

@@ -12,10 +12,11 @@
 {
 	display: flex;
 	flex-flow: row wrap;
-	gap: var(--very-small-gap);
-	padding: var(--small-gap);
+	padding: 0 var(--small-gap) var(--small-gap) 0;
 	border-radius: var(--small-radius);
 	background-color: var(--main-color);
+
+	& > * { margin: var(--small-gap) 0 0 var(--small-gap); }
 
 	.app-tag
 	{

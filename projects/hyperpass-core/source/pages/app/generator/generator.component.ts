@@ -13,6 +13,7 @@ import {GeneratorService} from '../../../services/generator.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
 import {AccountService} from '../../../services/account.service';
+import {PlatformService} from '../../../services/platform.service';
 
 
 @Component
@@ -31,6 +32,7 @@ export class GeneratorComponent implements OnInit
 
 	// Constructor.
 	public constructor(public readonly utilityService: UtilityService,
+		public readonly platformService: PlatformService,
 		private readonly generatorService: GeneratorService,
 		private readonly messageService: MessageService,
 		private readonly accountService: AccountService){}

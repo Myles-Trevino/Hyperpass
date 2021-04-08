@@ -23,7 +23,7 @@
 		<div id="tags-tag-list">
 
 			<ng-container *ngFor="let tag of vault.tags | keyvalue">
-			<div [attr.id]="getId(tag.key)" class="app-modal-entry" (click)="returnTag(tag.key)">
+			<div [attr.id]="getId(tag.key)" class="app-modal-entry hoverable-container" (click)="returnTag(tag.key)">
 
 				<!-- Tag color. -->
 				<hyperpass-tag-color [color]="tag.value.color"></hyperpass-tag-color>
@@ -31,11 +31,15 @@
 				<!-- Tag name. -->
 				<span>{{tag.value.name}}</span>
 
-				<!-- Edit button. -->
-				<hyperpass-svg svg="Edit Button" (click)="edit(tag.key)"></hyperpass-svg>
+				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
 
-				<!-- Delete button. -->
-				<hyperpass-svg svg="Delete Button" (click)="delete(tag.key)"></hyperpass-svg>
+					<!-- Edit button. -->
+					<hyperpass-svg svg="Edit Button" (click)="edit(tag.key)"></hyperpass-svg>
+
+					<!-- Delete button. -->
+					<hyperpass-svg svg="Delete Button" (click)="delete(tag.key)"></hyperpass-svg>
+
+				</div>
 
 			</div>
 			</ng-container>

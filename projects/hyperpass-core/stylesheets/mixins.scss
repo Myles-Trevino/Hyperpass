@@ -6,7 +6,13 @@
 
 
 /* Layout. */
-@mixin mobile{ @media only screen and (max-width: 39rem){ @content; } }
+@mixin mobile
+{
+	@media only screen and (max-width: 35rem),
+		only screen and (max-height: 44rem){ @content; }
+}
+
+@mixin mobile-width{ @media only screen and (max-width: 35rem){ @content; } }
 
 @mixin vertical{ @media only screen and (max-width: 59rem){ @content; } }
 

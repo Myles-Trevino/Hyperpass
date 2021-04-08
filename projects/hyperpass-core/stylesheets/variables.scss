@@ -43,6 +43,7 @@
 	--minimum-page-height: 26.8rem;
 	--line-width: .09rem;
 	--app-page-height: calc(100vh - var(--large-gap) * 2 - var(--tile-title-height));
+	--maximum-app-width: 60rem;
 
 	--shading-specular-offset: -1px;
 	--shading-specular-diffuse: 1px;
@@ -71,5 +72,6 @@
 		--medium-gap: 2rem;
 		--dropdown-minimum-width: 11rem;
 		--app-page-height: calc(100vh - var(--tile-title-height));
+		--maximum-app-width: none;
 	}
 }

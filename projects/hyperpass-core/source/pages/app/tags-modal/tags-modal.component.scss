@@ -9,7 +9,7 @@
 .app-modal-entry
 {
 	cursor: pointer;
-	grid-template-columns: min-content auto repeat(2, min-content);
+	grid-template-columns: min-content auto min-content;
 	transition: background-color var(--regular-transition-duration);
 
 	&:hover{ background-color: var(--accent-color); }

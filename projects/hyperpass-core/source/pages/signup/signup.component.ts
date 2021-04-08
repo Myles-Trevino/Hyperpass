@@ -18,6 +18,7 @@ import {MessageService} from '../../services/message.service';
 import {ApiService} from '../../services/api.service';
 import {ThemeService} from '../../services/theme.service';
 import {StorageService} from '../../services/storage.service';
+import {MetadataService} from '../../services/metadata.service';
 
 
 @Component
@@ -43,12 +44,19 @@ export class SignupComponent implements OnInit
 		private readonly cryptoService: CryptoService,
 		private readonly generatorService: GeneratorService,
 		private readonly themeService: ThemeService,
-		private readonly storageService: StorageService){}
+		private readonly storageService: StorageService,
+		private readonly metadataService: MetadataService){}
 
 
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
+		// Metadata.
+		this.metadataService.clear();
+		this.metadataService.setTitle('Signup');
+		this.metadataService.setDescription('Create an account to start using Hyperpass.');
+		this.metadataService.setImage('signup');
+
 		// Load the cached email address if there is one.
 		const cachedEmailAddress =
 			await this.storageService.getData(Settings.emailAddressKey);

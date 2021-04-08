@@ -18,7 +18,7 @@ import {HyperpassWebsiteComponent} from './hyperpass-website.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {ImageLoaderComponent} from './image-loader/image-loader.component';
 import {IndexComponent} from './pages/index/index.component';
-import {DownloadComponent} from './pages/download/download.component';
+import {DownloadsComponent} from './pages/downloads/downloads.component';
 import {SupportComponent} from './pages/support/support.component';
 import {NotFoundComponent} from './pages/not-found/not-found.component';
 
@@ -46,7 +46,7 @@ import {WhichTechnologiesDoesHyperpassUseComponent} from './pages/support/faq/wh
 		NavbarComponent,
 		ImageLoaderComponent,
 		IndexComponent,
-		DownloadComponent,
+		DownloadsComponent,
 		SupportComponent,
 		NotFoundComponent,
 

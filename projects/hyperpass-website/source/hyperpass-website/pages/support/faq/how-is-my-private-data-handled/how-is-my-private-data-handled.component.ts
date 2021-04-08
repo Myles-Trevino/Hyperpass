@@ -5,9 +5,10 @@
 */
 
 
-import {ThemeService} from 'hyperpass-core';
-
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+
+import {MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -17,11 +18,22 @@ import {Component, HostBinding} from '@angular/core';
 	styleUrls: ['../../support.component.scss']
 })
 
-export class HowIsMyPrivateDataHandledComponent
+export class HowIsMyPrivateDataHandledComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
 
 
 	// Constructor.
-	public constructor(public readonly themeService: ThemeService){}
+	public constructor(private readonly metadataService: MetadataService){}
+
+
+	// Initializer.
+	public ngOnInit(): void
+	{
+		this.metadataService.clear();
+		this.metadataService.setTitle('How is My Private Data Handled? - Support');
+		this.metadataService.setDescription(
+			'Learn about how your private data is handled in Hyperpass.');
+		this.metadataService.setImage('support');
+	}
 }

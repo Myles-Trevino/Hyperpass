@@ -11,6 +11,7 @@ import type * as Types from '../../../../types';
 import {StateService} from '../../../../services/state.service';
 import {MessageService} from '../../../../services/message.service';
 import {UtilityService} from '../../../../services/utility.service';
+import {PlatformService} from '../../../../services/platform.service';
 import {HistoryModalBaseDirective} from '../history-modal-base.directive';
 
 
@@ -25,10 +26,12 @@ export class VaultEntryHistoryModalComponent extends
 	HistoryModalBaseDirective<Types.VaultEntryHistoryEntry>
 {
 	// Constructor.
-	public constructor(protected readonly stateService: StateService,
+	public constructor(public readonly platformService: PlatformService,
+		protected readonly stateService: StateService,
 		public readonly messageService: MessageService,
 		public readonly utilityService: UtilityService)
 	{
-		super(stateService, messageService, stateService.vaultEntryHistoryModal.history);
+		super(platformService, stateService, messageService,
+			stateService.vaultEntryHistoryModal.history);
 	}
 }

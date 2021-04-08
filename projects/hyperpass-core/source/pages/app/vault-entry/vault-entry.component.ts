@@ -18,6 +18,7 @@ import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
 import {GeneratorService} from '../../../services/generator.service';
 import {StateService} from '../../../services/state.service';
+import {PlatformService} from '../../../services/platform.service';
 
 
 @Component
@@ -40,7 +41,8 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 
 
 	// Constructor.
-	public constructor(private readonly accountService: AccountService,
+	public constructor(public readonly platformService: PlatformService,
+		private readonly accountService: AccountService,
 		private readonly router: Router,
 		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService,

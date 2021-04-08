@@ -8,15 +8,13 @@
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 
-import {Animations, UtilityService} from 'hyperpass-core';
-import {MetadataService} from './services/metadata.service';
+import {Animations, UtilityService, PlatformService} from 'hyperpass-core';
 
 
 @Component
 ({
 	selector: 'hyperpass-website-root',
 	templateUrl: './hyperpass-website.component.html',
-	styleUrls: ['hyperpass-website.scss'],
 	animations: [Animations.initialFadeAnimation]
 })
 
@@ -26,19 +24,18 @@ export class HyperpassWebsiteComponent implements OnInit
 
 
 	// Constructor.
-	public constructor(private readonly metadataService: MetadataService,
-		private readonly utilityService: UtilityService){}
+	public constructor(private readonly utilityService: UtilityService,
+		private readonly platformService: PlatformService){}
 
 
 	// Initializer.
 	public ngOnInit(): void
 	{
 		// Determine the platform.
-		this.server = this.utilityService.isServer();
+		this.server = this.platformService.isServer();
 		if(this.server) return;
 
 		// Initialize.
 		this.utilityService.initialize();
-		this.metadataService.initialize();
 	}
 }

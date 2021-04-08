@@ -74,13 +74,14 @@
 {
 	grid-template-rows: min-content 1fr;
 	width: 100%;
-	max-width: 60rem;
+	max-width: var(--maximum-app-width);
 }
 
 
 ion-slides
 {
 	height: var(--app-page-height); /* Avoids a scrollbar flash on load. */
+	min-height: var(--minimum-page-height);
 
 	@include mobile{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; }
 }

@@ -15,7 +15,7 @@
 
 
 /* General. */
-#download-content
+#downloads-content
 {
 	justify-self: center;
 	display: grid;
@@ -32,7 +32,7 @@
 	}
 }
 
-.download-section
+.downloads-section
 {
 	display: grid;
 	gap: var(--medium-gap);
@@ -40,7 +40,7 @@
 
 
 /* Tiles. */
-.download-tiles
+.downloads-tiles
 {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));

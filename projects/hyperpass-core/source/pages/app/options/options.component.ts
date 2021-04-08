@@ -16,6 +16,7 @@ import {AccountService} from '../../../services/account.service';
 import {ThemeService} from '../../../services/theme.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
+import {PlatformService} from '../../../services/platform.service';
 import {StateService} from '../../../services/state.service';
 
 
@@ -37,9 +38,10 @@ export class OptionsComponent implements OnInit, AfterViewInit
 
 
 	// Constructor.
-	public constructor(private readonly accountService: AccountService,
-		private readonly themeService: ThemeService,
+	public constructor(public readonly platformService: PlatformService,
 		private readonly utilityService: UtilityService,
+		private readonly accountService: AccountService,
+		private readonly themeService: ThemeService,
 		private readonly messageService: MessageService,
 		private readonly stateService: StateService){}
 
