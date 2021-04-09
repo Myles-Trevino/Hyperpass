@@ -12,6 +12,7 @@ import * as FileSaver from 'file-saver';
 import * as Types from '../../../types';
 import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
+import {UtilityService} from '../../../services/utility.service';
 
 
 @Component
@@ -29,7 +30,8 @@ export class ExportVaultComponent
 
 
 	// Constructor.
-	public constructor(private readonly messageService: MessageService,
+	public constructor(public readonly utilityService: UtilityService,
+		private readonly messageService: MessageService,
 		private readonly accountService: AccountService){}
 
 

@@ -29,3 +29,12 @@ export const fadeAnimation = trigger('fadeAnimation',
 		transition(':enter', [style({opacity: 0}), animate('.08s', style({opacity: 1}))]),
 		transition(':leave', [animate('.08s', style({opacity: 0}))])
 	]);
+
+
+// Delayed fade in and out.
+export const delayedFadeAnimation = trigger('delayedFadeAnimation',
+	[
+		transition(':enter', [style({opacity: 0}),
+			animate('.08s .08s', style({opacity: 1}))]),
+		transition(':leave', [animate('.08s', style({opacity: 0}))])
+	]);

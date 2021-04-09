@@ -8,11 +8,9 @@
 import type {OnInit} from '@angular/core';
 import {ElementRef, Component, HostBinding, ViewChild} from '@angular/core';
 import * as PapaParse from 'papaparse';
-import {Router} from '@angular/router';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
-import * as Settings from '../../../settings';
 import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
 import {CryptoService} from '../../../services/crypto.service';
@@ -40,11 +38,10 @@ export class ImportVaultComponent implements OnInit
 
 
 	// Constructor.
-	public constructor(private readonly messageService: MessageService,
+	public constructor(public readonly utilityService: UtilityService,
+		private readonly messageService: MessageService,
 		private readonly accountService: AccountService,
-		private readonly cryptoService: CryptoService,
-		private readonly utilityService: UtilityService,
-		private readonly router: Router){}
+		private readonly cryptoService: CryptoService){}
 
 
 	// Initializer.
@@ -99,7 +96,7 @@ export class ImportVaultComponent implements OnInit
 			this.accountService.pushVault();
 
 			// If a vault entry is open for editing, close it.
-			this.router.navigate(['/app', {outlets: {'vault': null}}]);
+			this.utilityService.close('vault');
 		}
 
 		// Handle errors.

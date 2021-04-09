@@ -5,6 +5,9 @@
 */
 
 
+@import '~swiper/swiper-bundle';
+
+
 .app-top-bar
 {
 	display: grid;
@@ -84,12 +87,6 @@
 {
 	position: relative;
 
-	hyperpass-svg
-	{
-		opacity: 0;
-		transition: opacity var(--medium-transition-duration);
-	}
-
 	.horizontal-container, & > hyperpass-svg
 	{
 		position: absolute;
@@ -97,22 +94,27 @@
 		right: var(--very-small-gap);
 		gap: var(--very-small-gap);
 	}
-
-	&:hover hyperpass-svg{ opacity: 1; }
 }
 
 
 /* Ionic. */
-ion-slides ion-slide.swiper-slide
-{
-	text-align: unset;
-	height: var(--app-page-height);
-	min-height: var(--minimum-page-height);
-}
-
 ion-spinner
 {
 	--color: var(--text-color);
 	width: 3rem;
 	height: 3rem;
+}
+
+
+/* Swiper. */
+swiper{ @include mobile{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; } }
+
+swiper .swiper-slide
+{
+	height: var(--app-page-height);
+	min-height: var(--minimum-page-height);
+	opacity: 1 !important;
+
+	.app-page{ display: none; }
+	&.swiper-slide-active .app-page{ display: grid; }
 }

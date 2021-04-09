@@ -8,8 +8,8 @@
 <!-- Top bar. -->
 <div class="app-top-bar">
 
-	<button [routerLink]="['/app', {outlets: {'options': null}}]" [skipLocationChange]="true">Back</button>
-	<button (click)='export()'>Export</button>
+	<button (click)="utilityService.close('options')">Back</button>
+	<button (click)="export()">Export</button>
 
 </div>
 

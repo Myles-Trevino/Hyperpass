@@ -8,7 +8,7 @@
 <!-- Top bar. -->
 <div class="app-top-bar">
 
-	<button [routerLink]="['/app', {outlets: {'vault': null}}]" [skipLocationChange]="true">Cancel</button>
+	<button (click)="utilityService.close('vault')">Cancel</button>
 
 	<div class="tile-buttons">
 		<button *ngIf="key" (click)="delete()">Delete</button>
@@ -33,9 +33,9 @@
 
 		<span>Username</span>
 
-		<div class="app-button-input-container">
+		<div class="app-button-input-container hoverable-container">
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.username">
-			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewUsernameHistory()"></hyperpass-svg>
+			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewUsernameHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile()}"></hyperpass-svg>
 		</div>
 
 	</div>
@@ -45,11 +45,11 @@
 
 		<span>Password</span>
 
-		<div class="app-button-input-container">
+		<div class="app-button-input-container hoverable-container">
 
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.password">
 
-			<div class="horizontal-container">
+			<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
 				<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
 				<hyperpass-svg svg="Generate Button" (click)="generatePassword()"></hyperpass-svg>
 			</div>
@@ -70,9 +70,9 @@
 
 		<span>Note</span>
 
-		<div class="app-button-input-container">
+		<div class="app-button-input-container hoverable-container">
 			<textarea class="hidden-scrollbars" [(ngModel)]="state.note"></textarea>
-			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewNoteHistory()"></hyperpass-svg>
+			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewNoteHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile()}"></hyperpass-svg>
 		</div>
 
 	</div>

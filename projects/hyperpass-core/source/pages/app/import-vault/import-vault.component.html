@@ -8,8 +8,8 @@
 <!-- Top bar. -->
 <div class="app-top-bar">
 
-	<button [routerLink]="['/app', {outlets: {'options': null}}]" [skipLocationChange]="true">Back</button>
-	<button (click)='loadFile()'>Import</button>
+	<button (click)="utilityService.close('options')">Back</button>
+	<button (click)="loadFile()">Import</button>
 
 </div>
 
@@ -36,7 +36,7 @@
 		</div>
 
 		<!-- Master password. -->
-		<div *ngIf="format === 'HY Encrypted'" class="tile-setting">
+		<div *ngIf="format === 'HY Encrypted'" class="wide-tile-setting">
 			<span>Master Password</span>
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="masterPassword">
 		</div>

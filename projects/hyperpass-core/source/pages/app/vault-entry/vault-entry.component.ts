@@ -7,8 +7,8 @@
 
 import type {OnDestroy, OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
-import {Router} from '@angular/router';
 import type {Subscription} from 'rxjs';
+import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
@@ -38,21 +38,26 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 	public showUrlWarning = false;
 
 	private modalSubscription?: Subscription;
+	private backButtonSubscription?: Subscription;
 
 
 	// Constructor.
 	public constructor(public readonly platformService: PlatformService,
+		public readonly utilityService: UtilityService,
 		private readonly accountService: AccountService,
-		private readonly router: Router,
-		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService,
 		private readonly stateService: StateService,
-		private readonly generatorService: GeneratorService){}
+		private readonly generatorService: GeneratorService,
+		private readonly ionicPlatform: Ionic.Platform){}
 
 
 	// Initializer.
 	public ngOnInit(): void
 	{
+		// Close on back button press.
+		this.backButtonSubscription = this.ionicPlatform.backButton
+			.subscribeWithPriority(100, () => { this.utilityService.close('vault'); });
+
 		// If a key was given, load that entry's state.
 		this.key = this.utilityService.loadUrlParameter('key');
 
@@ -68,7 +73,11 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 
 
 	// Destructor.
-	public ngOnDestroy(): void { this.modalSubscription?.unsubscribe(); }
+	public ngOnDestroy(): void
+	{
+		this.backButtonSubscription?.unsubscribe();
+		this.modalSubscription?.unsubscribe();
+	}
 
 
 	// Saves the account, pushes the vault, and exits.
@@ -232,8 +241,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 	private pushAndExit(): void
 	{
 		this.accountService.pushVault();
-		this.router.navigate(['/app', {outlets: {'vault': null}}],
-			{skipLocationChange: true});
+		this.utilityService.close('vault');
 	}
 
 

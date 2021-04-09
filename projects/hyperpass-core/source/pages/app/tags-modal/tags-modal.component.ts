@@ -5,9 +5,11 @@
 */
 
 
-import type {OnInit} from '@angular/core';
+import type {OnInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import type {Subscription} from 'rxjs';
 import {v4 as uuidv4} from 'uuid';
+import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
@@ -27,7 +29,7 @@ import {PlatformService} from '../../../services/platform.service';
 	animations: [Animations.fadeInAnimation]
 })
 
-export class TagsModalComponent implements OnInit
+export class TagsModalComponent implements OnInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-modal';
 
@@ -37,18 +39,24 @@ export class TagsModalComponent implements OnInit
 	public key = '';
 	public tag = Types.defaultTag;
 	private singleEditMode = false;
+	private backButtonSubscription?: Subscription;
 
 
 	public constructor(public readonly stateService: StateService,
 		public readonly platformService: PlatformService,
 		private readonly accountService: AccountService,
 		private readonly utilityService: UtilityService,
-		private readonly messageService: MessageService){}
+		private readonly messageService: MessageService,
+		protected readonly ionicPlatform: Ionic.Platform){}
 
 
 	// Initializer.
 	public ngOnInit(): void
 	{
+		// Close on back button press.
+		this.backButtonSubscription = this.ionicPlatform.backButton
+			.subscribeWithPriority(101, () => { this.stateService.closeModals(); });
+
 		// Load the vault.
 		this.vault = _.cloneDeep(this.accountService.getVault());
 		this.updateHasTags();
@@ -60,6 +68,10 @@ export class TagsModalComponent implements OnInit
 			this.edit(this.stateService.tagsModal.singleEditTag);
 		}
 	}
+
+
+	// Destructor.
+	public ngOnDestroy(): void { this.backButtonSubscription?.unsubscribe(); }
 
 
 	// Returns the given tag and exits.

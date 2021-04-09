@@ -16,37 +16,37 @@
 
 	<!-- Tabs. -->
 	<div id="app-tabs">
-		<h4 [ngClass]="{selected: tab =='Vault'}" (click)="setIonSlide(0)">Vault</h4>
-		<h4 [ngClass]="{selected: tab =='Generator'}" (click)="setIonSlide(1)">Generator</h4>
-		<h4 [ngClass]="{selected: tab =='Options'}" (click)="setIonSlide(2)">Options</h4>
+		<h4 [ngClass]="{selected: tab === 'Vault'}" (click)="setPage(0)">Vault</h4>
+		<h4 [ngClass]="{selected: tab === 'Generator'}" (click)="setPage(1)">Generator</h4>
+		<h4 [ngClass]="{selected: tab === 'Options'}" (click)="setPage(2)">Options</h4>
 	</div>
 
 	<!-- Pages. -->
-	<ion-slides class="tile-content" [options]="{allowTouchMove: enableSwiping}" (ionSlideWillChange)="ionSlidesCallback()" #ionSlides>
+	<swiper class="tile-content" [allowTouchMove]="enableSwiping" [slidesPerView]="3" effect="fade" (slideChange)="pageChangeCallback()" #swiper>
 
 		<!-- Vault. -->
-		<ion-slide>
+		<ng-template swiperSlide>
 			<router-outlet name="vault"></router-outlet>
-		</ion-slide>
+		</ng-template>
 
 		<!-- Generator. -->
-		<ion-slide>
+		<ng-template swiperSlide>
 			<hyperpass-generator></hyperpass-generator>
-		</ion-slide>
+		</ng-template>
 
 		<!-- Options. -->
-		<ion-slide>
+		<ng-template swiperSlide>
 			<router-outlet name="options"></router-outlet>
-		</ion-slide>
+		</ng-template>
 
-	</ion-slides>
+	</swiper>
 
 </div>
 
 
 <!-- Modals. -->
 <div *ngIf="stateService.modalOpen" id="app-modal-overlay"
-	(mousedown)="closeModal($event)" @fadeAnimation #modalOverlay>
+	(mousedown)="closeModal($event)" @delayedFadeAnimation #modalOverlay>
 
 	<hyperpass-tags-modal *ngIf="stateService.modalType === 'Tags'"></hyperpass-tags-modal>
 	<hyperpass-vault-entry-history-modal *ngIf="stateService.modalType === 'Vault Entry History'"></hyperpass-vault-entry-history-modal>

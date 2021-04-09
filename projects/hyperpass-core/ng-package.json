@@ -15,7 +15,9 @@
 			"papaparse": "PapaParse",
 			"@ionic/angular": "IonicAngular",
 			"@capacitor/core": "Capacitor",
-			"uuid": "UUID"
+			"uuid": "UUID",
+			"swiper/angular": "SwiperAngular",
+			"swiper/core": "SwiperCore"
 		}
 	},
 	"assets":

@@ -6,7 +6,7 @@
 
 
 import {Injectable} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {formatDate} from '@angular/common';
 import {Subject} from 'rxjs';
 import * as _ from 'lodash';
@@ -32,7 +32,8 @@ export class UtilityService
 		private readonly themeService: ThemeService,
 		private readonly cryptoService: CryptoService,
 		private readonly generatorService: GeneratorService,
-		private readonly storageService: StorageService){}
+		private readonly storageService: StorageService,
+		public readonly router: Router){}
 
 
 	// Initializes Hyperpass.
@@ -183,5 +184,13 @@ export class UtilityService
 
 		// Limit the number of entries.
 		return result.slice(0, Settings.maximumHistoryEntries);
+	}
+
+
+	// Navigates back to the main route of the given page.
+	public close(page: string): void
+	{
+		this.router.navigate(['/app', {outlets: {[page]: null}}],
+			{skipLocationChange: true});
 	}
 }

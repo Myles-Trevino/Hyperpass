@@ -6,6 +6,7 @@
 
 
 import {Component} from '@angular/core';
+import * as Ionic from '@ionic/angular';
 
 import type * as Types from '../../../../types';
 import {StateService} from '../../../../services/state.service';
@@ -28,10 +29,11 @@ export class VaultEntryHistoryModalComponent extends
 	// Constructor.
 	public constructor(public readonly platformService: PlatformService,
 		protected readonly stateService: StateService,
+		protected readonly ionicPlatform: Ionic.Platform,
 		public readonly messageService: MessageService,
 		public readonly utilityService: UtilityService)
 	{
-		super(platformService, stateService, messageService,
-			stateService.vaultEntryHistoryModal.history);
+		super(platformService, stateService, messageService, ionicPlatform,
+			utilityService, stateService.vaultEntryHistoryModal.history);
 	}
 }

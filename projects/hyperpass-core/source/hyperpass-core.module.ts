@@ -11,9 +11,10 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {RouterModule} from '@angular/router';
-import {IonicModule} from '@ionic/angular';
 
+import {IonicModule} from '@ionic/angular';
 import {SimplebarAngularModule} from 'simplebar-angular';
+import {SwiperModule} from 'swiper/angular';
 
 import {HyperpassCoreRoutingModule} from './hyperpass-core-routing.module';
 
@@ -77,6 +78,7 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		RouterModule,
 		SimplebarAngularModule,
 		IonicModule.forRoot(),
+		SwiperModule,
 		HyperpassCoreRoutingModule
 	],
 	exports:

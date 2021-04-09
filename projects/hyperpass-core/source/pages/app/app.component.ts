@@ -5,10 +5,15 @@
 */
 
 
-import type {OnInit} from '@angular/core';
-import {ElementRef, Component, HostBinding, HostListener, ViewChild} from '@angular/core';
+import type {OnDestroy, OnInit} from '@angular/core';
+import {ElementRef, Component, HostBinding, HostListener,
+	ViewChild, ChangeDetectorRef} from '@angular/core';
 import {Router} from '@angular/router';
+import SwiperCore, {EffectFade} from 'swiper/core';
+import {SwiperComponent} from 'swiper/angular';
+import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
+import * as Capacitor from '@capacitor/core';
 
 import * as Animations from '../../animations';
 import {AccountService} from '../../services/account.service';
@@ -18,23 +23,27 @@ import {PlatformService} from '../../services/platform.service';
 import {MetadataService} from '../../services/metadata.service';
 
 
+SwiperCore.use([EffectFade]);
+
+
 @Component
 ({
 	selector: 'hyperpass-app',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-	animations: [Animations.fadeAnimation, Animations.delayedFadeInAnimation]
+	animations: [Animations.delayedFadeAnimation, Animations.delayedFadeInAnimation]
 })
 
-export class AppComponent implements OnInit
+export class AppComponent implements OnInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'centerer-page';
 	@ViewChild('modalOverlay') private readonly modalOverlay?: ElementRef;
-	@ViewChild('ionSlides') private readonly ionSlides?: Ionic.IonSlides;
+	@ViewChild('swiper') private readonly swiper?: SwiperComponent;
 
 	public tab: 'None'|'Vault'|'Generator'|'Options' = 'None';
 	public vaultComponent = VaultComponent;
 	public enableSwiping = false;
+	private backButtonSubscription?: Subscription;
 
 
 	// Constructor.
@@ -42,7 +51,9 @@ export class AppComponent implements OnInit
 		private readonly accountService: AccountService,
 		public readonly stateService: StateService,
 		private readonly platformService: PlatformService,
-		private readonly metadataService: MetadataService){}
+		private readonly metadataService: MetadataService,
+		private readonly changeDetectorRef: ChangeDetectorRef,
+		private readonly ionicPlatform: Ionic.Platform){}
 
 
 	// Pointer movement callback.
@@ -61,6 +72,10 @@ export class AppComponent implements OnInit
 
 		if(this.platformService.isServer()) return;
 
+		// Close on back button press.
+		this.backButtonSubscription = this.ionicPlatform.backButton
+			.subscribeWithPriority(-1, () => { Capacitor.Plugins.App.exitApp(); });
+
 		// If not logged in, attempt to log in with the cached login data.
 		if(!this.accountService.loggedIn) await this.accountService.automaticLogIn();
 
@@ -77,6 +92,10 @@ export class AppComponent implements OnInit
 	}
 
 
+	// Destructor.
+	public ngOnDestroy(): void { this.backButtonSubscription?.unsubscribe(); }
+
+
 	// Closes the modal if the modal overlay was clicked.
 	public closeModal(event: MouseEvent): void
 	{
@@ -85,26 +104,22 @@ export class AppComponent implements OnInit
 	}
 
 
-	// Ion Slides callback.
-	public async ionSlidesCallback(): Promise<void>
+	// Page navigation callback.
+	public pageChangeCallback(): void
 	{
-		if(!this.ionSlides) return;
+		if(!this.swiper) return;
 
-		const index = await this.ionSlides.getActiveIndex();
-
-		switch(index)
+		switch(this.swiper.swiperRef.activeIndex)
 		{
 			case 0: this.tab = 'Vault'; break;
 			case 1: this.tab = 'Generator'; break;
 			case 2: this.tab = 'Options';
 		}
+
+		this.changeDetectorRef.detectChanges();
 	}
 
 
-	// Sets Ion Slides to the given index.
-	public setIonSlide(index: number): void
-	{
-		if(!this.ionSlides) return;
-		this.ionSlides.slideTo(index);
-	}
+	// Navigates to the given page.
+	public setPage(index: number): void { this.swiper?.swiperRef.slideTo(index); }
 }
