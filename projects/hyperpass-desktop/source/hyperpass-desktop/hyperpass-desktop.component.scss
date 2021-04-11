@@ -35,10 +35,9 @@
 {
 	display: grid;
 	grid-template-columns: repeat(3, min-content);
-	justify-self: right;
 	align-content: center;
 	gap: .5rem;
-	padding-right: .25rem;
+	padding: 0 .25rem;
 }
 
 .hyperpass-titlebar-button

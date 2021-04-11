@@ -20,6 +20,7 @@ import {OptionsComponent} from './pages/app/options/options.component';
 import {ImportVaultComponent} from './pages/app/import-vault/import-vault.component';
 import {ExportVaultComponent} from './pages/app/export-vault/export-vault.component';
 import {MasterPasswordComponent} from './pages/app/master-password/master-password.component';
+import {BiometricLoginComponent} from './pages/app/biometric-login/biometric-login.component';
 
 import {LoginComponent} from './pages/login/login.component';
 import {SignupComponent} from './pages/signup/signup.component';
@@ -41,7 +42,8 @@ const routes: Routes =
 			{path: '', component: OptionsComponent, outlet: 'options'},
 			{path: 'import-vault', component: ImportVaultComponent, outlet: 'options'},
 			{path: 'export-vault', component: ExportVaultComponent, outlet: 'options'},
-			{path: 'master-password', component: MasterPasswordComponent, outlet: 'options'}
+			{path: 'master-password', component: MasterPasswordComponent, outlet: 'options'},
+			{path: 'biometric-login', component: BiometricLoginComponent, outlet: 'options'}
 		]
 	},
 

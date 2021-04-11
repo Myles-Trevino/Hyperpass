@@ -31,7 +31,7 @@
 				<!-- Tag name. -->
 				<span>{{tag.value.name}}</span>
 
-				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
+				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
 
 					<!-- Edit button. -->
 					<hyperpass-svg svg="Edit Button" (click)="edit(tag.key)"></hyperpass-svg>

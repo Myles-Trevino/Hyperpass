@@ -14,6 +14,7 @@ import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
 import {StorageService} from '../../services/storage.service';
 import {MetadataService} from '../../services/metadata.service';
+import {BiometricService} from '../../services/biometric.service';
 
 
 @Component
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit
 
 	public emailAddress = '';
 	public masterPassword = '';
+	public biometricLoginEnabled = false;
 
 
 	// Keypress callback.
@@ -44,6 +46,7 @@ export class LoginComponent implements OnInit
 		public readonly accountService: AccountService,
 		private readonly messageService: MessageService,
 		private readonly storageService: StorageService,
+		private readonly biometricService: BiometricService,
 		private readonly metadataService: MetadataService){}
 
 
@@ -61,6 +64,10 @@ export class LoginComponent implements OnInit
 			await this.storageService.getData(Settings.emailAddressKey);
 
 		if(cachedEmailAddress) this.emailAddress = cachedEmailAddress;
+
+		// Check if biometric login is enabled.
+		this.biometricLoginEnabled =
+			await this.biometricService.isEnabled(this.emailAddress);
 	}
 
 
@@ -77,6 +84,20 @@ export class LoginComponent implements OnInit
 			if(!this.emailAddress) throw new Error('Please enter your email address.');
 			if(!this.masterPassword) throw new Error('Please enter your master password.');
 			await this.accountService.logIn(this.emailAddress, this.masterPassword);
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
+
+
+	// Attempts biometric login.
+	public async biometricLogin(): Promise<void>
+	{
+		try
+		{
+			if(!this.emailAddress) throw new Error('Please enter your email address.');
+			await this.accountService.biometricLogin(this.emailAddress);
 		}
 
 		// Handle errors.

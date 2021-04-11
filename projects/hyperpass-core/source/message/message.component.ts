@@ -45,7 +45,7 @@ export class MessageComponent implements OnInit, OnDestroy
 	// Initializer.
 	public ngOnInit(): void
 	{
-		if(this.platformService.isServer()) return;
+		if(this.platformService.isServer) return;
 
 		this.subscription = this.messageService.messages.asObservable()
 			.subscribe((messageData) => { this.messageCallback(messageData); });

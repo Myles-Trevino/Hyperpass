@@ -101,6 +101,8 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
+
+	@include mobile{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; }
 }
 
 .vault-tile-bar, .vault-tile-content{ padding: 0 var(--medium-radius); }

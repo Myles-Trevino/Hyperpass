@@ -5,7 +5,7 @@
 */
 
 
-import type {OnInit, AfterViewInit} from '@angular/core';
+import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild, ElementRef} from '@angular/core';
 import * as Three from 'three';
 
@@ -27,7 +27,7 @@ type Point =
 	styleUrls: ['./index.component.scss']
 })
 
-export class IndexComponent implements OnInit, AfterViewInit
+export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
 {
 	@HostBinding('class') protected readonly class = 'page';
 	@ViewChild('canvas') private readonly canvas?: ElementRef;
@@ -122,6 +122,14 @@ export class IndexComponent implements OnInit, AfterViewInit
 
 		// Start the render loop.
 		this.render();
+	}
+
+
+	// Destructor.
+	public ngOnDestroy(): void
+	{
+		this.renderer?.dispose();
+		this.renderer = undefined;
 	}
 
 

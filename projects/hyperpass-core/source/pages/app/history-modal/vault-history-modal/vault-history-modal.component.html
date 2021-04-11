@@ -25,7 +25,7 @@
 			<span>{{entry.key}}</span>
 		</div>
 
-		<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
+		<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
 
 			<!-- Restore button. -->
 			<hyperpass-svg svg="Restore Button" (click)="restore(entry, index)"></hyperpass-svg>

@@ -17,6 +17,7 @@ import {ThemeService} from './theme.service';
 import {CryptoService} from './crypto.service';
 import {GeneratorService} from './generator.service';
 import {StorageService} from './storage.service';
+import {PlatformService} from './platform.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -33,12 +34,16 @@ export class UtilityService
 		private readonly cryptoService: CryptoService,
 		private readonly generatorService: GeneratorService,
 		private readonly storageService: StorageService,
+		private readonly platformService: PlatformService,
 		public readonly router: Router){}
 
 
-	// Initializes Hyperpass.
+	// Initializes the Hyperpass core.
 	public async initialize(): Promise<void>
 	{
+		// Load platform information.
+		await this.platformService.initialize();
+
 		// If there is a cached theme, apply it.
 		const cachedTheme = await this.storageService.getData(Settings.themeKey);
 

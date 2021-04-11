@@ -88,7 +88,7 @@ export class ThemeService
 			document.documentElement.style.setProperty(`--${key}`, value);
 
 		// If on mobile, set the status bar.
-		if(this.platformService.isMobile())
+		if(this.platformService.isMobile)
 		{
 			Capacitor.Plugins.StatusBar.setStyle({style: (theme === 'Dark') ?
 				Capacitor.StatusBarStyle.Dark : Capacitor.StatusBarStyle.Light});

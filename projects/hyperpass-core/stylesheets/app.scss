@@ -107,9 +107,12 @@ ion-spinner
 
 
 /* Swiper. */
-swiper{ @include mobile{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; } }
+.swiper-container
+{
+	@include mobile{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; }
+}
 
-swiper .swiper-slide
+.swiper-container .swiper-slide
 {
 	height: var(--app-page-height);
 	min-height: var(--minimum-page-height);

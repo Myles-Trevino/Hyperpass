@@ -175,6 +175,17 @@ const svgs: Record<string, string> =
 		<path class="glyph" d="M13.43,9.39l8.8,6a.74.74,0,0,1,0,1.22l-8.8,6a.76.76,0,0,1-1.2-.61V10A.76.76,0,0,1,13.43,9.39Z"/>
 	</svg>`,
 
+	// Biometrics button.
+	'Biometrics Button':
+	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+		<circle class="base" cx="16" cy="16" r="16"/></g>
+		<path class="glyph" d="M13.83,25.23C12,20.74,12.67,17.28,15,16.94a3.13,3.13,0,0,1,3.57,2.35c.6,2.82,2.37,3.35,3.79,3.1,2.37-.41,3.14-2.55,2.09-5.68C23.74,14.64,21,9.82,15,10.37a8.57,8.57,0,0,0-7.83,7.34"/>
+		<path class="glyph" d="M8.3,22.47"/>
+		<path class="glyph" d="M7.5,10.47a10.9,10.9,0,0,1,7-3.31A13.48,13.48,0,0,1,23.2,9.33"/>
+		<path class="glyph" d="M9.85,21.75A6.47,6.47,0,0,1,9.94,18a6,6,0,0,1,4.8-4.38,6.58,6.58,0,0,1,7.09,5.58"/>
+		<path class="glyph" d="M19.63,25.41c-3.53-.18-4-5.12-4-5.12"/>
+	</svg>`,
+
 	// Heart.
 	'Heart':
 	`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.12 26.15">

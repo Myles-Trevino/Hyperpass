@@ -109,6 +109,12 @@ export type EncryptedKey =
 	encrypted: EncryptedData;
 };
 
+export type LoginCredentials =
+{
+	emailAddress: string;
+	masterPassword: string;
+};
+
 export type AccessData =
 {
 	emailAddress: string;

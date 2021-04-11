@@ -156,13 +156,13 @@ export class VaultComponent implements OnInit, OnDestroy
 		const queryParts: Types.QueryPart[] = [];
 		if(this.stateService.vault.query)
 		{
-			const queryTokens =
-				this.stateService.vault.query.split(/(?=username:)|(?=url:)|(?=tag:)/);
+			const queryTokens = this.stateService.vault.query
+				.toLowerCase().split(/(?=username:)|(?=url:)|(?=tag:)/);
 
 			queryTokens.forEach((token) =>
 			{
 				if(!token) return;
-				token = token.trim().toLowerCase();
+				token = token.trim();
 				let modifier: Types.QueryModifier | undefined = undefined;
 
 				for(const queryModifier of Types.queryModifiers)

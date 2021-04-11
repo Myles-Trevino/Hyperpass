@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy
 		this.metadataService.setDescription('Access Hyperpass from your browser.');
 		this.metadataService.setImage('web-app');
 
-		if(this.platformService.isServer()) return;
+		if(this.platformService.isServer) return;
 
 		// Close on back button press.
 		this.backButtonSubscription = this.ionicPlatform.backButton
@@ -87,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy
 		}
 
 		// Otherwise, initialize.
-		this.enableSwiping = this.platformService.isMobile();
+		this.enableSwiping = this.platformService.isMobile;
 		this.tab = 'Vault';
 	}
 

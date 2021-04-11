@@ -17,6 +17,7 @@ import {MessageService} from './message.service';
 import {ApiService} from './api.service';
 import {ThemeService} from './theme.service';
 import {StorageService} from './storage.service';
+import {BiometricService} from './biometric.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -31,10 +32,11 @@ export class AccountService implements OnDestroy
 	public readonly loginTimeoutSubject = new Subject<void>();
 	public readonly vaultUpdateSubject = new Subject<void>();
 	public navigate = true;
-
 	public loggedIn = false;
 	public loggingIn = false;
+
 	public loginTimeoutDuration?: number;
+	public publicInformation?: Types.PublicAccountInformation;
 	public accessKey?: Types.EncryptedKey;
 	private nextAccessKey?: Types.EncryptedKey;
 	private automaticLoginKey?: string;
@@ -42,9 +44,11 @@ export class AccountService implements OnDestroy
 	private loginTimeoutStart?: DOMHighResTimeStamp;
 	private loginTimeout?: NodeJS.Timeout;
 
+
 	// Constructor.
 	public constructor(private readonly router: Router,
 		private readonly cryptoService: CryptoService,
+		private readonly biometricService: BiometricService,
 		private readonly messageService: MessageService,
 		private readonly apiService: ApiService,
 		private readonly themeService: ThemeService,
@@ -62,38 +66,21 @@ export class AccountService implements OnDestroy
 	// Logs in using the given email address and master password. Redirects to the
 	// validation page if the account has not been validated, or the app page
 	// if the account has been validated.
-	public async logIn(emailAddress?: string, masterPassword?: string): Promise<void>
+	public async logIn(emailAddress: string, masterPassword: string,
+		getPublicInformation = true): Promise<void>
 	{
 		try
 		{
 			if(this.loggedIn) return;
 			this.loggingIn = true;
+			this.emailAddress = emailAddress;
 
-			// Make sure the email address is provided or cached.
-			if(!emailAddress)
-			{
-				if(!this.emailAddress) this.emailAddress =
-					await this.storageService.getData(Settings.emailAddressKey);
-
-				if(!this.emailAddress) throw new Error('No email address was provided.');
-
-				emailAddress = this.emailAddress;
-			}
-			else this.emailAddress = emailAddress;
-
-			// Get the public information.
-			const publicInformation =
-				await this.apiService.getPublicInformation(emailAddress);
-
-			// Cache the automatic login key.
-			this.automaticLoginKey = publicInformation.automaticLoginKey;
-
-			// Make sure the master password is provided or cached.
-			if(!masterPassword) masterPassword = await this.loadCachedMasterPassword();
-			if(!masterPassword) throw new Error('No master password was provided.');
+			// Get the public information if necessary.
+			if(getPublicInformation) this.getPublicInformation(emailAddress);
+			if(!this.publicInformation) throw new Error('No public information.');
 
 			// Get the access key.
-			const encrypted = publicInformation.encryptedAccessKey;
+			const encrypted = this.publicInformation.encryptedAccessKey;
 			const key = await this.cryptoService.deriveKey(masterPassword, encrypted);
 			const value = this.cryptoService.decrypt(encrypted, key);
 			this.accessKey = {encrypted, value};
@@ -103,7 +90,7 @@ export class AccountService implements OnDestroy
 				await this.cryptoService.generateEncryptedKey(masterPassword);
 
 			// Redirect to the validation page if the account has not been validated
-			if(!publicInformation.validated)
+			if(!this.publicInformation.validated)
 			{
 				if(this.navigate) this.router.navigate(['/validation']);
 				this.loggingIn = false;
@@ -130,11 +117,51 @@ export class AccountService implements OnDestroy
 	}
 
 
-	// Silently attempts a login using the cached credentials.
+	// Attempts to log in automatically.
 	public async automaticLogIn(): Promise<void>
 	{
-		try{ await this.logIn(); }
-		catch(error: unknown){}
+		try
+		{
+			// Load the cached login credentials.
+			const cachedEmailAddress =
+				await this.storageService.getData(Settings.emailAddressKey);
+
+			if(!cachedEmailAddress) throw new Error('No cached email address.');
+
+			// Get the public information.
+			await this.getPublicInformation(cachedEmailAddress);
+
+			// If both the email address and master password are cached,
+			// attempt to log in with the cached credentials.
+			const cachedMasterPassword = await this.loadCachedMasterPassword();
+
+			if(cachedMasterPassword)
+			{
+				try{ await this.logIn(cachedEmailAddress, cachedMasterPassword, false); }
+				catch(error: unknown){ /* Suppress errors. */ }
+				if(this.loggedIn) return; // Success.
+			}
+
+			// If logging in with cached credentials failed or was
+			// not possible, attempt biometric login if it is enabled.
+			try
+			{
+				await this.biometricLogin(cachedEmailAddress);
+				return; // Success.
+			}
+			catch(error: unknown){ throw new Error('Could not automatically log in.'); }
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.logOut(); }
+	}
+
+
+	// Attempts biometric login.
+	public async biometricLogin(emailAddress: string): Promise<void>
+	{
+		const credentials = await this.biometricService.login(emailAddress);
+		await this.logIn(credentials.emailAddress, credentials.masterPassword, false);
 	}
 
 
@@ -147,11 +174,14 @@ export class AccountService implements OnDestroy
 
 		// Clear the loaded data.
 		if(this.emailAddress) this.emailAddress = undefined;
+		if(this.vault) this.vault = undefined;
+
+		if(this.loginTimeoutDuration !== undefined) this.loginTimeoutDuration = undefined;
+		if(this.publicInformation) this.publicInformation = undefined;
 		if(this.accessKey) this.accessKey = undefined;
 		if(this.nextAccessKey) this.nextAccessKey = undefined;
 		if(this.automaticLoginKey) this.automaticLoginKey = undefined;
 		if(this.vaultKey) this.vaultKey = undefined;
-		if(this.vault) this.vault = undefined;
 		if(this.loginTimeoutStart !== undefined) this.loginTimeoutStart = undefined;
 
 		if(this.loginTimeout)
@@ -177,7 +207,7 @@ export class AccountService implements OnDestroy
 		// Return if the login timeout has not been started.
 		if(!this.loginTimeout) return;
 
-		// Enforce a cooldown unless forced.
+		// Enforce a cooldown unless forced not to.
 		if(!force && (this.loginTimeoutStart !== undefined) && performance.now()-
 			this.loginTimeoutStart < Settings.loginTimeoutGranularity) return;
 
@@ -345,6 +375,14 @@ export class AccountService implements OnDestroy
 	}
 
 
+	// Gets the public information.
+	private async getPublicInformation(emailAddress: string): Promise<void>
+	{
+		this.publicInformation = await this.apiService.getPublicInformation(emailAddress);
+		this.automaticLoginKey = this.publicInformation.automaticLoginKey;
+	}
+
+
 	// Caches the email address and master password in local browser storage.
 	private async cacheLoginCredentials(masterPassword?: string): Promise<void>
 	{
@@ -392,6 +430,6 @@ export class AccountService implements OnDestroy
 		}
 
 		// Handle errors.
-		catch(error: unknown){ return undefined; }
+		catch(error: unknown){ this.messageService.error(error as Error); return undefined; }
 	}
 }

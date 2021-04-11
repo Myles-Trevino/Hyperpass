@@ -25,7 +25,7 @@
 			<span>{{entry.entry}}</span>
 		</div>
 
-		<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
+		<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
 
 			<!-- Copy button. -->
 			<hyperpass-svg svg="Copy Button" [cdkCopyToClipboard]="entry.entry" (click)="messageService.message('Copied.')"></hyperpass-svg>

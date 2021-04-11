@@ -32,8 +32,7 @@ export class HyperpassWebsiteComponent implements OnInit
 	public ngOnInit(): void
 	{
 		// Determine the platform.
-		this.server = this.platformService.isServer();
-		if(this.server) return;
+		if(this.platformService.isServer) return;
 
 		// Initialize.
 		this.utilityService.initialize();

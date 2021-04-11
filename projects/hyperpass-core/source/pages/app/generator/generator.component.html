@@ -126,7 +126,7 @@
 					<input class="password-input" type="text" readonly value="{{entry.password}}">
 				</div>
 
-				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile()}">
+				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
 					<hyperpass-svg svg="Copy Button" [cdkCopyToClipboard]="entry.password" (click)="sendCopiedMessage()"></hyperpass-svg>
 
 					<hyperpass-svg svg="Delete Button" (click)="deleteHistoryEntry(index)"></hyperpass-svg>

@@ -48,7 +48,7 @@ export class ValidationComponent implements OnInit
 			'Validate your account to start using Hyperpass.');
 		this.metadataService.setImage('validation');
 
-		if(this.platformService.isServer()) return;
+		if(this.platformService.isServer) return;
 
 		try
 		{

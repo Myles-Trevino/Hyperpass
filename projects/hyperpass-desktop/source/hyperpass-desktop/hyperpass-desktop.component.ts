@@ -9,7 +9,7 @@ import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 import {ElectronService} from 'ngx-electron';
 
-import {Animations, UtilityService} from 'hyperpass-core';
+import {Animations, UtilityService, PlatformService} from 'hyperpass-core';
 
 
 @Component
@@ -22,16 +22,20 @@ import {Animations, UtilityService} from 'hyperpass-core';
 
 export class HyperpassDesktopComponent implements OnInit
 {
+	public isMac = false;
+
+
 	// Constructor.
-	public constructor(private readonly utilityService: UtilityService,
+	public constructor(public readonly utilityService: UtilityService,
+		public readonly platformService: PlatformService,
 		private readonly electronService: ElectronService){}
 
 
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
-		// Initialize.
 		await this.utilityService.initialize();
+		this.isMac = (this.platformService.os === 'mac');
 		setTimeout(() => { this.electronService.ipcRenderer.send('show-window'); }, 250);
 	}
 

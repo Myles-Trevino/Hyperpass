@@ -11,7 +11,7 @@
 	<!-- Titlebar. -->
 	<div id="hyperpass-titlebar-container">
 		<div id="hyperpass-titlebar">
-			<div id="hyperpass-titlebar-buttons">
+			<div id="hyperpass-titlebar-buttons" [ngStyle]="{'justify-self': isMac ? 'left' : 'right'}">
 				<div class="hyperpass-titlebar-button" (click)="minimize()"></div>
 				<div class="hyperpass-titlebar-button" (click)="maximize()"></div>
 				<div class="hyperpass-titlebar-button" (click)="close()"></div>

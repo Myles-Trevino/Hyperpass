@@ -29,6 +29,7 @@ import {OptionsComponent} from './pages/app/options/options.component';
 import {ImportVaultComponent} from './pages/app/import-vault/import-vault.component';
 import {ExportVaultComponent} from './pages/app/export-vault/export-vault.component';
 import {MasterPasswordComponent} from './pages/app/master-password/master-password.component';
+import {BiometricLoginComponent} from './pages/app/biometric-login/biometric-login.component';
 
 import {MessageComponent} from './message/message.component';
 import {DropdownComponent} from './dropdown/dropdown.component';
@@ -57,6 +58,7 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		ImportVaultComponent,
 		ExportVaultComponent,
 		MasterPasswordComponent,
+		BiometricLoginComponent,
 
 		MessageComponent,
 		DropdownComponent,

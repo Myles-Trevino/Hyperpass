@@ -14,7 +14,11 @@
 		<div class="tile-section">
 
 			<input type="text" class="tile-input" [(ngModel)]="emailAddress" placeholder="Email Address" spellcheck="false">
-			<input type="password" [(ngModel)]="masterPassword" class="tile-input" placeholder="Master Password">
+
+			<div class="app-button-input-container">
+				<input type="password" [(ngModel)]="masterPassword" class="tile-input" placeholder="Master Password">
+				<hyperpass-svg *ngIf="biometricLoginEnabled" svg="Biometrics Button" (click)="biometricLogin()"></hyperpass-svg>
+			</div>
 
 			<div class="tile-buttons">
 				<button (click)="signUp()">Sign Up</button>

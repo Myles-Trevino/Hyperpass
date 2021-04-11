@@ -1,0 +1,46 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Top bar. -->
+<div class="app-top-bar">
+
+	<button (click)="utilityService.close('options')">Back</button>
+
+	<div class="tile-buttons">
+		<button *ngIf="isEnabled" (click)='disable()'>Disable</button>
+		<button *ngIf="!isEnabled" (click)='enable()'>Enable</button>
+	</div>
+
+</div>
+
+
+<!-- Scrollable content. -->
+<ngx-simplebar>
+<div class="vertical-container">
+
+	<!-- Notice. -->
+	<div class="tile-content">
+	<div class="tile-section">
+		<p>Biometric login lets you to access your Hyperpass vault on this device using your face or fingerprint. This makes accessing your vault much faster. However, because it is possible to spoof biometrics, enabling this option potentially makes it easier for unwanted parties to gain access to your vault.</p>
+	</div>
+	</div>
+
+	<!-- Inputs. -->
+	<div class="tile-content">
+
+		<!-- Master password. -->
+		<div *ngIf="!isEnabled" class="wide-tile-setting">
+			<span>Master Password</span>
+			<div class="app-button-input-container">
+				<input type="text" spellcheck="false" [(ngModel)]="masterPassword">
+			</div>
+		</div>
+
+	</div>
+
+</div>
+</ngx-simplebar>

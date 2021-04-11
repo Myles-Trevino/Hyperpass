@@ -9,7 +9,6 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import {SimplebarAngularModule} from 'simplebar-angular';
 
 import {HyperpassCoreModule} from 'hyperpass-core';
 
@@ -68,7 +67,6 @@ import {WhichTechnologiesDoesHyperpassUseComponent} from './pages/support/faq/wh
 		BrowserModule.withServerTransition({appId: 'hyperpass'}),
 		HttpClientModule,
 		FormsModule,
-		SimplebarAngularModule,
 		HyperpassCoreModule,
 		RoutingModule
 	],
