@@ -131,22 +131,14 @@ export const isTheme = (value: string): value is Theme =>
 	themes.includes(value as Theme);
 
 
-export const loginTimeouts = ['Never', '5 Minutes', '15 Minutes', '30 Minutes'] as const;
+export const loginTimeouts = ['5 Minutes', '1 Hour', '1 Day', '1 Week'] as const;
 
 export type LoginTimeout = typeof loginTimeouts[number];
 
 
-export type Settings =
-{
-	theme: Theme;
-	loginTimeout: LoginTimeout;
-};
+export type Settings = {theme: Theme};
 
-export const defaultSettings: Settings =
-{
-	theme: 'Light',
-	loginTimeout: 'Never'
-};
+export const defaultSettings: Settings = {theme: 'Light'};
 
 
 // Generator state.

@@ -10,19 +10,24 @@ import Dotenv from 'dotenv';
 import Crypto from 'crypto';
 import MongoDB from 'mongodb';
 import CORS from 'cors';
-import DateFns from 'date-fns';
 
 import * as Types from './types';
 import * as Helpers from './helpers';
 import * as Response from './response';
 import * as Validation from './validation';
 import * as Database from './database';
+import _ from 'lodash';
 
 
 const app = Express();
 app.disable('x-powered-by');
 app.use(Express.json());
 app.use(CORS({maxAge: 600}));
+
+
+// Gets the minimum valid Hyperpass version.
+function getMinimumVersion(rawRequest: Express.Request,
+	result: Express.Response): void { result.send('2021.4.12'); }
 
 
 // Creates a new user account.
@@ -48,6 +53,7 @@ async function createAccount(rawRequest: Express.Request,
 		emailAddress: request.emailAddress,
 		validationKey: Crypto.randomBytes(32).toString('base64'),
 		accessKey: request.accessKey,
+		automaticLoginKeys: {},
 		encryptedVault: request.encryptedVault
 	});
 
@@ -62,7 +68,7 @@ async function getPublicInformation(rawRequest: Express.Request,
 {
 	// Parse the request.
 	const request = Validation.validate(rawRequest,
-		Validation.unsecuredRequestSchema) as Types.UnsecuredRequest;
+		Validation.getPublicDataRequestSchema) as Types.GetPublicDataRequest;
 
 	// Send the account's public information.
 	const account = await Database.getAccountUnsecured(request.emailAddress, false);
@@ -70,7 +76,7 @@ async function getPublicInformation(rawRequest: Express.Request,
 	result.send
 	({
 		validated: (account.validationKey === undefined),
-		automaticLoginKey: account.automaticLoginKey?.key,
+		automaticLoginKey: Helpers.getAutomaticLoginKey(request.deviceId, account)?.key,
 		encryptedAccessKey: account.accessKey.encrypted
 	});
 }
@@ -115,7 +121,7 @@ async function validateAccount(rawRequest: Express.Request,
 
 	// Validate the account.
 	const accounts = await Database.getAccounts();
-	accounts.updateOne({_id: account._id}, {$unset: {validationKey: ''}});
+	accounts.updateOne({_id: account._id}, {$unset: {validationKey: true}});
 
 	// Send the success response.
 	Response.success(result);
@@ -167,8 +173,7 @@ async function setAutomaticLoginKey(rawRequest: Express.Request,
 	// Make sure an automatic login key is either given or cached.
 	const account = await Database.getAccount(request.accessData);
 	const accounts = await Database.getAccounts();
-
-	let key = account.automaticLoginKey?.key;
+	let key = Helpers.getAutomaticLoginKey(request.deviceId, account)?.key;
 
 	if(!key)
 	{
@@ -184,58 +189,51 @@ async function setAutomaticLoginKey(rawRequest: Express.Request,
 		date: new Date()
 	};
 
-	accounts.updateOne({_id: account._id}, {$set: {automaticLoginKey}});
+	accounts.updateOne({_id: account._id}, {$set:
+		{[`automaticLoginKeys.${request.deviceId}`]: automaticLoginKey}});
 
 	// Send the success response.
 	Response.success(result);
 }
 
 
-// Deletes the automatic login key and changes the access key.
+// Logs out on the given device.
 async function logOut(rawRequest: Express.Request,
 	result: Express.Response): Promise<void>
 {
 	// Parse the request.
 	const request = Validation.validate(rawRequest,
-		Validation.logOutRequestSchema) as Types.LogOutRequest;
+		Validation.logoutRequestSchema) as Types.LogoutRequest;
 
 	// Update the key.
 	const account = await Database.getAccount(request.accessData);
 	const accounts = await Database.getAccounts();
 
-	accounts.updateOne
-	(
-		{_id: account._id},
-		{
-			$set: {accessKey: request.newAccessKey},
-			$unset: {automaticLoginKey: ''}
-		}
-	);
+	accounts.updateOne({_id: account._id},
+		{$unset: {[`automaticLoginKeys.${request.deviceId}`]: true}});
 
 	// Send the success response.
 	Response.success(result);
 }
 
 
-// Gets the automatic login key.
-async function getAutomaticLoginKey(rawRequest: Express.Request,
+// Logs out on all devices.
+async function globalLogout(rawRequest: Express.Request,
 	result: Express.Response): Promise<void>
 {
-	// Validate the request's format.
+	// Parse the request.
 	const request = Validation.validate(rawRequest,
-		Validation.unsecuredRequestSchema) as Types.UnsecuredRequest;
+		Validation.globalLogoutRequestSchema) as Types.GlobalLogoutRequest;
 
-	// If the key does not exist, return undefined.
-	const account = await Database.getAccountUnsecured(request.emailAddress);
-	const key = account.automaticLoginKey;
-	if(!key) result.json(undefined);
+	// Update the key.
+	const account = await Database.getAccount(request.accessData);
+	const accounts = await Database.getAccounts();
 
-	// If the key has expired, return undefined.
-	else if((key.duration !== null) && DateFns.differenceInMilliseconds(
-		new Date(), key.date) > key.duration*60*1000) result.json(undefined);
+	accounts.updateOne({_id: account._id},
+		{$set: {accessKey: request.newAccessKey, automaticLoginKeys: {}}});
 
-	// Otherwise, return the key.
-	else result.json(key.key);
+	// Send the success response.
+	Response.success(result);
 }
 
 
@@ -263,6 +261,7 @@ async function changeMasterPassword(rawRequest: Express.Request,
 
 
 // Requests.
+app.get('/get-minimum-version', getMinimumVersion);
 app.post('/create-account', Helpers.wrapAsync(createAccount));
 app.post('/get-public-information', Helpers.wrapAsync(getPublicInformation));
 app.post('/send-account-validation-email', Helpers.wrapAsync(sendAccountValidationEmail));
@@ -271,9 +270,9 @@ app.post('/validate-account', Helpers.wrapAsync(validateAccount));
 app.post('/get-vault', Helpers.wrapAsync(getVault));
 app.post('/set-vault', Helpers.wrapAsync(setVault));
 app.post('/set-automatic-login-key', Helpers.wrapAsync(setAutomaticLoginKey));
-app.post('/get-automatic-login-key', Helpers.wrapAsync(getAutomaticLoginKey));
 app.post('/change-master-password', Helpers.wrapAsync(changeMasterPassword));
 app.post('/log-out', Helpers.wrapAsync(logOut));
+app.post('/global-logout', Helpers.wrapAsync(globalLogout));
 
 app.use((request, result) => { result.status(404).end(); });
 

@@ -24,17 +24,17 @@ export class HyperpassWebsiteComponent implements OnInit
 
 
 	// Constructor.
-	public constructor(private readonly utilityService: UtilityService,
+	public constructor(public readonly utilityService: UtilityService,
 		private readonly platformService: PlatformService){}
 
 
 	// Initializer.
-	public ngOnInit(): void
+	public async ngOnInit(): Promise<void>
 	{
 		// Determine the platform.
 		if(this.platformService.isServer) return;
 
 		// Initialize.
-		this.utilityService.initialize();
+		await this.utilityService.initialize();
 	}
 }

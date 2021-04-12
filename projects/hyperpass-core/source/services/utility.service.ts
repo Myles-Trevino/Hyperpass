@@ -18,6 +18,8 @@ import {CryptoService} from './crypto.service';
 import {GeneratorService} from './generator.service';
 import {StorageService} from './storage.service';
 import {PlatformService} from './platform.service';
+import {ApiService} from './api.service';
+import {MessageService} from './message.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -25,15 +27,18 @@ import {PlatformService} from './platform.service';
 export class UtilityService
 {
 	public readonly updateVaultSubject = new Subject<void>();
+	public initialized = false;
 
 
 	// Constructor.
 	public constructor(
 		private readonly route: ActivatedRoute,
+		private readonly apiService: ApiService,
 		private readonly themeService: ThemeService,
 		private readonly cryptoService: CryptoService,
 		private readonly generatorService: GeneratorService,
 		private readonly storageService: StorageService,
+		private readonly messageService: MessageService,
 		private readonly platformService: PlatformService,
 		public readonly router: Router){}
 
@@ -41,21 +46,39 @@ export class UtilityService
 	// Initializes the Hyperpass core.
 	public async initialize(): Promise<void>
 	{
-		// Load platform information.
-		await this.platformService.initialize();
+		try
+		{
+			// Initialize the cryptography service.
+			await this.cryptoService.initialize();
 
-		// If there is a cached theme, apply it.
-		const cachedTheme = await this.storageService.getData(Settings.themeKey);
+			// Load platform information.
+			await this.platformService.initialize();
 
-		if(cachedTheme && Types.isTheme(cachedTheme))
-			await this.themeService.setTheme(cachedTheme);
+			// If there is a cached theme, apply it.
+			const cachedTheme = await this.storageService.getData(Settings.themeKey);
 
-		// Otherwise, set the theme based on the OS preference.
-		else await this.themeService.setTheme();
+			if(cachedTheme && Types.isTheme(cachedTheme))
+				await this.themeService.setTheme(cachedTheme);
 
-		// Initialize services.
-		await this.cryptoService.initialize();
-		await this.generatorService.initialize();
+			// Otherwise, set the theme based on the OS preference.
+			else await this.themeService.setTheme();
+
+			// Initialize the generator service.
+			await this.generatorService.initialize();
+
+			// Check the version.
+			const minimumVersion = await this.apiService.getMinimumVersion();
+
+			if(this.naturalCompare(Settings.version, minimumVersion) < 0)
+				this.messageService.error(new Error('This version of Hyperpass '+
+					'is out of date. Please update to continue.'), 0);
+
+			// Set the initialized flag.
+			else this.initialized = true;
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
@@ -136,14 +159,17 @@ export class UtilityService
 	}
 
 
+	// Natural compare.
+	public naturalCompare(a: string, b: string): number
+	{
+		return a.localeCompare(b, undefined, {sensitivity: 'base', numeric: true});
+	}
+
+
 	// Natural sort.
 	public naturalSort<T>(array: T[], getKey: (item: T) => string): T[]
 	{
-		return array.sort((a, b) =>
-		{
-			return getKey(a).localeCompare(getKey(b), undefined,
-				{sensitivity: 'base', numeric: true});
-		});
+		return array.sort((a, b) => this.naturalCompare(getKey(a), getKey(b)));
 	}
 
 

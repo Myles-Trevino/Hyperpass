@@ -24,8 +24,8 @@ import {BackgroundService} from './background.service';
 export class HyperpassExtensionComponent implements OnInit
 {
 	// Constructor.
-	public constructor(private readonly router: Router,
-		private readonly utilityService: UtilityService,
+	public constructor(public readonly utilityService: UtilityService,
+		private readonly router: Router,
 		private readonly backgroundService: BackgroundService,
 		private readonly accountService: AccountService){}
 

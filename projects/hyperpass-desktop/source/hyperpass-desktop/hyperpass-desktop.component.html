@@ -20,7 +20,7 @@
 	</div>
 
 	<!-- Page. -->
-	<router-outlet></router-outlet>
+	<router-outlet *ngIf="utilityService.initialized"></router-outlet>
 
 	<!-- Message. -->
 	<hyperpass-message #hyperpassMessage></hyperpass-message>

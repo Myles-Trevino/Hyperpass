@@ -25,7 +25,7 @@ export class MessageService
 
 
 	// Sends an error message.
-	public error(error: Error | HttpErrorResponse): void
+	public error(error: Error | HttpErrorResponse, duration = 7): void
 	{
 		// Log the error.
 		console.log(error);
@@ -38,12 +38,16 @@ export class MessageService
 			if(error.error instanceof ProgressEvent)
 				message = 'Could not complete the request.';
 
-			else message = error.error as string;
+			else
+			{
+				message = error.error as string;
+				if(!message) message = `${error.status} Error.`;
+			}
 		}
 
 		else message = error.message;
 
 		// Send the error message.
-		this.messages.next({message, type: 'Error', duration: 7});
+		this.messages.next({message, type: 'Error', duration});
 	}
 }

@@ -22,6 +22,7 @@ import {LoginComponent} from './pages/login/login.component';
 import {SignupComponent} from './pages/signup/signup.component';
 import {ValidationComponent} from './pages/validation/validation.component';
 import {AppComponent} from './pages/app/app.component';
+
 import {VaultComponent} from './pages/app/vault/vault.component';
 import {VaultEntryComponent} from './pages/app/vault-entry/vault-entry.component';
 import {GeneratorComponent} from './pages/app/generator/generator.component';
@@ -51,6 +52,7 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		SignupComponent,
 		ValidationComponent,
 		AppComponent,
+
 		VaultComponent,
 		VaultEntryComponent,
 		GeneratorComponent,

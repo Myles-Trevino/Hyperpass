@@ -12,7 +12,7 @@
 	<hyperpass-navbar></hyperpass-navbar>
 
 	<!-- Page. -->
-	<div id="hyperpass-page-container">
+	<div *ngIf="utilityService.initialized" id="hyperpass-page-container">
 		<router-outlet></router-outlet>
 	</div>
 

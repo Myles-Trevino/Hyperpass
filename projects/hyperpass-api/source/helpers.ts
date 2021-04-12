@@ -9,7 +9,10 @@ import FS from 'fs';
 import type Express from 'express';
 import Handlebars from 'handlebars';
 import Nodemailer from 'nodemailer';
+import * as DateFns from 'date-fns';
+import * as _ from 'lodash';
 
+import type * as Types from './types';
 import * as Response from './response';
 
 
@@ -22,6 +25,25 @@ export function wrapAsync(handler: (request: Express.Request,
 		handler(request.body, response).catch(
 			(error: unknown) => { Response.errorStatus(response, error); });
 	};
+}
+
+
+// Returns the automatic login key for the given
+// device ID, making sure that it has not expired.
+export function getAutomaticLoginKey(deviceId: string,
+	account: Types.Account): Types.AutomaticLoginKey | undefined
+{
+	// If there is no key for the given device ID, return undefined.
+	const keys = account.automaticLoginKeys;
+	if(!_.has(keys, deviceId)) return undefined;
+
+	// If the key has expired, return undefined.
+	const key = keys[deviceId];
+	if((key.duration !== null) && DateFns.differenceInMilliseconds(
+		new Date(), key.date) > key.duration*60*1000) return undefined;
+
+	// Otherwise return the key.
+	return key;
 }
 
 

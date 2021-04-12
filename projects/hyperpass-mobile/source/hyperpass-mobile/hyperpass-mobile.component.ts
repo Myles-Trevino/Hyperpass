@@ -21,7 +21,7 @@ import {UtilityService} from 'hyperpass-core';
 export class HyperpassMobileComponent implements OnInit
 {
 	// Constructor.
-	public constructor(private readonly utilityService: UtilityService){}
+	public constructor(public readonly utilityService: UtilityService){}
 
 
 	// Initializer.

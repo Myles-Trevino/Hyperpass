@@ -9,6 +9,9 @@ import {NgModule} from '@angular/core';
 import type {Routes} from '@angular/router';
 import {RouterModule} from '@angular/router';
 
+import {LoginComponent} from './pages/login/login.component';
+import {SignupComponent} from './pages/signup/signup.component';
+import {ValidationComponent} from './pages/validation/validation.component';
 import {AppComponent} from './pages/app/app.component';
 
 import {VaultComponent} from './pages/app/vault/vault.component';
@@ -21,10 +24,6 @@ import {ImportVaultComponent} from './pages/app/import-vault/import-vault.compon
 import {ExportVaultComponent} from './pages/app/export-vault/export-vault.component';
 import {MasterPasswordComponent} from './pages/app/master-password/master-password.component';
 import {BiometricLoginComponent} from './pages/app/biometric-login/biometric-login.component';
-
-import {LoginComponent} from './pages/login/login.component';
-import {SignupComponent} from './pages/signup/signup.component';
-import {ValidationComponent} from './pages/validation/validation.component';
 
 
 const routes: Routes =

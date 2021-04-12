@@ -10,6 +10,7 @@ import {HttpClient} from '@angular/common/http';
 
 import type * as Types from '../types';
 import * as Settings from '../settings';
+import {PlatformService} from './platform.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -17,7 +18,16 @@ import * as Settings from '../settings';
 export class ApiService
 {
 	// Constructor.
-	public constructor(private readonly httpClient: HttpClient){}
+	public constructor(private readonly httpClient: HttpClient,
+		private readonly platformService: PlatformService){}
+
+
+	// /get-minimum-version.
+	public getMinimumVersion(): Promise<string>
+	{
+		return this.httpClient.get(`${Settings.apiUrl}/get-minimum-version`,
+			{responseType: 'text'}).toPromise();
+	}
 
 
 	// /create-account.
@@ -34,7 +44,8 @@ export class ApiService
 		emailAddress: string): Promise<Types.PublicAccountInformation>
 	{
 		return this.httpClient.post<Types.PublicAccountInformation>(
-			`${Settings.apiUrl}/get-public-information`, {emailAddress}).toPromise();
+			`${Settings.apiUrl}/get-public-information`,
+			{emailAddress, deviceId: this.platformService.deviceId}).toPromise();
 	}
 
 
@@ -76,8 +87,9 @@ export class ApiService
 	public async setAutomaticLoginKey(accessData: Types.AccessData,
 		key: string | undefined, duration: number | undefined): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/set-automatic-login-key`,
-			{accessData, key, duration}).toPromise();
+		await this.httpClient.post(`${Settings.apiUrl}/`+
+			`set-automatic-login-key`, {deviceId: this.platformService.deviceId,
+			accessData, key, duration}).toPromise();
 	}
 
 
@@ -92,12 +104,21 @@ export class ApiService
 
 
 	// /log-out.
-	public async logOut(accessData: Types.AccessData,
+	public async logOut(accessData: Types.AccessData): Promise<void>
+	{
+		await this.httpClient.post(`${Settings.apiUrl}/log-out`, {accessData,
+			deviceId: this.platformService.deviceId}).toPromise();
+	}
+
+
+	// /global-logout.
+	public async globalLogout(accessData: Types.AccessData,
 		newAccessKey: Types.EncryptedKey): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/log-out`,
+		await this.httpClient.post(`${Settings.apiUrl}/global-logout`,
 			{accessData, newAccessKey}).toPromise();
 	}
+
 
 	// Get words.
 	public async getWords(): Promise<string[]>

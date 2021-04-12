@@ -35,14 +35,15 @@ export class AccountService implements OnDestroy
 	public loggedIn = false;
 	public loggingIn = false;
 
-	public loginTimeoutDuration?: number;
+	public loginTimeout: Types.LoginTimeout = Settings.defaultLoginTimeout;
+	public loginTimeoutDuration = Settings.defaultLoginTimeoutDuration;
 	public publicInformation?: Types.PublicAccountInformation;
 	public accessKey?: Types.EncryptedKey;
 	private nextAccessKey?: Types.EncryptedKey;
 	private automaticLoginKey?: string;
 	private vaultKey?: Types.Key;
 	private loginTimeoutStart?: DOMHighResTimeStamp;
-	private loginTimeout?: NodeJS.Timeout;
+	private loginTimeoutTimeout?: NodeJS.Timeout;
 
 
 	// Constructor.
@@ -59,7 +60,7 @@ export class AccountService implements OnDestroy
 	public ngOnDestroy(): void
 	{
 		// Clear the login timeout.
-		if(this.loginTimeout) clearTimeout(this.loginTimeout);
+		if(this.loginTimeoutTimeout) clearTimeout(this.loginTimeoutTimeout);
 	}
 
 
@@ -76,7 +77,7 @@ export class AccountService implements OnDestroy
 			this.emailAddress = emailAddress;
 
 			// Get the public information if necessary.
-			if(getPublicInformation) this.getPublicInformation(emailAddress);
+			if(getPublicInformation) await this.getPublicInformation(emailAddress);
 			if(!this.publicInformation) throw new Error('No public information.');
 
 			// Get the access key.
@@ -165,39 +166,20 @@ export class AccountService implements OnDestroy
 	}
 
 
-	// Logs out, clears any stored account data, and redirects to the login page.
+	// Logs out on the current device.
 	public async logOut(): Promise<void>
 	{
-		// Send the log out request.
-		if(this.loggedIn && this.nextAccessKey)
-			await this.apiService.logOut(this.getAccessData(), this.nextAccessKey);
+		if(this.loggedIn) await this.apiService.logOut(this.getAccessData());
+		this.reset();
+	}
 
-		// Clear the loaded data.
-		if(this.emailAddress) this.emailAddress = undefined;
-		if(this.vault) this.vault = undefined;
 
-		if(this.loginTimeoutDuration !== undefined) this.loginTimeoutDuration = undefined;
-		if(this.publicInformation) this.publicInformation = undefined;
-		if(this.accessKey) this.accessKey = undefined;
-		if(this.nextAccessKey) this.nextAccessKey = undefined;
-		if(this.automaticLoginKey) this.automaticLoginKey = undefined;
-		if(this.vaultKey) this.vaultKey = undefined;
-		if(this.loginTimeoutStart !== undefined) this.loginTimeoutStart = undefined;
-
-		if(this.loginTimeout)
-		{
-			clearTimeout(this.loginTimeout);
-			this.loginTimeout = undefined;
-		}
-
-		this.loggingIn = false;
-
-		if(this.loggedIn)
-		{
-			this.loggedIn = false;
-			this.loginSubject.next(this.loggedIn);
-			if(this.navigate) this.router.navigate(['/login']);
-		}
+	// Logs out on all devices.
+	public async globalLogout(): Promise<void>
+	{
+		if(!this.nextAccessKey) throw new Error('No next access key.');
+		await this.apiService.globalLogout(this.getAccessData(), this.nextAccessKey);
+		this.reset();
 	}
 
 
@@ -205,7 +187,7 @@ export class AccountService implements OnDestroy
 	public resetLoginTimeout(force = false): void
 	{
 		// Return if the login timeout has not been started.
-		if(!this.loginTimeout) return;
+		if(!this.loginTimeoutTimeout) return;
 
 		// Enforce a cooldown unless forced not to.
 		if(!force && (this.loginTimeoutStart !== undefined) && performance.now()-
@@ -285,7 +267,7 @@ export class AccountService implements OnDestroy
 
 		// Apply the settings.
 		await this.themeService.setTheme(this.getVault().settings.theme);
-		this.updateLoginTimeoutDuration();
+		await this.updateLoginTimeoutDuration();
 
 		// Cache the login credentials.
 		this.cacheLoginCredentials(masterPassword);
@@ -340,15 +322,20 @@ export class AccountService implements OnDestroy
 
 
 	// Updates the login timeout duration.
-	public updateLoginTimeoutDuration(): void
+	public async updateLoginTimeoutDuration(): Promise<void>
 	{
-		const settings = this.vault?.settings;
-		if(!settings) throw new Error('Failed to load the settings.');
+		const cachedLoginTimeout = await this.storageService.getData(
+			Settings.loginTimeoutKey) as Types.LoginTimeout | undefined;
 
-		if(settings.loginTimeout === '5 Minutes') this.loginTimeoutDuration = 5;
-		else if(settings.loginTimeout === '15 Minutes') this.loginTimeoutDuration = 15;
-		else if(settings.loginTimeout === '30 Minutes') this.loginTimeoutDuration = 30;
-		else this.loginTimeoutDuration = undefined;
+		if(cachedLoginTimeout) this.loginTimeout = cachedLoginTimeout;
+
+		switch(this.loginTimeout)
+		{
+			case '5 Minutes': this.loginTimeoutDuration = 5; break;
+			case '1 Hour': this.loginTimeoutDuration = 60; break;
+			case '1 Day': this.loginTimeoutDuration = 60*24; break;
+			case '1 Week': this.loginTimeoutDuration = 60*24*7; break;
+		}
 	}
 
 
@@ -356,22 +343,51 @@ export class AccountService implements OnDestroy
 	public startLoginTimeout(): void
 	{
 		// Stop the timeout if it has been started.
-		if(this.loginTimeout) clearTimeout(this.loginTimeout);
-		this.loginTimeout = undefined;
-
-		// If there is no login timeout, return.
-		if(this.loginTimeoutDuration === undefined) return;
+		if(this.loginTimeoutTimeout) clearTimeout(this.loginTimeoutTimeout);
+		this.loginTimeoutTimeout = undefined;
 
 		// Start the timeout.
 		this.loginTimeoutStart = performance.now();
 
-		this.loginTimeout = setTimeout(() =>
+		this.loginTimeoutTimeout = setTimeout(() =>
 		{
 			this.loginTimeoutSubject.next();
 			this.logOut();
 			this.messageService.message('You have been '+
 				'automatically logged out due to inactivity.', 0);
 		}, this.loginTimeoutDuration*60*1000);
+	}
+
+
+	// Resets the account service.
+	private reset(): void
+	{
+		if(this.emailAddress) this.emailAddress = undefined;
+		if(this.vault) this.vault = undefined;
+
+		this.loginTimeout = Settings.defaultLoginTimeout;
+		this.loginTimeoutDuration = Settings.defaultLoginTimeoutDuration;
+		if(this.publicInformation) this.publicInformation = undefined;
+		if(this.accessKey) this.accessKey = undefined;
+		if(this.nextAccessKey) this.nextAccessKey = undefined;
+		if(this.automaticLoginKey) this.automaticLoginKey = undefined;
+		if(this.vaultKey) this.vaultKey = undefined;
+		if(this.loginTimeoutStart !== undefined) this.loginTimeoutStart = undefined;
+
+		if(this.loginTimeoutTimeout)
+		{
+			clearTimeout(this.loginTimeoutTimeout);
+			this.loginTimeoutTimeout = undefined;
+		}
+
+		this.loggingIn = false;
+
+		if(this.loggedIn)
+		{
+			this.loggedIn = false;
+			this.loginSubject.next(this.loggedIn);
+			if(this.navigate) this.router.navigate(['/login']);
+		}
 	}
 
 

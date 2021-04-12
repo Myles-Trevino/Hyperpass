@@ -48,7 +48,7 @@ export type Account =
 	emailAddress: string;
 	validationKey?: string;
 	accessKey: EncryptedKey;
-	automaticLoginKey?: AutomaticLoginKey;
+	automaticLoginKeys: Record<string, AutomaticLoginKey>;
 	encryptedVault: EncryptedData;
 };
 
@@ -65,6 +65,8 @@ export type UnsecuredRequest = {emailAddress: string};
 
 export type SecuredRequest = {accessData: AccessData};
 
+export type GetPublicDataRequest = UnsecuredRequest & {deviceId: string};
+
 export type CreateAccountRequest = UnsecuredRequest &
 {
 	version: number;
@@ -79,6 +81,7 @@ export type SetVaultRequest = SecuredRequest & {encryptedVault: EncryptedData};
 
 export type SetAutomaticLoginKeyRequest = SecuredRequest &
 {
+	deviceId: string;
 	key?: string;
 	duration?: number;
 };
@@ -91,4 +94,6 @@ export type ChangeMasterPasswordRequest = SecuredRequest &
 	newEncryptedVault: EncryptedData;
 };
 
-export type LogOutRequest = SecuredRequest & {newAccessKey: EncryptedKey};
+export type LogoutRequest = SecuredRequest & {deviceId: string};
+
+export type GlobalLogoutRequest = SecuredRequest & {newAccessKey: EncryptedKey};

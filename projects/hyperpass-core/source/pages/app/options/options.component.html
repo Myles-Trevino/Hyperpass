@@ -25,7 +25,13 @@
 	<!-- Login timeout. -->
 	<div class="tile-setting">
 		<span>Login Timeout</span>
-		<hyperpass-dropdown [options]="types.loginTimeouts" [selectedOption]="settings.loginTimeout" (selectedOptionChange)="setLoginTimeout($event)"></hyperpass-dropdown>
+		<hyperpass-dropdown [options]="types.loginTimeouts" [selectedOption]="accountService.loginTimeout" (selectedOptionChange)="setLoginTimeout($event)"></hyperpass-dropdown>
+	</div>
+
+	<!-- Global logout. -->
+	<div class="tile-setting">
+		<span>Global Logout</span>
+		<button (click)="globalLogout()">Log Out</button>
 	</div>
 
 	<!-- Import and export. -->
@@ -39,7 +45,7 @@
 	</div>
 
 	<!-- Biometric login. -->
-	<div class="tile-setting">
+	<div *ngIf="platformService.isMobile" class="tile-setting">
 		<span>Biometric Login</span>
 		<button [routerLink]="['/app', {outlets: {'options': ['biometric-login']}}]" [skipLocationChange]="true">Configure</button>
 	</div>
@@ -74,7 +80,7 @@
 	<!-- Version. -->
 	<div class="tile-section">
 		<span>Version</span>
-		<span class="right-justified">2021.4.11</span>
+		<span class="right-justified">2021.4.12</span>
 	</div>
 
 </div>

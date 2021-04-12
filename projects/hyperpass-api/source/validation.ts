@@ -42,6 +42,9 @@ export const unsecuredRequestSchema =
 export const securedRequestSchema =
 	Joi.object({accessData: accessDataSchema.required()});
 
+export const getPublicDataRequestSchema = unsecuredRequestSchema.concat(
+	Joi.object({deviceId: keySchema.required()}));
+
 export const createAccountRequestSchema = Joi.object
 ({
 	version: Joi.number().integer().required(),
@@ -58,6 +61,7 @@ export const setVaultRequestSchema = securedRequestSchema.concat(
 
 export const setAutomaticLoginKeyRequestSchema = securedRequestSchema.concat(Joi.object
 ({
+	deviceId: keySchema.required(),
 	key: keySchema,
 	duration: Joi.number()
 }));
@@ -71,7 +75,10 @@ export const changeMasterPasswordRequestSchema = securedRequestSchema.concat(Joi
 	newEncryptedVault: encryptedDataSchema.required()
 }));
 
-export const logOutRequestSchema = securedRequestSchema.concat(
+export const logoutRequestSchema = securedRequestSchema.concat(
+	Joi.object({deviceId: keySchema.required()}));
+
+export const globalLogoutRequestSchema = securedRequestSchema.concat(
 	Joi.object({newAccessKey: encryptedKeySchema.required()}));
 
 

@@ -9,7 +9,7 @@
 <div id="hyperpass-container">
 
 	<!-- Page. -->
-	<ngx-simplebar>
+	<ngx-simplebar *ngIf="utilityService.initialized">
 		<router-outlet></router-outlet>
 	</ngx-simplebar>
 

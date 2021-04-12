@@ -5,8 +5,13 @@
 -->
 
 
-<!-- Page. -->
-<router-outlet></router-outlet>
+<!-- Container. -->
+<div id="hyperpass-container">
 
-<!-- Message. -->
-<hyperpass-message #hyperpassMessage></hyperpass-message>
+	<!-- Page. -->
+	<router-outlet *ngIf="utilityService.initialized"></router-outlet>
+
+	<!-- Message. -->
+	<hyperpass-message #hyperpassMessage></hyperpass-message>
+
+</div>
