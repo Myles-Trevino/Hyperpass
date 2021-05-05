@@ -24,15 +24,25 @@
 		<!-- Signup form. -->
 		<div class="tile-section">
 
+			<!-- Email address. -->
 			<input type="text" class="tile-input" [(ngModel)]="emailAddress" placeholder="Email Address" spellcheck="false">
 
-			<div class="input-with-button">
-				<input type="text" class="tile-input" [(ngModel)]="masterPassword" placeholder="Master Password">
-				<button (click)="generateMasterPassword()">Generate</button>
+			<!-- Master password. -->
+			<div class="app-button-input-container hoverable-container">
+
+				<input [type]="showMasterPassword ? 'text' : 'password'" class="tile-input" [(ngModel)]="masterPassword" placeholder="Master Password">
+
+				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
+					<hyperpass-svg *ngIf="!showMasterPassword" svg="Show Button" (click)="toggleMasterPasswordVisibility()"></hyperpass-svg>
+					<hyperpass-svg *ngIf="showMasterPassword" svg="Hide Button" (click)="toggleMasterPasswordVisibility()"></hyperpass-svg>
+					<hyperpass-svg svg="Generate Button" (click)="generateMasterPassword()"></hyperpass-svg>
+				</div>
 			</div>
 
-			<input type="text" class="tile-input" placeholder="Confirm Master Password" #confirmMasterPasswordInput>
+			<!-- Confirm master password. -->
+			<input type="password" class="tile-input" placeholder="Confirm Master Password" #confirmMasterPasswordInput>
 
+			<!-- Bottom buttons. -->
 			<div class="tile-buttons">
 				<button routerLink="/login">Cancel</button>
 				<button (click)="signUp(confirmMasterPasswordInput.value)">Sign Up</button>

@@ -9,7 +9,7 @@ import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild, ElementRef} from '@angular/core';
 import * as Three from 'three';
 
-import {MetadataService, ThemeService} from 'hyperpass-core';
+import {MetadataService, PlatformService, ThemeService} from 'hyperpass-core';
 
 
 type Point =
@@ -51,7 +51,8 @@ export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
 
 	// Constructor.
 	public constructor(private readonly metadataService: MetadataService,
-		private readonly themeService: ThemeService){}
+		private readonly themeService: ThemeService,
+		private readonly platformService: PlatformService){}
 
 
 	// Initializer.
@@ -68,6 +69,7 @@ export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
 	// Initializes Three.js.
 	public ngAfterViewInit(): void
 	{
+		if(this.platformService.isServer) return;
 		if(!this.canvas) throw new Error('No canvas.');
 
 		// Initialize Three.js.

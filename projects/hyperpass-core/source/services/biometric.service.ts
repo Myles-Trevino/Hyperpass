@@ -49,6 +49,10 @@ export class BiometricService
 		// Make sure biometrics are available on the device.
 		await this.ensureAvailability();
 
+		// Make sure biometric login is enabled.
+		if(!await this.isEnabled(emailAddress))
+			throw new Error('Biometric login is not enabled.');
+
 		// Get the credentials.
 		const credentials = this.getCredentials(emailAddress);
 

@@ -36,7 +36,7 @@ export type EncryptedKey =
 export type AutomaticLoginKey =
 {
 	key: string;
-	duration: number | null;
+	duration: number;
 	date: Date;
 };
 
@@ -83,7 +83,7 @@ export type SetAutomaticLoginKeyRequest = SecuredRequest &
 {
 	deviceId: string;
 	key?: string;
-	duration?: number;
+	duration: number;
 };
 
 export type UpdateAutomaticLoginKeyRequest = SecuredRequest & {duration?: number};

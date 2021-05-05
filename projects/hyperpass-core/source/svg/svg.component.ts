@@ -186,6 +186,23 @@ const svgs: Record<string, string> =
 		<path class="glyph" d="M19.63,25.41c-3.53-.18-4-5.12-4-5.12"/>
 	</svg>`,
 
+	// Show button.
+	'Show Button':
+	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+		<circle class="base" cx="16" cy="16" r="16"/>
+		<path class="glyph" d="M6.5,16A11.78,11.78,0,0,1,16,11a11.78,11.78,0,0,1,9.5,5s-4.59,5-9.5,5S6.5,16,6.5,16Z"/>
+		<circle class="glyph" cx="16" cy="16" r="2.5"/>
+	</svg>`,
+
+	// Hide button.
+	'Hide Button':
+	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+		<circle class="base" cx="16" cy="16" r="16"/>
+		<path class="glyph" d="M6.5,16A11.78,11.78,0,0,1,16,11a11.78,11.78,0,0,1,9.5,5s-4.59,5-9.5,5S6.5,16,6.5,16Z"/>
+		<circle class="glyph" cx="16" cy="16" r="2.5"/>
+		<line class="glyph" x1="10" y1="22" x2="22" y2="10"/>
+	</svg>`,
+
 	// Heart.
 	'Heart':
 	`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.12 26.15">

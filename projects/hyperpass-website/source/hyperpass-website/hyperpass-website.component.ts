@@ -25,7 +25,7 @@ export class HyperpassWebsiteComponent implements OnInit
 
 	// Constructor.
 	public constructor(public readonly utilityService: UtilityService,
-		private readonly platformService: PlatformService){}
+		public readonly platformService: PlatformService){}
 
 
 	// Initializer.

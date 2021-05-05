@@ -85,7 +85,7 @@ export class ApiService
 
 	// /set-automatic-login-key.
 	public async setAutomaticLoginKey(accessData: Types.AccessData,
-		key: string | undefined, duration: number | undefined): Promise<void>
+		key: string | undefined, duration: number): Promise<void>
 	{
 		await this.httpClient.post(`${Settings.apiUrl}/`+
 			`set-automatic-login-key`, {deviceId: this.platformService.deviceId,

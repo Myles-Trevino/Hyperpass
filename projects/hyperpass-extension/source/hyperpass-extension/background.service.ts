@@ -6,7 +6,7 @@
 
 
 import {Injectable} from '@angular/core';
-import type {Tabs} from 'webextension-polyfill-ts';
+import type {Menus, Tabs} from 'webextension-polyfill-ts';
 import {browser} from 'webextension-polyfill-ts';
 
 import type {Types} from 'hyperpass-core';
@@ -40,11 +40,7 @@ export class BackgroundService
 			// Login and logout.
 			if(message.type === 'loginUpdate')
 			{
-				if(message.data as boolean)
-				{
-					this.logInPromise = this.accountService.automaticLogIn();
-					await this.logInPromise;
-				}
+				if(message.data as boolean) await this.attemptAutomaticLogin();
 				else await this.accountService.logOut();
 				this.update();
 			}
@@ -76,14 +72,8 @@ export class BackgroundService
 		{ if(changeInfo.url) this.urlChangeCallback(changeInfo.url); });
 
 		// Context menu click callback.
-		browser.contextMenus.onClicked.addListener((info) =>
-		{
-			const menuItemId = info.menuItemId.toString();
-			this.handleAutofill(menuItemId);
-
-			const dashIndex = menuItemId.indexOf('-');
-			if(dashIndex !== -1) this.setDefaultAccount(menuItemId.substring(dashIndex+1));
-		});
+		browser.contextMenus.onClicked.addListener(
+			(info) => { this.contextMenuCallback(info); });
 
 		// Command callback.
 		browser.commands.onCommand.addListener(
@@ -91,6 +81,14 @@ export class BackgroundService
 
 		// Create the context menus.
 		this.createContextMenus();
+	}
+
+
+	// Attempts automatic login.
+	public async attemptAutomaticLogin(): Promise<void>
+	{
+		this.logInPromise = this.accountService.automaticLogIn();
+		await this.logInPromise;
 	}
 
 
@@ -116,6 +114,17 @@ export class BackgroundService
 	}
 
 
+	// Context menu callback.
+	private contextMenuCallback(info: Menus.OnClickData): void
+	{
+		const menuItemId = info.menuItemId.toString();
+		this.handleAutofill(menuItemId);
+
+		const dashIndex = menuItemId.indexOf('-');
+		if(dashIndex !== -1) this.setDefaultAccount(menuItemId.substring(dashIndex+1));
+	}
+
+
 	// Updates the available accounts and the context menu.
 	private update(): void
 	{
@@ -137,6 +146,9 @@ export class BackgroundService
 					if(value.default) this.account = value;
 				}
 			}
+
+			// If there is no default, use the first match.
+			if(!this.account) this.account = Object.values(this.accounts)[0];
 
 			// Update the context menu.
 			this.createContextMenus();

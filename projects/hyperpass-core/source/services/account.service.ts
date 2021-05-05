@@ -362,18 +362,6 @@ export class AccountService implements OnDestroy
 	// Resets the account service.
 	private reset(): void
 	{
-		if(this.emailAddress) this.emailAddress = undefined;
-		if(this.vault) this.vault = undefined;
-
-		this.loginTimeout = Settings.defaultLoginTimeout;
-		this.loginTimeoutDuration = Settings.defaultLoginTimeoutDuration;
-		if(this.publicInformation) this.publicInformation = undefined;
-		if(this.accessKey) this.accessKey = undefined;
-		if(this.nextAccessKey) this.nextAccessKey = undefined;
-		if(this.automaticLoginKey) this.automaticLoginKey = undefined;
-		if(this.vaultKey) this.vaultKey = undefined;
-		if(this.loginTimeoutStart !== undefined) this.loginTimeoutStart = undefined;
-
 		if(this.loginTimeoutTimeout)
 		{
 			clearTimeout(this.loginTimeoutTimeout);

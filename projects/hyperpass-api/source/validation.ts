@@ -63,7 +63,7 @@ export const setAutomaticLoginKeyRequestSchema = securedRequestSchema.concat(Joi
 ({
 	deviceId: keySchema.required(),
 	key: keySchema,
-	duration: Joi.number()
+	duration: Joi.number().required()
 }));
 
 export const updateAutomaticLoginKeyRequestSchema =

@@ -27,7 +27,7 @@ app.use(CORS({maxAge: 600}));
 
 // Gets the minimum valid Hyperpass version.
 function getMinimumVersion(rawRequest: Express.Request,
-	result: Express.Response): void { result.send('2021.4.12'); }
+	result: Express.Response): void { result.send('2021.4.19'); }
 
 
 // Creates a new user account.
@@ -185,12 +185,15 @@ async function setAutomaticLoginKey(rawRequest: Express.Request,
 	const automaticLoginKey: Types.AutomaticLoginKey =
 	{
 		key,
-		duration: request.duration ?? null,
+		duration: request.duration,
 		date: new Date()
 	};
 
 	accounts.updateOne({_id: account._id}, {$set:
 		{[`automaticLoginKeys.${request.deviceId}`]: automaticLoginKey}});
+
+	// Delete outdated automatic login keys.
+	Helpers.deleteOutdatedAutomaticLoginKeys(account, accounts);
 
 	// Send the success response.
 	Response.success(result);

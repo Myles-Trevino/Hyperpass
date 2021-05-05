@@ -19,6 +19,7 @@ import {ApiService} from '../../services/api.service';
 import {ThemeService} from '../../services/theme.service';
 import {StorageService} from '../../services/storage.service';
 import {MetadataService} from '../../services/metadata.service';
+import {PlatformService} from '../../services/platform.service';
 
 
 @Component
@@ -34,10 +35,12 @@ export class SignupComponent implements OnInit
 
 	public emailAddress = '';
 	public masterPassword = '';
+	public showMasterPassword = false;
 
 
 	// Constructor.
 	public constructor(
+		public readonly platformService: PlatformService,
 		private readonly apiService: ApiService,
 		private readonly accountService: AccountService,
 		private readonly messageService: MessageService,
@@ -67,7 +70,10 @@ export class SignupComponent implements OnInit
 
 	// Generates a master password.
 	public generateMasterPassword(): void
-	{ this.masterPassword = this.generatorService.generatePassphrase(3, 2, '-', true); }
+	{
+		this.masterPassword = this.generatorService.generatePassphrase(3, 2, '-', true);
+		this.showMasterPassword = true;
+	}
 
 
 	// Adds a new user account and redirects to the account validation page.
@@ -110,5 +116,12 @@ export class SignupComponent implements OnInit
 
 		// Handle errors.
 		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
+
+
+	// Toggles master password visibility.
+	public toggleMasterPasswordVisibility(): void
+	{
+		this.showMasterPassword = !this.showMasterPassword;
 	}
 }

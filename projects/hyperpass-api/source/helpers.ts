@@ -7,6 +7,7 @@
 
 import FS from 'fs';
 import type Express from 'express';
+import type MongoDB from 'mongodb';
 import Handlebars from 'handlebars';
 import Nodemailer from 'nodemailer';
 import * as DateFns from 'date-fns';
@@ -39,11 +40,20 @@ export function getAutomaticLoginKey(deviceId: string,
 
 	// If the key has expired, return undefined.
 	const key = keys[deviceId];
-	if((key.duration !== null) && DateFns.differenceInMilliseconds(
-		new Date(), key.date) > key.duration*60*1000) return undefined;
+	if(keyHasExpired(key)) return undefined;
 
 	// Otherwise return the key.
 	return key;
+}
+
+
+// Deletes any outdated automatic login keys.
+export function deleteOutdatedAutomaticLoginKeys(
+	account: Types.Account, accounts: MongoDB.Collection<Types.Account>): void
+{
+	for(const [key, value] of Object.entries(account.automaticLoginKeys))
+		if(keyHasExpired(value)) accounts.updateOne({_id: account._id},
+			{$unset: {[`automaticLoginKeys.${key}`]: true}});
 }
 
 
@@ -86,4 +96,12 @@ export function sendEmail(templateName: string, subject: string,
 			cid: 'logo'
 		}]
 	});
+}
+
+
+// Checks if the given key has expired.
+function keyHasExpired(key: Types.AutomaticLoginKey): boolean
+{
+	return DateFns.differenceInMilliseconds(
+		new Date(), key.date) > key.duration*60*1000;
 }

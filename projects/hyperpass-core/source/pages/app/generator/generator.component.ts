@@ -5,8 +5,10 @@
 */
 
 
-import type {OnInit} from '@angular/core';
+import type {OnDestroy, OnInit} from '@angular/core';
 import {Component} from '@angular/core';
+import type {Subscription} from 'rxjs';
+import * as _ from 'lodash';
 
 import * as Types from '../../../types';
 import {GeneratorService} from '../../../services/generator.service';
@@ -23,11 +25,13 @@ import {PlatformService} from '../../../services/platform.service';
 	styleUrls: ['./generator.component.scss']
 })
 
-export class GeneratorComponent implements OnInit
+export class GeneratorComponent implements OnInit, OnDestroy
 {
 	public readonly types = Types;
 	public state: Types.GeneratorState = Types.defaultGeneratorState;
 	public password = '';
+
+	private updateSubscription?: Subscription;
 
 
 	// Constructor.
@@ -41,12 +45,24 @@ export class GeneratorComponent implements OnInit
 	// Initializer.
 	public ngOnInit(): void
 	{
-		// Load the state.
-		const vault = this.accountService.getVault();
-		this.state = vault.generatorState;
-
-		// Generate the initial password.
+		// Generate the initial password and set the initial state.
 		this.generate();
+		this.updateState();
+
+		// Update the generator state on vault updates.
+		this.updateSubscription = this.utilityService.updateVaultSubject.subscribe(
+			() => { this.updateState(); });
+	}
+
+
+	// Destructor.
+	public ngOnDestroy(): void { this.updateSubscription?.unsubscribe(); }
+
+
+	// Updates the state.
+	private updateState(): void
+	{
+		this.state = _.cloneDeep(this.accountService.getVault().generatorState);
 	}
 
 
@@ -55,7 +71,7 @@ export class GeneratorComponent implements OnInit
 
 
 	// Generates a password.
-	public generate(): void
+	public async generate(): Promise<void>
 	{
 		try
 		{
@@ -92,10 +108,11 @@ export class GeneratorComponent implements OnInit
 					this.state.useSpecialCharacters);
 			}
 
+			// Pull the vault.
+			await this.accountService.pullVault();
+
 			// Add the password to history.
 			this.state.history.unshift({date: new Date(), password: this.password});
-
-			// Limit the number of history entries.
 			this.state.history.splice(10);
 
 			// Push the vault.
@@ -108,16 +125,18 @@ export class GeneratorComponent implements OnInit
 
 
 	// Clears the generator's history and pushes the vault.
-	public clearHistory(): void
+	public async clearHistory(): Promise<void>
 	{
+		await this.accountService.pullVault();
 		this.state.history = [];
 		this.pushVault();
 	}
 
 
 	// Deletes the history entry at the given index.
-	public deleteHistoryEntry(index: number): void
+	public async deleteHistoryEntry(index: number): Promise<void>
 	{
+		await this.accountService.pullVault();
 		this.state.history.splice(index, 1);
 		this.pushVault();
 	}
