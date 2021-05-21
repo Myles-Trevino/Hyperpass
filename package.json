@@ -5,7 +5,7 @@
 	},
 	"name": "hyperpass",
 	"productName": "Hyperpass",
-	"version": "2021.5.5",
+	"version": "2021.5.21",
 	"description": "A modern, unified password manager.",
 	"homepage": "hyperpass.org",
 	"license": "Apache-2.0",
@@ -18,7 +18,7 @@
 	"scripts": {
 		"ng": "ng",
 		"lint": "ng lint",
-		"build": "npm run build:core && npm run build:api && npm run build:desktop && npm run release:desktop && npm run build:extension && npm run build:mobile && npm run build:website",
+		"build": "npm run build:core && npm run build:desktop && npm run release:desktop && npm run build:extension && npm run build:mobile && npm run build:website",
 		"build:core": "ng build --project=hyperpass-core",
 		"build:api": "rm -rf ./builds/hyperpass-api && tsc --project projects/hyperpass-api/tsconfig.json && cp -r projects/hyperpass-api/source/email-templates ./builds/hyperpass-api && cp package.json ./builds/hyperpass-api",
 		"build:desktop": "ng build --project=hyperpass-desktop --prod --base-href ./",

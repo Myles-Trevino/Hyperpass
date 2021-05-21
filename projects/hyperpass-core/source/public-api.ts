@@ -27,10 +27,13 @@ export * from './pages/validation/validation.component';
 
 export * from './services/account.service';
 export * from './services/api.service';
+export * from './services/biometric.service';
 export * from './services/crypto.service';
 export * from './services/generator.service';
 export * from './services/message.service';
+export * from './services/metadata.service';
+export * from './services/platform.service';
+export * from './services/state.service';
+export * from './services/storage.service';
 export * from './services/theme.service';
 export * from './services/utility.service';
-export * from './services/platform.service';
-export * from './services/metadata.service';

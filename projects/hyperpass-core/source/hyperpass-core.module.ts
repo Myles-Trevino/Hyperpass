@@ -17,6 +17,7 @@ import {SimplebarAngularModule} from 'simplebar-angular';
 import {SwiperModule} from 'swiper/angular';
 
 import {HyperpassCoreRoutingModule} from './hyperpass-core-routing.module';
+import {AutofocusDirective} from './autofocus.directive';
 
 import {LoginComponent} from './pages/login/login.component';
 import {SignupComponent} from './pages/signup/signup.component';
@@ -52,6 +53,8 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		SignupComponent,
 		ValidationComponent,
 		AppComponent,
+
+		AutofocusDirective,
 
 		VaultComponent,
 		VaultEntryComponent,

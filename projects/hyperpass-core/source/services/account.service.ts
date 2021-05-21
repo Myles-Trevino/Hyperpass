@@ -102,6 +102,9 @@ export class AccountService implements OnDestroy
 			await this.pullVault(masterPassword);
 			this.loggedIn = true;
 
+			// Cache the login credentials.
+			this.cacheLoginCredentials(masterPassword);
+
 			// Redirect to the web app.
 			if(this.navigate) this.router.navigate(['/app']);
 			this.loginSubject.next(this.loggedIn);
@@ -268,9 +271,6 @@ export class AccountService implements OnDestroy
 		// Apply the settings.
 		await this.themeService.setTheme(this.getVault().settings.theme);
 		await this.updateLoginTimeoutDuration();
-
-		// Cache the login credentials.
-		this.cacheLoginCredentials(masterPassword);
 
 		// Start the login timeout.
 		this.startLoginTimeout();

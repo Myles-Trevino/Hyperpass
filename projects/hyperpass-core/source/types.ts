@@ -69,6 +69,9 @@ export const defaultVaultEntryHistoryModalState: VaultEntryHistoryModalState =
 };
 
 
+export type CachedState = {vault: VaultState; options: ScrollState};
+
+
 // Message.
 export type MessageType = 'Normal'|'Error';
 

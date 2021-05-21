@@ -23,6 +23,7 @@ export class PlatformService
 	public os: Capacitor.OperatingSystem = 'unknown';
 	public isMobile = false;
 	public isServer = isPlatformServer(this.platformId);
+	public isExtension = false;
 
 
 	// Constructor.

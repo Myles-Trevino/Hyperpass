@@ -46,7 +46,7 @@ export class GeneratorComponent implements OnInit, OnDestroy
 	public ngOnInit(): void
 	{
 		// Generate the initial password and set the initial state.
-		this.generate();
+		this.generate(true);
 		this.updateState();
 
 		// Update the generator state on vault updates.
@@ -71,7 +71,7 @@ export class GeneratorComponent implements OnInit, OnDestroy
 
 
 	// Generates a password.
-	public async generate(): Promise<void>
+	public async generate(initial = false): Promise<void>
 	{
 		try
 		{
@@ -109,7 +109,7 @@ export class GeneratorComponent implements OnInit, OnDestroy
 			}
 
 			// Pull the vault.
-			await this.accountService.pullVault();
+			if(!initial) await this.accountService.pullVault();
 
 			// Add the password to history.
 			this.state.history.unshift({date: new Date(), password: this.password});

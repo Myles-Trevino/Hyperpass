@@ -38,7 +38,7 @@
 		<!-- Master password. -->
 		<div *ngIf="format === 'HY Encrypted'" class="wide-tile-setting">
 			<span>Master Password</span>
-			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="masterPassword">
+			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="masterPassword" [autofocus]>
 		</div>
 
 		<!-- Trim. -->

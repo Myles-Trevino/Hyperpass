@@ -10,7 +10,9 @@ import type * as SimpleBar from 'simplebar';
 import type {SimplebarAngularComponent} from 'simplebar-angular';
 
 import * as Types from '../types';
+import * as Settings from '../settings';
 import {UtilityService} from './utility.service';
+import {StorageService} from './storage.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -29,7 +31,27 @@ export class StateService
 
 
 	// Constructor.
-	public constructor(private readonly utillityService: UtilityService){}
+	public constructor(private readonly utillityService: UtilityService,
+		private readonly storageService: StorageService){}
+
+
+	// Loads cached state.
+	public async load(): Promise<void>
+	{
+		const rawCachedState = await this.storageService.getData(Settings.stateKey);
+		if(!rawCachedState) return;
+
+		const cachedState = JSON.parse(rawCachedState) as Types.CachedState;
+		this.vault = cachedState.vault;
+	}
+
+
+	// Caches state.
+	public async save(): Promise<void>
+	{
+		await this.storageService.setData(Settings.stateKey,
+			JSON.stringify({vault: this.vault}));
+	}
 
 
 	// Opens the specified modal.
@@ -57,7 +79,9 @@ export class StateService
 		scrollElement.scrollTop = state.scrollPosition;
 
 		// Save the scroll position.
-		scrollElement.addEventListener('scroll',
-			() => { state.scrollPosition = scrollElement.scrollTop; });
+		scrollElement.addEventListener('scroll', () =>
+		{
+			state.scrollPosition = scrollElement.scrollTop;
+		});
 	}
 }

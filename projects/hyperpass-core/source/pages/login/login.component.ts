@@ -6,7 +6,7 @@
 
 
 import type {OnInit} from '@angular/core';
-import {Component, HostBinding, HostListener} from '@angular/core';
+import {Component, HostBinding, HostListener, ViewChild, ElementRef} from '@angular/core';
 import {Router} from '@angular/router';
 
 import * as Settings from '../../settings';
@@ -27,6 +27,9 @@ import {BiometricService} from '../../services/biometric.service';
 export class LoginComponent implements OnInit
 {
 	@HostBinding('class') public readonly class = 'centerer-page';
+	@ViewChild('emailAddressInput') public readonly emailAddressInput?: ElementRef;
+	@ViewChild('masterPasswordInput')
+	public readonly masterPasswordInput?: ElementRef;
 
 	public emailAddress = '';
 	public masterPassword = '';
@@ -63,7 +66,13 @@ export class LoginComponent implements OnInit
 		const cachedEmailAddress =
 			await this.storageService.getData(Settings.emailAddressKey);
 
-		if(cachedEmailAddress) this.emailAddress = cachedEmailAddress;
+		if(cachedEmailAddress)
+		{
+			this.emailAddress = cachedEmailAddress;
+			(this.masterPasswordInput?.nativeElement as HTMLInputElement).focus();
+		}
+
+		else (this.emailAddressInput?.nativeElement as HTMLInputElement).focus();
 
 		// Check if biometric login is enabled.
 		this.biometricLoginEnabled =

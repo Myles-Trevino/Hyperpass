@@ -17,7 +17,8 @@
 			"@capacitor/core": "Capacitor",
 			"uuid": "UUID",
 			"swiper/angular": "SwiperAngular",
-			"swiper/core": "SwiperCore"
+			"swiper/core": "SwiperCore",
+			"webextension-polyfill-ts": "webextensionPolyfillTs"
 		}
 	},
 	"assets":

@@ -10,6 +10,7 @@ import {Component, HostBinding} from '@angular/core';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
+import {browser} from 'webextension-polyfill-ts';
 
 import * as Types from '../../../types';
 import * as Settings from '../../../settings';
@@ -52,7 +53,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 
 
 	// Initializer.
-	public ngOnInit(): void
+	public async ngOnInit(): Promise<void>
 	{
 		// Close on back button press.
 		this.backButtonSubscription = this.ionicPlatform.backButton
@@ -66,6 +67,13 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 			this.title = this.key;
 			const account = this.getAccounts()[this.key];
 			this.state = _.cloneDeep(account);
+		}
+
+		// Otherwise, autofill appropriate fields.
+		else
+		{
+			this.generatePassword();
+			if(this.platformService.isExtension) await this.autofill();
 		}
 
 		this.updateUrlWarning();
@@ -214,6 +222,20 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 			this.state.noteHistory = history;
 			this.accountService.pushVault();
 		});
+	}
+
+
+	// Autofill the title and URL based on the tab's URL.
+	public async autofill(): Promise<void>
+	{
+		const tabs = await browser.tabs.query({active: true, currentWindow: true});
+		let url = tabs[0].url;
+
+		if(!url || !url.includes('http')) return;
+
+		url = this.utilityService.trimUrl(url);
+		this.state.url = url;
+		this.title = url;
 	}
 
 

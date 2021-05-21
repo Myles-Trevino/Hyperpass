@@ -75,17 +75,11 @@
 	grid-auto-flow: row;
 
 	a{ justify-self: right; }
-
-	.tile-setting-text{ grid-column: 1 / 3; }
 }
 
 .wide-tile-setting
 {
-	@include mobile
-	{
-		grid-template-columns: auto;
-		grid-template-rows: auto auto;
-	}
+	@include mobile{ grid-template-columns: auto; }
 }
 
 .tile-buttons

@@ -42,7 +42,6 @@ export class BackgroundService
 			{
 				if(message.data as boolean) await this.attemptAutomaticLogin();
 				else await this.accountService.logOut();
-				this.update();
 			}
 
 			// Vault updates.
@@ -61,8 +60,8 @@ export class BackgroundService
 			}
 		});
 
-		// Handle login timeouts.
-		this.accountService.loginTimeoutSubject.subscribe(() => { this.update(); });
+		// Update on login and logout.
+		this.accountService.loginSubject.subscribe(() => { this.update(); });
 
 		// URL change callback.
 		browser.tabs.onActivated.addListener(
