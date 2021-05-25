@@ -5,7 +5,8 @@
 */
 
 
-import {Subject} from 'rxjs';
+// App.
+export type Tab = 'Vault'|'Generator'|'Options';
 
 
 // State.
@@ -20,8 +21,112 @@ export type VaultState = ScrollState &
 	query?: string;
 };
 
-export const defaultVaultState: VaultState =
-	{...defaultScrollState, page: 1, query: ''};
+export const defaultVaultState: VaultState = {...defaultScrollState, page: 1, query: ''};
+
+
+export type GeneratorHistoryEntry =
+{
+	date: Date;
+	password: string;
+};
+
+export const generatorModes = ['Passphrase', 'Password'] as const;
+
+export type GeneratorMode = typeof generatorModes[number];
+
+export type GeneratorSyncedState =
+{
+	mode: GeneratorMode;
+
+	wordCount: number;
+	numberCount: number;
+	separator: string;
+	capitalize: boolean;
+
+	length: number;
+	useSpecialCharacters: boolean;
+	useNumbers: boolean;
+	useCapitals: boolean;
+
+	history: GeneratorHistoryEntry[];
+};
+
+export const defaultGeneratorSyncedState: GeneratorSyncedState =
+{
+	mode: 'Passphrase',
+
+	wordCount: 3,
+	numberCount: 2,
+	separator: '-',
+	capitalize: true,
+
+	length: 16,
+	useSpecialCharacters: true,
+	useNumbers: true,
+	useCapitals: true,
+
+	history: []
+};
+
+export type GeneratorCachedState =
+{
+	optionsScrollState: ScrollState;
+	historyScrollState: ScrollState;
+};
+
+export const defaultGeneratorCachedState: GeneratorCachedState =
+{
+	optionsScrollState: defaultScrollState,
+	historyScrollState: defaultScrollState
+};
+
+
+export type AppState =
+{
+	tab: Tab;
+	route: string;
+	modalOpen: boolean;
+	modalType?: string;
+};
+
+export const defaultAppState: AppState =
+{
+	tab: 'Vault',
+	route: '',
+	modalOpen: false
+};
+
+
+export type VaultEntryState = Account & ScrollState & {key?: string; title: string};
+
+export const defaultVaultEntryState = {...defaultScrollState, title: '',
+	username: '', usernameHistory: [], password: '', passwordHistory: [],
+	url: '', default: false, note: '', noteHistory: [], tags: []};
+
+
+export type ImportVaultState = ScrollState &
+{
+	format: ImportFormat;
+	trim: TrimMode;
+	mode: ImportMode;
+};
+
+export const defaultImportVaultState: ImportVaultState =
+{
+	...defaultScrollState,
+	format: 'HY Encrypted',
+	trim: 'Enabled',
+	mode: 'Merge'
+};
+
+
+export type ExportVaultState = ScrollState & {format: ExportFormat};
+
+export const defaultExportVaultState: ExportVaultState =
+{
+	...defaultScrollState,
+	format: 'HY Encrypted'
+};
 
 
 export type TagsModalEvent =
@@ -30,46 +135,52 @@ export type TagsModalEvent =
 	tag: string;
 };
 
-export type TagsModalState =
-{
-	subject: Subject<TagsModalEvent>;
-	singleEditTag?: string;
-};
+export type TagsModalState = ScrollState & {singleEditTag?: string};
 
 export const defaultTagsModalState: TagsModalState =
 {
-	subject: new Subject<TagsModalEvent>(),
+	...defaultScrollState,
 	singleEditTag: undefined
 };
 
 
-export type VaultHistoryModalState =
-{
-	subject: Subject<void>;
-	history: VaultHistoryEntry[];
-};
+export type VaultHistoryModalState = ScrollState & {history: VaultHistoryEntry[]};
 
 export const defaultVaultHistoryModalState: VaultHistoryModalState =
 {
-	subject: new Subject<void>(),
+	...defaultScrollState,
 	history: []
 };
 
 
-export type VaultEntryHistoryModalState =
+export type VaultEntryHistoryModalState = ScrollState &
 {
-	subject: Subject<VaultEntryHistoryEntry[]>;
 	history: VaultEntryHistoryEntry[];
 };
 
 export const defaultVaultEntryHistoryModalState: VaultEntryHistoryModalState =
 {
-	subject: new Subject<VaultEntryHistoryEntry[]>(),
+	...defaultScrollState,
 	history: []
 };
 
 
-export type CachedState = {vault: VaultState; options: ScrollState};
+export type CachedState =
+{
+	vault: VaultState;
+	generator: GeneratorCachedState;
+	options: ScrollState;
+	app: AppState;
+
+	vaultEntry?: VaultEntryState;
+
+	importVault: ImportVaultState;
+	exportVault: ExportVaultState;
+
+	tagsModal: TagsModalState;
+	vaultHistoryModal: VaultHistoryModalState;
+	vaultEntryHistoryModal: VaultEntryHistoryModalState;
+};
 
 
 // Message.
@@ -144,52 +255,6 @@ export type Settings = {theme: Theme};
 export const defaultSettings: Settings = {theme: 'Light'};
 
 
-// Generator state.
-export type GeneratorHistoryEntry =
-{
-	date: Date;
-	password: string;
-};
-
-export const generatorModes = ['Passphrase', 'Password'] as const;
-
-export type GeneratorMode = typeof generatorModes[number];
-
-export type GeneratorState =
-{
-	mode: GeneratorMode;
-
-	wordCount: number;
-	numberCount: number;
-	separator: string;
-	capitalize: boolean;
-
-	length: number;
-	useSpecialCharacters: boolean;
-	useNumbers: boolean;
-	useCapitals: boolean;
-
-	history: GeneratorHistoryEntry[];
-};
-
-export const defaultGeneratorState: GeneratorState =
-{
-	mode: 'Passphrase',
-
-	wordCount: 3,
-	numberCount: 2,
-	separator: '-',
-	capitalize: true,
-
-	length: 16,
-	useSpecialCharacters: true,
-	useNumbers: true,
-	useCapitals: true,
-
-	history: []
-};
-
-
 // Vault entries.
 export const tagColors = ['Red', 'Orange', 'Yellow',
 	'Green', 'Cyan', 'Blue', 'Purple', 'Pink', 'None'] as const;
@@ -229,18 +294,8 @@ export type Account =
 	default: boolean;
 };
 
-export const defaultAccount: Account =
-{
-	username: '',
-	usernameHistory: [],
-	password: '',
-	passwordHistory: [],
-	url: '',
-	default: false,
-	note: '',
-	noteHistory: [],
-	tags: []
-};
+export const defaultAccount: Account = {username: '', usernameHistory: [], password: '',
+	passwordHistory: [], url: '', default: false, note: '', noteHistory: [], tags: []};
 
 export function areAccountsEqual(a: Account, b: Account): boolean
 { return checkEquality(a, b, ['username', 'password', 'url', 'note']); }
@@ -261,7 +316,7 @@ export type Vault =
 	tags: Record<string, Tag>;
 	history: VaultHistoryEntry[];
 	settings: Settings;
-	generatorState: GeneratorState;
+	generatorState: GeneratorSyncedState;
 };
 
 export const defaultVault: Vault =
@@ -270,7 +325,7 @@ export const defaultVault: Vault =
 	history: [],
 	tags: {},
 	settings: defaultSettings,
-	generatorState: defaultGeneratorState
+	generatorState: defaultGeneratorSyncedState
 };
 
 

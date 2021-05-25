@@ -5,7 +5,7 @@
 -->
 
 
-<ngx-simplebar>
+<ngx-simplebar #mainSimpleBar>
 <div class="app-page tile-section">
 
 
@@ -34,7 +34,7 @@
 		</div>
 
 		<!-- Scrollable content. -->
-		<ngx-simplebar>
+		<ngx-simplebar #optionsSimpleBar>
 
 			<!-- Type. -->
 			<div class="tile-setting">
@@ -42,7 +42,7 @@
 				<hyperpass-dropdown [options]="types.generatorModes" [(selectedOption)]="state.mode"></hyperpass-dropdown>
 			</div>
 
-			<div *ngIf="state.mode == 'Passphrase' then passphraseSettings else passwordSettings"></div>
+			<div *ngIf="state.mode === 'Passphrase' then passphraseSettings else passwordSettings"></div>
 
 			<!-- Passphrase settings. -->
 			<ng-template #passphraseSettings>
@@ -116,7 +116,7 @@
 		</div>
 
 		<!-- Scrollable content. -->
-		<ngx-simplebar id="history-container">
+		<ngx-simplebar id="history-container" #historySimpleBar>
 
 			<!-- Entries. -->
 			<div *ngFor="let entry of state.history; index as index" class="tile-section hoverable-container">

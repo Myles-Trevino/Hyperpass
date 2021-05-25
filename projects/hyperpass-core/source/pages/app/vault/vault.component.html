@@ -75,6 +75,7 @@
 </div>
 </ngx-simplebar>
 
+
 <!-- Loading overlay. -->
 <div *ngIf="loading" class="overlay" @delayedFadeInAnimation>
 	<span class="dimmed-text">Loading...</span>
@@ -89,7 +90,7 @@
 
 <!-- Page controls. -->
 <div *ngIf="pageCount > 1" id="page-controls">
-	<hyperpass-svg svg="Previous Button" (click)="previousPage()" [ngClass]="{'disabled': stateService.vault.page === 1}"></hyperpass-svg>
-	<span>{{stateService.vault.page}} of {{pageCount}}</span>
-	<hyperpass-svg svg="Next Button" (click)="nextPage()" [ngClass]="{'disabled': stateService.vault.page === pageCount}"></hyperpass-svg>
+	<hyperpass-svg svg="Previous Button" (click)="previousPage()" [ngClass]="{'disabled': state.page === 1}"></hyperpass-svg>
+	<span>{{state.page}} of {{pageCount}}</span>
+	<hyperpass-svg svg="Next Button" (click)="nextPage()" [ngClass]="{'disabled': state.page === pageCount}"></hyperpass-svg>
 </div>

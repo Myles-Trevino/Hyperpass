@@ -5,11 +5,13 @@
 */
 
 
-import type {OnDestroy, OnInit} from '@angular/core';
-import {HostBinding, Directive} from '@angular/core';
+import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
+import {HostBinding, Directive, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
+import {SimplebarAngularComponent} from 'simplebar-angular';
 
+import * as Types from '../../../types';
 import {StateService} from '../../../services/state.service';
 import {PlatformService} from '../../../services/platform.service';
 import {MessageService} from '../../../services/message.service';
@@ -17,13 +19,17 @@ import {UtilityService} from '../../../services/utility.service';
 
 
 @Directive()
-export abstract class HistoryModalBaseDirective<T> implements OnInit, OnDestroy
+export abstract class HistoryModalBaseDirective<T>
+implements OnInit, OnDestroy, AfterViewInit
 {
 	@HostBinding('class') public readonly class = 'app-modal';
+	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
 
 	public history: T[] = [];
 	public hasHistory = false;
 	private backButtonSubscription?: Subscription;
+	private simpleBarSubscription?: Subscription;
+	private readonly scrollState: Types.ScrollState;
 
 
 	// Constructor.
@@ -32,9 +38,10 @@ export abstract class HistoryModalBaseDirective<T> implements OnInit, OnDestroy
 		protected readonly messageService: MessageService,
 		protected readonly ionicPlatform: Ionic.Platform,
 		protected readonly utilityService: UtilityService,
-		history: T[])
+		history: T[], scrollState: Types.ScrollState)
 	{
 		this.history = history;
+		this.scrollState = scrollState;
 		this.updateHasHistory();
 	}
 
@@ -48,8 +55,20 @@ export abstract class HistoryModalBaseDirective<T> implements OnInit, OnDestroy
 	}
 
 
+	// Initializes SimpleBar.
+	public async ngAfterViewInit(): Promise<void>
+	{
+		this.simpleBarSubscription = await this.stateService.initializeSimpleBar(
+			this.scrollState, this.simpleBar);
+	}
+
+
 	// Destructor.
-	public ngOnDestroy(): void { this.backButtonSubscription?.unsubscribe(); }
+	public ngOnDestroy(): void
+	{
+		this.backButtonSubscription?.unsubscribe();
+		this.simpleBarSubscription?.unsubscribe();
+	}
 
 
 	// Deletes the entry at the given index.

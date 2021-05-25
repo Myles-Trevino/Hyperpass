@@ -30,6 +30,7 @@ export * from './services/api.service';
 export * from './services/biometric.service';
 export * from './services/crypto.service';
 export * from './services/generator.service';
+export * from './services/initialization.service';
 export * from './services/message.service';
 export * from './services/metadata.service';
 export * from './services/platform.service';

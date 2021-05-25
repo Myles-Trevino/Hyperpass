@@ -5,9 +5,10 @@
 */
 
 
-import type {OnInit, OnDestroy} from '@angular/core';
-import {Component, HostBinding} from '@angular/core';
+import type {OnInit, OnDestroy, AfterViewInit} from '@angular/core';
+import {Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
+import {SimplebarAngularComponent} from 'simplebar-angular';
 import {v4 as uuidv4} from 'uuid';
 import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
@@ -29,17 +30,20 @@ import {PlatformService} from '../../../services/platform.service';
 	animations: [Animations.fadeInAnimation]
 })
 
-export class TagsModalComponent implements OnInit, OnDestroy
+export class TagsModalComponent implements OnInit, OnDestroy, AfterViewInit
 {
 	@HostBinding('class') public readonly class = 'app-modal';
+	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
 
-	public readonly tagColors = Types.tagColors;
-	public vault: Types.Vault = Types.defaultVault;
+	public readonly tagColors = _.clone(Types.tagColors);
+	public state: Types.TagsModalState = _.clone(Types.defaultTagsModalState);
+	public vault: Types.Vault = _.clone(Types.defaultVault);
 	public hasTags = false;
 	public key = '';
-	public tag = Types.defaultTag;
+	public tag = _.clone(Types.defaultTag);
 	private singleEditMode = false;
 	private backButtonSubscription?: Subscription;
+	private simpleBarSubscription?: Subscription;
 
 
 	public constructor(public readonly stateService: StateService,
@@ -47,12 +51,14 @@ export class TagsModalComponent implements OnInit, OnDestroy
 		private readonly accountService: AccountService,
 		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService,
-		protected readonly ionicPlatform: Ionic.Platform){}
+		private readonly ionicPlatform: Ionic.Platform){}
 
 
 	// Initializer.
 	public ngOnInit(): void
 	{
+		this.state = this.stateService.tagsModal;
+
 		// Close on back button press.
 		this.backButtonSubscription = this.ionicPlatform.backButton
 			.subscribeWithPriority(101, () => { this.stateService.closeModals(); });
@@ -62,22 +68,33 @@ export class TagsModalComponent implements OnInit, OnDestroy
 		this.updateHasTags();
 
 		// If a single edit key was specified, enter single edit mode.
-		if(this.stateService.tagsModal.singleEditTag)
+		if(this.state.singleEditTag)
 		{
 			this.singleEditMode = true;
-			this.edit(this.stateService.tagsModal.singleEditTag);
+			this.edit(this.state.singleEditTag);
 		}
+	}
+
+	// Initializes SimpleBar.
+	public async ngAfterViewInit(): Promise<void>
+	{
+		this.simpleBarSubscription = await this.stateService
+			.initializeSimpleBar(this.state, this.simpleBar);
 	}
 
 
 	// Destructor.
-	public ngOnDestroy(): void { this.backButtonSubscription?.unsubscribe(); }
+	public ngOnDestroy(): void
+	{
+		this.backButtonSubscription?.unsubscribe();
+		this.simpleBarSubscription?.unsubscribe();
+	}
 
 
 	// Returns the given tag and exits.
 	public returnTag(key: string): void
 	{
-		this.stateService.tagsModal.subject.next({type: 'Select', tag: key});
+		this.stateService.tagsModalSubject.next({type: 'Select', tag: key});
 		this.stateService.closeModals();
 	}
 
@@ -107,7 +124,7 @@ export class TagsModalComponent implements OnInit, OnDestroy
 
 		// Update.
 		this.updateVault();
-		this.stateService.tagsModal.subject.next({type: 'Delete', tag: key});
+		this.stateService.tagsModalSubject.next({type: 'Delete', tag: key});
 	}
 
 
@@ -160,7 +177,7 @@ export class TagsModalComponent implements OnInit, OnDestroy
 		// If in single edit mode, exit.
 		if(this.singleEditMode)
 		{
-			this.stateService.tagsModal.singleEditTag = undefined;
+			this.state.singleEditTag = undefined;
 			this.stateService.closeModals();
 		}
 

@@ -5,5 +5,4 @@
 */
 
 
-import './zone-flags';
-import 'zone.js';
+module.exports = {resolve: {fallback: {"crypto": false}}};

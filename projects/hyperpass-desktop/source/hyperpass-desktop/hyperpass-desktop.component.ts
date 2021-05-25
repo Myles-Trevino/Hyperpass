@@ -9,7 +9,7 @@ import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 import {ElectronService} from 'ngx-electron';
 
-import {Animations, UtilityService, PlatformService} from 'hyperpass-core';
+import {Animations, InitializationService, PlatformService} from 'hyperpass-core';
 
 
 @Component
@@ -26,7 +26,7 @@ export class HyperpassDesktopComponent implements OnInit
 
 
 	// Constructor.
-	public constructor(public readonly utilityService: UtilityService,
+	public constructor(public readonly initializationService: InitializationService,
 		public readonly platformService: PlatformService,
 		private readonly electronService: ElectronService){}
 
@@ -34,7 +34,7 @@ export class HyperpassDesktopComponent implements OnInit
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
-		await this.utilityService.initialize();
+		await this.initializationService.initialize();
 		this.isMac = (this.platformService.os === 'mac');
 		setTimeout(() => { this.electronService.ipcRenderer.send('show-window'); }, 250);
 	}

@@ -14,11 +14,16 @@
 			"file-saver": "FileSaver",
 			"papaparse": "PapaParse",
 			"@ionic/angular": "IonicAngular",
-			"@capacitor/core": "Capacitor",
+			"@capacitor/core": "CapacitorCore",
+			"@capacitor/device": "CapacitorDevice",
+			"@capacitor/storage": "CapacitorStorage",
+			"@capacitor/status-bar": "CapacitorStatusBar",
+			"@capacitor/app": "CapacitorApp",
+			"capacitor-native-biometric": "CapacitorNativeBiometric",
 			"uuid": "UUID",
 			"swiper/angular": "SwiperAngular",
 			"swiper/core": "SwiperCore",
-			"webextension-polyfill-ts": "webextensionPolyfillTs"
+			"parse-domain": "ParseDomain"
 		}
 	},
 	"assets":

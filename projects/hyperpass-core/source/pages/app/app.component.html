@@ -6,23 +6,23 @@
 
 
 <!-- Loading overlay. -->
-<div *ngIf="tab === 'None'" class="overlay">
+<div *ngIf="!initialized" class="overlay">
 	<ion-spinner name="crescent"></ion-spinner>
 </div>
 
 
 <!-- Tile. -->
-<div *ngIf="tab !== 'None'" id="app-tile" class="tile" @delayedFadeInAnimation>
+<div *ngIf="initialized" id="app-tile" class="tile" @delayedFadeInAnimation>
 
 	<!-- Tabs. -->
 	<div id="app-tabs">
-		<h4 [ngClass]="{selected: tab === 'Vault'}" (click)="setPage(0)">Vault</h4>
-		<h4 [ngClass]="{selected: tab === 'Generator'}" (click)="setPage(1)">Generator</h4>
-		<h4 [ngClass]="{selected: tab === 'Options'}" (click)="setPage(2)">Options</h4>
+		<h4 [ngClass]="{selected: state.tab === 'Vault'}" (click)="setPage('Vault')">Vault</h4>
+		<h4 [ngClass]="{selected: state.tab === 'Generator'}" (click)="setPage('Generator')">Generator</h4>
+		<h4 [ngClass]="{selected: state.tab === 'Options'}" (click)="setPage('Options')">Options</h4>
 	</div>
 
 	<!-- Pages. -->
-	<swiper class="tile-content" [allowTouchMove]="enableSwiping" [slidesPerView]="3" effect="fade" (slideChange)="pageChangeCallback()" #swiper>
+	<swiper [ngClass]="{'tile-content': true}" [allowTouchMove]="enableSwiping" [slidesPerView]="3" effect="fade" (slideChange)="pageChangeCallback()" #swiper>
 
 		<!-- Vault. -->
 		<ng-template swiperSlide>
@@ -45,11 +45,11 @@
 
 
 <!-- Modals. -->
-<div *ngIf="stateService.modalOpen" id="app-modal-overlay"
+<div *ngIf="initialized && state.modalOpen" id="app-modal-overlay"
 	(mousedown)="closeModal($event)" @delayedFadeAnimation #modalOverlay>
 
-	<hyperpass-tags-modal *ngIf="stateService.modalType === 'Tags'"></hyperpass-tags-modal>
-	<hyperpass-vault-entry-history-modal *ngIf="stateService.modalType === 'Vault Entry History'"></hyperpass-vault-entry-history-modal>
-	<hyperpass-vault-history-modal *ngIf="stateService.modalType === 'Vault History'"></hyperpass-vault-history-modal>
+	<hyperpass-tags-modal *ngIf="state.modalType === 'Tags'"></hyperpass-tags-modal>
+	<hyperpass-vault-entry-history-modal *ngIf="state.modalType === 'Vault Entry History'"></hyperpass-vault-entry-history-modal>
+	<hyperpass-vault-history-modal *ngIf="state.modalType === 'Vault History'"></hyperpass-vault-history-modal>
 
 </div>

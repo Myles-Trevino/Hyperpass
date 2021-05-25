@@ -16,7 +16,7 @@
 <div class="app-modal-content">
 
 	<!-- Entries. -->
-	<ngx-simplebar *ngIf="hasHistory">
+	<ngx-simplebar *ngIf="hasHistory" #simpleBar>
 	<div *ngFor="let entry of history; index as index" class="app-modal-entry hoverable-container">
 
 		<!-- Preview. -->

@@ -7,5 +7,6 @@
 
 module.exports =
 {
+	resolve: {fallback: {"crypto": false}},
 	entry: {content: 'projects/hyperpass-extension/source/hyperpass-extension/content.ts'}
 }

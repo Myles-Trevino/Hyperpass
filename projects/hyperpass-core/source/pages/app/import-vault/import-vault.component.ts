@@ -5,8 +5,10 @@
 */
 
 
-import type {OnInit} from '@angular/core';
+import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {ElementRef, Component, HostBinding, ViewChild} from '@angular/core';
+import type {Subscription} from 'rxjs';
+import {SimplebarAngularComponent} from 'simplebar-angular';
 import * as PapaParse from 'papaparse';
 import * as _ from 'lodash';
 
@@ -15,6 +17,7 @@ import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
 import {CryptoService} from '../../../services/crypto.service';
 import {UtilityService} from '../../../services/utility.service';
+import {StateService} from '../../../services/state.service';
 
 
 @Component
@@ -23,29 +26,49 @@ import {UtilityService} from '../../../services/utility.service';
 	templateUrl: './import-vault.component.html'
 })
 
-export class ImportVaultComponent implements OnInit
+export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 	@ViewChild('fileInput') private readonly fileInput?: ElementRef<HTMLInputElement>;
+	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
 
 	public readonly types = Types;
-	public format: Types.ImportFormat = 'HY Encrypted';
-	public trim: Types.TrimMode = 'Enabled';
-	public mode: Types.ImportMode = 'Merge';
+	public state: Types.ImportVaultState = _.clone(Types.defaultImportVaultState);
 	public masterPassword = '';
 
-	private vault = Types.defaultVault;
+	private vault = _.clone(Types.defaultVault);
+	private simpleBarSubscription?: Subscription;
 
 
 	// Constructor.
 	public constructor(public readonly utilityService: UtilityService,
+		public readonly stateService: StateService,
 		private readonly messageService: MessageService,
 		private readonly accountService: AccountService,
 		private readonly cryptoService: CryptoService){}
 
 
 	// Initializer.
-	public ngOnInit(): void { this.vault = this.accountService.getVault(); }
+	public ngOnInit(): void
+	{
+		this.state = this.stateService.importVault;
+		this.vault = this.accountService.getVault();
+	}
+
+
+	// Initializes SimpleBar.
+	public async ngAfterViewInit(): Promise<void>
+	{
+		this.simpleBarSubscription = await this.stateService
+			.initializeSimpleBar(this.state, this.simpleBar);
+	}
+
+
+	// Destructor.
+	public ngOnDestroy(): void
+	{
+		this.simpleBarSubscription?.unsubscribe();
+	}
 
 
 	// Validates inputs and launches the file selection dialog.
@@ -54,7 +77,7 @@ export class ImportVaultComponent implements OnInit
 		try
 		{
 			// Validate the inputs.
-			if(this.format === 'HY Encrypted' && !this.masterPassword)
+			if(this.state.format === 'HY Encrypted' && !this.masterPassword)
 				throw new Error('Please enter a master password.');
 
 			// Open the file selection dialog.
@@ -78,7 +101,7 @@ export class ImportVaultComponent implements OnInit
 			const fileText = await files[0].text();
 
 			// Import.
-			switch(this.format)
+			switch(this.state.format)
 			{
 				case 'HY Encrypted': await this.importEncrypted(fileText); break;
 				case 'HY Unencrypted': this.importUnencrypted(fileText); break;
@@ -104,10 +127,18 @@ export class ImportVaultComponent implements OnInit
 	}
 
 
+	// Goes back to the options page.
+	public back(): void
+	{
+		this.stateService.importVault = _.clone(Types.defaultImportVaultState);
+		this.utilityService.close('options');
+	}
+
+
 	// Sets the tags if in overwrite mode.
 	private setTags(tags: Record<string, Types.Tag>): void
 	{
-		if(this.mode === 'Overwrite') this.vault.tags = tags;
+		if(this.state.mode === 'Overwrite') this.vault.tags = tags;
 	}
 
 
@@ -137,14 +168,14 @@ export class ImportVaultComponent implements OnInit
 		try
 		{
 			// Trim.
-			if(this.trim === 'Enabled')
+			if(this.state.trim === 'Enabled')
 				for(const account of Object.values(accounts))
 					account.url = this.utilityService.trimUrl(account.url);
 
 			// Import.
-			this.vault.accounts = (this.mode === 'Overwrite') ? accounts :
+			this.vault.accounts = (this.state.mode === 'Overwrite') ? accounts :
 				this.utilityService.uniqueAppend(accounts, this.vault.accounts,
-					Types.areAccountsEqual, (this.mode === 'Merge'),
+					Types.areAccountsEqual, (this.state.mode === 'Merge'),
 					(a, b) => this.mergeAccounts(a, b));
 
 			// Set URL defaults.
@@ -180,7 +211,7 @@ export class ImportVaultComponent implements OnInit
 	private async importEncrypted(fileText: string): Promise<void>
 	{
 		// Get the vault from the file.
-		let importedVault: Types.Vault = Types.defaultVault;
+		let importedVault: Types.Vault = _.clone(Types.defaultVault);
 
 		try
 		{
@@ -208,7 +239,7 @@ export class ImportVaultComponent implements OnInit
 	private importUnencrypted(fileText: string): void
 	{
 		// Parse the file.
-		let importedVault = Types.defaultVault;
+		let importedVault = _.clone(Types.defaultVault);
 		try{ importedVault = JSON.parse(fileText) as Types.Vault; }
 		catch(error: unknown){ throw new Error('Invalid file.'); }
 
@@ -240,7 +271,7 @@ export class ImportVaultComponent implements OnInit
 			if(typeIndex !== undefined && row[typeIndex] !== type) continue;
 
 			// Parse the account.
-			const account = Types.defaultAccount;
+			const account = _.clone(Types.defaultAccount);
 			account.url = row[urlIndex];
 			account.username = row[usernameIndex];
 			account.password = row[passwordIndex];

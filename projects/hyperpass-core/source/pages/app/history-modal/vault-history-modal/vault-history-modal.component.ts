@@ -5,7 +5,7 @@
 */
 
 
-import {Component} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import * as Ionic from '@ionic/angular';
 
 import type * as Types from '../../../../types';
@@ -36,7 +36,8 @@ export class VaultHistoryModalComponent extends
 		private readonly accountService: AccountService)
 	{
 		super(platformService, stateService, messageService, ionicPlatform,
-			utilityService, stateService.vaultHistoryModal.history);
+			utilityService, stateService.vaultHistoryModal.history,
+			stateService.vaultHistoryModal);
 	}
 
 
@@ -69,6 +70,6 @@ export class VaultHistoryModalComponent extends
 	{
 		this.accountService.getVault().history = this.history;
 		this.accountService.pushVault();
-		this.stateService.vaultHistoryModal.subject.next();
+		this.stateService.vaultHistoryModalSubject.next();
 	}
 }

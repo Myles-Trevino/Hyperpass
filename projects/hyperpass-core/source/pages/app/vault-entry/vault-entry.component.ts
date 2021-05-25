@@ -5,12 +5,13 @@
 */
 
 
-import type {OnDestroy, OnInit} from '@angular/core';
-import {Component, HostBinding} from '@angular/core';
+import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
+import {Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
+import {SimplebarAngularComponent} from 'simplebar-angular';
 import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
-import {browser} from 'webextension-polyfill-ts';
+import {parseDomain, ParseResultType} from 'parse-domain';
 
 import * as Types from '../../../types';
 import * as Settings from '../../../settings';
@@ -28,55 +29,68 @@ import {PlatformService} from '../../../services/platform.service';
 	templateUrl: './vault-entry.component.html'
 })
 
-export class VaultEntryComponent implements OnInit, OnDestroy
+export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
+	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
 
 
-	public key?: string;
-	public title = '';
-	public state: Types.Account = _.cloneDeep(Types.defaultAccount);
 	public showUrlWarning = false;
+	public state: Types.VaultEntryState = _.clone(Types.defaultVaultEntryState);
 
 	private modalSubscription?: Subscription;
 	private backButtonSubscription?: Subscription;
+	private simpleBarSubscription?: Subscription;
 
 
 	// Constructor.
 	public constructor(public readonly platformService: PlatformService,
 		public readonly utilityService: UtilityService,
+		public readonly stateService: StateService,
 		private readonly accountService: AccountService,
 		private readonly messageService: MessageService,
-		private readonly stateService: StateService,
 		private readonly generatorService: GeneratorService,
 		private readonly ionicPlatform: Ionic.Platform){}
 
 
 	// Initializer.
-	public async ngOnInit(): Promise<void>
+	public ngOnInit(): void
 	{
 		// Close on back button press.
 		this.backButtonSubscription = this.ionicPlatform.backButton
 			.subscribeWithPriority(100, () => { this.utilityService.close('vault'); });
 
-		// If a key was given, load that entry's state.
-		this.key = this.utilityService.loadUrlParameter('key');
+		// If there is cached state, load it.
+		if(this.stateService.vaultEntry) this.state = this.stateService.vaultEntry;
 
-		if(this.key)
-		{
-			this.title = this.key;
-			const account = this.getAccounts()[this.key];
-			this.state = _.cloneDeep(account);
-		}
-
-		// Otherwise, autofill appropriate fields.
+		// Otherwise...
 		else
 		{
-			this.generatePassword();
-			if(this.platformService.isExtension) await this.autofill();
+			// If a key was given, load that entry's state.
+			const key = this.utilityService.loadUrlParameter('key');
+
+			if(key)
+			{
+				const account = this.getAccounts()[key];
+				this.state = {..._.cloneDeep(account), key, title: key, scrollPosition: 0};
+			}
+
+			// Otherwise, autofill the appropriate fields.
+			else this.autofill();
+
+			this.stateService.vaultEntry = this.state;
 		}
 
+		// Update the URL warning.
 		this.updateUrlWarning();
+	}
+
+
+	// Initializes SimpleBar.
+	public async ngAfterViewInit(): Promise<void>
+	{
+		this.simpleBarSubscription = await this.stateService
+			.initializeSimpleBar(this.state, this.simpleBar);
 	}
 
 
@@ -85,6 +99,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 	{
 		this.backButtonSubscription?.unsubscribe();
 		this.modalSubscription?.unsubscribe();
+		this.simpleBarSubscription?.unsubscribe();
 	}
 
 
@@ -94,34 +109,34 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 		try
 		{
 			// Validate.
-			if(!this.title) throw new Error('Please enter a title.');
+			if(!this.state.title) throw new Error('Please enter a title.');
 
 			if(this.state.note && this.state.note.length > 3000) throw new Error(
 				'Notes are limited to 3000 characters. Please shorten your note.');
 
 			const accounts = this.getAccounts();
 
-			if(this.title !== this.key && _.has(accounts, this.title))
+			if(this.state.title !== this.state.key && _.has(accounts, this.state.title))
 				throw new Error(`Another account already has this title.`);
 
 			// If the entry exists, update it.
-			if(this.key)
+			if(this.state.key)
 			{
-				if(!_.has(accounts, this.key))
+				if(!_.has(accounts, this.state.key))
 					throw new Error(`Failed to update the account.`);
 
-				delete accounts[this.key];
-				accounts[this.title] = this.state;
+				delete accounts[this.state.key];
+				accounts[this.state.title] = _.cloneDeep(this.state);
 			}
 
 			// Otherwise, create a new entry.
 			else
 			{
-				if(Object.keys(accounts).length > 10000) throw new Error('The number of '+
-					'accounts is limited to 10,000. Please remove any unneeded accounts '+
-					'and try again.');
+				if(Object.keys(accounts).length > Settings.maximumVaultEntries)
+					throw new Error('You have exceeded the maximum number of vault entries.'+
+					'Please remove any unneeded entries and try again.');
 
-				accounts[this.title] = this.state;
+				accounts[this.state.title] = _.cloneDeep(this.state);
 			}
 
 			// If there is no default for this URL, make this account the default.
@@ -155,7 +170,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 	{
 		try
 		{
-			if(!this.key) return;
+			if(!this.state.key) return;
 			const accounts = this.getAccounts();
 
 			// If there is another account with this URL, make it the default.
@@ -164,11 +179,14 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 
 			// Add the entry to history.
 			const vault = this.accountService.getVault();
-			vault.history.unshift({key: this.key, value: this.state, date: new Date()});
+
+			vault.history.unshift({key: this.state.key,
+				value: _.cloneDeep(this.state), date: new Date()});
+
 			vault.history = vault.history.slice(0, Settings.maximumHistoryEntries);
 
 			// Delete.
-			if(this.key) delete accounts[this.key];
+			if(this.state.key) delete accounts[this.state.key];
 
 			// Push the vault and exit.
 			this.pushAndExit();
@@ -225,17 +243,29 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 	}
 
 
-	// Autofill the title and URL based on the tab's URL.
-	public async autofill(): Promise<void>
+	// Returns to the vault page.
+	public exit(): void
 	{
-		const tabs = await browser.tabs.query({active: true, currentWindow: true});
-		let url = tabs[0].url;
+		this.stateService.vaultEntry = undefined;
+		this.utilityService.close('vault');
+	}
 
-		if(!url || !url.includes('http')) return;
 
-		url = this.utilityService.trimUrl(url);
+	// Autofills the appropriate fields.
+	private autofill(): void
+	{
+		// Generate a password.
+		this.generatePassword();
+
+		// Autofill the title and URL.
+		if(!this.platformService.isExtension) return;
+		const rawUrl = this.utilityService.trimUrl(this.stateService.url);
+		const result = parseDomain(rawUrl);
+		if(result.type !== ParseResultType.Listed || !result.domain) return;
+
+		const url = `${result.domain}.${result.topLevelDomains.join('.')}`;
+		this.state.title = url;
 		this.state.url = url;
-		this.title = url;
 	}
 
 
@@ -255,7 +285,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 		// Update the history if appropriate.
 		this.modalSubscription?.unsubscribe();
 		this.modalSubscription =
-			this.stateService.vaultEntryHistoryModal.subject.subscribe(updateCallback);
+			this.stateService.vaultEntryHistoryModalSubject.subscribe(updateCallback);
 	}
 
 
@@ -263,7 +293,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy
 	private pushAndExit(): void
 	{
 		this.accountService.pushVault();
-		this.utilityService.close('vault');
+		this.exit();
 	}
 
 

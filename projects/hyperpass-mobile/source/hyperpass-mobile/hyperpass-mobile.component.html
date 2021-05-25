@@ -9,7 +9,7 @@
 <div id="hyperpass-container">
 
 	<!-- Page. -->
-	<router-outlet *ngIf="utilityService.initialized"></router-outlet>
+	<router-outlet *ngIf="initializationService.initialized"></router-outlet>
 
 	<!-- Message. -->
 	<hyperpass-message #hyperpassMessage></hyperpass-message>

@@ -42,16 +42,17 @@ export class VaultComponent implements OnInit, OnDestroy
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
 
-	private readonly pageSize = 30;
-
+	public state: Types.VaultState = _.clone(Types.defaultVaultState);
 	public entries: Entry[] = [];
 	public pageEntries: Entry[] = [];
 	public pageCount = 1;
-	public vault: Types.Vault = Types.defaultVault;
+	public vault: Types.Vault = _.clone(Types.defaultVault);
 	public loading = true;
 
+	private readonly pageSize = 30;
 	private modalSubscription?: Subscription;
 	private updateSubscription?: Subscription;
+	private simpleBarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -66,6 +67,8 @@ export class VaultComponent implements OnInit, OnDestroy
 	// Initializer.
 	public ngOnInit(): void
 	{
+		this.state = this.stateService.vault;
+
 		// Regenerate the page on vault updates.
 		this.updateSubscription = this.utilityService
 			.updateVaultSubject.subscribe(() => { this.generatePage(); });
@@ -80,10 +83,11 @@ export class VaultComponent implements OnInit, OnDestroy
 	{
 		this.updateSubscription?.unsubscribe();
 		this.modalSubscription?.unsubscribe();
+		this.simpleBarSubscription?.unsubscribe();
 	}
 
 
-	// Blocks the given mouse event from propagating to the tile and sends a copy message.
+	// Blocks the given mouse event from propagatig to the tile and sends a copy message.
 	public tileButtonClickCallback(event: MouseEvent, name: string): void
 	{
 		event.stopPropagation();
@@ -114,16 +118,16 @@ export class VaultComponent implements OnInit, OnDestroy
 
 		// Bind the callback.
 		this.modalSubscription?.unsubscribe();
-		this.modalSubscription = this.stateService.vaultHistoryModal
-			.subject.subscribe(() => { this.generatePage(); });
+		this.modalSubscription = this.stateService.vaultHistoryModalSubject
+			.subscribe(() => { this.generatePage(); });
 	}
 
 
 	// Navigates to the previous page.
 	public previousPage(): void
 	{
-		--this.stateService.vault.page;
-		this.stateService.vault.scrollPosition = 0;
+		--this.state.page;
+		this.state.scrollPosition = 0;
 		this.generatePage();
 	}
 
@@ -131,14 +135,14 @@ export class VaultComponent implements OnInit, OnDestroy
 	// Navigates to the next page.
 	public nextPage(): void
 	{
-		++this.stateService.vault.page;
-		this.stateService.vault.scrollPosition = 0;
+		++this.state.page;
+		this.state.scrollPosition = 0;
 		this.generatePage();
 	}
 
 
 	// Generates the page.
-	public generatePage(query?: string, newQuery = false): void
+	public async generatePage(query?: string, newQuery = false): Promise<void>
 	{
 		this.loading = true;
 		this.changeDetectorRef.detectChanges();
@@ -147,17 +151,17 @@ export class VaultComponent implements OnInit, OnDestroy
 		// Update the state on new queries.
 		if(newQuery)
 		{
-			this.stateService.vault.query = query;
-			this.stateService.vault.page = 1;
-			this.stateService.vault.scrollPosition = 0;
+			this.state.query = query;
+			this.state.page = 1;
+			this.state.scrollPosition = 0;
 		}
 
 		// Parse the query.
 		const queryParts: Types.QueryPart[] = [];
-		if(this.stateService.vault.query)
+		if(this.state.query)
 		{
-			const queryTokens = this.stateService.vault.query
-				.toLowerCase().split(/(?=username:)|(?=url:)|(?=tag:)/);
+			const queryTokens = this.state.query.toLowerCase()
+				.split(/(?=username:)|(?=url:)|(?=tag:)/);
 
 			queryTokens.forEach((token) =>
 			{
@@ -196,14 +200,15 @@ export class VaultComponent implements OnInit, OnDestroy
 
 		// Get the page entries.
 		this.pageCount = Math.floor(this.entries.length/this.pageSize)+1;
-		const startIndex = this.pageSize*(this.stateService.vault.page-1);
+		const startIndex = this.pageSize*(this.state.page-1);
 		this.pageEntries = this.entries.slice(startIndex, startIndex+this.pageSize);
 
 		this.loading = false;
-		this.changeDetectorRef.detectChanges();
 
 		// Initialize SimpleBar.
-		this.stateService.initializeSimpleBar(this.stateService.vault, this.simpleBar);
+		this.changeDetectorRef.detectChanges();
+		this.simpleBarSubscription = await this.stateService
+			.initializeSimpleBar(this.state, this.simpleBar);
 	}
 
 

@@ -5,14 +5,17 @@
 */
 
 
+import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 import {formatDate} from '@angular/common';
 import * as FileSaver from 'file-saver';
+import * as _ from 'lodash';
 
 import * as Types from '../../../types';
 import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
 import {UtilityService} from '../../../services/utility.service';
+import {StateService} from '../../../services/state.service';
 
 
 @Component
@@ -21,18 +24,23 @@ import {UtilityService} from '../../../services/utility.service';
 	templateUrl: './export-vault.component.html'
 })
 
-export class ExportVaultComponent
+export class ExportVaultComponent implements OnInit
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 
 	public readonly types = Types;
-	public format: Types.ExportFormat = 'HY Encrypted';
+	public state: Types.ExportVaultState = _.clone(Types.defaultExportVaultState);
 
 
 	// Constructor.
 	public constructor(public readonly utilityService: UtilityService,
+		public readonly stateService: StateService,
 		private readonly messageService: MessageService,
 		private readonly accountService: AccountService){}
+
+
+	// Initializer.
+	public ngOnInit(): void { this.state = this.stateService.exportVault; }
 
 
 	// Exports the vault in the selected format.
@@ -41,7 +49,7 @@ export class ExportVaultComponent
 		try
 		{
 			// Export.
-			switch(this.format)
+			switch(this.state.format)
 			{
 				case 'HY Encrypted': this.exportEncrypted(); break;
 				case 'HY Unencrypted': this.exportUnencrypted(); break;
@@ -51,6 +59,14 @@ export class ExportVaultComponent
 
 		// Handle errors.
 		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
+
+
+	// Goes back to the options page.
+	public back(): void
+	{
+		this.stateService.exportVault = _.clone(Types.defaultExportVaultState);
+		this.utilityService.close('options');
 	}
 
 

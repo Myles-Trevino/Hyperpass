@@ -6,14 +6,10 @@
 
 
 import {Injectable} from '@angular/core';
-import * as Capacitor from '@capacitor/core';
-import type {NativeBiometricPlugin} from 'capacitor-native-biometric';
+import {NativeBiometric} from 'capacitor-native-biometric';
 
 import type * as Types from '../types';
 import * as Settings from '../settings';
-
-
-const {NativeBiometric} = Capacitor.Plugins;
 
 
 @Injectable({providedIn: 'root'})

@@ -8,7 +8,8 @@
 import {Injectable, Inject, PLATFORM_ID} from '@angular/core';
 import {isPlatformServer} from '@angular/common';
 import * as Ionic from '@ionic/angular';
-import * as Capacitor from '@capacitor/core';
+import type {OperatingSystem} from '@capacitor/device';
+import {Device} from '@capacitor/device';
 
 import * as Settings from '../settings';
 import {StorageService} from './storage.service';
@@ -20,10 +21,11 @@ import {CryptoService} from './crypto.service';
 export class PlatformService
 {
 	public deviceId?: string;
-	public os: Capacitor.OperatingSystem = 'unknown';
+	public os: OperatingSystem = 'unknown';
 	public isMobile = false;
 	public isServer = isPlatformServer(this.platformId);
 	public isExtension = false;
+	public isExtensionBackground = false;
 
 
 	// Constructor.
@@ -46,7 +48,7 @@ export class PlatformService
 		}
 
 		// Load the OS and platform type.
-		this.os = (await Capacitor.Plugins.Device.getInfo()).operatingSystem;
+		this.os = (await Device.getInfo()).operatingSystem;
 		this.isMobile = this.ionicPlatform.is('mobile');
 	}
 }

@@ -18,6 +18,8 @@ import {ApiService} from './api.service';
 import {ThemeService} from './theme.service';
 import {StorageService} from './storage.service';
 import {BiometricService} from './biometric.service';
+import {PlatformService} from './platform.service';
+import {StateService} from './state.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -39,9 +41,9 @@ export class AccountService implements OnDestroy
 	public loginTimeoutDuration = Settings.defaultLoginTimeoutDuration;
 	public publicInformation?: Types.PublicAccountInformation;
 	public accessKey?: Types.EncryptedKey;
+	public vaultKey?: Types.Key;
 	private nextAccessKey?: Types.EncryptedKey;
 	private automaticLoginKey?: string;
-	private vaultKey?: Types.Key;
 	private loginTimeoutStart?: DOMHighResTimeStamp;
 	private loginTimeoutTimeout?: NodeJS.Timeout;
 
@@ -53,7 +55,9 @@ export class AccountService implements OnDestroy
 		private readonly messageService: MessageService,
 		private readonly apiService: ApiService,
 		private readonly themeService: ThemeService,
-		private readonly storageService: StorageService){}
+		private readonly storageService: StorageService,
+		private readonly platformService: PlatformService,
+		private readonly stateService: StateService){}
 
 
 	// Destructor.
@@ -87,7 +91,7 @@ export class AccountService implements OnDestroy
 			this.accessKey = {encrypted, value};
 
 			// Generate the next access key
-			this.nextAccessKey =
+			if(!this.platformService.isExtensionBackground) this.nextAccessKey =
 				await this.cryptoService.generateEncryptedKey(masterPassword);
 
 			// Redirect to the validation page if the account has not been validated
@@ -102,11 +106,20 @@ export class AccountService implements OnDestroy
 			await this.pullVault(masterPassword);
 			this.loggedIn = true;
 
-			// Cache the login credentials.
-			this.cacheLoginCredentials(masterPassword);
+			if(!this.platformService.isExtensionBackground)
+			{
+				// Cache the login credentials.
+				this.cacheLoginCredentials(masterPassword);
 
-			// Redirect to the web app.
-			if(this.navigate) this.router.navigate(['/app']);
+				// Redirect to the web app.
+				if(this.navigate) this.router.navigate(['/app']);
+			}
+
+			// If this is the extension, load the state.
+			if(this.platformService.isExtension)
+				await this.stateService.load(masterPassword);
+
+			// Trigger the login subject.
 			this.loginSubject.next(this.loggedIn);
 		}
 

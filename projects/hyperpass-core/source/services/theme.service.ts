@@ -6,7 +6,7 @@
 
 
 import {Injectable} from '@angular/core';
-import * as Capacitor from '@capacitor/core';
+import {StatusBar, Style} from '@capacitor/status-bar';
 
 import type * as Types from '../types';
 import * as Settings from '../settings';
@@ -90,11 +90,8 @@ export class ThemeService
 		// If on mobile, set the status bar.
 		if(this.platformService.isMobile)
 		{
-			Capacitor.Plugins.StatusBar.setStyle({style: (theme === 'Dark') ?
-				Capacitor.StatusBarStyle.Dark : Capacitor.StatusBarStyle.Light});
-
-			Capacitor.Plugins.StatusBar.setBackgroundColor(
-				{color: this.rgbToHex(css['alternate-color'])});
+			StatusBar.setStyle({style: (theme === 'Dark') ? Style.Dark : Style.Light});
+			StatusBar.setBackgroundColor({color: this.rgbToHex(css['alternate-color'])});
 		}
 	}
 

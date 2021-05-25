@@ -24,13 +24,12 @@ import {UtilityService} from '../services/utility.service';
 
 export class MessageComponent implements OnInit, OnDestroy
 {
-	private readonly cssUpdateDuration = 17;
-	private readonly transitionDuration = 160;
-
 	public message = '';
 	public type = 'normal';
 	public visible = false;
 
+	private readonly cssUpdateDuration = 17;
+	private readonly transitionDuration = 160;
 	private subscription?: Subscription;
 	private duration = 0;
 	private timeout?: NodeJS.Timeout;

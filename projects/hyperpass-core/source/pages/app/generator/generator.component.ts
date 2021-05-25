@@ -5,9 +5,10 @@
 */
 
 
-import type {OnDestroy, OnInit} from '@angular/core';
-import {Component} from '@angular/core';
+import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
+import {SimplebarAngularComponent} from 'simplebar-angular';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
@@ -16,6 +17,7 @@ import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
 import {AccountService} from '../../../services/account.service';
 import {PlatformService} from '../../../services/platform.service';
+import {StateService} from '../../../services/state.service';
 
 
 @Component
@@ -25,18 +27,25 @@ import {PlatformService} from '../../../services/platform.service';
 	styleUrls: ['./generator.component.scss']
 })
 
-export class GeneratorComponent implements OnInit, OnDestroy
+export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 {
+	@ViewChild('optionsSimpleBar') private readonly optionsSimpleBar?: SimplebarAngularComponent;
+	@ViewChild('historySimpleBar') private readonly historySimpleBar?: SimplebarAngularComponent;
+
 	public readonly types = Types;
-	public state: Types.GeneratorState = Types.defaultGeneratorState;
 	public password = '';
+	public state: Types.GeneratorSyncedState = _.clone(Types.defaultGeneratorSyncedState);
+	public cachedState: Types.GeneratorCachedState = _.clone(Types.defaultGeneratorCachedState);
 
 	private updateSubscription?: Subscription;
+	private optionsSimpleBarSubscription?: Subscription;
+	private historySimpleBarSubscription?: Subscription;
 
 
 	// Constructor.
 	public constructor(public readonly utilityService: UtilityService,
 		public readonly platformService: PlatformService,
+		public readonly stateService: StateService,
 		private readonly generatorService: GeneratorService,
 		private readonly messageService: MessageService,
 		private readonly accountService: AccountService){}
@@ -45,24 +54,33 @@ export class GeneratorComponent implements OnInit, OnDestroy
 	// Initializer.
 	public ngOnInit(): void
 	{
-		// Generate the initial password and set the initial state.
-		this.generate(true);
+		// Load the initial state.
+		this.cachedState = this.stateService.generator;
 		this.updateState();
 
 		// Update the generator state on vault updates.
-		this.updateSubscription = this.utilityService.updateVaultSubject.subscribe(
-			() => { this.updateState(); });
+		this.updateSubscription = this.utilityService.updateVaultSubject
+			.subscribe(() => { this.updateState(); });
+	}
+
+
+	// Initializes SimpleBar.
+	public async ngAfterViewInit(): Promise<void>
+	{
+		this.optionsSimpleBarSubscription = await this.stateService.initializeSimpleBar(
+			this.cachedState.optionsScrollState, this.optionsSimpleBar);
+
+		this.historySimpleBarSubscription = await this.stateService.initializeSimpleBar(
+			this.cachedState.historyScrollState, this.historySimpleBar);
 	}
 
 
 	// Destructor.
-	public ngOnDestroy(): void { this.updateSubscription?.unsubscribe(); }
-
-
-	// Updates the state.
-	private updateState(): void
+	public ngOnDestroy(): void
 	{
-		this.state = _.cloneDeep(this.accountService.getVault().generatorState);
+		this.updateSubscription?.unsubscribe();
+		this.optionsSimpleBarSubscription?.unsubscribe();
+		this.historySimpleBarSubscription?.unsubscribe();
 	}
 
 
@@ -80,8 +98,8 @@ export class GeneratorComponent implements OnInit, OnDestroy
 			{
 				// Validate the parameters.
 				const parsedWordCount = this.utilityService.isWithinRange(
-					Number(this.state.wordCount), 1, 9, 'The number of words '+
-					'must be between 1 and 9.');
+					Number(this.state.wordCount), 1, 9, 'The number '+
+						'of words must be between 1 and 9.');
 
 				const parsedNumberCount = this.utilityService.isWithinRange(
 					Number(this.state.numberCount), 0, parsedWordCount, `The amount `+
@@ -139,6 +157,20 @@ export class GeneratorComponent implements OnInit, OnDestroy
 		await this.accountService.pullVault();
 		this.state.history.splice(index, 1);
 		this.pushVault();
+	}
+
+
+	// Updates the state.
+	private updateState(): void
+	{
+		// Update the state.
+		this.state = _.cloneDeep(this.accountService.getVault().generatorState);
+
+		// If there is no password history, generate a password.
+		if(!this.state.history.length) this.generate();
+
+		// Otherwise, display the last generated password.
+		else this.password = this.state.history[0].password;
 	}
 
 

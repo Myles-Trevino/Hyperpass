@@ -158,4 +158,6 @@
 	margin: var(--very-small-gap);
 	padding: .35rem;
 	border-radius: 3rem;
+
+	@include mobile{ bottom: calc(var(--medium-radius) + var(--small-radius)); }
 }

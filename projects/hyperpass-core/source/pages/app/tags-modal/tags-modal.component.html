@@ -19,7 +19,7 @@
 	<div class="app-modal-content">
 
 		<!-- Tag list. -->
-		<ngx-simplebar *ngIf="hasTags">
+		<ngx-simplebar *ngIf="hasTags" #simpleBar>
 		<div id="tags-tag-list">
 
 			<ng-container *ngFor="let tag of vault.tags | keyvalue">

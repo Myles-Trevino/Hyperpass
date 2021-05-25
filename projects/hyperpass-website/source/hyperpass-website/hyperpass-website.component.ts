@@ -8,7 +8,7 @@
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 
-import {Animations, UtilityService, PlatformService} from 'hyperpass-core';
+import {Animations, InitializationService, PlatformService} from 'hyperpass-core';
 
 
 @Component
@@ -24,7 +24,8 @@ export class HyperpassWebsiteComponent implements OnInit
 
 
 	// Constructor.
-	public constructor(public readonly utilityService: UtilityService,
+	public constructor(
+		public readonly initializationService: InitializationService,
 		public readonly platformService: PlatformService){}
 
 
@@ -35,6 +36,6 @@ export class HyperpassWebsiteComponent implements OnInit
 		if(this.platformService.isServer) return;
 
 		// Initialize.
-		await this.utilityService.initialize();
+		await this.initializationService.initialize();
 	}
 }

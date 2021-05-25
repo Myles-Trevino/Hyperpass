@@ -5,8 +5,9 @@
 */
 
 
-import type {OnInit, AfterViewInit} from '@angular/core';
+import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
+import type {Subscription} from 'rxjs';
 import {SimplebarAngularComponent} from 'simplebar-angular';
 import * as _ from 'lodash';
 
@@ -28,14 +29,15 @@ import {StorageService} from '../../../services/storage.service';
 	styleUrls: ['./options.component.scss']
 })
 
-export class OptionsComponent implements OnInit, AfterViewInit
+export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
 
 	public readonly types = Types;
-	public settings = Types.defaultSettings;
+	public settings = _.clone(Types.defaultSettings);
 	public settings_ = Settings;
+	private simpleBarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -57,11 +59,16 @@ export class OptionsComponent implements OnInit, AfterViewInit
 	}
 
 
-	public ngAfterViewInit(): void
+	// Initializes SimpleBar.
+	public async ngAfterViewInit(): Promise<void>
 	{
-		// Initialize SimpleBar.
-		this.stateService.initializeSimpleBar(this.stateService.options, this.simpleBar);
+		this.simpleBarSubscription = await this.stateService
+			.initializeSimpleBar(this.stateService.options, this.simpleBar);
 	}
+
+
+	// Destructor.
+	public ngOnDestroy(): void { this.simpleBarSubscription?.unsubscribe(); }
 
 
 	// Logs out.

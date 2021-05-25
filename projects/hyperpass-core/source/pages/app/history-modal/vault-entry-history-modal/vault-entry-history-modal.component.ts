@@ -34,6 +34,7 @@ export class VaultEntryHistoryModalComponent extends
 		public readonly utilityService: UtilityService)
 	{
 		super(platformService, stateService, messageService, ionicPlatform,
-			utilityService, stateService.vaultEntryHistoryModal.history);
+			utilityService, stateService.vaultEntryHistoryModal.history,
+			stateService.vaultEntryHistoryModal);
 	}
 }

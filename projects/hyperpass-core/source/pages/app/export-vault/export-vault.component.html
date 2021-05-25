@@ -8,14 +8,14 @@
 <!-- Top bar. -->
 <div class="app-top-bar">
 
-	<button (click)="utilityService.close('options')">Back</button>
+	<button (click)="back()">Back</button>
 	<button (click)="export()">Export</button>
 
 </div>
 
 
 <!-- Scrollable content. -->
-<ngx-simplebar>
+<ngx-simplebar #simpleBar>
 <div class="vertical-container">
 
 	<!-- Notice. -->
@@ -31,11 +31,11 @@
 		<div class="tile-setting">
 			<span>Format</span>
 			<hyperpass-dropdown [options]="types.exportFormats"
-				[(selectedOption)]="format"></hyperpass-dropdown>
+				[(selectedOption)]="state.format"></hyperpass-dropdown>
 		</div>
 
 		<!-- Unencrypted warning. -->
-		<div *ngIf="format === 'HY Unencrypted'" class="tile-section">
+		<div *ngIf="state.format === 'HY Unencrypted'" class="tile-section">
 			<p class="warning-text">If you export your vault in the unencrypted format, your vault information will be easily visible to anyone who has access to the file. Unencrypted exports have their uses, but they should not be sent over insecure channels and should be deleted or encrypted as soon as possible.</p>
 		</div>
 

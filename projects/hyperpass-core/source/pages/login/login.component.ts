@@ -36,14 +36,6 @@ export class LoginComponent implements OnInit
 	public biometricLoginEnabled = false;
 
 
-	// Keypress callback.
-	@HostListener('document:keypress', ['$event'])
-	public handleKeyboardEvent(event: KeyboardEvent): void
-	{
-		if(event.key === 'Enter') this.logIn();
-	}
-
-
 	// Constructor.
 	public constructor(private readonly router: Router,
 		public readonly accountService: AccountService,
@@ -51,6 +43,14 @@ export class LoginComponent implements OnInit
 		private readonly storageService: StorageService,
 		private readonly biometricService: BiometricService,
 		private readonly metadataService: MetadataService){}
+
+
+	// Keypress callback.
+	@HostListener('document:keypress', ['$event'])
+	public handleKeyboardEvent(event: KeyboardEvent): void
+	{
+		if(event.key === 'Enter') this.logIn();
+	}
 
 
 	// Initializer.

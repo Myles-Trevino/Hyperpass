@@ -6,8 +6,9 @@
 
 
 import type {OnInit, OnDestroy} from '@angular/core';
-import {Component, EventEmitter, Input, Output, HostBinding} from '@angular/core';
+import {Component, Input, HostBinding} from '@angular/core';
 import type {Subscription} from 'rxjs';
+import * as _ from 'lodash';
 
 import * as Types from '../../../../types';
 import {MessageService} from '../../../../services/message.service';
@@ -27,7 +28,7 @@ export class TagListComponent implements OnInit, OnDestroy
 	@Input() public tags?: string[];
 	@HostBinding('class') public readonly class = 'wide-tile-setting';
 
-	public vault: Types.Vault = Types.defaultVault;
+	public vault: Types.Vault = _.clone(Types.defaultVault);
 	private modalSubscription?: Subscription;
 
 
@@ -78,7 +79,7 @@ export class TagListComponent implements OnInit, OnDestroy
 
 		// Bind the event callback.
 		this.modalSubscription?.unsubscribe();
-		this.modalSubscription = this.stateService.tagsModal.subject
+		this.modalSubscription = this.stateService.tagsModalSubject
 			.subscribe((event) => { this.tagsModalCallback(event); });
 	}
 

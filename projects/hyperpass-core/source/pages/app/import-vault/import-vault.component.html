@@ -8,14 +8,14 @@
 <!-- Top bar. -->
 <div class="app-top-bar">
 
-	<button (click)="utilityService.close('options')">Back</button>
+	<button (click)="back()">Back</button>
 	<button (click)="loadFile()">Import</button>
 
 </div>
 
 
 <!-- Scrollable content. -->
-<ngx-simplebar>
+<ngx-simplebar #simpleBar>
 <div class="vertical-container">
 
 	<!-- Notice. -->
@@ -32,11 +32,11 @@
 		<div class="tile-setting">
 			<span>Format</span>
 			<hyperpass-dropdown [options]="types.importFormats"
-				[(selectedOption)]="format"></hyperpass-dropdown>
+				[(selectedOption)]="state.format"></hyperpass-dropdown>
 		</div>
 
 		<!-- Master password. -->
-		<div *ngIf="format === 'HY Encrypted'" class="wide-tile-setting">
+		<div *ngIf="state.format === 'HY Encrypted'" class="wide-tile-setting">
 			<span>Master Password</span>
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="masterPassword" [autofocus]>
 		</div>
@@ -45,24 +45,24 @@
 		<div class="tile-setting">
 			<span>Trim</span>
 			<hyperpass-dropdown [options]="types.trimModes"
-				[(selectedOption)]="trim"></hyperpass-dropdown>
+				[(selectedOption)]="state.trim"></hyperpass-dropdown>
 		</div>
 
 		<!-- Mode. -->
 		<div class="tile-setting">
 			<span>Mode</span>
 			<hyperpass-dropdown [options]="types.importModes"
-				[(selectedOption)]="mode"></hyperpass-dropdown>
+				[(selectedOption)]="state.mode"></hyperpass-dropdown>
 		</div>
 
 		<!-- Mode descriptions. -->
 		<div class="tile-section">
 
-			<p *ngIf="mode === 'Append'">Append mode will add the entries contined in the selected file without touching your existing entries. If an imported entry has the same title as an existing entry, a number will be appended to its name. Fully duplicate entries will be skipped.</p>
+			<p *ngIf="state.mode === 'Append'">Append mode will add the entries contined in the selected file without touching your existing entries. If an imported entry has the same title as an existing entry, a number will be appended to its name. Fully duplicate entries will be skipped.</p>
 
-			<p *ngIf="mode === 'Merge'">In merge mode, if an imported entry has the same title as an existing entry, its values will replace the values of the existing entry. The entry's old values will be retained in history.</p>
+			<p *ngIf="state.mode === 'Merge'">In merge mode, if an imported entry has the same title as an existing entry, its values will replace the values of the existing entry. The entry's old values will be retained in history.</p>
 
-			<p *ngIf="mode === 'Overwrite'" class="warning-text">Overwrite mode will erase your current vault and replace it with the imported vault. It is recommended that you export your current vault before using this mode.</p>
+			<p *ngIf="state.mode === 'Overwrite'" class="warning-text">Overwrite mode will erase your current vault and replace it with the imported vault. It is recommended that you export your current vault before using this mode.</p>
 
 		</div>
 

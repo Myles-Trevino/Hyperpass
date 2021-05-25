@@ -8,10 +8,10 @@
 <!-- Top bar. -->
 <div class="app-top-bar">
 
-	<button (click)="utilityService.close('vault')">Cancel</button>
+	<button (click)="exit()">Cancel</button>
 
 	<div class="tile-buttons">
-		<button *ngIf="key" (click)="delete()">Delete</button>
+		<button *ngIf="state.key" (click)="delete()">Delete</button>
 		<button (click)="save()">Save</button>
 	</div>
 
@@ -19,13 +19,13 @@
 
 
 <!-- Content. -->
-<ngx-simplebar>
+<ngx-simplebar #simpleBar>
 <div class="tile-content">
 
 	<!-- Title. -->
 	<div class="wide-tile-setting">
 		<span>Title</span>
-		<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="title" [autofocus]>
+		<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.title" [autofocus]>
 	</div>
 
 	<!-- Username. -->
@@ -35,7 +35,7 @@
 
 		<div class="app-button-input-container hoverable-container">
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.username">
-			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewUsernameHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile}"></hyperpass-svg>
+			<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewUsernameHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile}"></hyperpass-svg>
 		</div>
 
 	</div>
@@ -50,7 +50,7 @@
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.password">
 
 			<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
-				<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
+				<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
 				<hyperpass-svg svg="Generate Button" (click)="generatePassword()"></hyperpass-svg>
 			</div>
 
@@ -72,7 +72,7 @@
 
 		<div class="app-button-input-container hoverable-container">
 			<textarea class="hidden-scrollbars" [(ngModel)]="state.note"></textarea>
-			<hyperpass-svg *ngIf="key" svg="History Button" (click)="viewNoteHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile}"></hyperpass-svg>
+			<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewNoteHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile}"></hyperpass-svg>
 		</div>
 
 	</div>

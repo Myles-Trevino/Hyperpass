@@ -7,9 +7,9 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
-import * as Capacitor from '@capacitor/core';
+import {SplashScreen} from '@capacitor/splash-screen';
 
-import {UtilityService} from 'hyperpass-core';
+import {InitializationService} from 'hyperpass-core';
 
 
 @Component
@@ -21,13 +21,13 @@ import {UtilityService} from 'hyperpass-core';
 export class HyperpassMobileComponent implements OnInit
 {
 	// Constructor.
-	public constructor(public readonly utilityService: UtilityService){}
+	public constructor(public readonly initializationService: InitializationService){}
 
 
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
-		await this.utilityService.initialize();
-		Capacitor.Plugins.SplashScreen.hide();
+		await this.initializationService.initialize();
+		SplashScreen.hide();
 	}
 }

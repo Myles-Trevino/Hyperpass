@@ -11,15 +11,8 @@ import {formatDate} from '@angular/common';
 import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 
-import * as Types from '../types';
+import type * as Types from '../types';
 import * as Settings from '../settings';
-import {ThemeService} from './theme.service';
-import {CryptoService} from './crypto.service';
-import {GeneratorService} from './generator.service';
-import {StorageService} from './storage.service';
-import {PlatformService} from './platform.service';
-import {ApiService} from './api.service';
-import {MessageService} from './message.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -27,59 +20,11 @@ import {MessageService} from './message.service';
 export class UtilityService
 {
 	public readonly updateVaultSubject = new Subject<void>();
-	public initialized = false;
 
 
 	// Constructor.
-	public constructor(
-		private readonly route: ActivatedRoute,
-		private readonly apiService: ApiService,
-		private readonly themeService: ThemeService,
-		private readonly cryptoService: CryptoService,
-		private readonly generatorService: GeneratorService,
-		private readonly storageService: StorageService,
-		private readonly messageService: MessageService,
-		private readonly platformService: PlatformService,
-		public readonly router: Router){}
-
-
-	// Initializes the Hyperpass core.
-	public async initialize(): Promise<void>
-	{
-		try
-		{
-			// Initialize the cryptography service.
-			await this.cryptoService.initialize();
-
-			// Load platform information.
-			await this.platformService.initialize();
-
-			// If there is a cached theme, apply it.
-			const cachedTheme = await this.storageService.getData(Settings.themeKey);
-
-			if(cachedTheme && Types.isTheme(cachedTheme))
-				await this.themeService.setTheme(cachedTheme);
-
-			// Otherwise, set the theme based on the OS preference.
-			else await this.themeService.setTheme();
-
-			// Initialize the generator service.
-			await this.generatorService.initialize();
-
-			// Check the version.
-			const minimumVersion = await this.apiService.getMinimumVersion();
-
-			if(this.naturalCompare(Settings.version, minimumVersion) < 0)
-				this.messageService.error(new Error('This version of Hyperpass '+
-					'is out of date. Please update to continue.'), 0);
-
-			// Set the initialized flag.
-			else this.initialized = true;
-		}
-
-		// Handle errors.
-		catch(error: unknown){ this.messageService.error(error as Error); }
-	}
+	public constructor(private readonly router: Router,
+		private readonly route: ActivatedRoute){}
 
 
 	// Sleeps for the given duration in milliseconds.

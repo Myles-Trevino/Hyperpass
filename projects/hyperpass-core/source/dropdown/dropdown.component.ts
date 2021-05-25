@@ -21,23 +21,14 @@ import * as Animations from '../animations';
 
 export class DropdownComponent<T1 extends Iterable<T2>, T2>
 {
-	@ViewChild('dropdownHead', {read: ElementRef, static: false})
-	private readonly dropdownHead?: ElementRef;
-
 	@Input() public options?: T1;
 	@Input() public selectedOption?: T2;
 	@Output() public readonly selectedOptionChange = new EventEmitter<T2>();
 
+	@ViewChild('dropdownHead', {read: ElementRef, static: false})
+	private readonly dropdownHead?: ElementRef;
+
 	public show = false;
-
-
-	// Sets the selected option.
-	public set(option: T2): void
-	{
-		this.selectedOption = option;
-		this.selectedOptionChange.emit(this.selectedOption);
-		this.hide();
-	}
 
 
 	// Click callback.
@@ -49,6 +40,15 @@ export class DropdownComponent<T1 extends Iterable<T2>, T2>
 		if(!event.target) throw new Error('No dropdown target element.');
 		if(!headElement.nativeElement.contains(event.target as Node)) this.hide();
 		else this.toggle();
+	}
+
+
+	// Sets the selected option.
+	public set(option: T2): void
+	{
+		this.selectedOption = option;
+		this.selectedOptionChange.emit(this.selectedOption);
+		this.hide();
 	}
 
 

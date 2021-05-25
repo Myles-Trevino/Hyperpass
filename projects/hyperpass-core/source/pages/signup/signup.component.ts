@@ -7,6 +7,7 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import * as _ from 'lodash';
 
 import * as Types from '../../types';
 import * as Settings from '../../settings';
@@ -99,7 +100,7 @@ export class SignupComponent implements OnInit
 				await this.cryptoService.generateEncryptedKey(this.masterPassword);
 
 			// Generate the initial vault, and compress and encrypt it.
-			const vault: Types.Vault = Types.defaultVault;
+			const vault: Types.Vault = _.clone(Types.defaultVault);
 			vault.settings.theme = this.themeService.theme;
 
 			const encryptedVault =

@@ -41,11 +41,10 @@
 			{
 				"build":
 				{
-					"asar": false,
-					"extends": null,
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-builders/custom-webpack:browser",
 					"options":
 					{
+						"customWebpackConfig": {"path": "projects/hyperpass-desktop/custom-webpack.config.js"},
 						"outputPath": "builds/hyperpass-desktop/build",
 						"index": "projects/hyperpass-desktop/source/index.html",
 						"main": "projects/hyperpass-desktop/source/main.ts",
@@ -59,12 +58,21 @@
 						],
 						"allowedCommonJsDependencies":
 						[
+							"libsodium",
 							"libsodium-wrappers",
 							"lodash",
 							"file-saver",
-							"papaparse"
+							"papaparse",
+							"is-ip"
 						],
-						"styles": ["projects/hyperpass-desktop/source/global.scss"]
+						"styles": ["projects/hyperpass-desktop/source/global.scss"],
+						"aot": false,
+						"vendorChunk": true,
+						"extractLicenses": false,
+						"buildOptimizer": false,
+						"sourceMap": true,
+						"optimization": false,
+						"namedChunks": true
 					},
 					"configurations":
 					{
@@ -75,13 +83,13 @@
 								"replace": "projects/hyperpass-desktop/source/environments/environment.ts",
 								"with": "projects/hyperpass-desktop/source/environments/environment.prod.ts"
 							}],
-							"optimization": true,
-							"sourceMap": false,
-							"namedChunks": false,
 							"aot": true,
-							"extractLicenses": true,
 							"vendorChunk": false,
-							"buildOptimizer": true
+							"extractLicenses": true,
+							"buildOptimizer": true,
+							"sourceMap": false,
+							"optimization": {"styles": {"inlineCritical": false}},
+							"namedChunks": false
 						}
 					}
 				},
@@ -131,14 +139,23 @@
 						],
 						"allowedCommonJsDependencies":
 						[
+							"libsodium",
 							"libsodium-wrappers",
 							"lodash",
 							"file-saver",
 							"webextension-polyfill-ts",
-							"papaparse"
+							"papaparse",
+							"is-ip"
 						],
 						"styles": ["projects/hyperpass-extension/source/global.scss"],
-						"scripts": []
+						"scripts": [],
+						"aot": false,
+						"vendorChunk": true,
+						"extractLicenses": false,
+						"buildOptimizer": false,
+						"sourceMap": true,
+						"optimization": false,
+						"namedChunks": true
 					},
 					"configurations":
 					{
@@ -149,13 +166,13 @@
 								"replace": "projects/hyperpass-extension/source/environments/environment.ts",
 								"with": "projects/hyperpass-extension/source/environments/environment.prod.ts"
 							}],
-							"optimization": true,
-							"sourceMap": false,
-							"namedChunks": false,
 							"aot": true,
-							"extractLicenses": true,
 							"vendorChunk": false,
-							"buildOptimizer": true
+							"extractLicenses": true,
+							"buildOptimizer": true,
+							"sourceMap": false,
+							"optimization": {"styles": {"inlineCritical": false}},
+							"namedChunks": false
 						}
 					}
 				},
@@ -183,9 +200,10 @@
 			{
 				"build":
 				{
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-builders/custom-webpack:browser",
 					"options":
 					{
+						"customWebpackConfig": {"path": "projects/hyperpass-mobile/custom-webpack.config.js"},
 						"outputPath": "builds/hyperpass-mobile/build",
 						"index": "projects/hyperpass-mobile/source/index.html",
 						"main": "projects/hyperpass-mobile/source/main.ts",
@@ -202,12 +220,21 @@
 						],
 						"allowedCommonJsDependencies":
 						[
+							"libsodium",
 							"libsodium-wrappers",
 							"lodash",
 							"file-saver",
-							"papaparse"
+							"papaparse",
+							"is-ip"
 						],
-						"styles": ["projects/hyperpass-mobile/source/global.scss"]
+						"styles": ["projects/hyperpass-mobile/source/global.scss"],
+						"aot": false,
+						"vendorChunk": true,
+						"extractLicenses": false,
+						"buildOptimizer": false,
+						"sourceMap": true,
+						"optimization": false,
+						"namedChunks": true
 					},
 					"configurations":
 					{
@@ -218,13 +245,13 @@
 								"replace": "projects/hyperpass-mobile/source/environments/environment.ts",
 								"with": "projects/hyperpass-mobile/source/environments/environment.prod.ts"
 							}],
-							"optimization": true,
-							"sourceMap": false,
-							"namedChunks": false,
 							"aot": true,
-							"extractLicenses": true,
 							"vendorChunk": false,
-							"buildOptimizer": true
+							"extractLicenses": true,
+							"buildOptimizer": true,
+							"sourceMap": false,
+							"optimization": {"styles": {"inlineCritical": false}},
+							"namedChunks": false
 						}
 					}
 				},
@@ -252,9 +279,10 @@
 			{
 				"build":
 				{
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-builders/custom-webpack:browser",
 					"options":
 					{
+						"customWebpackConfig": {"path": "projects/hyperpass-website/custom-webpack.config.js"},
 						"outputPath": "builds/hyperpass-website/browser",
 						"index": "projects/hyperpass-website/source/index.html",
 						"main": "projects/hyperpass-website/source/main.ts",
@@ -269,12 +297,21 @@
 						"styles": ["projects/hyperpass-website/source/global.scss"],
 						"allowedCommonJsDependencies":
 						[
+							"libsodium",
 							"libsodium-wrappers",
 							"lodash",
 							"file-saver",
-							"papaparse"
+							"papaparse",
+							"is-ip"
 						],
-						"scripts": []
+						"scripts": [],
+						"aot": false,
+						"vendorChunk": true,
+						"extractLicenses": false,
+						"buildOptimizer": false,
+						"sourceMap": true,
+						"optimization": false,
+						"namedChunks": true
 					},
 					"configurations":
 					{
@@ -285,13 +322,13 @@
 								"replace": "projects/hyperpass-website/source/environments/environment.ts",
 								"with": "projects/hyperpass-website/source/environments/environment.prod.ts"
 							}],
-							"optimization": true,
-							"sourceMap": false,
-							"namedChunks": false,
 							"aot": true,
-							"extractLicenses": true,
 							"vendorChunk": false,
-							"buildOptimizer": true
+							"extractLicenses": true,
+							"buildOptimizer": true,
+							"sourceMap": false,
+							"optimization": {"styles": {"inlineCritical": false}},
+							"namedChunks": false
 						}
 					}
 				},
@@ -321,7 +358,9 @@
 						"outputPath": "builds/hyperpass-website/server",
 						"main": "projects/hyperpass-website/server.ts",
 						"tsConfig": "projects/hyperpass-website/tsconfig.server.json",
-						"preserveSymlinks": true
+						"preserveSymlinks": true,
+						"sourceMap": true,
+						"optimization": false
 					},
 					"configurations":
 					{
