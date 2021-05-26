@@ -12,27 +12,32 @@ import * as Ionic from '@ionic/angular';
 
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
+import {ApiService} from '../../../services/api.service';
 import {UtilityService} from '../../../services/utility.service';
 
 
 @Component
 ({
-	selector: 'hyperpass-master-password',
-	templateUrl: './master-password.component.html'
+	selector: 'hyperpass-email-address',
+	templateUrl: './email-address.component.html'
 })
 
-export class MasterPasswordComponent implements OnInit, OnDestroy
+export class EmailAddressComponent implements OnInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 
-	public newMasterPassword = '';
+	public newEmailAddress = '';
+	public validationKey = '';
+	public validationEmailSent = false;
+
 	private backButtonSubscription?: Subscription;
 
 
 	// Constructor.
 	public constructor(
 		public readonly utilityService: UtilityService,
-		private readonly accountService: AccountService,
+		public readonly accountService: AccountService,
+		private readonly apiService: ApiService,
 		private readonly messageService: MessageService,
 		private readonly ionicPlatform: Ionic.Platform){}
 
@@ -50,21 +55,42 @@ export class MasterPasswordComponent implements OnInit, OnDestroy
 	public ngOnDestroy(): void { this.backButtonSubscription?.unsubscribe(); }
 
 
-	// Changes the master password.
-	public async change(newMasterPasswordConfirmation: string): Promise<void>
+	// Sends the email address validation email.
+	public async sendValidationEmail(): Promise<void>
 	{
 		try
 		{
-			// Validate the master password.
-			this.accountService.validateMasterPassword(
-				this.newMasterPassword, newMasterPasswordConfirmation);
+			if(!this.newEmailAddress) throw new Error('Please enter a new email address.');
 
-			// Change the master password.
-			await this.accountService.changeMasterPassword(this.newMasterPassword);
+			// Send the email address validation email.
+			await this.apiService.sendEmailAddressValidationEmail(
+				this.accountService.getAccessData(), this.newEmailAddress);
+
+			this.validationEmailSent = true;
 
 			// Send a success message.
-			this.messageService.message('Your master '+
-				'password has been changed successfully.');
+			this.messageService.message('Email validation code sent.');
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
+
+
+	// Changes the email address.
+	public async change(): Promise<void>
+	{
+		try
+		{
+			if(!this.validationKey) throw new Error('Please enter a validation key.');
+
+			// Change the email address.
+			await this.accountService.changeEmailAddress(
+				this.newEmailAddress, this.validationKey);
+
+			// Send a success message.
+			this.messageService.message('Your email '+
+				'address has been changed successfully.');
 
 			// Return to the options page.
 			this.utilityService.close('options');

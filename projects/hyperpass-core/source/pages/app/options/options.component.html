@@ -50,6 +50,12 @@
 		<button [routerLink]="['/app', {outlets: {'options': ['biometric-login']}}]" [skipLocationChange]="true">Configure</button>
 	</div>
 
+	<!-- Email address. -->
+	<div class="tile-setting">
+		<span>Email Address</span>
+		<button [routerLink]="['/app', {outlets: {'options': ['email-address']}}]" [skipLocationChange]="true">Change</button>
+	</div>
+
 	<!-- Master password. -->
 	<div class="tile-setting">
 		<span>Master Password</span>

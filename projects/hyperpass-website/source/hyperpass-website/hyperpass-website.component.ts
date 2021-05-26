@@ -15,7 +15,7 @@ import {Animations, InitializationService, PlatformService} from 'hyperpass-core
 ({
 	selector: 'hyperpass-website-root',
 	templateUrl: './hyperpass-website.component.html',
-	animations: [Animations.initialFadeAnimation]
+	animations: [Animations.initialFadeInAnimation]
 })
 
 export class HyperpassWebsiteComponent implements OnInit

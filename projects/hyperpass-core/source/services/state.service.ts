@@ -122,7 +122,9 @@ export class StateService
 		simpleBar?: SimplebarAngularComponent): Promise<Subscription | undefined>
 	{
 		if(!simpleBar) return;
-		const scrollElement = (simpleBar.SimpleBar as SimpleBar).getScrollElement();
+		const simpleBarAngular = (simpleBar.SimpleBar as SimpleBar | undefined);
+		if(!simpleBarAngular) return;
+		const scrollElement = simpleBarAngular.getScrollElement();
 		await new Promise((resolve) => { setTimeout(resolve); });
 
 		// Restore the initial scroll position.

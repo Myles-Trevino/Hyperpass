@@ -92,7 +92,7 @@ export type AppState =
 export const defaultAppState: AppState =
 {
 	tab: 'Vault',
-	route: '',
+	route: '/app',
 	modalOpen: false
 };
 

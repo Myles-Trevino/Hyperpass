@@ -20,7 +20,7 @@
 		"lint": "ng lint",
 		"build": "npm run build:core && npm run build:desktop && npm run release:desktop && npm run build:extension && npm run build:mobile && npm run build:website",
 		"build:core": "ng build --project=hyperpass-core",
-		"build:api": "rm -rf ./builds/hyperpass-api && tsc --project projects/hyperpass-api/tsconfig.json && cp -r projects/hyperpass-api/source/email-templates ./builds/hyperpass-api && cp package.json ./builds/hyperpass-api",
+		"build:api": "rm -rf ./builds/hyperpass-api && tsc --project projects/hyperpass-api/tsconfig.json && cp projects/hyperpass-api/source/email-template.html ./builds/hyperpass-api && cp package-lock.json ./builds/hyperpass-api",
 		"build:desktop": "ng build --project=hyperpass-desktop --configuration production --base-href ./",
 		"release:desktop": "electron-builder",
 		"start:desktop": "electron ./projects/hyperpass-desktop/electron.js",

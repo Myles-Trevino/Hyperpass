@@ -106,14 +106,9 @@ export class AccountService implements OnDestroy
 			await this.pullVault(masterPassword);
 			this.loggedIn = true;
 
+			// If not the extension background, cache the login credentials.
 			if(!this.platformService.isExtensionBackground)
-			{
-				// Cache the login credentials.
 				this.cacheLoginCredentials(masterPassword);
-
-				// Redirect to the web app.
-				if(this.navigate) this.router.navigate(['/app']);
-			}
 
 			// If this is the extension, load the state.
 			if(this.platformService.isExtension)
@@ -290,6 +285,19 @@ export class AccountService implements OnDestroy
 	}
 
 
+	// Changes the email address.
+	public async changeEmailAddress(newEmailAddress: string,
+		validationKey: string): Promise<void>
+	{
+		await this.apiService.changeEmailAddress(
+			this.getAccessData(), newEmailAddress, validationKey);
+
+		// Recache the login credentials.
+		this.emailAddress = newEmailAddress;
+		this.cacheLoginCredentials();
+	}
+
+
 	// Validates the master password.
 	public validateMasterPassword(masterPassword: string,
 		masterPasswordConfirmation: string): void
@@ -309,16 +317,17 @@ export class AccountService implements OnDestroy
 
 
 	// Changes the master password.
-	public async changeMasterPassword(masterPassword: string): Promise<void>
+	public async changeMasterPassword(newMasterPassword: string): Promise<void>
 	{
 		// Generate new access keys with the new master password.
-		const newAccessKey = await this.cryptoService.generateEncryptedKey(masterPassword);
+		const newAccessKey =
+			await this.cryptoService.generateEncryptedKey(newMasterPassword);
 
 		const newNextAccessKey =
-			await this.cryptoService.generateEncryptedKey(masterPassword);
+			await this.cryptoService.generateEncryptedKey(newMasterPassword);
 
 		// Compress and encrypt the vault with the new master password.
-		const newVaultKey = await this.cryptoService.deriveKey(masterPassword);
+		const newVaultKey = await this.cryptoService.deriveKey(newMasterPassword);
 
 		const newEncryptedVault = this.cryptoService.compressAndEncrypt(
 			JSON.stringify(this.vault), newVaultKey);
@@ -331,6 +340,9 @@ export class AccountService implements OnDestroy
 		this.accessKey = newAccessKey;
 		this.nextAccessKey = newNextAccessKey;
 		this.vaultKey = newVaultKey;
+
+		// Recache the login credentials.
+		this.cacheLoginCredentials(newMasterPassword);
 	}
 
 

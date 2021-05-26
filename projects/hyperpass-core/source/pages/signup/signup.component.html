@@ -28,16 +28,7 @@
 			<input type="text" class="tile-input" [(ngModel)]="emailAddress" placeholder="Email Address" spellcheck="false">
 
 			<!-- Master password. -->
-			<div class="app-button-input-container hoverable-container">
-
-				<input [type]="showMasterPassword ? 'text' : 'password'" class="tile-input" [(ngModel)]="masterPassword" placeholder="Master Password">
-
-				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
-					<hyperpass-svg *ngIf="!showMasterPassword" svg="Show Button" (click)="toggleMasterPasswordVisibility()"></hyperpass-svg>
-					<hyperpass-svg *ngIf="showMasterPassword" svg="Hide Button" (click)="toggleMasterPasswordVisibility()"></hyperpass-svg>
-					<hyperpass-svg svg="Generate Button" (click)="generateMasterPassword()"></hyperpass-svg>
-				</div>
-			</div>
+			<hyperpass-master-password-input [(masterPassword)]="masterPassword" placeholder="Master Password"></hyperpass-master-password-input>
 
 			<!-- Confirm master password. -->
 			<input type="password" class="tile-input" placeholder="Confirm Master Password" #confirmMasterPasswordInput>

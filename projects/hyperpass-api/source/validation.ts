@@ -75,6 +75,15 @@ export const changeMasterPasswordRequestSchema = securedRequestSchema.concat(Joi
 	newEncryptedVault: encryptedDataSchema.required()
 }));
 
+export const sendEmailAddressValidationEmailRequestSchema = securedRequestSchema.concat(
+	Joi.object({emailAddress: emailAddressSchema.required()}));
+
+export const changeEmailAddressRequestSchema = securedRequestSchema.concat(Joi.object
+({
+	emailAddress: Joi.string().required(),
+	validationKey: keySchema.required()
+}));
+
 export const logoutRequestSchema = securedRequestSchema.concat(
 	Joi.object({deviceId: keySchema.required()}));
 

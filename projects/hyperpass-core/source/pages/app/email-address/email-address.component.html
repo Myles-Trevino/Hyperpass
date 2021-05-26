@@ -1,0 +1,49 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Top bar. -->
+<div class="app-top-bar">
+
+	<button (click)="utilityService.close('options')">Back</button>
+
+	<div class="tile-buttons">
+		<button (click)='!validationEmailSent ? sendValidationEmail() : change()'>{{!validationEmailSent ? 'Send Code' : 'Change'}}</button>
+	</div>
+
+</div>
+
+
+<!-- Scrollable content. -->
+<ngx-simplebar>
+<div class="vertical-container">
+
+	<!-- Notice. -->
+	<div class="tile-content">
+	<div class="tile-section">
+		<p>For your security, account and vault access cannot be restored if you forget your credentials. Please keep a hard copy of this login information in a secure location.</p>
+	</div>
+	</div>
+
+	<!-- Inputs. -->
+	<div class="tile-content">
+
+		<!-- New Email Address. -->
+		<div class="wide-tile-setting">
+			<span>New Email Address</span>
+			<input type="text" [(ngModel)]="newEmailAddress" [disabled]="validationEmailSent" [placeholder]="accountService.emailAddress" [autofocus] #emailAddressInput>
+		</div>
+
+		<!-- Validation Key. -->
+		<div *ngIf="validationEmailSent" class="wide-tile-setting">
+			<span>Validation Key</span>
+			<input type="text" [(ngModel)]="validationKey" [autofocus]>
+		</div>
+
+	</div>
+
+</div>
+</ngx-simplebar>

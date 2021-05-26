@@ -9,7 +9,7 @@ import {trigger, animate, transition, style} from '@angular/animations';
 
 
 // Initial fade.
-export const initialFadeAnimation = trigger('initialFadeAnimation', [transition(
+export const initialFadeInAnimation = trigger('initialFadeInAnimation', [transition(
 	':enter', [style({opacity: 0}), animate('.32s .5s', style({opacity: 1}))])]);
 
 

@@ -35,7 +35,7 @@ SwiperCore.use([EffectFade]);
 	selector: 'hyperpass-app',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-	animations: [Animations.fadeAnimation]
+	animations: [Animations.fadeAnimation, Animations.delayedFadeAnimation]
 })
 
 export class AppComponent implements OnInit, OnDestroy
@@ -111,6 +111,9 @@ export class AppComponent implements OnInit, OnDestroy
 
 			await this.router.navigateByUrl(
 				this.state.route, {skipLocationChange: true});
+
+			// Recalculate Swiper's size.
+			this.swiper?.swiperRef.updateSize();
 		}
 
 		// Handle errors.

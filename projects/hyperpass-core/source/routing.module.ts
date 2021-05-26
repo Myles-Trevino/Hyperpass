@@ -22,6 +22,7 @@ import {GeneratorComponent} from './pages/app/generator/generator.component';
 import {OptionsComponent} from './pages/app/options/options.component';
 import {ImportVaultComponent} from './pages/app/import-vault/import-vault.component';
 import {ExportVaultComponent} from './pages/app/export-vault/export-vault.component';
+import {EmailAddressComponent} from './pages/app/email-address/email-address.component';
 import {MasterPasswordComponent} from './pages/app/master-password/master-password.component';
 import {BiometricLoginComponent} from './pages/app/biometric-login/biometric-login.component';
 
@@ -41,6 +42,7 @@ const routes: Routes =
 			{path: '', component: OptionsComponent, outlet: 'options'},
 			{path: 'import-vault', component: ImportVaultComponent, outlet: 'options'},
 			{path: 'export-vault', component: ExportVaultComponent, outlet: 'options'},
+			{path: 'email-address', component: EmailAddressComponent, outlet: 'options'},
 			{path: 'master-password', component: MasterPasswordComponent, outlet: 'options'},
 			{path: 'biometric-login', component: BiometricLoginComponent, outlet: 'options'}
 		]
@@ -60,4 +62,4 @@ export const routerModuleForChild = RouterModule.forChild(routes);
 	exports: [RouterModule]
 })
 
-export class HyperpassCoreRoutingModule{}
+export class RoutingModule{}

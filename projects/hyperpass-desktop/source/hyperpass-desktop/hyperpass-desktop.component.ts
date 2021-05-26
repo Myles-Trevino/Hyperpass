@@ -17,7 +17,7 @@ import {Animations, InitializationService, PlatformService} from 'hyperpass-core
 	selector: 'hyperpass-desktop-root',
 	templateUrl: './hyperpass-desktop.component.html',
 	styleUrls: ['./hyperpass-desktop.component.scss'],
-	animations: [Animations.initialFadeAnimation]
+	animations: [Animations.initialFadeInAnimation]
 })
 
 export class HyperpassDesktopComponent implements OnInit

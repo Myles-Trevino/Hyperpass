@@ -7,11 +7,11 @@
 
 <!-- Loading overlay. -->
 <div *ngIf="!initialized" class="overlay">
-	<ion-spinner name="crescent" @fadeAnimation></ion-spinner>
+	<ion-spinner name="crescent" @delayedFadeAnimation></ion-spinner>
 </div>
 
 
-<!-- Tile. -->
+<!-- Main. -->
 <div *ngIf="initialized" id="app-tile" class="tile" @fadeAnimation>
 
 	<!-- Tabs. -->

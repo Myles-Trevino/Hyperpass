@@ -40,6 +40,12 @@ export type AutomaticLoginKey =
 	date: Date;
 };
 
+export type EmailAddressValidationKey =
+{
+	emailAddress: string;
+	validationKey: string;
+};
+
 
 export type Account =
 {
@@ -50,6 +56,7 @@ export type Account =
 	accessKey: EncryptedKey;
 	automaticLoginKeys: Record<string, AutomaticLoginKey>;
 	encryptedVault: EncryptedData;
+	emailAddressValidationKey?: EmailAddressValidationKey;
 };
 
 
@@ -93,6 +100,10 @@ export type ChangeMasterPasswordRequest = SecuredRequest &
 	newAccessKey: EncryptedKey;
 	newEncryptedVault: EncryptedData;
 };
+
+export type SendEmailAddressValidationEmailRequest = SecuredRequest & {emailAddress: string};
+
+export type ChangeEmailAddressRequest = SecuredRequest & EmailAddressValidationKey;
 
 export type LogoutRequest = SecuredRequest & {deviceId: string};
 

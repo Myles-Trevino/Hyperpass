@@ -36,7 +36,6 @@ export class SignupComponent implements OnInit
 
 	public emailAddress = '';
 	public masterPassword = '';
-	public showMasterPassword = false;
 
 
 	// Constructor.
@@ -66,14 +65,6 @@ export class SignupComponent implements OnInit
 			await this.storageService.getData(Settings.emailAddressKey);
 
 		if(cachedEmailAddress) this.emailAddress = cachedEmailAddress;
-	}
-
-
-	// Generates a master password.
-	public generateMasterPassword(): void
-	{
-		this.masterPassword = this.generatorService.generatePassphrase(3, 2, '-', true);
-		this.showMasterPassword = true;
 	}
 
 
@@ -117,12 +108,5 @@ export class SignupComponent implements OnInit
 
 		// Handle errors.
 		catch(error: unknown){ this.messageService.error(error as Error); }
-	}
-
-
-	// Toggles master password visibility.
-	public toggleMasterPasswordVisibility(): void
-	{
-		this.showMasterPassword = !this.showMasterPassword;
 	}
 }

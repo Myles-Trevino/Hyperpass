@@ -103,6 +103,24 @@ export class ApiService
 	}
 
 
+	// /send-email-address-validation-email.
+	public async sendEmailAddressValidationEmail(
+		accessData: Types.AccessData, emailAddress: string): Promise<void>
+	{
+		await this.httpClient.post(`${Settings.apiUrl}/send-email-address-validation-email`,
+			{accessData, emailAddress}).toPromise();
+	}
+
+
+	// /change-email-address.
+	public async changeEmailAddress(accessData: Types.AccessData,
+		emailAddress: string, validationKey: string): Promise<void>
+	{
+		await this.httpClient.post(`${Settings.apiUrl}/change-email-address`,
+			{accessData, emailAddress, validationKey}).toPromise();
+	}
+
+
 	// /log-out.
 	public async logOut(accessData: Types.AccessData): Promise<void>
 	{

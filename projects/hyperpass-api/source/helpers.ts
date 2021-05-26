@@ -58,12 +58,12 @@ export function deleteOutdatedAutomaticLoginKeys(
 
 
 // Sends an email.
-export function sendEmail(templateName: string, subject: string,
+export function sendEmail(subject: string,
 	emailAddress: string, context: Record<string, unknown>): void
 {
 	// Load the email.
 	const emailHtml = Handlebars.compile(FS.readFileSync(
-		`./email-templates/${templateName}`, 'utf-8'))(context);
+		`./email-template.html`, 'utf-8'))(context);
 
 	// Configure Nodemailer.
 	if(!process.env.EMAIL_HOST || !process.env.EMAIL_PORT ||

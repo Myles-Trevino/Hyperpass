@@ -97,8 +97,11 @@ async function sendAccountValidationEmail(rawRequest: Express.Request,
 		'The account has already been validated.', 409);
 
 	// Send the email.
-	Helpers.sendEmail('account-validation.html', 'Welcome to Hyperpass',
-		account.emailAddress, {accountValidationKey: account.validationKey});
+	Helpers.sendEmail('Welcome to Hyperpass', account.emailAddress,
+		{
+			preview: `Welcome to Hyperpass! For your security, you must validate your account before you can start using it.`,
+			body: `<p style="margin: 0;">Welcome to Hyperpass!</p></br></br><p style="margin: 0;">For your security, you must validate your account before you can start using it.</br></br>Your account validation key is below.</p></br></br><p style="margin: 0;">${account.validationKey}</p>`
+		});
 
 	// Send the success response.
 	Response.success(result);
@@ -263,6 +266,66 @@ async function changeMasterPassword(rawRequest: Express.Request,
 }
 
 
+// Send an email address validation email.
+async function sendEmailAddressValidationEmail(rawRequest: Express.Request,
+	result: Express.Response): Promise<void>
+{
+	// Parse the request.
+	const request = Validation.validate(rawRequest,
+		Validation.sendEmailAddressValidationEmailRequestSchema) as Types.SendEmailAddressValidationEmailRequest;
+
+	// Make sure the email address is not in use.
+	const accounts = await Database.getAccounts();
+	const findResult = await accounts.findOne({emailAddress: request.emailAddress});
+	if(findResult) throw new Types.ApiError('This email address is already in use.', 409);
+
+	// Generate the validation key.
+	const emailAddressValidationKey: Types.EmailAddressValidationKey =
+	{
+		emailAddress: request.emailAddress,
+		validationKey: Crypto.randomBytes(32).toString('base64')
+	};
+
+	const account = await Database.getAccount(request.accessData);
+	accounts.updateOne({_id: account._id}, {$set: {emailAddressValidationKey}});
+
+	// Send the email.
+	Helpers.sendEmail('Welcome to Hyperpass', request.emailAddress,
+		{
+			preview: `You must validate that this email address is yours before you can start using it with Hyperpass.`,
+			body: `<p style="margin: 0;">You must validate that this email address is yours before you can start using it with Hyperpass.</br></br>Your email address validation key is below.</p></br></br><p style="margin: 0;">${emailAddressValidationKey.validationKey}</p>`
+		});
+
+	// Send the success response.
+	Response.success(result);
+}
+
+
+// Changes the email address.
+async function changeEmailAddress(rawRequest: Express.Request,
+	result: Express.Response): Promise<void>
+{
+	// Validate the request's format.
+	const request = Validation.validate(rawRequest,
+		Validation.changeEmailAddressRequestSchema) as Types.ChangeEmailAddressRequest;
+
+	// Check that the validation key matches.
+	const account = await Database.getAccount(request.accessData, false);
+
+	if(!account.emailAddressValidationKey ||
+		request.emailAddress !== account.emailAddressValidationKey.emailAddress ||
+		request.validationKey !== account.emailAddressValidationKey.validationKey)
+		throw new Types.ApiError('Invalid email address validation key.', 400);
+
+	// Change the email address.
+	const accounts = await Database.getAccounts();
+	accounts.updateOne({_id: account._id}, {$set: {emailAddress: request.emailAddress}});
+
+	// Send the success response.
+	Response.success(result);
+}
+
+
 // Requests.
 app.get('/get-minimum-version', getMinimumVersion);
 app.post('/create-account', Helpers.wrapAsync(createAccount));
@@ -274,6 +337,9 @@ app.post('/get-vault', Helpers.wrapAsync(getVault));
 app.post('/set-vault', Helpers.wrapAsync(setVault));
 app.post('/set-automatic-login-key', Helpers.wrapAsync(setAutomaticLoginKey));
 app.post('/change-master-password', Helpers.wrapAsync(changeMasterPassword));
+app.post('/send-email-address-validation-email',
+	Helpers.wrapAsync(sendEmailAddressValidationEmail));
+app.post('/change-email-address', Helpers.wrapAsync(changeEmailAddress));
 app.post('/log-out', Helpers.wrapAsync(logOut));
 app.post('/global-logout', Helpers.wrapAsync(globalLogout));
 

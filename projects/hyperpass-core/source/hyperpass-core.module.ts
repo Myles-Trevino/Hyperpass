@@ -16,7 +16,7 @@ import {IonicModule} from '@ionic/angular';
 import {SimplebarAngularModule} from 'simplebar-angular';
 import {SwiperModule} from 'swiper/angular';
 
-import {HyperpassCoreRoutingModule} from './hyperpass-core-routing.module';
+import {RoutingModule} from './routing.module';
 import {AutofocusDirective} from './autofocus.directive';
 
 import {LoginComponent} from './pages/login/login.component';
@@ -30,11 +30,13 @@ import {GeneratorComponent} from './pages/app/generator/generator.component';
 import {OptionsComponent} from './pages/app/options/options.component';
 import {ImportVaultComponent} from './pages/app/import-vault/import-vault.component';
 import {ExportVaultComponent} from './pages/app/export-vault/export-vault.component';
+import {EmailAddressComponent} from './pages/app/email-address/email-address.component';
 import {MasterPasswordComponent} from './pages/app/master-password/master-password.component';
 import {BiometricLoginComponent} from './pages/app/biometric-login/biometric-login.component';
 
 import {MessageComponent} from './message/message.component';
 import {DropdownComponent} from './dropdown/dropdown.component';
+import {MasterPasswordInputComponent} from './master-password-input/master-password-input.component';
 import {SwitchComponent} from './switch/switch.component';
 import {SvgComponent} from './svg/svg.component';
 import {TagColorComponent} from './pages/app/tag-color/tag-color.component';
@@ -62,11 +64,13 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		OptionsComponent,
 		ImportVaultComponent,
 		ExportVaultComponent,
+		EmailAddressComponent,
 		MasterPasswordComponent,
 		BiometricLoginComponent,
 
 		MessageComponent,
 		DropdownComponent,
+		MasterPasswordInputComponent,
 		SwitchComponent,
 		SvgComponent,
 		TagColorComponent,
@@ -86,7 +90,7 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		SimplebarAngularModule,
 		IonicModule.forRoot(),
 		SwiperModule,
-		HyperpassCoreRoutingModule
+		RoutingModule
 	],
 	exports:
 	[

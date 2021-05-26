@@ -9,7 +9,8 @@ import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild, ElementRef} from '@angular/core';
 import * as Three from 'three';
 
-import {MetadataService, PlatformService, ThemeService} from 'hyperpass-core';
+import {MetadataService, PlatformService,
+	ThemeService, Animations} from 'hyperpass-core';
 
 
 type Point =
@@ -24,7 +25,8 @@ type Point =
 ({
 	selector: 'hyperpass-index',
 	templateUrl: './index.component.html',
-	styleUrls: ['./index.component.scss']
+	styleUrls: ['./index.component.scss'],
+	animations: [Animations.initialFadeInAnimation]
 })
 
 export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
