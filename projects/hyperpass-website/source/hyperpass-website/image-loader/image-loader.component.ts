@@ -10,7 +10,7 @@ import {Component, Input, ElementRef, Inject, PLATFORM_ID} from '@angular/core';
 import {isPlatformServer} from '@angular/common';
 
 import {Settings} from 'hyperpass-core';
-import {imageFadeAnimation} from '../animations/image-fade.animation';
+import {imageFadeAnimation} from '../animations';
 
 
 @Component

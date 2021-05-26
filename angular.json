@@ -352,9 +352,10 @@
 				},
 				"server":
 				{
-					"builder": "@angular-devkit/build-angular:server",
+					"builder": "@angular-builders/custom-webpack:server",
 					"options":
 					{
+						"customWebpackConfig": {"path": "projects/hyperpass-website/custom-webpack.config.js"},
 						"outputPath": "builds/hyperpass-website/server",
 						"main": "projects/hyperpass-website/server.ts",
 						"tsConfig": "projects/hyperpass-website/tsconfig.server.json",

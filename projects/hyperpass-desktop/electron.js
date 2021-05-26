@@ -33,7 +33,8 @@ function createWindow()
 		webPreferences:
 		{
 			nodeIntegration: true,
-			contextIsolation: false
+			contextIsolation: false,
+			nativeWindowOpen: true
 		}
 	});
 
@@ -44,10 +45,10 @@ function createWindow()
 	// window.webContents.openDevTools();
 
 	// Open new tab links in the browser.
-	window.webContents.setWindowOpenHandler((event, url) =>
+	window.webContents.setWindowOpenHandler(({url}) =>
 	{
-		event.preventDefault();
 		Electron.shell.openExternal(url);
+		return {action: 'deny'};
 	});
 }
 

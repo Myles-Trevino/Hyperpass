@@ -8,6 +8,7 @@
 import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {Component, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
+import type * as SimpleBar from 'simplebar';
 import {SimplebarAngularComponent} from 'simplebar-angular';
 import * as _ from 'lodash';
 
@@ -133,6 +134,10 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 			this.state.history.unshift({date: new Date(), password: this.password});
 			this.state.history.splice(10);
 
+			// Scroll to the top.
+			if(this.historySimpleBar) (this.historySimpleBar.SimpleBar as SimpleBar)
+				.getScrollElement().scrollTo({top: 0, behavior: 'smooth'});
+
 			// Push the vault.
 			this.pushVault();
 		}
@@ -175,9 +180,9 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 
 
 	// Updates and pushes the vault.
-	private pushVault(): void
+	private async pushVault(): Promise<void>
 	{
 		this.accountService.getVault().generatorState = this.state;
-		this.accountService.pushVault();
+		await this.accountService.pushVault();
 	}
 }

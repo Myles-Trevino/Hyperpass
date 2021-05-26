@@ -6,15 +6,13 @@
 
 
 <!-- Container. -->
-<div id="hyperpass-container" [hidden]="server">
+<div id="hyperpass-container" *ngIf="initializationService.initialized" @initialFadeAnimation>
 
 	<!-- Navbar. -->
 	<hyperpass-navbar></hyperpass-navbar>
 
 	<!-- Page. -->
-	<div *ngIf="this.platformService.isServer || initializationService.initialized" id="hyperpass-page-container">
-		<router-outlet></router-outlet>
-	</div>
+	<router-outlet></router-outlet>
 
 	<!-- Message. -->
 	<hyperpass-message #hyperpassMessage></hyperpass-message>

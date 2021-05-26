@@ -10,7 +10,7 @@ import {Component} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
 
 import {Settings, Animations} from 'hyperpass-core';
-import {navbarOverlayFadeAnimation} from '../animations/navbar-overlay-fade.animation';
+import {navbarOverlayFadeAnimation} from '../animations';
 
 
 @Component

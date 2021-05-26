@@ -35,7 +35,7 @@ SwiperCore.use([EffectFade]);
 	selector: 'hyperpass-app',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-	animations: [Animations.delayedFadeAnimation, Animations.delayedFadeInAnimation]
+	animations: [Animations.fadeAnimation]
 })
 
 export class AppComponent implements OnInit, OnDestroy

@@ -121,10 +121,8 @@ export class StateService
 	public async initializeSimpleBar(state: Types.ScrollState,
 		simpleBar?: SimplebarAngularComponent): Promise<Subscription | undefined>
 	{
-		const simpleBarElement = simpleBar?.SimpleBar as SimpleBar | null;
-		if(!simpleBarElement) return;
-
-		const scrollElement = simpleBarElement.getScrollElement();
+		if(!simpleBar) return;
+		const scrollElement = (simpleBar.SimpleBar as SimpleBar).getScrollElement();
 		await new Promise((resolve) => { setTimeout(resolve); });
 
 		// Restore the initial scroll position.
