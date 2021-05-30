@@ -71,14 +71,20 @@ export class ValidationComponent implements OnInit
 	// Sends an account validation email.
 	public async sendEmail(): Promise<void>
 	{
-		if(!this.accountService.emailAddress)
-			throw new Error('No email address was provided.');
+		try
+		{
+			if(!this.accountService.emailAddress)
+				throw new Error('No email address was provided.');
 
-		await this.apiService.sendAccountValidationEmail(
-			this.accountService.getAccessData());
+			await this.apiService.sendAccountValidationEmail(
+				this.accountService.getAccessData());
 
-		this.messageService.message(`An account validation email has been `+
-			`sent to ${this.accountService.emailAddress}.`);
+			this.messageService.message(`An account validation email has been `+
+				`sent to ${this.accountService.emailAddress}.`);
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
@@ -92,13 +98,8 @@ export class ValidationComponent implements OnInit
 				throw new Error('Please enter your account validation key.');
 
 			// Send the account validation request.
-			try
-			{
-				await this.apiService.validateAccount(
-					this.accountService.getAccessData(), accountValidationKey.trim());
-			}
-
-			catch(error: unknown){ throw new Error('Invalid key.'); }
+			await this.apiService.validateAccount(
+				this.accountService.getAccessData(), accountValidationKey.trim());
 
 			// If the response was successful, log in and switch to the success tile.
 			this.success = true;

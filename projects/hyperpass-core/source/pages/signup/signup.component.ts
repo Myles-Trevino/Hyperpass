@@ -12,7 +12,6 @@ import * as _ from 'lodash';
 import * as Types from '../../types';
 import * as Settings from '../../settings';
 import * as Animations from '../../animations';
-import {GeneratorService} from '../../services/generator.service';
 import {CryptoService} from '../../services/crypto.service';
 import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
@@ -45,7 +44,6 @@ export class SignupComponent implements OnInit
 		private readonly accountService: AccountService,
 		private readonly messageService: MessageService,
 		private readonly cryptoService: CryptoService,
-		private readonly generatorService: GeneratorService,
 		private readonly themeService: ThemeService,
 		private readonly storageService: StorageService,
 		private readonly metadataService: MetadataService){}

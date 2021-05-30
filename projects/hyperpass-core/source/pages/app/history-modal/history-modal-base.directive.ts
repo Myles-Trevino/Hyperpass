@@ -98,8 +98,14 @@ implements OnInit, OnDestroy, AfterViewInit
 	// Update.
 	private update(): void
 	{
-		this.updateHasHistory();
-		this.updateCallback();
+		try
+		{
+			this.updateHasHistory();
+			this.updateCallback();
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 	// Update whether there are history entries.

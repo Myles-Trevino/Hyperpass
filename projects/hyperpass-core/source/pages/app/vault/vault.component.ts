@@ -144,71 +144,77 @@ export class VaultComponent implements OnInit, OnDestroy
 	// Generates the page.
 	public async generatePage(query?: string, newQuery = false): Promise<void>
 	{
-		this.loading = true;
-		this.changeDetectorRef.detectChanges();
-		this.vault = _.cloneDeep(this.accountService.getVault());
-
-		// Update the state on new queries.
-		if(newQuery)
+		try
 		{
-			this.state.query = query;
-			this.state.page = 1;
-			this.state.scrollPosition = 0;
-		}
+			this.loading = true;
+			this.changeDetectorRef.detectChanges();
+			this.vault = _.cloneDeep(this.accountService.getVault());
 
-		// Parse the query.
-		const queryParts: Types.QueryPart[] = [];
-		if(this.state.query)
-		{
-			const queryTokens = this.state.query.toLowerCase()
-				.split(/(?=username:)|(?=url:)|(?=tag:)/);
-
-			queryTokens.forEach((token) =>
+			// Update the state on new queries.
+			if(newQuery)
 			{
-				if(!token) return;
-				token = token.trim();
-				let modifier: Types.QueryModifier | undefined = undefined;
+				this.state.query = query;
+				this.state.page = 1;
+				this.state.scrollPosition = 0;
+			}
 
-				for(const queryModifier of Types.queryModifiers)
-					if(token.startsWith(queryModifier))
-					{
-						modifier = queryModifier;
-						token = token.substring(queryModifier.length);
-					}
+			// Parse the query.
+			const queryParts: Types.QueryPart[] = [];
+			if(this.state.query)
+			{
+				const queryTokens = this.state.query.toLowerCase()
+					.split(/(?=username:)|(?=url:)|(?=tag:)/);
 
-				queryParts.push({modifier, string: token});
-			});
+				queryTokens.forEach((token) =>
+				{
+					if(!token) return;
+					token = token.trim();
+					let modifier: Types.QueryModifier | undefined = undefined;
+
+					for(const queryModifier of Types.queryModifiers)
+						if(token.startsWith(queryModifier))
+						{
+							modifier = queryModifier;
+							token = token.substring(queryModifier.length);
+						}
+
+					queryParts.push({modifier, string: token});
+				});
+			}
+
+			// Generate the entries list.
+			this.entries = [];
+			for(const [key, value] of Object.entries(this.vault.accounts))
+			{
+				// If the entry does not satisfy a query, skip it.
+				let matches = true;
+				for(const queryPart of queryParts)
+					if(!this.matchesQuery(key, value, queryPart)){ matches = false; break; }
+
+				if(!matches) continue;
+
+				// Otherwise, add the entry.
+				this.entries.push({key, tags: value.tags,
+					username: value.username, url: value.url});
+			}
+
+			this.entries = this.utilityService.naturalSort(this.entries, (entry) => entry.key);
+
+			// Get the page entries.
+			this.pageCount = Math.floor(this.entries.length/this.pageSize)+1;
+			const startIndex = this.pageSize*(this.state.page-1);
+			this.pageEntries = this.entries.slice(startIndex, startIndex+this.pageSize);
+
+			this.loading = false;
+
+			// Initialize SimpleBar.
+			this.changeDetectorRef.detectChanges();
+			this.simpleBarSubscription = await this.stateService
+				.initializeSimpleBar(this.state, this.simpleBar);
 		}
 
-		// Generate the entries list.
-		this.entries = [];
-		for(const [key, value] of Object.entries(this.vault.accounts))
-		{
-			// If the entry does not satisfy a query, skip it.
-			let matches = true;
-			for(const queryPart of queryParts)
-				if(!this.matchesQuery(key, value, queryPart)){ matches = false; break; }
-
-			if(!matches) continue;
-
-			// Otherwise, add the entry.
-			this.entries.push({key, tags: value.tags,
-				username: value.username, url: value.url});
-		}
-
-		this.entries = this.utilityService.naturalSort(this.entries, (entry) => entry.key);
-
-		// Get the page entries.
-		this.pageCount = Math.floor(this.entries.length/this.pageSize)+1;
-		const startIndex = this.pageSize*(this.state.page-1);
-		this.pageEntries = this.entries.slice(startIndex, startIndex+this.pageSize);
-
-		this.loading = false;
-
-		// Initialize SimpleBar.
-		this.changeDetectorRef.detectChanges();
-		this.simpleBarSubscription = await this.stateService
-			.initializeSimpleBar(this.state, this.simpleBar);
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 

@@ -200,11 +200,17 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	// Opens the username history modal.
 	public viewUsernameHistory(): void
 	{
-		this.viewHistory(this.state.usernameHistory, (history) =>
+		try
 		{
-			this.state.usernameHistory = history;
-			this.accountService.pushVault();
-		});
+			this.viewHistory(this.state.usernameHistory, (history) =>
+			{
+				this.state.usernameHistory = history;
+				this.accountService.pushVault();
+			});
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
@@ -216,11 +222,17 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	// Opens the password history modal.
 	public viewPasswordHistory(): void
 	{
-		this.viewHistory(this.state.passwordHistory, (history) =>
+		try
 		{
-			this.state.passwordHistory = history;
-			this.accountService.pushVault();
-		});
+			this.viewHistory(this.state.passwordHistory, (history) =>
+			{
+				this.state.passwordHistory = history;
+				this.accountService.pushVault();
+			});
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
@@ -235,11 +247,17 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	// Opens the note history modal.
 	public viewNoteHistory(): void
 	{
-		this.viewHistory(this.state.noteHistory, (history) =>
+		try
 		{
-			this.state.noteHistory = history;
-			this.accountService.pushVault();
-		});
+			this.viewHistory(this.state.noteHistory, (history) =>
+			{
+				this.state.noteHistory = history;
+				this.accountService.pushVault();
+			});
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
@@ -292,8 +310,14 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	// Sends the given message, pushes the vault, and exits.
 	private pushAndExit(): void
 	{
-		this.accountService.pushVault();
-		this.exit();
+		try
+		{
+			this.accountService.pushVault();
+			this.exit();
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 

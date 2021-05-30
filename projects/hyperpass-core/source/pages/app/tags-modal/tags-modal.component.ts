@@ -225,10 +225,16 @@ export class TagsModalComponent implements OnInit, OnDestroy, AfterViewInit
 	// Updates that vault's tags and pushes the vault.
 	private updateVault(): void
 	{
-		const vault = this.accountService.getVault();
-		vault.tags = this.vault.tags;
-		vault.accounts = this.vault.accounts;
-		this.accountService.pushVault();
-		this.updateHasTags();
+		try
+		{
+			const vault = this.accountService.getVault();
+			vault.tags = this.vault.tags;
+			vault.accounts = this.vault.accounts;
+			this.accountService.pushVault();
+			this.updateHasTags();
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 }

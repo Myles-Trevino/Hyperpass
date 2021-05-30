@@ -72,15 +72,25 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 
 
 	// Logs out.
-	public logOut(): void { this.accountService.logOut(); }
+	public logOut(): void
+	{
+		try{ this.accountService.logOut(); }
+		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
 
 
 	// Syncs the account.
 	public async sync(): Promise<void>
 	{
-		await this.accountService.pullVault();
-		this.utilityService.updateVaultSubject.next();
-		this.messageService.message('Synced.', 2);
+		try
+		{
+			await this.accountService.pullVault();
+			this.utilityService.updateVaultSubject.next();
+			this.messageService.message('Synced.', 2);
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
@@ -94,23 +104,39 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 
 
 	// Logs out of all devices.
-	public globalLogout(): void { this.accountService.globalLogout(); }
+	public globalLogout(): void
+	{
+		try{ this.accountService.globalLogout(); }
+		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
 
 
 	// Sets the login timeout.
 	public setLoginTimeout(loginTimeout: Types.LoginTimeout): void
 	{
-		this.storageService.setData(Settings.loginTimeoutKey, loginTimeout);
-		this.accountService.updateLoginTimeoutDuration();
-		this.accountService.startLoginTimeout();
+		try
+		{
+			this.storageService.setData(Settings.loginTimeoutKey, loginTimeout);
+			this.accountService.updateLoginTimeoutDuration();
+			this.accountService.startLoginTimeout();
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
 	// Applies the settings to the vault and pushes the vault.
 	private applySettings(): void
 	{
-		this.accountService.getVault().settings = _.cloneDeep(this.settings);
-		this.accountService.pushVault();
-		this.accountService.resetLoginTimeout(true);
+		try
+		{
+			this.accountService.getVault().settings = _.cloneDeep(this.settings);
+			this.accountService.pushVault();
+			this.accountService.resetLoginTimeout(true);
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 }

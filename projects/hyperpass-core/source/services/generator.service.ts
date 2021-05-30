@@ -10,6 +10,7 @@ import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {CryptoService} from './crypto.service';
 import {AccountService} from './account.service';
+import {MessageService} from './message.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -21,6 +22,7 @@ export class GeneratorService
 
 	// Constructor.
 	public constructor(private readonly apiService: ApiService,
+		private readonly messageService: MessageService,
 		private readonly cryptoService: CryptoService,
 		private readonly accountService: AccountService){}
 

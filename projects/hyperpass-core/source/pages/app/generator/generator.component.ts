@@ -150,18 +150,30 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	// Clears the generator's history and pushes the vault.
 	public async clearHistory(): Promise<void>
 	{
-		await this.accountService.pullVault();
-		this.state.history = [];
-		this.pushVault();
+		try
+		{
+			await this.accountService.pullVault();
+			this.state.history = [];
+			this.pushVault();
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 
 	// Deletes the history entry at the given index.
 	public async deleteHistoryEntry(index: number): Promise<void>
 	{
-		await this.accountService.pullVault();
-		this.state.history.splice(index, 1);
-		this.pushVault();
+		try
+		{
+			await this.accountService.pullVault();
+			this.state.history.splice(index, 1);
+			this.pushVault();
+		}
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
 

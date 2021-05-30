@@ -35,13 +35,26 @@ export class MessageService
 
 		if(error instanceof HttpErrorResponse)
 		{
+			// If it is a progress error, send an appropriate message.
 			if(error.error instanceof ProgressEvent)
 				message = 'Could not complete the request.';
 
+			// Otherwise, assume the error is a string.
 			else
 			{
-				message = error.error as string;
-				if(!message) message = `${error.status} Error.`;
+				// API error message.
+				const errorMessage = error.error as string;
+				if(!errorMessage.includes('html')) message = errorMessage;
+
+				// Other error message - rely on the status code.
+				else
+				{
+					if(error.status === 404) message = `Not found.`;
+
+					if(error.status === 503) message = `You have made too many requests of this type. Please try again later.`;
+
+					else message = `${error.status} Error.`;
+				}
 			}
 		}
 

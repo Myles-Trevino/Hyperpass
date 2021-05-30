@@ -9,7 +9,6 @@ import Express from 'express';
 import Dotenv from 'dotenv';
 import Crypto from 'crypto';
 import MongoDB from 'mongodb';
-import CORS from 'cors';
 
 import * as Types from './types';
 import * as Helpers from './helpers';
@@ -22,7 +21,6 @@ import _ from 'lodash';
 const app = Express();
 app.disable('x-powered-by');
 app.use(Express.json());
-app.use(CORS({maxAge: 600}));
 
 
 // Gets the minimum valid Hyperpass version.
@@ -328,6 +326,7 @@ async function changeEmailAddress(rawRequest: Express.Request,
 
 // Requests.
 app.get('/get-minimum-version', getMinimumVersion);
+
 app.post('/create-account', Helpers.wrapAsync(createAccount));
 app.post('/get-public-information', Helpers.wrapAsync(getPublicInformation));
 app.post('/send-account-validation-email', Helpers.wrapAsync(sendAccountValidationEmail));

@@ -88,6 +88,7 @@ export class BackgroundService
 	{
 		this.logInPromise = this.accountService.automaticLogIn();
 		await this.logInPromise;
+		this.update();
 	}
 
 
@@ -127,34 +128,28 @@ export class BackgroundService
 	// Updates the available accounts and the context menu.
 	private update(): void
 	{
-		try
+		// Update the available accounts.
+		this.accounts = {};
+		this.account = undefined;
+
+		if(this.accountService.loggedIn && this.website)
 		{
-			// Update the available accounts.
-			this.accounts = {};
-			this.account = undefined;
-
-			if(this.accountService.loggedIn && this.website)
+			// Add accounts that match the current
+			// website to the available accounts array.
+			const vault = this.accountService.getVault();
+			for(const [key, value] of Object.entries(vault.accounts))
 			{
-				// Add accounts that match the current
-				// website to the available accounts array.
-				const vault = this.accountService.getVault();
-				for(const [key, value] of Object.entries(vault.accounts))
-				{
-					if(!this.accountMatchesWebsite(value)) continue;
-					this.accounts[key] = value;
-					if(value.default) this.account = value;
-				}
+				if(!this.accountMatchesWebsite(value)) continue;
+				this.accounts[key] = value;
+				if(value.default) this.account = value;
 			}
-
-			// If there is no default, use the first match.
-			if(!this.account) this.account = Object.values(this.accounts)[0];
-
-			// Update the context menu.
-			this.createContextMenus();
 		}
 
-		// Catch errors.
-		catch(error: unknown){}
+		// If there is no default, use the first match.
+		if(!this.account) this.account = Object.values(this.accounts)[0];
+
+		// Update the context menu.
+		this.createContextMenus();
 	}
 
 

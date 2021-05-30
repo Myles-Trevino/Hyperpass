@@ -67,7 +67,14 @@ export class AppComponent implements OnInit, OnDestroy
 
 	// Pointer movement callback.
 	@HostListener('window:pointermove')
-	public pointerMoveCallback(): void { this.accountService.resetLoginTimeout(); }
+	public pointerMoveCallback(): void
+	{
+		// Reset the login timeout.
+		try{ this.accountService.resetLoginTimeout(); }
+
+		// Handle errors.
+		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
 
 
 	// Initializer.

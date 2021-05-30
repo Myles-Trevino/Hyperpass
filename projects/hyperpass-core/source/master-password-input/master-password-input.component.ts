@@ -37,8 +37,16 @@ export class MasterPasswordInputComponent
 	// Generates a master password.
 	public generate(): void
 	{
-		this.masterPassword = this.generatorService.generatePassphrase(3, 2, '-', true);
+		this.change(this.generatorService.generatePassphrase(3, 2, '-', true));
 		this.show = true;
+	}
+
+
+	// Input change callback.
+	public change(input: string): void
+	{
+		this.masterPassword = input;
+		this.masterPasswordChange.emit(this.masterPassword);
 	}
 
 

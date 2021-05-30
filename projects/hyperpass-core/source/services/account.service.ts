@@ -106,16 +106,22 @@ export class AccountService implements OnDestroy
 			await this.pullVault(masterPassword);
 			this.loggedIn = true;
 
-			// If not the extension background, cache the login credentials.
+			// If not the extension background...
 			if(!this.platformService.isExtensionBackground)
-				this.cacheLoginCredentials(masterPassword);
+			{
+				// Cache the login credentials.
+				await this.cacheLoginCredentials(masterPassword);
+
+				// Trigger the login subject.
+				this.loginSubject.next(this.loggedIn);
+
+				// Redirect to the web app.
+				if(this.navigate) this.router.navigate(['/app']);
+			}
 
 			// If this is the extension, load the state.
 			if(this.platformService.isExtension)
 				await this.stateService.load(masterPassword);
-
-			// Trigger the login subject.
-			this.loginSubject.next(this.loggedIn);
 		}
 
 		// Handle errors.
@@ -164,8 +170,8 @@ export class AccountService implements OnDestroy
 			catch(error: unknown){ throw new Error('Could not automatically log in.'); }
 		}
 
-		// Handle errors.
-		catch(error: unknown){ this.logOut(); }
+		// Log out and suppress errors.
+		catch(error: unknown){ await this.logOut(); }
 	}
 
 
@@ -247,13 +253,8 @@ export class AccountService implements OnDestroy
 	// Pushes the vault.
 	public async pushVault(): Promise<void>
 	{
-		try
-		{
-			await this.apiService.setVault(this.getAccessData(), this.getEncryptedVault());
-			this.vaultUpdateSubject.next();
-		}
-
-		catch(error: unknown){ this.messageService.error(error as Error); }
+		await this.apiService.setVault(this.getAccessData(), this.getEncryptedVault());
+		this.vaultUpdateSubject.next();
 	}
 
 
@@ -458,7 +459,7 @@ export class AccountService implements OnDestroy
 				{key: this.cryptoService.toBytes(this.automaticLoginKey)});
 		}
 
-		// Handle errors.
-		catch(error: unknown){ this.messageService.error(error as Error); return undefined; }
+		// Return undefined on error.
+		catch(error: unknown){ return undefined; }
 	}
 }
