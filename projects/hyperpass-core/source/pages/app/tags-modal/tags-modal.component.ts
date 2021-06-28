@@ -8,7 +8,7 @@
 import type {OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
-import type {NgScrollbar} from 'ngx-scrollbar';
+import {NgScrollbar} from 'ngx-scrollbar';
 import {v4 as uuidv4} from 'uuid';
 import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';

@@ -9,7 +9,7 @@ import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {HostBinding, Directive, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
-import type {NgScrollbar} from 'ngx-scrollbar';
+import {NgScrollbar} from 'ngx-scrollbar';
 
 import * as Types from '../../../types';
 import {StateService} from '../../../services/state.service';

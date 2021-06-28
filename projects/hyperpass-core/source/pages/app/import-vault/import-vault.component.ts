@@ -8,7 +8,7 @@
 import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {ElementRef, Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
-import type {NgScrollbar} from 'ngx-scrollbar';
+import {NgScrollbar} from 'ngx-scrollbar';
 import * as PapaParse from 'papaparse';
 import * as _ from 'lodash';
 
