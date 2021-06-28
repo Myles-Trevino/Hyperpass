@@ -8,7 +8,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SimplebarAngularModule} from 'simplebar-angular';
+import {NgScrollbarModule} from 'ngx-scrollbar';
 
 import {HyperpassCoreModule} from 'hyperpass-core';
 
@@ -23,7 +23,8 @@ import {HyperpassExtensionComponent} from './hyperpass-extension.component';
 	[
 		BrowserModule,
 		BrowserAnimationsModule,
-		SimplebarAngularModule,
+		NgScrollbarModule.withConfig({visibility: 'hover',
+			viewClass: 'scrollbar-container'}),
 		HyperpassCoreModule,
 		RoutingModule
 	],

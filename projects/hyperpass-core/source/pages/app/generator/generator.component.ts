@@ -8,8 +8,7 @@
 import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {Component, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
-import type * as SimpleBar from 'simplebar';
-import {SimplebarAngularComponent} from 'simplebar-angular';
+import {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
@@ -30,8 +29,8 @@ import {StateService} from '../../../services/state.service';
 
 export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 {
-	@ViewChild('optionsSimpleBar') private readonly optionsSimpleBar?: SimplebarAngularComponent;
-	@ViewChild('historySimpleBar') private readonly historySimpleBar?: SimplebarAngularComponent;
+	@ViewChild('optionsScrollbar') private readonly optionsScrollbar?: NgScrollbar;
+	@ViewChild('historyScrollbar') private readonly historyScrollbar?: NgScrollbar;
 
 	public readonly types = Types;
 	public password = '';
@@ -39,8 +38,8 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	public cachedState: Types.GeneratorCachedState = _.clone(Types.defaultGeneratorCachedState);
 
 	private updateSubscription?: Subscription;
-	private optionsSimpleBarSubscription?: Subscription;
-	private historySimpleBarSubscription?: Subscription;
+	private optionsScrollbarSubscription?: Subscription;
+	private historyScrollbarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -65,14 +64,14 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	}
 
 
-	// Initializes SimpleBar.
+	// Initializes the scrollbar.
 	public async ngAfterViewInit(): Promise<void>
 	{
-		this.optionsSimpleBarSubscription = await this.stateService.initializeSimpleBar(
-			this.cachedState.optionsScrollState, this.optionsSimpleBar);
+		this.optionsScrollbarSubscription = await this.stateService.initializeScrollbar(
+			this.cachedState.optionsScrollState, this.optionsScrollbar);
 
-		this.historySimpleBarSubscription = await this.stateService.initializeSimpleBar(
-			this.cachedState.historyScrollState, this.historySimpleBar);
+		this.historyScrollbarSubscription = await this.stateService.initializeScrollbar(
+			this.cachedState.historyScrollState, this.historyScrollbar);
 	}
 
 
@@ -80,8 +79,8 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	public ngOnDestroy(): void
 	{
 		this.updateSubscription?.unsubscribe();
-		this.optionsSimpleBarSubscription?.unsubscribe();
-		this.historySimpleBarSubscription?.unsubscribe();
+		this.optionsScrollbarSubscription?.unsubscribe();
+		this.historyScrollbarSubscription?.unsubscribe();
 	}
 
 
@@ -135,8 +134,8 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 			this.state.history.splice(10);
 
 			// Scroll to the top.
-			if(this.historySimpleBar) (this.historySimpleBar.SimpleBar as SimpleBar)
-				.getScrollElement().scrollTo({top: 0, behavior: 'smooth'});
+			if(this.historyScrollbar)
+				this.historyScrollbar.nativeElement.scrollTo({top: 0, behavior: 'smooth'});
 
 			// Push the vault.
 			this.pushVault();

@@ -6,7 +6,7 @@
 		"entryFile": "source/public-api.ts",
 		"umdModuleIds":
 		{
-			"simplebar-angular": "SimplebarAngular",
+			"ngx-scrollbar": "NgxScrollbar",
 			"libsodium-wrappers": "Sodium",
 			"hash-wasm": "HashWasm",
 			"lodash": "_",

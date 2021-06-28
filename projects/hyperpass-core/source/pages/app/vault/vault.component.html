@@ -21,7 +21,7 @@
 
 
 <!-- Content. -->
-<ngx-simplebar *ngIf="!loading && entries.length > 0" @fadeInAnimation #simpleBar>
+<ng-scrollbar *ngIf="!loading && entries.length > 0" @fadeInAnimation #scrollbar>
 <div id="vault-content">
 
 	<!-- Entries. -->
@@ -73,7 +73,7 @@
 	</div>
 
 </div>
-</ngx-simplebar>
+</ng-scrollbar>
 
 
 <!-- Loading overlay. -->

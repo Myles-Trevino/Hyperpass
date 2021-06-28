@@ -8,7 +8,7 @@
 import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
-import {SimplebarAngularComponent} from 'simplebar-angular';
+import type {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
@@ -32,12 +32,12 @@ import {StorageService} from '../../../services/storage.service';
 export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
-	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
+	@ViewChild('scrollbar') private readonly scrollbar?: NgScrollbar;
 
 	public readonly types = Types;
 	public settings = _.clone(Types.defaultSettings);
 	public settings_ = Settings;
-	private simpleBarSubscription?: Subscription;
+	private scrollbarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -59,16 +59,16 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 	}
 
 
-	// Initializes SimpleBar.
+	// Initializes the scrollbar.
 	public async ngAfterViewInit(): Promise<void>
 	{
-		this.simpleBarSubscription = await this.stateService
-			.initializeSimpleBar(this.stateService.options, this.simpleBar);
+		this.scrollbarSubscription = await this.stateService
+			.initializeScrollbar(this.stateService.options, this.scrollbar);
 	}
 
 
 	// Destructor.
-	public ngOnDestroy(): void { this.simpleBarSubscription?.unsubscribe(); }
+	public ngOnDestroy(): void { this.scrollbarSubscription?.unsubscribe(); }
 
 
 	// Logs out.

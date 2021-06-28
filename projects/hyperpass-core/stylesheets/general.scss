@@ -177,27 +177,11 @@ h4.code{ font-size: 1.3rem; }
 
 
 /* Scrollbar. */
-ngx-simplebar
+ng-scrollbar
 {
-	overflow: auto;
-	width: 100%;
-	height: 100%;
-
-	.simplebar-track.simplebar-vertical{ width: var(--scrollbar-width); }
-
-	.simplebar-track.simplebar-horizontal{ height: var(--scrollbar-width); }
-
-	.simplebar-scrollbar::before
-	{
-		bottom: 0;
-		left: 0;
-		right: 0;
-		top: 0;
-		border-radius: 0;
-		background-color: var(--text-color) !important;
-	}
-
-	@include mobile{ .simplebar-track{ display: none; } }
+	--scrollbar-padding: 0px !important;
+	--scrollbar-size: var(--scrollbar-width) !important;
+	--scrollbar-thumb-color: var(--semitransparent-text-color) !important;
 }
 
 .hidden-scrollbars

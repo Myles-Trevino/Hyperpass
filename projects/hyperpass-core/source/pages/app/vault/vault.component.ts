@@ -7,7 +7,7 @@
 
 import type {OnInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ChangeDetectorRef, ViewChild} from '@angular/core';
-import {SimplebarAngularComponent} from 'simplebar-angular';
+import {NgScrollbar} from 'ngx-scrollbar';
 import type {Subscription} from 'rxjs';
 import * as _ from 'lodash';
 
@@ -40,7 +40,7 @@ type Entry =
 export class VaultComponent implements OnInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
-	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
+	@ViewChild('scrollbar') private readonly scrollbar?: NgScrollbar;
 
 	public state: Types.VaultState = _.clone(Types.defaultVaultState);
 	public entries: Entry[] = [];
@@ -52,7 +52,7 @@ export class VaultComponent implements OnInit, OnDestroy
 	private readonly pageSize = 30;
 	private modalSubscription?: Subscription;
 	private updateSubscription?: Subscription;
-	private simpleBarSubscription?: Subscription;
+	private scrollbarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -83,7 +83,7 @@ export class VaultComponent implements OnInit, OnDestroy
 	{
 		this.updateSubscription?.unsubscribe();
 		this.modalSubscription?.unsubscribe();
-		this.simpleBarSubscription?.unsubscribe();
+		this.scrollbarSubscription?.unsubscribe();
 	}
 
 
@@ -207,10 +207,10 @@ export class VaultComponent implements OnInit, OnDestroy
 
 			this.loading = false;
 
-			// Initialize SimpleBar.
+			// Initialize the scrollbar.
 			this.changeDetectorRef.detectChanges();
-			this.simpleBarSubscription = await this.stateService
-				.initializeSimpleBar(this.state, this.simpleBar);
+			this.scrollbarSubscription = await this.stateService
+				.initializeScrollbar(this.state, this.scrollbar);
 		}
 
 		// Handle errors.

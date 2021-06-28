@@ -8,7 +8,7 @@
 import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {ElementRef, Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
-import {SimplebarAngularComponent} from 'simplebar-angular';
+import type {NgScrollbar} from 'ngx-scrollbar';
 import * as PapaParse from 'papaparse';
 import * as _ from 'lodash';
 
@@ -30,14 +30,14 @@ export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 	@ViewChild('fileInput') private readonly fileInput?: ElementRef<HTMLInputElement>;
-	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
+	@ViewChild('scrollbar') private readonly scrollbar?: NgScrollbar;
 
 	public readonly types = Types;
 	public state: Types.ImportVaultState = _.clone(Types.defaultImportVaultState);
 	public masterPassword = '';
 
 	private vault = _.clone(Types.defaultVault);
-	private simpleBarSubscription?: Subscription;
+	private scrollbarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -56,18 +56,18 @@ export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 	}
 
 
-	// Initializes SimpleBar.
+	// Initializes the scrollbar.
 	public async ngAfterViewInit(): Promise<void>
 	{
-		this.simpleBarSubscription = await this.stateService
-			.initializeSimpleBar(this.state, this.simpleBar);
+		this.scrollbarSubscription = await this.stateService
+			.initializeScrollbar(this.state, this.scrollbar);
 	}
 
 
 	// Destructor.
 	public ngOnDestroy(): void
 	{
-		this.simpleBarSubscription?.unsubscribe();
+		this.scrollbarSubscription?.unsubscribe();
 	}
 
 

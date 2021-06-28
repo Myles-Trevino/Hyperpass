@@ -19,7 +19,7 @@
 	<div class="app-modal-content">
 
 		<!-- Tag list. -->
-		<ngx-simplebar *ngIf="hasTags" #simpleBar>
+		<ng-scrollbar *ngIf="hasTags" #scrollbar>
 		<div id="tags-tag-list">
 
 			<ng-container *ngFor="let tag of vault.tags | keyvalue">
@@ -45,7 +45,7 @@
 			</ng-container>
 
 		</div>
-		</ngx-simplebar>
+		</ng-scrollbar>
 
 		<!-- No tags. -->
 		<div *ngIf="!hasTags" class="overlay">

@@ -8,7 +8,7 @@
 import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
-import {SimplebarAngularComponent} from 'simplebar-angular';
+import type {NgScrollbar} from 'ngx-scrollbar';
 import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
 import {parseDomain, ParseResultType} from 'parse-domain';
@@ -32,7 +32,7 @@ import {PlatformService} from '../../../services/platform.service';
 export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
-	@ViewChild('simpleBar') private readonly simpleBar?: SimplebarAngularComponent;
+	@ViewChild('scrollbar') private readonly scrollbar?: NgScrollbar;
 
 
 	public showUrlWarning = false;
@@ -40,7 +40,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 
 	private modalSubscription?: Subscription;
 	private backButtonSubscription?: Subscription;
-	private simpleBarSubscription?: Subscription;
+	private scrollbarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -86,11 +86,11 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	}
 
 
-	// Initializes SimpleBar.
+	// Initializes the scrollbar.
 	public async ngAfterViewInit(): Promise<void>
 	{
-		this.simpleBarSubscription = await this.stateService
-			.initializeSimpleBar(this.state, this.simpleBar);
+		this.scrollbarSubscription = await this.stateService
+			.initializeScrollbar(this.state, this.scrollbar);
 	}
 
 
@@ -99,7 +99,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	{
 		this.backButtonSubscription?.unsubscribe();
 		this.modalSubscription?.unsubscribe();
-		this.simpleBarSubscription?.unsubscribe();
+		this.scrollbarSubscription?.unsubscribe();
 	}
 
 

@@ -6,8 +6,7 @@
 
 
 import {Injectable} from '@angular/core';
-import type * as SimpleBar from 'simplebar';
-import type {SimplebarAngularComponent} from 'simplebar-angular';
+import type {NgScrollbar} from 'ngx-scrollbar';
 import {Router} from '@angular/router';
 import type {Subscription} from 'rxjs';
 import {Subject} from 'rxjs';
@@ -117,25 +116,21 @@ export class StateService
 	public closeModals(): void { this.app.modalOpen = false; }
 
 
-	// Saves and restores SimpleBar's scroll position.
-	public async initializeSimpleBar(state: Types.ScrollState,
-		simpleBar?: SimplebarAngularComponent): Promise<Subscription | undefined>
+	// Saves and restores the scrollbar's position.
+	public async initializeScrollbar(state: Types.ScrollState,
+		scrollbar?: NgScrollbar): Promise<Subscription | undefined>
 	{
-		if(!simpleBar) return;
-		const simpleBarAngular = (simpleBar.SimpleBar as SimpleBar | undefined);
-		if(!simpleBarAngular) return;
-		const scrollElement = simpleBarAngular.getScrollElement();
+		if(!scrollbar) return;
 		await new Promise((resolve) => { setTimeout(resolve); });
 
-		// Restore the initial scroll position.
-		scrollElement.scrollTop = state.scrollPosition;
+		// Restore the scroll position.
+		await scrollbar.scrollTo({top: state.scrollPosition, duration: 0});
 
 		// Save the scroll position.
-		scrollElement.addEventListener('scroll', () =>
-		{ state.scrollPosition = scrollElement.scrollTop; });
-
-		// Restore the scroll position on tab changes.
-		return this.tabSubject.subscribe(() =>
-		{ setTimeout(() => { scrollElement.scrollTop = state.scrollPosition; }); });
+		return scrollbar.scrolled.subscribe((event: Event) =>
+		{
+			const target = event.target as HTMLElement | null;
+			if(target) state.scrollPosition = target.scrollTop;
+		});
 	}
 }
