@@ -1,11 +1,11 @@
 {
 	"author": {
-		"name": "Myles Trevino",
-		"email": "myles@laventh.com"
+		"name": "Laventh",
+		"email": "support@laventh.com"
 	},
 	"name": "hyperpass",
 	"productName": "Hyperpass",
-	"version": "2021.6.28",
+	"version": "2021.7.13",
 	"description": "A modern, unified password manager.",
 	"homepage": "hyperpass.org",
 	"license": "Apache-2.0",

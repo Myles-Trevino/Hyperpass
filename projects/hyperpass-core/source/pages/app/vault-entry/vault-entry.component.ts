@@ -119,6 +119,23 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 			if(this.state.title !== this.state.key && _.has(accounts, this.state.title))
 				throw new Error(`Another account already has this title.`);
 
+			// If there is no default for this URL, make this account the default.
+			let hasDefault = false;
+			for(const value of Object.values(accounts))
+				if(value.url.includes(this.state.url)){ hasDefault = true; break; }
+
+			if(!hasDefault) this.state.default = true;
+
+			// Update the history.
+			this.state.usernameHistory = this.utilityService.addToVaultEntryHistory(
+				this.state.usernameHistory, this.state.username);
+
+			this.state.passwordHistory = this.utilityService.addToVaultEntryHistory(
+				this.state.passwordHistory, this.state.password);
+
+			this.state.noteHistory = this.utilityService.addToVaultEntryHistory(
+				this.state.noteHistory, this.state.note);
+
 			// If the entry exists, update it.
 			if(this.state.key)
 			{
@@ -138,23 +155,6 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 
 				accounts[this.state.title] = _.cloneDeep(this.state);
 			}
-
-			// If there is no default for this URL, make this account the default.
-			let hasDefault = false;
-			for(const value of Object.values(accounts))
-				if(value.url.includes(this.state.url)){ hasDefault = true; break; }
-
-			if(!hasDefault) this.state.default = true;
-
-			// Update the history.
-			this.state.usernameHistory = this.utilityService.addToVaultEntryHistory(
-				this.state.usernameHistory, this.state.username);
-
-			this.state.passwordHistory = this.utilityService.addToVaultEntryHistory(
-				this.state.passwordHistory, this.state.password);
-
-			this.state.noteHistory = this.utilityService.addToVaultEntryHistory(
-				this.state.noteHistory, this.state.note);
 
 			// Update the vault.
 			this.pushAndExit();
