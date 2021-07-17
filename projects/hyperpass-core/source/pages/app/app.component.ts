@@ -115,12 +115,11 @@ export class AppComponent implements OnInit, OnDestroy
 			// Navigate to the cached page and route.
 			this.changeDetectorRef.detectChanges();
 			this.setPage(this.state.tab);
-
-			await this.router.navigateByUrl(
-				this.state.route, {skipLocationChange: true});
+			await this.router.navigateByUrl(this.state.route, {skipLocationChange: true});
 
 			// Recalculate Swiper's size.
-			this.swiper?.swiperRef.updateSize();
+			if(this.swiper && this.swiper.isSwiperActive)
+				this.swiper.swiperRef.updateSize();
 		}
 
 		// Handle errors.

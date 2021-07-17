@@ -9,9 +9,9 @@
 <div id="hyperpass-container">
 
 	<!-- Page. -->
-	<ng-scrollbar *ngIf="initializationService.initialized">
+	<ng-container *ngIf="initializationService.initialized">
 		<router-outlet></router-outlet>
-	</ng-scrollbar>
+	</ng-container>
 
 	<!-- Message. -->
 	<hyperpass-message #hyperpassMessage></hyperpass-message>

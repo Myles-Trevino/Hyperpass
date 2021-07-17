@@ -69,7 +69,9 @@ export class InitializationService
 		// Keep track of route changes.
 		this.router.events.subscribe((event) =>
 		{
-			if(!(event instanceof NavigationStart)) return;
+			if(!(event instanceof NavigationStart) ||
+				!event.url.startsWith('/app')) return;
+
 			this.stateService.app.route = event.url;
 		});
 
