@@ -50,19 +50,13 @@ export class SignupComponent implements OnInit
 
 
 	// Initializer.
-	public async ngOnInit(): Promise<void>
+	public ngOnInit(): void
 	{
 		// Metadata.
 		this.metadataService.clear();
 		this.metadataService.setTitle('Signup');
 		this.metadataService.setDescription('Create an account to start using Hyperpass.');
 		this.metadataService.setImage('signup');
-
-		// Load the cached email address if there is one.
-		const cachedEmailAddress =
-			await this.storageService.getData(Settings.emailAddressKey);
-
-		if(cachedEmailAddress) this.emailAddress = cachedEmailAddress;
 	}
 
 

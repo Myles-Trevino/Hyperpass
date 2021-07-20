@@ -38,7 +38,7 @@
 		<!-- Master password. -->
 		<div *ngIf="state.format === 'HY Encrypted'" class="wide-tile-setting">
 			<span>Master Password</span>
-			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="masterPassword" [autofocus]>
+			<hyperpass-master-password-input [(masterPassword)]="masterPassword" [autofocus]="true" tab="Options"></hyperpass-master-password-input>
 		</div>
 
 		<!-- Trim. -->

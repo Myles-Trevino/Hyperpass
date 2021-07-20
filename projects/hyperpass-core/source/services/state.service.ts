@@ -37,6 +37,7 @@ export class StateService
 	public vaultEntryHistoryModal: Types.VaultEntryHistoryModalState = _.clone(Types.defaultVaultEntryHistoryModalState);
 
 	public tabSubject: Subject<void> = new Subject();
+	public modalCloseSubject: Subject<void> = new Subject();
 	public tagsModalSubject: Subject<Types.TagsModalEvent> = new Subject();
 	public vaultHistoryModalSubject: Subject<void> = new Subject();
 	public vaultEntryHistoryModalSubject: Subject<Types.VaultEntryHistoryEntry[]> = new Subject();
@@ -113,7 +114,11 @@ export class StateService
 
 
 	// Closes any open modals.
-	public closeModals(): void { this.app.modalOpen = false; }
+	public closeModals(): void
+	{
+		this.app.modalOpen = false;
+		this.modalCloseSubject.next();
+	}
 
 
 	// Saves and restores the scrollbar's position.
@@ -132,5 +137,26 @@ export class StateService
 			const target = event.target as HTMLElement | null;
 			if(target) state.scrollPosition = target.scrollTop;
 		});
+	}
+
+
+	// Restores the default state.
+	public restoreDefaults(): void
+	{
+		this.vault = _.clone(Types.defaultVaultState);
+		this.generator = _.clone(Types.defaultGeneratorCachedState);
+		this.options = _.clone(Types.defaultScrollState);
+		this.app = _.clone(Types.defaultAppState);
+
+		this.vaultEntry = undefined;
+
+		this.importVault = _.clone(Types.defaultImportVaultState);
+		this.exportVault = _.clone(Types.defaultExportVaultState);
+
+		this.tagsModal = _.clone(Types.defaultTagsModalState);
+		this.vaultHistoryModal = _.clone(Types.defaultVaultHistoryModalState);
+		this.vaultEntryHistoryModal = _.clone(Types.defaultVaultEntryHistoryModalState);
+
+		this.url = '';
 	}
 }

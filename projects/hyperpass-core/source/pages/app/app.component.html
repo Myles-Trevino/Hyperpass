@@ -16,13 +16,13 @@
 
 	<!-- Tabs. -->
 	<div id="app-tabs">
-		<h4 [ngClass]="{selected: state.tab === 'Vault'}" (click)="setPage('Vault')">Vault</h4>
-		<h4 [ngClass]="{selected: state.tab === 'Generator'}" (click)="setPage('Generator')">Generator</h4>
-		<h4 [ngClass]="{selected: state.tab === 'Options'}" (click)="setPage('Options')">Options</h4>
+		<h4 [ngClass]="{selected: state.tab === 'Vault'}" (click)="setTab('Vault')">Vault</h4>
+		<h4 [ngClass]="{selected: state.tab === 'Generator'}" (click)="setTab('Generator')">Generator</h4>
+		<h4 [ngClass]="{selected: state.tab === 'Options'}" (click)="setTab('Options')">Options</h4>
 	</div>
 
-	<!-- Pages. -->
-	<swiper [ngClass]="{'tile-content': true}" [allowTouchMove]="enableSwiping" [slidesPerView]="3" effect="fade" (slideChange)="pageChangeCallback()" #swiper>
+	<!-- Tabs. -->
+	<swiper [ngClass]="{'tile-content': true}" [allowTouchMove]="enableSwiping" [slidesPerView]="3" effect="fade" (slideChange)="tabChangeCallback()" #swiper>
 
 		<!-- Vault. -->
 		<ng-template swiperSlide>

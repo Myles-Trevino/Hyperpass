@@ -5,7 +5,8 @@
 */
 
 
-import {Component, Input, Output, EventEmitter, HostBinding} from '@angular/core';
+import {Component, Input, Output, EventEmitter,
+	HostBinding, ViewChild, ElementRef} from '@angular/core';
 
 import {GeneratorService} from '../services/generator.service';
 import {PlatformService} from '../services/platform.service';
@@ -23,14 +24,17 @@ export class MasterPasswordInputComponent
 
 	@Input() public placeholder = '';
 	@Input() public masterPassword = '';
+	@Input() public showGenerator = false;
+	@Input() public autofocus = false;
 	@Output() public readonly masterPasswordChange = new EventEmitter<string>();
 
-	public show = false;
+	@ViewChild('input') public readonly input?: ElementRef;
+
+	public showPassword = false;
 
 
 	// Constructor.
-	public constructor(
-		public readonly platformService: PlatformService,
+	public constructor(public readonly platformService: PlatformService,
 		private readonly generatorService: GeneratorService){}
 
 
@@ -38,7 +42,7 @@ export class MasterPasswordInputComponent
 	public generate(): void
 	{
 		this.change(this.generatorService.generatePassphrase(3, 2, '-', true));
-		this.show = true;
+		this.showPassword = true;
 	}
 
 
@@ -51,5 +55,5 @@ export class MasterPasswordInputComponent
 
 
 	// Toggles master password visibility.
-	public toggle(): void { this.show = !this.show; }
+	public toggle(): void { this.showPassword = !this.showPassword; }
 }

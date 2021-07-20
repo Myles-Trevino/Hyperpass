@@ -5,7 +5,7 @@
 */
 
 
-import type {OnDestroy, OnInit} from '@angular/core';
+import type {AfterContentInit, OnDestroy, OnInit} from '@angular/core';
 import {ElementRef, Component, HostBinding, HostListener,
 	ViewChild, ChangeDetectorRef} from '@angular/core';
 import {Router} from '@angular/router';
@@ -25,6 +25,7 @@ import {PlatformService} from '../../services/platform.service';
 import {MetadataService} from '../../services/metadata.service';
 import {MessageService} from '../../services/message.service';
 import {InitializationService} from '../../services/initialization.service';
+import {UtilityService} from '../../services/utility.service';
 
 
 SwiperCore.use([EffectFade]);
@@ -38,7 +39,7 @@ SwiperCore.use([EffectFade]);
 	animations: [Animations.fadeAnimation, Animations.delayedFadeAnimation]
 })
 
-export class AppComponent implements OnInit, OnDestroy
+export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 {
 	@HostBinding('class') public readonly class = 'centerer-page';
 	@ViewChild('modalOverlay') private readonly modalOverlay?: ElementRef;
@@ -61,6 +62,7 @@ export class AppComponent implements OnInit, OnDestroy
 		private readonly metadataService: MetadataService,
 		private readonly changeDetectorRef: ChangeDetectorRef,
 		private readonly messageService: MessageService,
+		private readonly utilityService: UtilityService,
 		private readonly ionicPlatform: Ionic.Platform,
 		private readonly router: Router){}
 
@@ -112,18 +114,25 @@ export class AppComponent implements OnInit, OnDestroy
 			this.state = this.stateService.app;
 			this.initialized = true;
 
-			// Navigate to the cached page and route.
+			// Navigate to the cached tab and route.
 			this.changeDetectorRef.detectChanges();
-			this.setPage(this.state.tab);
+			this.setTab(this.state.tab);
 			await this.router.navigateByUrl(this.state.route, {skipLocationChange: true});
-
-			// Recalculate Swiper's size.
-			if(this.swiper && this.swiper.isSwiperActive)
-				this.swiper.swiperRef.updateSize();
 		}
 
 		// Handle errors.
 		catch(error: unknown){ this.messageService.error(error as Error); }
+	}
+
+
+	// After the content has been initialized...
+	public async ngAfterContentInit(): Promise<void>
+	{
+		// Recalculate Swiper's size.
+		await this.utilityService.sleep();
+
+		if(this.swiper && this.swiper.isSwiperActive)
+			this.swiper.swiperRef.update();
 	}
 
 
@@ -139,8 +148,8 @@ export class AppComponent implements OnInit, OnDestroy
 	}
 
 
-	// Page navigation callback.
-	public pageChangeCallback(): void
+	// Tab navigation callback.
+	public tabChangeCallback(): void
 	{
 		if(!this.swiper) return;
 
@@ -156,8 +165,8 @@ export class AppComponent implements OnInit, OnDestroy
 	}
 
 
-	// Navigates to the given page.
-	public setPage(tab: Types.Tab): void
+	// Navigates to the given tab.
+	public setTab(tab: Types.Tab): void
 	{
 		switch(tab)
 		{

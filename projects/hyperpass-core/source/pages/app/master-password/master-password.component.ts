@@ -26,6 +26,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 
 	public newMasterPassword = '';
+	public newMasterPasswordConfirmation = '';
 	private backButtonSubscription?: Subscription;
 
 
@@ -51,13 +52,13 @@ export class MasterPasswordComponent implements OnInit, OnDestroy
 
 
 	// Changes the master password.
-	public async change(newMasterPasswordConfirmation: string): Promise<void>
+	public async change(): Promise<void>
 	{
 		try
 		{
 			// Validate the master password.
 			this.accountService.validateMasterPassword(
-				this.newMasterPassword, newMasterPasswordConfirmation);
+				this.newMasterPassword, this.newMasterPasswordConfirmation);
 
 			// Change the master password.
 			await this.accountService.changeMasterPassword(this.newMasterPassword);

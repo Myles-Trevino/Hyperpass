@@ -34,13 +34,13 @@
 		<!-- New Email Address. -->
 		<div class="wide-tile-setting">
 			<span>New Email Address</span>
-			<input type="text" [(ngModel)]="newEmailAddress" [disabled]="validationEmailSent" [placeholder]="accountService.emailAddress" [autofocus] #emailAddressInput>
+			<input type="text" [(ngModel)]="newEmailAddress" [disabled]="validationEmailSent" [placeholder]="accountService.emailAddress" [autofocusDirective] tab="Options" #emailAddressInput>
 		</div>
 
 		<!-- Validation Key. -->
 		<div *ngIf="validationEmailSent" class="wide-tile-setting">
 			<span>Validation Key</span>
-			<input type="text" [(ngModel)]="validationKey" [autofocus]>
+			<input type="text" [(ngModel)]="validationKey" [autofocus] tab="Options">
 		</div>
 
 	</div>

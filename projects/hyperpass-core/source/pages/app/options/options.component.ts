@@ -74,7 +74,11 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 	// Logs out.
 	public logOut(): void
 	{
-		try{ this.accountService.logOut(); }
+		try
+		{
+			this.accountService.logOut();
+			this.stateService.restoreDefaults();
+		}
 		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
@@ -106,7 +110,11 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 	// Logs out of all devices.
 	public globalLogout(): void
 	{
-		try{ this.accountService.globalLogout(); }
+		try
+		{
+			this.accountService.globalLogout();
+			this.stateService.restoreDefaults();
+		}
 		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 

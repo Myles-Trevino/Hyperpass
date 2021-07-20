@@ -15,6 +15,7 @@ import {MessageService} from '../../services/message.service';
 import {StorageService} from '../../services/storage.service';
 import {MetadataService} from '../../services/metadata.service';
 import {BiometricService} from '../../services/biometric.service';
+import {MasterPasswordInputComponent} from '../../master-password-input/master-password-input.component';
 
 
 @Component
@@ -28,8 +29,7 @@ export class LoginComponent implements OnInit
 {
 	@HostBinding('class') public readonly class = 'centerer-page';
 	@ViewChild('emailAddressInput') public readonly emailAddressInput?: ElementRef;
-	@ViewChild('masterPasswordInput')
-	public readonly masterPasswordInput?: ElementRef;
+	@ViewChild('masterPasswordInput') public readonly masterPasswordInput?: MasterPasswordInputComponent;
 
 	public emailAddress = '';
 	public masterPassword = '';
@@ -66,13 +66,7 @@ export class LoginComponent implements OnInit
 		const cachedEmailAddress =
 			await this.storageService.getData(Settings.emailAddressKey);
 
-		if(cachedEmailAddress)
-		{
-			this.emailAddress = cachedEmailAddress;
-			(this.masterPasswordInput?.nativeElement as HTMLInputElement).focus();
-		}
-
-		else (this.emailAddressInput?.nativeElement as HTMLInputElement).focus();
+		if(cachedEmailAddress) this.emailAddress = cachedEmailAddress;
 
 		// Check if biometric login is enabled.
 		this.biometricLoginEnabled =

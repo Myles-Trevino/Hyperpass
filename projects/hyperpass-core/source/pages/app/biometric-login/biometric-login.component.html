@@ -35,9 +35,7 @@
 		<!-- Master password. -->
 		<div *ngIf="!isEnabled" class="wide-tile-setting">
 			<span>Master Password</span>
-			<div class="app-button-input-container">
-				<input type="text" spellcheck="false" [(ngModel)]="masterPassword" [autofocus]>
-			</div>
+			<hyperpass-master-password-input [(masterPassword)]="masterPassword" [autofocus]="true" tab="Options"></hyperpass-master-password-input>
 		</div>
 
 	</div>

@@ -86,8 +86,7 @@ export class VaultComponent implements OnInit, OnDestroy
 		this.scrollbarSubscription?.unsubscribe();
 	}
 
-
-	// Blocks the given mouse event from propagatig to the tile and sends a copy message.
+	// Blocks the given mouse event from propagating to the tile and sends a copy message.
 	public tileButtonClickCallback(event: MouseEvent, name: string): void
 	{
 		event.stopPropagation();
