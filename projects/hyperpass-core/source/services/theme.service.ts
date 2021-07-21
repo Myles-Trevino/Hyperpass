@@ -9,7 +9,7 @@ import {Injectable} from '@angular/core';
 import {StatusBar, Style} from '@capacitor/status-bar';
 
 import type * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 import {StorageService} from './storage.service';
 import {PlatformService} from '../services/platform.service';
 
@@ -74,7 +74,7 @@ export class ThemeService
 	public async setTheme(theme?: Types.Theme): Promise<void>
 	{
 		// If manually set, save the theme.
-		if(theme) await this.storageService.setData(Settings.themeKey, theme);
+		if(theme) await this.storageService.setData(Constants.themeKey, theme);
 
 		// Otherwise, automatically determine the preferred theme.
 		else theme = this.isDarkThemePreferred() ? 'Dark' : 'Light';

@@ -11,7 +11,7 @@ import * as Ionic from '@ionic/angular';
 import type {OperatingSystem} from '@capacitor/device';
 import {Device} from '@capacitor/device';
 
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 import {StorageService} from './storage.service';
 import {CryptoService} from './crypto.service';
 
@@ -23,6 +23,7 @@ export class PlatformService
 	public deviceId?: string;
 	public os: OperatingSystem = 'unknown';
 	public isMobile = false;
+	public isMobileApp = false;
 	public isServer = isPlatformServer(this.platformId);
 	public isExtension = false;
 	public isExtensionBackground = false;
@@ -39,16 +40,17 @@ export class PlatformService
 	public async initialize(): Promise<void>
 	{
 		// Load or generate the device ID.
-		this.deviceId = await this.storageService.getData(Settings.deviceIdKey);
+		this.deviceId = await this.storageService.getData(Constants.deviceIdKey);
 
 		if(!this.deviceId)
 		{
-			this.deviceId = this.cryptoService.randomBytes(Settings.keyLength);
-			await this.storageService.setData(Settings.deviceIdKey, this.deviceId);
+			this.deviceId = this.cryptoService.randomBytes(Constants.keyLength);
+			await this.storageService.setData(Constants.deviceIdKey, this.deviceId);
 		}
 
 		// Load the OS and platform type.
 		this.os = (await Device.getInfo()).operatingSystem;
 		this.isMobile = this.ionicPlatform.is('mobile');
+		this.isMobileApp = this.isMobile && !this.ionicPlatform.is('mobileweb');
 	}
 }

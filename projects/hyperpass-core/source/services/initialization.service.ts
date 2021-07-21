@@ -11,7 +11,7 @@ import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 
 import * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 import {ThemeService} from './theme.service';
 import {CryptoService} from './crypto.service';
 import {GeneratorService} from './generator.service';
@@ -55,7 +55,7 @@ export class InitializationService
 		await this.platformService.initialize();
 
 		// If there is a cached theme, apply it.
-		const cachedTheme = await this.storageService.getData(Settings.themeKey);
+		const cachedTheme = await this.storageService.getData(Constants.themeKey);
 
 		if(cachedTheme && Types.isTheme(cachedTheme))
 			await this.themeService.setTheme(cachedTheme);
@@ -78,7 +78,7 @@ export class InitializationService
 		// Check the version.
 		const minimumVersion = await this.apiService.getMinimumVersion();
 
-		if(this.utilityService.naturalCompare(Settings.version, minimumVersion) < 0)
+		if(this.utilityService.naturalCompare(Constants.version, minimumVersion) < 0)
 			this.messageService.error(new Error('This version of Hyperpass '+
 				'is out of date. Please update to continue.'), 0);
 

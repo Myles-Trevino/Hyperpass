@@ -13,7 +13,7 @@ import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 
 import * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 import {StorageService} from './storage.service';
 import {CryptoService} from './crypto.service';
 
@@ -54,7 +54,7 @@ export class StateService
 	// Loads cached state.
 	public async load(masterPassword: string): Promise<void>
 	{
-		const cachedData = await this.storageService.getData(Settings.stateKey);
+		const cachedData = await this.storageService.getData(Constants.stateKey);
 		if(!cachedData){ await this.router.navigate(['/app']); return; }
 		const encryptedData = JSON.parse(cachedData) as Types.EncryptedData;
 
@@ -100,7 +100,7 @@ export class StateService
 			vaultEntryHistoryModal: this.vaultEntryHistoryModal
 		});
 
-		await this.storageService.setData(Settings.stateKey, JSON.stringify(
+		await this.storageService.setData(Constants.stateKey, JSON.stringify(
 			this.cryptoService.compressAndEncrypt(JSON.stringify(data), key)));
 	}
 

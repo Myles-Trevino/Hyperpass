@@ -9,7 +9,7 @@ import type {OnInit} from '@angular/core';
 import {Component, HostBinding, HostListener, ViewChild, ElementRef} from '@angular/core';
 import {Router} from '@angular/router';
 
-import * as Settings from '../../settings';
+import * as Settings from '../../constants';
 import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
 import {StorageService} from '../../services/storage.service';
@@ -62,11 +62,17 @@ export class LoginComponent implements OnInit
 		this.metadataService.setDescription('Log in to start using the Hyperpass web app.');
 		this.metadataService.setImage('login');
 
-		// Load the cached email address if there is one.
+		// Load the cached email address if there is one and focus the appropriate input.
 		const cachedEmailAddress =
 			await this.storageService.getData(Settings.emailAddressKey);
 
-		if(cachedEmailAddress) this.emailAddress = cachedEmailAddress;
+		if(cachedEmailAddress)
+		{
+			this.emailAddress = cachedEmailAddress;
+			(this.masterPasswordInput?.input?.nativeElement as HTMLInputElement).focus();
+		}
+
+		else (this.emailAddressInput?.nativeElement as HTMLInputElement).focus();
 
 		// Check if biometric login is enabled.
 		this.biometricLoginEnabled =

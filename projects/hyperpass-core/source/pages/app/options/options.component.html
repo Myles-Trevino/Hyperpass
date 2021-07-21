@@ -19,7 +19,7 @@
 	<!-- Theme. -->
 	<div class="tile-setting">
 		<span>Theme</span>
-		<hyperpass-dropdown [options]="types.themes" [selectedOption]="settings.theme" (selectedOptionChange)="setTheme($event)"></hyperpass-dropdown>
+		<hyperpass-dropdown [options]="types.themes" [selectedOption]="themeService.theme" (selectedOptionChange)="themeService.setTheme($event)"></hyperpass-dropdown>
 	</div>
 
 	<!-- Login timeout. -->
@@ -45,7 +45,7 @@
 	</div>
 
 	<!-- Biometric login. -->
-	<div *ngIf="platformService.isMobile" class="tile-setting">
+	<div *ngIf="platformService.isMobileApp" class="tile-setting">
 		<span>Biometric Login</span>
 		<button [routerLink]="['/app', {outlets: {'options': ['biometric-login']}}]" [skipLocationChange]="true">Configure</button>
 	</div>
@@ -65,7 +65,7 @@
 	<!-- Help. -->
 	<div class="tile-setting">
 		<span>Need Help?</span>
-		<a [href]="settings_.websiteUrl+'/support'" target="_blank">
+		<a [href]="settings.websiteUrl+'/support'" target="_blank">
 			<button>Support Page</button>
 		</a>
 	</div>
@@ -78,7 +78,7 @@
 			<hyperpass-svg svg="Heart"></hyperpass-svg>
 		</div>
 
-		<a [href]="settings_.donateUrl" target="_blank">
+		<a [href]="settings.donateUrl" target="_blank">
 			<button>Donate</button>
 		</a>
 	</div>
@@ -86,7 +86,7 @@
 	<!-- Version. -->
 	<div class="tile-section">
 		<span>Version</span>
-		<span class="right-justified">{{settings_.version}}</span>
+		<span class="right-justified">{{settings.version}}</span>
 	</div>
 
 </div>

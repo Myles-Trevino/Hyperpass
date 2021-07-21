@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 import {parseDomain, ParseResultType} from 'parse-domain';
 
 import * as Types from '../../../types';
-import * as Settings from '../../../settings';
+import * as Settings from '../../../constants';
 import {UtilityService} from '../../../services/utility.service';
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';

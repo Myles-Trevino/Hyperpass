@@ -8,7 +8,7 @@
 import {Injectable} from '@angular/core';
 import {Title, Meta} from '@angular/platform-browser';
 
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 
 
 @Injectable({providedIn: 'root'})
@@ -55,7 +55,7 @@ export class MetadataService
 	// Sets the image.
 	public setImage(image = 'hyperpass'): void
 	{
-		const imageUrl = `${Settings.staticUrl}/images/metadata/${image}.jpg`;
+		const imageUrl = `${Constants.staticUrl}/images/metadata/${image}.jpg`;
 		this.metaService.addTag({property: 'og:image', content: imageUrl});
 		this.metaService.addTag({name: 'twitter:card', content: 'summary_large_image'});
 	}

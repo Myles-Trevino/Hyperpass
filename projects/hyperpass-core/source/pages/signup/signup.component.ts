@@ -10,7 +10,7 @@ import {Component, HostBinding} from '@angular/core';
 import * as _ from 'lodash';
 
 import * as Types from '../../types';
-import * as Settings from '../../settings';
+import * as Settings from '../../constants';
 import * as Animations from '../../animations';
 import {CryptoService} from '../../services/crypto.service';
 import {AccountService} from '../../services/account.service';
@@ -84,7 +84,6 @@ export class SignupComponent implements OnInit
 
 			// Generate the initial vault, and compress and encrypt it.
 			const vault: Types.Vault = _.clone(Types.defaultVault);
-			vault.settings.theme = this.themeService.theme;
 
 			const encryptedVault =
 				this.cryptoService.compressAndEncrypt(JSON.stringify(vault),

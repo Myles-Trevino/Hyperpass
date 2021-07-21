@@ -12,7 +12,7 @@ import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 
 import type * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 
 
 @Injectable({providedIn: 'root'})
@@ -159,7 +159,7 @@ export class UtilityService
 			result.unshift({date: new Date(), entry});
 
 		// Limit the number of entries.
-		return result.slice(0, Settings.maximumHistoryEntries);
+		return result.slice(0, Constants.maximumHistoryEntries);
 	}
 
 

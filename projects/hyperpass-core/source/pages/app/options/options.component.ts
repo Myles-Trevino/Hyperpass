@@ -5,14 +5,14 @@
 */
 
 
-import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
+import type {AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
 import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
-import * as Settings from '../../../settings';
+import * as Settings from '../../../constants';
 import {AccountService} from '../../../services/account.service';
 import {ThemeService} from '../../../services/theme.service';
 import {MessageService} from '../../../services/message.service';
@@ -29,34 +29,24 @@ import {StorageService} from '../../../services/storage.service';
 	styleUrls: ['./options.component.scss']
 })
 
-export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
+export class OptionsComponent implements AfterViewInit, OnDestroy
 {
 	@HostBinding('class') public readonly class = 'app-page tile-section';
 	@ViewChild('scrollbar') private readonly scrollbar?: NgScrollbar;
 
 	public readonly types = Types;
-	public settings = _.clone(Types.defaultSettings);
-	public settings_ = Settings;
+	public settings = Settings;
 	private scrollbarSubscription?: Subscription;
 
 
 	// Constructor.
 	public constructor(public readonly platformService: PlatformService,
 		public readonly accountService: AccountService,
+		public readonly themeService: ThemeService,
 		private readonly utilityService: UtilityService,
-		private readonly themeService: ThemeService,
 		private readonly messageService: MessageService,
 		private readonly storageService: StorageService,
 		private readonly stateService: StateService){}
-
-
-	// Initializers.
-	public ngOnInit(): void
-	{
-		// Load the settings.
-		const vault = this.accountService.getVault();
-		this.settings = _.cloneDeep(vault.settings);
-	}
 
 
 	// Initializes the scrollbar.
@@ -98,15 +88,6 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 	}
 
 
-	// Sets the theme.
-	public setTheme(theme: Types.Theme): void
-	{
-		this.settings.theme = theme;
-		this.applySettings();
-		this.themeService.setTheme(this.settings.theme);
-	}
-
-
 	// Logs out of all devices.
 	public globalLogout(): void
 	{
@@ -127,21 +108,6 @@ export class OptionsComponent implements OnInit, AfterViewInit, OnDestroy
 			this.storageService.setData(Settings.loginTimeoutKey, loginTimeout);
 			this.accountService.updateLoginTimeoutDuration();
 			this.accountService.startLoginTimeout();
-		}
-
-		// Handle errors.
-		catch(error: unknown){ this.messageService.error(error as Error); }
-	}
-
-
-	// Applies the settings to the vault and pushes the vault.
-	private applySettings(): void
-	{
-		try
-		{
-			this.accountService.getVault().settings = _.cloneDeep(this.settings);
-			this.accountService.pushVault();
-			this.accountService.resetLoginTimeout(true);
 		}
 
 		// Handle errors.

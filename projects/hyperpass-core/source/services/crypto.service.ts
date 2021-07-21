@@ -11,7 +11,7 @@ import {argon2id} from 'hash-wasm';
 import * as Fflate from 'fflate';
 
 import type * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 
 
 @Injectable({providedIn: 'root'})
@@ -132,7 +132,7 @@ export class CryptoService
 	// Generates an encrypted key with the given master password.
 	public async generateEncryptedKey(masterPassword: string): Promise<Types.EncryptedKey>
 	{
-		const value = this.randomBytes(Settings.keyLength);
+		const value = this.randomBytes(Constants.keyLength);
 		const key = await this.deriveKey(masterPassword);
 		const encrypted = this.encrypt(value, key);
 		return {value, encrypted};

@@ -9,7 +9,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import type * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 import {PlatformService} from './platform.service';
 
 
@@ -25,7 +25,7 @@ export class ApiService
 	// /get-minimum-version.
 	public getMinimumVersion(): Promise<string>
 	{
-		return this.httpClient.get(`${Settings.apiUrl}/get-minimum-version`,
+		return this.httpClient.get(`${Constants.apiUrl}/get-minimum-version`,
 			{responseType: 'text'}).toPromise();
 	}
 
@@ -34,7 +34,7 @@ export class ApiService
 	public async createAccount(version: number, emailAddress: string,
 		accessKey: Types.EncryptedKey, encryptedVault: Types.EncryptedData): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/create-account`,
+		await this.httpClient.post(`${Constants.apiUrl}/create-account`,
 			{version, emailAddress, accessKey, encryptedVault}).toPromise();
 	}
 
@@ -44,7 +44,7 @@ export class ApiService
 		emailAddress: string): Promise<Types.PublicAccountInformation>
 	{
 		return this.httpClient.post<Types.PublicAccountInformation>(
-			`${Settings.apiUrl}/get-public-information`,
+			`${Constants.apiUrl}/get-public-information`,
 			{emailAddress, deviceId: this.platformService.deviceId}).toPromise();
 	}
 
@@ -52,7 +52,7 @@ export class ApiService
 	// /send-account-validation-email.
 	public async sendAccountValidationEmail(accessData: Types.AccessData): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/send-`+
+		await this.httpClient.post(`${Constants.apiUrl}/send-`+
 			`account-validation-email`, {accessData}).toPromise();
 	}
 
@@ -61,7 +61,7 @@ export class ApiService
 	public async validateAccount(accessData: Types.AccessData,
 		validationKey: string): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/validate-account`,
+		await this.httpClient.post(`${Constants.apiUrl}/validate-account`,
 			{accessData, validationKey}).toPromise();
 	}
 
@@ -70,7 +70,7 @@ export class ApiService
 	public getVault(accessData: Types.AccessData): Promise<Types.EncryptedData>
 	{
 		return this.httpClient.post<Types.EncryptedData>(
-			`${Settings.apiUrl}/get-vault`, {accessData}).toPromise();
+			`${Constants.apiUrl}/get-vault`, {accessData}).toPromise();
 	}
 
 
@@ -78,7 +78,7 @@ export class ApiService
 	public async setVault(accessData: Types.AccessData,
 		encryptedVault: Types.EncryptedData): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/set-vault`,
+		await this.httpClient.post(`${Constants.apiUrl}/set-vault`,
 			{accessData, encryptedVault}).toPromise();
 	}
 
@@ -87,7 +87,7 @@ export class ApiService
 	public async setAutomaticLoginKey(accessData: Types.AccessData,
 		key: string | undefined, duration: number): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/`+
+		await this.httpClient.post(`${Constants.apiUrl}/`+
 			`set-automatic-login-key`, {deviceId: this.platformService.deviceId,
 			accessData, key, duration}).toPromise();
 	}
@@ -98,7 +98,7 @@ export class ApiService
 		newAccessKey: Types.EncryptedKey,
 		newEncryptedVault: Types.EncryptedData): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/change-master-password`,
+		await this.httpClient.post(`${Constants.apiUrl}/change-master-password`,
 			{accessData, newAccessKey, newEncryptedVault}).toPromise();
 	}
 
@@ -107,8 +107,8 @@ export class ApiService
 	public async sendEmailAddressValidationEmail(
 		accessData: Types.AccessData, emailAddress: string): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/send-email-address-validation-email`,
-			{accessData, emailAddress}).toPromise();
+		await this.httpClient.post(`${Constants.apiUrl}/`+
+			`send-email-address-validation-email`, {accessData, emailAddress}).toPromise();
 	}
 
 
@@ -116,7 +116,7 @@ export class ApiService
 	public async changeEmailAddress(accessData: Types.AccessData,
 		emailAddress: string, validationKey: string): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/change-email-address`,
+		await this.httpClient.post(`${Constants.apiUrl}/change-email-address`,
 			{accessData, emailAddress, validationKey}).toPromise();
 	}
 
@@ -124,7 +124,7 @@ export class ApiService
 	// /log-out.
 	public async logOut(accessData: Types.AccessData): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/log-out`, {accessData,
+		await this.httpClient.post(`${Constants.apiUrl}/log-out`, {accessData,
 			deviceId: this.platformService.deviceId}).toPromise();
 	}
 
@@ -133,7 +133,7 @@ export class ApiService
 	public async globalLogout(accessData: Types.AccessData,
 		newAccessKey: Types.EncryptedKey): Promise<void>
 	{
-		await this.httpClient.post(`${Settings.apiUrl}/global-logout`,
+		await this.httpClient.post(`${Constants.apiUrl}/global-logout`,
 			{accessData, newAccessKey}).toPromise();
 	}
 
@@ -141,7 +141,7 @@ export class ApiService
 	// Get words.
 	public async getWords(): Promise<string[]>
 	{
-		const response = await this.httpClient.get(`${Settings.staticUrl}`+
+		const response = await this.httpClient.get(`${Constants.staticUrl}`+
 			`/data/words.txt`, {responseType: 'text'}).toPromise();
 
 		if(!response) throw new Error('Could not load the words.');

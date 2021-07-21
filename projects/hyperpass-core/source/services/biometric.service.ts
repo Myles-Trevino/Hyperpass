@@ -9,7 +9,7 @@ import {Injectable} from '@angular/core';
 import {NativeBiometric} from 'capacitor-native-biometric';
 
 import type * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 
 
 @Injectable({providedIn: 'root'})
@@ -27,7 +27,7 @@ export class BiometricService
 		({
 			username: emailAddress,
 			password: masterPassword,
-			server: Settings.apiUrl
+			server: Constants.apiUrl
 		});
 	}
 
@@ -35,7 +35,7 @@ export class BiometricService
 	// Disables biometric login.
 	public async disable(): Promise<void>
 	{
-		await NativeBiometric.deleteCredentials({server: Settings.apiUrl});
+		await NativeBiometric.deleteCredentials({server: Constants.apiUrl});
 	}
 
 
@@ -79,7 +79,8 @@ export class BiometricService
 	// Get the stored credentials.
 	private async getCredentials(emailAddress: string): Promise<Types.LoginCredentials>
 	{
-		const credentials = await NativeBiometric.getCredentials({server: Settings.apiUrl});
+		const credentials =
+			await NativeBiometric.getCredentials({server: Constants.apiUrl});
 
 		if(emailAddress !== credentials.username)
 			throw new Error('The saved credentials do not match the given email address.');

@@ -250,11 +250,6 @@ export const loginTimeouts = ['5 Minutes', '1 Hour', '1 Day', '1 Week'] as const
 export type LoginTimeout = typeof loginTimeouts[number];
 
 
-export type Settings = {theme: Theme};
-
-export const defaultSettings: Settings = {theme: 'Light'};
-
-
 // Vault entries.
 export const tagColors = ['Red', 'Orange', 'Yellow',
 	'Green', 'Cyan', 'Blue', 'Purple', 'Pink', 'None'] as const;
@@ -315,7 +310,6 @@ export type Vault =
 	accounts: Record<string, Account>;
 	tags: Record<string, Tag>;
 	history: VaultHistoryEntry[];
-	settings: Settings;
 	generatorState: GeneratorSyncedState;
 };
 
@@ -324,7 +318,6 @@ export const defaultVault: Vault =
 	accounts: {},
 	history: [],
 	tags: {},
-	settings: defaultSettings,
 	generatorState: defaultGeneratorSyncedState
 };
 

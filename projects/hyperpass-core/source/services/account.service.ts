@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 
 import type * as Types from '../types';
-import * as Settings from '../settings';
+import * as Constants from '../constants';
 import {CryptoService} from './crypto.service';
 import {MessageService} from './message.service';
 import {ApiService} from './api.service';
@@ -37,8 +37,8 @@ export class AccountService implements OnDestroy
 	public loggedIn = false;
 	public loggingIn = false;
 
-	public loginTimeout: Types.LoginTimeout = Settings.defaultLoginTimeout;
-	public loginTimeoutDuration = Settings.defaultLoginTimeoutDuration;
+	public loginTimeout: Types.LoginTimeout = Constants.defaultLoginTimeout;
+	public loginTimeoutDuration = Constants.defaultLoginTimeoutDuration;
 	public publicInformation?: Types.PublicAccountInformation;
 	public accessKey?: Types.EncryptedKey;
 	public vaultKey?: Types.Key;
@@ -142,7 +142,7 @@ export class AccountService implements OnDestroy
 		{
 			// Load the cached login credentials.
 			const cachedEmailAddress =
-				await this.storageService.getData(Settings.emailAddressKey);
+				await this.storageService.getData(Constants.emailAddressKey);
 
 			if(!cachedEmailAddress) throw new Error('No cached email address.');
 
@@ -208,7 +208,7 @@ export class AccountService implements OnDestroy
 
 		// Enforce a cooldown unless forced not to.
 		if(!force && (this.loginTimeoutStart !== undefined) && performance.now()-
-			this.loginTimeoutStart < Settings.loginTimeoutGranularity) return;
+			this.loginTimeoutStart < Constants.loginTimeoutGranularity) return;
 
 		// Update the subject.
 		this.resetLoginTimeoutSubject.next(this.loginTimeoutDuration);
@@ -278,7 +278,6 @@ export class AccountService implements OnDestroy
 			encryptedVault, this.vaultKey)) as Types.Vault;
 
 		// Apply the settings.
-		await this.themeService.setTheme(this.getVault().settings.theme);
 		await this.updateLoginTimeoutDuration();
 
 		// Start the login timeout.
@@ -305,9 +304,9 @@ export class AccountService implements OnDestroy
 	{
 		if(!masterPassword) throw new Error('Please enter a master password.');
 
-		if(masterPassword.length < Settings.minimumMasterPasswordLength)
+		if(masterPassword.length < Constants.minimumMasterPasswordLength)
 			throw new Error(`Your master password must be at least ${
-				Settings.minimumMasterPasswordLength} characters.`);
+				Constants.minimumMasterPasswordLength} characters.`);
 
 		if(!masterPasswordConfirmation)
 			throw new Error('Please confirm your master password.');
@@ -351,7 +350,7 @@ export class AccountService implements OnDestroy
 	public async updateLoginTimeoutDuration(): Promise<void>
 	{
 		const cachedLoginTimeout = await this.storageService.getData(
-			Settings.loginTimeoutKey) as Types.LoginTimeout | undefined;
+			Constants.loginTimeoutKey) as Types.LoginTimeout | undefined;
 
 		if(cachedLoginTimeout) this.loginTimeout = cachedLoginTimeout;
 
@@ -419,7 +418,7 @@ export class AccountService implements OnDestroy
 		if(!this.emailAddress) throw new Error('No email address was provided.');
 
 		// Cache the email address.
-		await this.storageService.setData(Settings.emailAddressKey, this.emailAddress);
+		await this.storageService.setData(Constants.emailAddressKey, this.emailAddress);
 
 		// If the master password was not provided, try to load it.
 		if(!masterPassword) masterPassword = await this.loadCachedMasterPassword();
@@ -428,7 +427,7 @@ export class AccountService implements OnDestroy
 		// Create a new automatic login key if the previous one expired.
 		if(!this.automaticLoginKey)
 		{
-			this.automaticLoginKey = this.cryptoService.randomBytes(Settings.keyLength);
+			this.automaticLoginKey = this.cryptoService.randomBytes(Constants.keyLength);
 			await this.apiService.setAutomaticLoginKey(this.getAccessData(),
 				this.automaticLoginKey, this.loginTimeoutDuration);
 		}
@@ -439,7 +438,7 @@ export class AccountService implements OnDestroy
 
 		// Store the cipher.
 		await this.storageService.setData(
-			Settings.masterPasswordKey, JSON.stringify(cipher));
+			Constants.masterPasswordKey, JSON.stringify(cipher));
 	}
 
 
@@ -449,7 +448,7 @@ export class AccountService implements OnDestroy
 		try
 		{
 			// Get the automatic login cipher.
-			const cipher = await this.storageService.getData(Settings.masterPasswordKey);
+			const cipher = await this.storageService.getData(Constants.masterPasswordKey);
 			if(!cipher) return undefined;
 
 			// Decrypt the automatic login cipher.
