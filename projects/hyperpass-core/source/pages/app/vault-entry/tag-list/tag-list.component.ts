@@ -33,8 +33,8 @@ export class TagListComponent implements OnInit, OnDestroy
 
 
 	// Constructor.
-	public constructor(private readonly messageService: MessageService,
-		private readonly stateService: StateService,
+	public constructor(public readonly stateService: StateService,
+		private readonly messageService: MessageService,
 		private readonly accountService: AccountService){}
 
 

@@ -136,15 +136,4 @@ export class ApiService
 		await this.httpClient.post(`${Constants.apiUrl}/global-logout`,
 			{accessData, newAccessKey}).toPromise();
 	}
-
-
-	// Get words.
-	public async getWords(): Promise<string[]>
-	{
-		const response = await this.httpClient.get(`${Constants.staticUrl}`+
-			`/data/words.txt`, {responseType: 'text'}).toPromise();
-
-		if(!response) throw new Error('Could not load the words.');
-		return response.split('\n');
-	}
 }

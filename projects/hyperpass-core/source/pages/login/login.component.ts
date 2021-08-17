@@ -16,6 +16,7 @@ import {StorageService} from '../../services/storage.service';
 import {MetadataService} from '../../services/metadata.service';
 import {BiometricService} from '../../services/biometric.service';
 import {MasterPasswordInputComponent} from '../../master-password-input/master-password-input.component';
+import {StateService} from '../../services/state.service';
 
 
 @Component
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit
 	// Constructor.
 	public constructor(private readonly router: Router,
 		public readonly accountService: AccountService,
+		public readonly stateService: StateService,
 		private readonly messageService: MessageService,
 		private readonly storageService: StorageService,
 		private readonly biometricService: BiometricService,

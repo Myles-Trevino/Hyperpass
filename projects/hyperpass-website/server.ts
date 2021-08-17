@@ -50,7 +50,7 @@ function run(): void
 
 	server.listen(port, () =>
 	{
-		console.log(`Express is listening on http://localhost:${port}`);
+		console.log(`The Hyperpass website server has been started on port ${port}.`);
 	});
 }
 

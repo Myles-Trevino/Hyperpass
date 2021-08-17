@@ -13,14 +13,14 @@
 	<div class="tile-content">
 		<div class="tile-section">
 
-			<input type="text" class="tile-input" [(ngModel)]="emailAddress" placeholder="Email Address" spellcheck="false" #emailAddressInput>
+			<input type="text" class="tile-input" [(ngModel)]="emailAddress" placeholder="Email Address" spellcheck="false"  [ngClass]="{'disabled': !stateService.isOnline}" #emailAddressInput>
 
 			<hyperpass-master-password-input [(masterPassword)]="masterPassword" placeholder="Master Password" #masterPasswordInput>
 				<hyperpass-svg *ngIf="biometricLoginEnabled" svg="Biometrics Button" (click)="biometricLogin()"></hyperpass-svg>
 			</hyperpass-master-password-input>
 
 			<div class="tile-buttons">
-				<button (click)="signUp()">Sign Up</button>
+				<button (click)="signUp()" [ngClass]="{'disabled': !stateService.isOnline}">Sign Up</button>
 				<button (click)="logIn()">{{accountService.loggingIn ? 'Logging In...' : 'Log In'}}</button>
 			</div>
 

@@ -106,6 +106,6 @@ export class ValidationComponent implements OnInit
 		}
 
 		// Handle errors.
-		catch(error: unknown){ this.messageService.error(error as Error); }
+		catch(error: unknown){ this.messageService.error(new Error('Invalid key.')); }
 	}
 }

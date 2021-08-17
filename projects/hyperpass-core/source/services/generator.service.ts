@@ -7,32 +7,18 @@
 
 import {Injectable} from '@angular/core';
 
-import {ApiService} from './api.service';
+import Words from '../words';
 import {CryptoService} from './crypto.service';
 import {AccountService} from './account.service';
-import {MessageService} from './message.service';
 
 
 @Injectable({providedIn: 'root'})
 
 export class GeneratorService
 {
-	private words: string[] = [];
-
-
 	// Constructor.
-	public constructor(private readonly apiService: ApiService,
-		private readonly messageService: MessageService,
-		private readonly cryptoService: CryptoService,
+	public constructor(private readonly cryptoService: CryptoService,
 		private readonly accountService: AccountService){}
-
-
-	// Initializer.
-	public async initialize(): Promise<void>
-	{
-		// Load the word list.
-		this.words = await this.apiService.getWords();
-	}
 
 
 	// Generates a password.
@@ -139,7 +125,7 @@ export class GeneratorService
 
 			// Add a random word.
 			const randomWord =
-				this.words[this.cryptoService.randomInt(0, this.words.length-1)];
+				Words[this.cryptoService.randomInt(0, Words.length-1)];
 
 			if(!capitalize) result += randomWord;
 			else result += randomWord.charAt(0).toUpperCase()+randomWord.slice(1);

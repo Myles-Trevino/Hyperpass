@@ -126,6 +126,9 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 					this.state.useSpecialCharacters);
 			}
 
+			// Return if offline.
+			if(!this.stateService.isOnline) return;
+
 			// Pull the vault.
 			if(!initial) await this.accountService.pullVault();
 
@@ -193,6 +196,7 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	// Updates and pushes the vault.
 	private async pushVault(): Promise<void>
 	{
+		if(!this.stateService.isOnline) return;
 		this.accountService.getVault().generatorState = this.state;
 		await this.accountService.pushVault();
 	}

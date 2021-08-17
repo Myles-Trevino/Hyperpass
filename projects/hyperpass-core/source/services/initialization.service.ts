@@ -14,7 +14,6 @@ import * as Types from '../types';
 import * as Constants from '../constants';
 import {ThemeService} from './theme.service';
 import {CryptoService} from './crypto.service';
-import {GeneratorService} from './generator.service';
 import {StorageService} from './storage.service';
 import {PlatformService} from './platform.service';
 import {ApiService} from './api.service';
@@ -29,7 +28,6 @@ export class InitializationService
 {
 	public readonly updateVaultSubject = new Subject<void>();
 	public initialized = false;
-	public appInitialized = false;
 
 
 	// Constructor.
@@ -37,7 +35,6 @@ export class InitializationService
 		private readonly apiService: ApiService,
 		private readonly themeService: ThemeService,
 		private readonly cryptoService: CryptoService,
-		private readonly generatorService: GeneratorService,
 		private readonly storageService: StorageService,
 		private readonly messageService: MessageService,
 		private readonly platformService: PlatformService,
@@ -63,9 +60,6 @@ export class InitializationService
 		// Otherwise, set the theme based on the OS preference.
 		else await this.themeService.setTheme();
 
-		// Initialize the generator service.
-		await this.generatorService.initialize();
-
 		// Keep track of route changes.
 		this.router.events.subscribe((event) =>
 		{
@@ -75,13 +69,21 @@ export class InitializationService
 			this.stateService.app.route = event.url;
 		});
 
-		// Check the version.
-		const minimumVersion = await this.apiService.getMinimumVersion();
+		// Check the version and check if offline.
+		try
+		{
+			const minimumVersion = await this.apiService.getMinimumVersion();
+			this.stateService.isOnline = true;
 
-		if(this.utilityService.naturalCompare(Constants.version, minimumVersion) < 0)
-			this.messageService.error(new Error('This version of Hyperpass '+
-				'is out of date. Please update to continue.'), 0);
+			if(this.utilityService.naturalCompare(Constants.version, minimumVersion) < 0)
+				this.messageService.error(new Error('This version of Hyperpass is '+
+					'out of date. Please install the latest version to continue.'), 0);
+		}
 
+		// If offline, ignore the error.
+		catch(error: unknown){}
+
+		// Set the initialized flag.
 		this.initialized = true;
 	}
 }

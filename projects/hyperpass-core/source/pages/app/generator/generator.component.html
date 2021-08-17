@@ -107,7 +107,7 @@
 	</div>
 
 	<!-- History. -->
-	<div id="generator-history" class="tile-content">
+	<div id="generator-history" class="tile-content" [ngClass]="{'disabled': !stateService.isOnline}">
 
 		<!-- Title. -->
 		<div class="tile-section">
@@ -115,8 +115,13 @@
 			<button (click)="clearHistory()">Clear</button>
 		</div>
 
+		<!-- No history overlay. -->
+		<div *ngIf="state.history.length < 1" class="overlay">
+			<span>No History</span>
+		</div>
+
 		<!-- Scrollable content. -->
-		<ng-scrollbar id="history-container" #historyScrollbar>
+		<ng-scrollbar *ngIf="state.history.length > 0" id="history-container" #historyScrollbar>
 
 			<!-- Entries. -->
 			<div *ngFor="let entry of state.history; index as index" class="tile-section hoverable-container">
@@ -132,11 +137,6 @@
 					<hyperpass-svg svg="Delete Button" (click)="deleteHistoryEntry(index)"></hyperpass-svg>
 				</div>
 
-			</div>
-
-			<!-- No history overlay. -->
-			<div *ngIf="state.history.length < 1" class="overlay">
-				<span>No History</span>
 			</div>
 
 		</ng-scrollbar>

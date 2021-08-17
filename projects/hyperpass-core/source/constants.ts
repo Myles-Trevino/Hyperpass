@@ -10,7 +10,7 @@ export const staticUrl = 'https://static.hyperpass.org';
 export const websiteUrl = 'https://hyperpass.org';
 export const donateUrl = 'https://www.paypal.com/donate?hosted_button_id=FADEAG6LWR23E';
 
-export const version = '2021.7.21';
+export const version = '2021.8.16';
 export const minimumMasterPasswordLength = 12;
 export const keyLength = 32; // crypto_aead_xchacha20poly1305_ietf_KEYBYTES
 export const loginTimeoutGranularity = 10000;
@@ -22,6 +22,7 @@ export const defaultLoginTimeoutDuration = 60*24;
 export const deviceIdKey = 'Device ID';
 export const emailAddressKey = 'Email Address';
 export const masterPasswordKey = 'Master Password';
+export const vaultKey = 'Vault';
 export const loginTimeoutKey = 'Login Timeout';
 export const themeKey = 'Theme';
 export const stateKey = 'State';

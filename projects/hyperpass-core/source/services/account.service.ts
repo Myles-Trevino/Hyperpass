@@ -15,7 +15,6 @@ import * as Constants from '../constants';
 import {CryptoService} from './crypto.service';
 import {MessageService} from './message.service';
 import {ApiService} from './api.service';
-import {ThemeService} from './theme.service';
 import {StorageService} from './storage.service';
 import {BiometricService} from './biometric.service';
 import {PlatformService} from './platform.service';
@@ -54,7 +53,6 @@ export class AccountService implements OnDestroy
 		private readonly biometricService: BiometricService,
 		private readonly messageService: MessageService,
 		private readonly apiService: ApiService,
-		private readonly themeService: ThemeService,
 		private readonly storageService: StorageService,
 		private readonly platformService: PlatformService,
 		private readonly stateService: StateService){}
@@ -80,33 +78,51 @@ export class AccountService implements OnDestroy
 			this.loggingIn = true;
 			this.emailAddress = emailAddress;
 
-			// Get the public information if necessary.
-			if(getPublicInformation) await this.getPublicInformation(emailAddress);
-			if(!this.publicInformation) throw new Error('No public information.');
-
-			// Get the access key.
-			const encrypted = this.publicInformation.encryptedAccessKey;
-			const key = await this.cryptoService.deriveKey(masterPassword, encrypted);
-			const value = this.cryptoService.decrypt(encrypted, key);
-			this.accessKey = {encrypted, value};
-
-			// Generate the next access key
-			if(!this.platformService.isExtensionBackground) this.nextAccessKey =
-				await this.cryptoService.generateEncryptedKey(masterPassword);
-
-			// Redirect to the validation page if the account has not been validated
-			if(!this.publicInformation.validated)
+			// If offline, attempt offline login.
+			if(!this.stateService.isOnline)
 			{
-				if(this.navigate) this.router.navigate(['/validation']);
-				this.loggingIn = false;
-				return;
+				// Load the cached vault.
+				const cachedVault = await this.storageService.getData(Constants.vaultKey);
+				if(!cachedVault) return;
+
+				// Decrypt the cached vault.
+				const encryptedVault = JSON.parse(cachedVault) as Types.EncryptedData;
+				await this.decryptVault(encryptedVault, masterPassword, false);
 			}
 
-			// Retrieve the vault.
-			await this.pullVault(masterPassword);
+			// Otherwise, perform a normal login.
+			else
+			{
+				// Get the public information if necessary.
+				if(getPublicInformation) await this.getPublicInformation(emailAddress);
+				if(!this.publicInformation) throw new Error('No public information.');
+
+				// Get the access key.
+				const encrypted = this.publicInformation.encryptedAccessKey;
+				const key = await this.cryptoService.deriveKey(masterPassword, encrypted);
+				const value = this.cryptoService.decrypt(encrypted, key);
+				this.accessKey = {encrypted, value};
+
+				// Generate the next access key
+				if(!this.platformService.isExtensionBackground) this.nextAccessKey =
+					await this.cryptoService.generateEncryptedKey(masterPassword);
+
+				// Redirect to the validation page if the account has not been validated
+				if(!this.publicInformation.validated)
+				{
+					if(this.navigate) this.router.navigate(['/validation']);
+					this.loggingIn = false;
+					return;
+				}
+
+				// Retrieve the vault.
+				await this.pullVault(masterPassword);
+			}
+
+			// Set the login flag.
 			this.loggedIn = true;
 
-			// If not the extension background...
+			// If this is not the extension background...
 			if(!this.platformService.isExtensionBackground)
 			{
 				// Cache the login credentials.
@@ -186,7 +202,9 @@ export class AccountService implements OnDestroy
 	// Logs out on the current device.
 	public async logOut(): Promise<void>
 	{
-		if(this.loggedIn) await this.apiService.logOut(this.getAccessData());
+		if(this.loggedIn && this.stateService.isOnline)
+			await this.apiService.logOut(this.getAccessData());
+
 		this.reset();
 	}
 
@@ -194,31 +212,10 @@ export class AccountService implements OnDestroy
 	// Logs out on all devices.
 	public async globalLogout(): Promise<void>
 	{
+		if(!this.stateService.isOnline) return;
 		if(!this.nextAccessKey) throw new Error('No next access key.');
 		await this.apiService.globalLogout(this.getAccessData(), this.nextAccessKey);
 		this.reset();
-	}
-
-
-	// Resets the login timeout if one is active.
-	public resetLoginTimeout(force = false): void
-	{
-		// Return if the login timeout has not been started.
-		if(!this.loginTimeoutTimeout) return;
-
-		// Enforce a cooldown unless forced not to.
-		if(!force && (this.loginTimeoutStart !== undefined) && performance.now()-
-			this.loginTimeoutStart < Constants.loginTimeoutGranularity) return;
-
-		// Update the subject.
-		this.resetLoginTimeoutSubject.next(this.loginTimeoutDuration);
-
-		// Update the automatic login key duration.
-		this.apiService.setAutomaticLoginKey(this.getAccessData(),
-			undefined, this.loginTimeoutDuration);
-
-		// Reset the login timeout.
-		this.startLoginTimeout();
 	}
 
 
@@ -253,6 +250,7 @@ export class AccountService implements OnDestroy
 	// Pushes the vault.
 	public async pushVault(): Promise<void>
 	{
+		if(!this.stateService.isOnline) return;
 		await this.apiService.setVault(this.getAccessData(), this.getEncryptedVault());
 		this.vaultUpdateSubject.next();
 	}
@@ -261,27 +259,13 @@ export class AccountService implements OnDestroy
 	// Pulls the vault and (re)applies the settings.
 	public async pullVault(masterPassword?: string): Promise<void>
 	{
+		if(!this.stateService.isOnline) return;
+
 		// Get the encrypted vault.
 		const encryptedVault = await this.apiService.getVault(this.getAccessData());
 
-		// Get the vault key if necessary.
-		if(!this.vaultKey)
-		{
-			if(!masterPassword) throw new Error('No master password.');
-
-			this.vaultKey = await this.cryptoService.deriveKey(
-				masterPassword, encryptedVault);
-		}
-
-		// Decrypt and decompress the vault.
-		this.vault = JSON.parse(this.cryptoService.decryptAndDecompress(
-			encryptedVault, this.vaultKey)) as Types.Vault;
-
-		// Apply the settings.
-		await this.updateLoginTimeoutDuration();
-
-		// Start the login timeout.
-		this.startLoginTimeout();
+		// Decrypt the encrypted vault.
+		await this.decryptVault(encryptedVault, masterPassword);
 	}
 
 
@@ -289,6 +273,8 @@ export class AccountService implements OnDestroy
 	public async changeEmailAddress(newEmailAddress: string,
 		validationKey: string): Promise<void>
 	{
+		if(!this.stateService.isOnline) return;
+
 		await this.apiService.changeEmailAddress(
 			this.getAccessData(), newEmailAddress, validationKey);
 
@@ -319,6 +305,8 @@ export class AccountService implements OnDestroy
 	// Changes the master password.
 	public async changeMasterPassword(newMasterPassword: string): Promise<void>
 	{
+		if(!this.stateService.isOnline) return;
+
 		// Generate new access keys with the new master password.
 		const newAccessKey =
 			await this.cryptoService.generateEncryptedKey(newMasterPassword);
@@ -384,6 +372,28 @@ export class AccountService implements OnDestroy
 	}
 
 
+	// Resets the login timeout if one is active.
+	public resetLoginTimeout(force = false): void
+	{
+		// Return if the login timeout has not been started.
+		if(!this.loginTimeoutTimeout) return;
+
+		// Enforce a cooldown unless forced not to.
+		if(!force && (this.loginTimeoutStart !== undefined) && performance.now()-
+			this.loginTimeoutStart < Constants.loginTimeoutGranularity) return;
+
+		// Update the subject.
+		this.resetLoginTimeoutSubject.next(this.loginTimeoutDuration);
+
+		// If online, update the automatic login key duration.
+		if(this.stateService.isOnline) this.apiService.setAutomaticLoginKey(
+			this.getAccessData(), undefined, this.loginTimeoutDuration);
+
+		// Reset the login timeout.
+		this.startLoginTimeout();
+	}
+
+
 	// Resets the account service.
 	private reset(): void
 	{
@@ -419,6 +429,9 @@ export class AccountService implements OnDestroy
 
 		// Cache the email address.
 		await this.storageService.setData(Constants.emailAddressKey, this.emailAddress);
+
+		// Return if offline.
+		if(!this.stateService.isOnline) return;
 
 		// If the master password was not provided, try to load it.
 		if(!masterPassword) masterPassword = await this.loadCachedMasterPassword();
@@ -460,5 +473,34 @@ export class AccountService implements OnDestroy
 
 		// Return undefined on error.
 		catch(error: unknown){ return undefined; }
+	}
+
+
+	// Decrypts the given encrypted vault.
+	private async decryptVault(encryptedVault: Types.EncryptedData,
+		masterPassword?: string, cache = true): Promise<void>
+	{
+		// Cache the encrypted vault unless specified.
+		if(cache) this.storageService.setData(
+			Constants.vaultKey, JSON.stringify(encryptedVault));
+
+		// Get the vault key if necessary.
+		if(!this.vaultKey)
+		{
+			if(!masterPassword) throw new Error('No master password.');
+
+			this.vaultKey = await this.cryptoService.deriveKey(
+				masterPassword, encryptedVault);
+		}
+
+		// Decrypt and decompress the vault.
+		this.vault = JSON.parse(this.cryptoService.decryptAndDecompress(
+			encryptedVault, this.vaultKey)) as Types.Vault;
+
+		// Apply the settings.
+		await this.updateLoginTimeoutDuration();
+
+		// Start the login timeout.
+		this.startLoginTimeout();
 	}
 }

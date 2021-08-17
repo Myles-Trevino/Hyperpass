@@ -12,10 +12,10 @@
 	<input type="text" placeholder="Search" spellcheck="false" autocomplete="off" [ngModel]="stateService.vault.query" (ngModelChange)="generatePage($event, true)" [autofocusDirective] tab="Vault">
 
 	<!-- History button. -->
-	<hyperpass-svg svg="History Button" class="shaded" (click)="openVaultHistoryModal()"></hyperpass-svg>
+	<hyperpass-svg svg="History Button" class="shaded" (click)="openVaultHistoryModal()" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-svg>
 
 	<!-- Add button. -->
-	<hyperpass-svg svg="Add Button" class="shaded" [routerLink]="['/app', {outlets: {'vault': ['vault-entry']}}]" [skipLocationChange]="true"></hyperpass-svg>
+	<hyperpass-svg svg="Add Button" class="shaded" [routerLink]="['/app', {outlets: {'vault': ['vault-entry']}}]" [skipLocationChange]="true" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-svg>
 
 </div>
 

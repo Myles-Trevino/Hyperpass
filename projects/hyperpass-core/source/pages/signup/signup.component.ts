@@ -16,7 +16,6 @@ import {CryptoService} from '../../services/crypto.service';
 import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
 import {ApiService} from '../../services/api.service';
-import {ThemeService} from '../../services/theme.service';
 import {StorageService} from '../../services/storage.service';
 import {MetadataService} from '../../services/metadata.service';
 import {PlatformService} from '../../services/platform.service';
@@ -35,16 +34,15 @@ export class SignupComponent implements OnInit
 
 	public emailAddress = '';
 	public masterPassword = '';
+	public confirmMasterPassword = '';
 
 
 	// Constructor.
-	public constructor(
-		public readonly platformService: PlatformService,
+	public constructor(public readonly platformService: PlatformService,
 		private readonly apiService: ApiService,
 		private readonly accountService: AccountService,
 		private readonly messageService: MessageService,
 		private readonly cryptoService: CryptoService,
-		private readonly themeService: ThemeService,
 		private readonly storageService: StorageService,
 		private readonly metadataService: MetadataService){}
 
@@ -61,7 +59,7 @@ export class SignupComponent implements OnInit
 
 
 	// Adds a new user account and redirects to the account validation page.
-	public async signUp(masterPasswordConfirmation: string): Promise<void>
+	public async signUp(): Promise<void>
 	{
 		try
 		{
@@ -76,7 +74,7 @@ export class SignupComponent implements OnInit
 
 			// Validate the master password.
 			this.accountService.validateMasterPassword(
-				this.masterPassword, masterPasswordConfirmation);
+				this.masterPassword, this.confirmMasterPassword);
 
 			// Generate the access key.
 			const accessKey =

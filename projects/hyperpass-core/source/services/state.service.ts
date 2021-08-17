@@ -43,6 +43,7 @@ export class StateService
 	public vaultEntryHistoryModalSubject: Subject<Types.VaultEntryHistoryEntry[]> = new Subject();
 
 	public url = '';
+	public isOnline = false;
 
 
 	// Constructor.

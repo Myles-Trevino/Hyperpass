@@ -31,12 +31,12 @@
 			<hyperpass-master-password-input [(masterPassword)]="masterPassword" placeholder="Master Password" [showGenerator]="true"></hyperpass-master-password-input>
 
 			<!-- Confirm master password. -->
-			<input type="password" class="tile-input" placeholder="Confirm Master Password" #confirmMasterPasswordInput>
+			<hyperpass-master-password-input [(masterPassword)]="confirmMasterPassword" placeholder="Confirm Master Password"></hyperpass-master-password-input>
 
 			<!-- Bottom buttons. -->
 			<div class="tile-buttons">
 				<button routerLink="/login">Cancel</button>
-				<button (click)="signUp(confirmMasterPasswordInput.value)">Sign Up</button>
+				<button (click)="signUp()">Sign Up</button>
 			</div>
 
 		</div>

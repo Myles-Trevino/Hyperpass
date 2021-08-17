@@ -8,7 +8,7 @@
 <!-- Actions. -->
 <div class="app-top-bar">
 	<button (click)='logOut()'>Log Out</button>
-	<button id="options-sync-button" (click)='sync()'>Sync</button>
+	<button id="options-sync-button" (click)='sync()' [ngClass]="{'disabled': !stateService.isOnline}">Sync</button>
 </div>
 
 
@@ -25,13 +25,13 @@
 	<!-- Login timeout. -->
 	<div class="tile-setting">
 		<span>Login Timeout</span>
-		<hyperpass-dropdown [options]="types.loginTimeouts" [selectedOption]="accountService.loginTimeout" (selectedOptionChange)="setLoginTimeout($event)"></hyperpass-dropdown>
+		<hyperpass-dropdown [options]="types.loginTimeouts" [selectedOption]="accountService.loginTimeout" (selectedOptionChange)="setLoginTimeout($event)" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-dropdown>
 	</div>
 
 	<!-- Global logout. -->
 	<div class="tile-setting">
 		<span>Global Logout</span>
-		<button (click)="globalLogout()">Log Out</button>
+		<button (click)="globalLogout()" [ngClass]="{'disabled': !stateService.isOnline}">Log Out</button>
 	</div>
 
 	<!-- Import and export. -->
@@ -39,7 +39,7 @@
 		<span>Import and Export</span>
 
 		<div class="tile-buttons">
-			<button [routerLink]="['/app', {outlets: {'options': ['import-vault']}}]" [skipLocationChange]="true">Import</button>
+			<button [routerLink]="['/app', {outlets: {'options': ['import-vault']}}]" [skipLocationChange]="true" [ngClass]="{'disabled': !stateService.isOnline}">Import</button>
 			<button [routerLink]="['/app', {outlets: {'options': ['export-vault']}}]" [skipLocationChange]="true">Export</button>
 		</div>
 	</div>
@@ -53,19 +53,19 @@
 	<!-- Email address. -->
 	<div class="tile-setting">
 		<span>Email Address</span>
-		<button [routerLink]="['/app', {outlets: {'options': ['email-address']}}]" [skipLocationChange]="true">Change</button>
+		<button [routerLink]="['/app', {outlets: {'options': ['email-address']}}]" [skipLocationChange]="true" [ngClass]="{'disabled': !stateService.isOnline}">Change</button>
 	</div>
 
 	<!-- Master password. -->
 	<div class="tile-setting">
 		<span>Master Password</span>
-		<button [routerLink]="['/app', {outlets: {'options': ['master-password']}}]" [skipLocationChange]="true">Change</button>
+		<button [routerLink]="['/app', {outlets: {'options': ['master-password']}}]" [skipLocationChange]="true" [ngClass]="{'disabled': !stateService.isOnline}">Change</button>
 	</div>
 
 	<!-- Help. -->
 	<div class="tile-setting">
 		<span>Need Help?</span>
-		<a [href]="settings.websiteUrl+'/support'" target="_blank">
+		<a [href]="settings.websiteUrl+'/support'" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>Support Page</button>
 		</a>
 	</div>
@@ -78,7 +78,7 @@
 			<hyperpass-svg svg="Heart"></hyperpass-svg>
 		</div>
 
-		<a [href]="settings.donateUrl" target="_blank">
+		<a [href]="settings.donateUrl" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>Donate</button>
 		</a>
 	</div>

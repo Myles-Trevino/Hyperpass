@@ -25,7 +25,7 @@ app.use(Express.json());
 
 // Gets the minimum valid Hyperpass version.
 function getMinimumVersion(rawRequest: Express.Request,
-	result: Express.Response): void { result.send('2021.4.19'); }
+	result: Express.Response): void { result.send('2021.8.16'); }
 
 
 // Creates a new user account.

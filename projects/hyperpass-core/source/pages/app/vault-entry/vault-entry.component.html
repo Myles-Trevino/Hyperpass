@@ -10,7 +10,7 @@
 
 	<button (click)="exit()">Cancel</button>
 
-	<div class="tile-buttons">
+	<div [ngClass]="{'disabled': !stateService.isOnline, 'tile-buttons': true}">
 		<button *ngIf="state.key" (click)="delete()">Delete</button>
 		<button (click)="save()">Save</button>
 	</div>
@@ -35,7 +35,9 @@
 
 		<div class="app-button-input-container hoverable-container">
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.username">
-			<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewUsernameHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile}"></hyperpass-svg>
+			<div [ngClass]="{'hoverable-content': !platformService.isMobile}">
+				<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewUsernameHistory()" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-svg>
+			</div>
 		</div>
 
 	</div>
@@ -50,8 +52,8 @@
 			<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.password">
 
 			<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
-				<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewPasswordHistory()"></hyperpass-svg>
-				<hyperpass-svg svg="Generate Button" (click)="generatePassword()"></hyperpass-svg>
+				<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewPasswordHistory()" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-svg>
+				<hyperpass-svg svg="Generate Button" (click)="generatePassword()" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-svg>
 			</div>
 
 		</div>
@@ -72,7 +74,10 @@
 
 		<div class="app-button-input-container hoverable-container">
 			<textarea class="hidden-scrollbars" [(ngModel)]="state.note"></textarea>
-			<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewNoteHistory()" [ngClass]="{'hoverable-content': !platformService.isMobile}"></hyperpass-svg>
+
+			<div [ngClass]="{'hoverable-content': !platformService.isMobile}">
+				<hyperpass-svg *ngIf="state.key" svg="History Button" (click)="viewNoteHistory()" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-svg>
+			</div>
 		</div>
 
 	</div>

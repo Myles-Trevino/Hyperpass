@@ -43,10 +43,10 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 	public constructor(public readonly platformService: PlatformService,
 		public readonly accountService: AccountService,
 		public readonly themeService: ThemeService,
+		public readonly stateService: StateService,
 		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService,
-		private readonly storageService: StorageService,
-		private readonly stateService: StateService){}
+		private readonly storageService: StorageService){}
 
 
 	// Initializes the scrollbar.
@@ -107,7 +107,7 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 		{
 			this.storageService.setData(Settings.loginTimeoutKey, loginTimeout);
 			this.accountService.updateLoginTimeoutDuration();
-			this.accountService.startLoginTimeout();
+			this.accountService.resetLoginTimeout(true);
 		}
 
 		// Handle errors.

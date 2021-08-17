@@ -18,6 +18,7 @@ import * as _ from 'lodash';
 
 import * as Types from '../../types';
 import * as Animations from '../../animations';
+import * as Constants from '../../constants';
 import {AccountService} from '../../services/account.service';
 import {StateService} from '../../services/state.service';
 import {VaultComponent} from '../../pages/app/vault/vault.component';
@@ -26,6 +27,7 @@ import {MetadataService} from '../../services/metadata.service';
 import {MessageService} from '../../services/message.service';
 import {InitializationService} from '../../services/initialization.service';
 import {UtilityService} from '../../services/utility.service';
+import {StorageService} from '../../services/storage.service';
 
 
 SwiperCore.use([EffectFade]);
@@ -63,6 +65,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 		private readonly changeDetectorRef: ChangeDetectorRef,
 		private readonly messageService: MessageService,
 		private readonly utilityService: UtilityService,
+		private readonly storageService: StorageService,
 		private readonly ionicPlatform: Ionic.Platform,
 		private readonly router: Router){}
 
@@ -82,13 +85,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
-		// Metadata.
-		this.metadataService.clear();
-		this.metadataService.setTitle('Web App');
-		this.metadataService.setDescription('Access Hyperpass from your browser.');
-		this.metadataService.setImage('web-app');
-
-		if(this.platformService.isServer) return;
+		// If this is the server, set the metadata and return.
+		if(this.platformService.isServer)
+		{
+			this.metadataService.clear();
+			this.metadataService.setTitle('Web App');
+			this.metadataService.setDescription('Access Hyperpass from your browser.');
+			this.metadataService.setImage('web-app');
+			return;
+		}
 
 		// Otherwise, initialize.
 		try
@@ -99,15 +104,38 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 			this.backButtonSubscription = this.ionicPlatform.backButton
 				.subscribeWithPriority(-1, () => { App.exitApp(); });
 
-			// If not logged in, attempt to log in with the cached login data.
-			if(!this.accountService.loggedIn) await this.accountService.automaticLogIn();
-
-			// If automatic login failed, redirect to the login page.
+			// If not logged in...
 			if(!this.accountService.loggedIn)
 			{
-				this.stateService.vault = _.clone(Types.defaultVaultState);
-				this.router.navigate(['/login']);
-				return;
+				// If online, attempt to log in with the cached login data.
+				if(this.stateService.isOnline) await this.accountService.automaticLogIn();
+
+				// If offline, check if there is cached email address and vault data.
+				else
+				{
+					// If not, return with an error notification.
+					if(!await this.storageService.getData(Constants.emailAddressKey) ||
+						!await this.storageService.getData(Constants.vaultKey))
+					{
+						this.messageService.error(new Error('You are offline, but no '+
+							'offline user data could be found. You must connect to the '+
+							'internet to log in.'), 0);
+						return;
+					}
+
+					// Otherwise display an "offline mode" notification and continue.
+					this.messageService.error(new Error('Launching in offline '+
+						'mode. Functionality will be limited.'), 0);
+				}
+
+				// If automatic login failed, redirect to the login page.
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				if(!this.accountService.loggedIn)
+				{
+					this.stateService.vault = _.clone(Types.defaultVaultState);
+					this.router.navigate(['/login']);
+					return;
+				}
 			}
 
 			// Set the initialized flag.
