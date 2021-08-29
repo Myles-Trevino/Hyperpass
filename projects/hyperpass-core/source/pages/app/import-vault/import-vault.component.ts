@@ -115,7 +115,7 @@ export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 
 			// Print a success message and push the vault.
 			this.messageService.message(`Successfully imported the vault.`);
-			this.utilityService.updateVaultSubject.next();
+			this.stateService.updateVaultSubject.next();
 			this.accountService.pushVault();
 
 			// If a vault entry is open for editing, close it.

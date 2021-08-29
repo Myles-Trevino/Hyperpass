@@ -45,7 +45,7 @@ export async function getAccountUnsecured(emailAddress: string,
 	checkValidation = true): Promise<Types.Account>
 {
 	const accounts = await getAccounts();
-	const account = await accounts.findOne({emailAddress});
+	const account = await accounts.findOne({emailAddress: emailAddress.toLowerCase()});
 
 	if(!account) throw new Types.ApiError('No account with this email address exists.');
 

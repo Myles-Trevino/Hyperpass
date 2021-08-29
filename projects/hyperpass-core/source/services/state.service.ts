@@ -23,7 +23,7 @@ import {CryptoService} from './crypto.service';
 export class StateService
 {
 	public vault: Types.VaultState = _.clone(Types.defaultVaultState);
-	public generator: Types.GeneratorCachedState = _.clone(Types.defaultGeneratorCachedState);
+	public generator: Types.ScrollState = _.clone(Types.defaultScrollState);
 	public options: Types.ScrollState = _.clone(Types.defaultScrollState);
 	public app: Types.AppState = _.clone(Types.defaultAppState);
 
@@ -41,6 +41,7 @@ export class StateService
 	public tagsModalSubject: Subject<Types.TagsModalEvent> = new Subject();
 	public vaultHistoryModalSubject: Subject<void> = new Subject();
 	public vaultEntryHistoryModalSubject: Subject<Types.VaultEntryHistoryEntry[]> = new Subject();
+	public readonly updateVaultSubject = new Subject<void>();
 
 	public url = '';
 	public isOnline = false;
@@ -145,7 +146,7 @@ export class StateService
 	public restoreDefaults(): void
 	{
 		this.vault = _.clone(Types.defaultVaultState);
-		this.generator = _.clone(Types.defaultGeneratorCachedState);
+		this.generator = _.clone(Types.defaultScrollState);
 		this.options = _.clone(Types.defaultScrollState);
 		this.app = _.clone(Types.defaultAppState);
 

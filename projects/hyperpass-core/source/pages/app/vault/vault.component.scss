@@ -37,7 +37,7 @@
 
 	.base{ fill: var(--main-color); }
 
-	.glyph{ stroke-width: 1.2px; }
+	.glyph{ stroke-width: var(--button-stroke-width); }
 
 	&:hover .base{ fill: var(--accent-color); }
 }

@@ -38,11 +38,14 @@
 	--page-content-width-limit: 70rem;
 	--button-and-input-padding: 1.25rem;
 	--button-and-input-minimum-width: 6rem;
+	--button-stroke-width: 1.2px;
 	--dropdown-minimum-width: 13rem;
 	--scrollbar-width: calc(var(--small-gap) / 2);
 	--minimum-page-height: 26.8rem;
 	--line-width: .1rem;
-	--app-page-height: calc(100vh - var(--large-gap) * 2 - var(--tile-title-height));
+	--page-height-modifier: 0rem;
+	--app-page-height: calc(100vh - var(--large-gap) * 2 -
+		var(--tile-title-height) - var(--page-height-modifier));
 	--maximum-app-width: 60rem;
 
 	--shading-specular-offset: -1px;
@@ -71,7 +74,8 @@
 		--large-gap: 3rem;
 		--medium-gap: 2rem;
 		--dropdown-minimum-width: 11rem;
-		--app-page-height: calc(100vh - var(--tile-title-height));
+		--app-page-height: calc(100vh - var(--tile-title-height) -
+			var(--page-height-modifier));
 		--maximum-app-width: none;
 	}
 }

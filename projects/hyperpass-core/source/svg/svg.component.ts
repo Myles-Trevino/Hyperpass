@@ -148,8 +148,17 @@ const svgs: Record<string, string> =
 	'Copy Button':
 	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 		<circle class="base" cx="16" cy="16" r="16"/>
-		<rect class="glyph" x="8.78" y="13.12" width="10" height="10"/>
-		<polyline class="glyph" points="21.09 18.88 23.22 18.88 23.22 8.88 13.22 8.88 13.22 10.97"/>
+		<rect class="glyph" x="9" y="13" width="10" height="10"/>
+		<polyline class="glyph" points="23 19 23 9 13 9 13 9"/>
+	</svg>`,
+
+	// Save button.
+	'Save Button':
+	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+		<circle class="base" cx="16" cy="16" r="16"/>
+		<polygon class="glyph" points="23 23 9 23 9 9 20 9 23 12 23 23"/>
+		<polyline class="glyph" points="13 9 13 13 19 13 19 9"/>
+		<polyline class="glyph" points="20 23 20 18 12 18 12 23"/>
 	</svg>`,
 
 	// Restore button.

@@ -7,6 +7,7 @@
 
 import {Injectable} from '@angular/core';
 
+import type * as Types from '../types';
 import Words from '../words';
 import {CryptoService} from './crypto.service';
 import {AccountService} from './account.service';
@@ -142,10 +143,10 @@ export class GeneratorService
 
 
 	// Generates using the last selected settings.
-	public generate(): string
+	public generate(state?: Types.GeneratorSyncedState): string
 	{
-		// Load the state.
-		const state = this.accountService.getVault().generatorState;
+		// Load the state if none was provided.
+		if(!state) state = this.accountService.getVault().generatorState;
 
 		// Generate.
 		if(state.mode === 'Passphrase') return this.generatePassphrase(

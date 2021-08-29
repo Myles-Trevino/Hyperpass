@@ -24,12 +24,6 @@ export type VaultState = ScrollState &
 export const defaultVaultState: VaultState = {...defaultScrollState, page: 1, query: ''};
 
 
-export type GeneratorHistoryEntry =
-{
-	date: Date;
-	password: string;
-};
-
 export const generatorModes = ['Passphrase', 'Password'] as const;
 
 export type GeneratorMode = typeof generatorModes[number];
@@ -47,8 +41,6 @@ export type GeneratorSyncedState =
 	useSpecialCharacters: boolean;
 	useNumbers: boolean;
 	useCapitals: boolean;
-
-	history: GeneratorHistoryEntry[];
 };
 
 export const defaultGeneratorSyncedState: GeneratorSyncedState =
@@ -63,21 +55,7 @@ export const defaultGeneratorSyncedState: GeneratorSyncedState =
 	length: 16,
 	useSpecialCharacters: true,
 	useNumbers: true,
-	useCapitals: true,
-
-	history: []
-};
-
-export type GeneratorCachedState =
-{
-	optionsScrollState: ScrollState;
-	historyScrollState: ScrollState;
-};
-
-export const defaultGeneratorCachedState: GeneratorCachedState =
-{
-	optionsScrollState: defaultScrollState,
-	historyScrollState: defaultScrollState
+	useCapitals: true
 };
 
 
@@ -168,7 +146,7 @@ export const defaultVaultEntryHistoryModalState: VaultEntryHistoryModalState =
 export type CachedState =
 {
 	vault: VaultState;
-	generator: GeneratorCachedState;
+	generator: ScrollState;
 	options: ScrollState;
 	app: AppState;
 

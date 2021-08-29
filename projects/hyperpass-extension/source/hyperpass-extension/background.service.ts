@@ -106,8 +106,8 @@ export class BackgroundService
 	{
 		if(!url) return;
 
-		// Extract the domain from the URL.
-		this.website = this.utilityService.extractDomain(url);
+		// Trim the URL.
+		this.website = this.utilityService.trimUrl(url);
 
 		// Update.
 		if(this.accountService.loggedIn) this.update();

@@ -29,17 +29,17 @@ import {StateService} from '../../../services/state.service';
 
 export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 {
-	@ViewChild('optionsScrollbar') private readonly optionsScrollbar?: NgScrollbar;
-	@ViewChild('historyScrollbar') private readonly historyScrollbar?: NgScrollbar;
+	@ViewChild('scrollbar') private readonly scrollbar?: NgScrollbar;
 
 	public readonly types = Types;
 	public password = '';
 	public state: Types.GeneratorSyncedState = _.clone(Types.defaultGeneratorSyncedState);
-	public cachedState: Types.GeneratorCachedState = _.clone(Types.defaultGeneratorCachedState);
+	public cachedState: Types.ScrollState = _.clone(Types.defaultScrollState);
+	public settingsChanged = false;
+	public passwordOutdated = false;
 
 	private updateSubscription?: Subscription;
-	private optionsScrollbarSubscription?: Subscription;
-	private historyScrollbarSubscription?: Subscription;
+	private scrollbarSubscription?: Subscription;
 
 
 	// Constructor.
@@ -56,22 +56,22 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	{
 		// Load the initial state.
 		this.cachedState = this.stateService.generator;
-		this.updateState();
+		this.state = _.cloneDeep(this.accountService.getVault().generatorState);
+		this.generate();
 
 		// Update the generator state on vault updates.
-		this.updateSubscription = this.utilityService.updateVaultSubject
-			.subscribe(() => { this.updateState(); });
+		this.updateSubscription = this.stateService.updateVaultSubject.subscribe(() =>
+		{
+			this.state = _.cloneDeep(this.accountService.getVault().generatorState);
+		});
 	}
 
 
 	// Initializes the scrollbar.
 	public async ngAfterViewInit(): Promise<void>
 	{
-		this.optionsScrollbarSubscription = await this.stateService.initializeScrollbar(
-			this.cachedState.optionsScrollState, this.optionsScrollbar);
-
-		this.historyScrollbarSubscription = await this.stateService.initializeScrollbar(
-			this.cachedState.historyScrollState, this.historyScrollbar);
+		this.scrollbarSubscription =
+			await this.stateService.initializeScrollbar(this.cachedState, this.scrollbar);
 	}
 
 
@@ -79,8 +79,7 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	public ngOnDestroy(): void
 	{
 		this.updateSubscription?.unsubscribe();
-		this.optionsScrollbarSubscription?.unsubscribe();
-		this.historyScrollbarSubscription?.unsubscribe();
+		this.scrollbarSubscription?.unsubscribe();
 	}
 
 
@@ -88,60 +87,35 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	public sendCopiedMessage(): void { this.messageService.message('Copied.', 2); }
 
 
-	// Generates a password.
-	public async generate(initial = false): Promise<void>
+	// Generates a password and saves the settings if they have been changed.
+	public generate(): void
 	{
 		try
 		{
-			// Passphrase.
+			// Validate the parameters.
 			if(this.state.mode === 'Passphrase')
 			{
-				// Validate the parameters.
 				const parsedWordCount = this.utilityService.isWithinRange(
 					Number(this.state.wordCount), 1, 9, 'The number '+
 						'of words must be between 1 and 9.');
 
-				const parsedNumberCount = this.utilityService.isWithinRange(
-					Number(this.state.numberCount), 0, parsedWordCount, `The amount `+
-					`of numbers must be between 0 and ${parsedWordCount}.`);
+				this.utilityService.isWithinRange(Number(this.state.numberCount),
+					0, parsedWordCount, `The amount of numbers `+
+					`must be between 0 and ${parsedWordCount}.`);
 
 				if(this.state.separator.length !== 1)
 					throw new Error('The separator must be a single character.');
-
-				// Generate the password.
-				this.password = this.generatorService.generatePassphrase(parsedWordCount,
-					parsedNumberCount, this.state.separator, this.state.capitalize);
 			}
 
-			// Password.
 			else
 			{
-				// Validate the parameters.
-				const parsedLength = this.utilityService.isWithinRange(
+				this.utilityService.isWithinRange(
 					Number(this.state.length), 4, 64, 'The length must be between 4 and 64.');
-
-				// Generate the password.
-				this.password = this.generatorService.generatePassword(
-					parsedLength, this.state.useNumbers, this.state.useCapitals,
-					this.state.useSpecialCharacters);
 			}
 
-			// Return if offline.
-			if(!this.stateService.isOnline) return;
-
-			// Pull the vault.
-			if(!initial) await this.accountService.pullVault();
-
-			// Add the password to history.
-			this.state.history.unshift({date: new Date(), password: this.password});
-			this.state.history.splice(10);
-
-			// Scroll to the top.
-			if(this.historyScrollbar)
-				this.historyScrollbar.nativeElement.scrollTo({top: 0, behavior: 'smooth'});
-
-			// Push the vault.
-			this.pushVault();
+			// Generate the password.
+			this.password = this.generatorService.generate(this.state);
+			this.passwordOutdated = false;
 		}
 
 		// Handle errors.
@@ -149,55 +123,31 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 	}
 
 
-	// Clears the generator's history and pushes the vault.
-	public async clearHistory(): Promise<void>
+	// Checks whether the settings have been changed.
+	public settingsCallback(): void
 	{
-		try
-		{
-			await this.accountService.pullVault();
-			this.state.history = [];
-			this.pushVault();
-		}
+		this.settingsChanged = this.stateService.isOnline &&
+			!_.isEqual(this.state, this.accountService.getVault().generatorState);
 
-		// Handle errors.
-		catch(error: unknown){ this.messageService.error(error as Error); }
+		if(this.settingsChanged) this.passwordOutdated = true;
 	}
 
 
-	// Deletes the history entry at the given index.
-	public async deleteHistoryEntry(index: number): Promise<void>
+	// Saves the settings.
+	public saveSettings(): void
 	{
-		try
-		{
-			await this.accountService.pullVault();
-			this.state.history.splice(index, 1);
-			this.pushVault();
-		}
-
-		// Handle errors.
-		catch(error: unknown){ this.messageService.error(error as Error); }
+		this.accountService.getVault().generatorState = _.cloneDeep(this.state);
+		this.accountService.pushVault();
+		if(this.passwordOutdated) this.generate();
+		this.settingsChanged = false;
 	}
 
 
-	// Updates the state.
-	private updateState(): void
+	// Resets the settings to the last ones saved.
+	public restoreSettings(): void
 	{
-		// Update the state.
 		this.state = _.cloneDeep(this.accountService.getVault().generatorState);
-
-		// If there is no password history, generate a password.
-		if(!this.state.history.length) this.generate();
-
-		// Otherwise, display the last generated password.
-		else this.password = this.state.history[0].password;
-	}
-
-
-	// Updates and pushes the vault.
-	private async pushVault(): Promise<void>
-	{
-		if(!this.stateService.isOnline) return;
-		this.accountService.getVault().generatorState = this.state;
-		await this.accountService.pushVault();
+		if(!this.passwordOutdated) this.generate();
+		this.settingsChanged = false;
 	}
 }

@@ -79,7 +79,7 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 		try
 		{
 			await this.accountService.pullVault();
-			this.utilityService.updateVaultSubject.next();
+			this.stateService.updateVaultSubject.next();
 			this.messageService.message('Synced.', 2);
 		}
 

@@ -72,7 +72,7 @@ export class BiometricService
 	{
 		if(!(await NativeBiometric.isAvailable()).isAvailable)
 			throw new Error('Biometric login has not been '+
-				'set up or is not available on your device.');
+				'set up on or is not available on your device.');
 	}
 
 

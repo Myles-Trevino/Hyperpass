@@ -25,7 +25,7 @@ app.use(Express.json());
 
 // Gets the minimum valid Hyperpass version.
 function getMinimumVersion(rawRequest: Express.Request,
-	result: Express.Response): void { result.send('2021.8.16'); }
+	result: Express.Response): void { result.send('2021.4.19'); }
 
 
 // Creates a new user account.
@@ -48,7 +48,7 @@ async function createAccount(rawRequest: Express.Request,
 	({
 		_id: new MongoDB.ObjectID(),
 		version: request.version,
-		emailAddress: request.emailAddress,
+		emailAddress: request.emailAddress.toLowerCase(),
 		validationKey: Crypto.randomBytes(32).toString('base64'),
 		accessKey: request.accessKey,
 		automaticLoginKeys: {},

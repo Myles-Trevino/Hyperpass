@@ -12,16 +12,11 @@
 :root
 {
 	--navbar-height: 4.5rem;
-	--app-page-height: calc(100vh - var(--large-gap) * 2 -
-		var(--tile-title-height) - var(--navbar-height));
+	--page-height-modifier: var(--navbar-height);
 
 
 	/* Mobile. */
-	@include mobile
-	{
-		--navbar-height: 5rem;
-		--app-page-height: calc(100vh - var(--tile-title-height) - var(--navbar-height));
-	}
+	@include mobile{ --navbar-height: 5rem; }
 }
 
 
@@ -41,10 +36,6 @@
 		color: var(--text-color);
 	}
 }
-
-
-/* Pages. */
-.page, .centerer-page{ min-height: calc(100vh - var(--navbar-height)); }
 
 
 /* Separator. */

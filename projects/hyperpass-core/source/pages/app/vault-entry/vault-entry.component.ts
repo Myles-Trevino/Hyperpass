@@ -279,9 +279,12 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 		if(!this.platformService.isExtension) return;
 		const rawUrl = this.utilityService.trimUrl(this.stateService.url);
 		const result = parseDomain(rawUrl);
-		if(result.type !== ParseResultType.Listed || !result.domain) return;
 
-		const url = `${result.domain}.${result.topLevelDomains.join('.')}`;
+		let url = '';
+		if(result.type === ParseResultType.Listed && result.domain)
+			url = `${result.domain}.${result.topLevelDomains.join('.')}`;
+		else url = rawUrl;
+
 		this.state.title = url;
 		this.state.url = url;
 	}

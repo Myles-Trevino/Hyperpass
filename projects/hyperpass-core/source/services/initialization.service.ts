@@ -26,7 +26,6 @@ import {UtilityService} from './utility.service';
 
 export class InitializationService
 {
-	public readonly updateVaultSubject = new Subject<void>();
 	public initialized = false;
 
 
@@ -76,8 +75,11 @@ export class InitializationService
 			this.stateService.isOnline = true;
 
 			if(this.utilityService.naturalCompare(Constants.version, minimumVersion) < 0)
+			{
 				this.messageService.error(new Error('This version of Hyperpass is '+
 					'out of date. Please install the latest version to continue.'), 0);
+				return;
+			}
 		}
 
 		// If offline, ignore the error.

@@ -5,9 +5,7 @@
 -->
 
 
-<ng-scrollbar #mainScrollbar>
 <div class="app-page tile-section">
-
 
 <!-- Top bar. -->
 <div id="generator-top-bar" class="tile-content">
@@ -15,135 +13,87 @@
 	<input class="password-input" type="text" readonly [value]="password">
 
 	<div class="tile-buttons">
-		<button [cdkCopyToClipboard]="password" (click)="sendCopiedMessage()">Copy</button>
-		<button (click)="generate()">Generate</button>
+		<hyperpass-svg svg="Copy Button" class="shaded" (click)="sendCopiedMessage()" [cdkCopyToClipboard]="password"></hyperpass-svg>
+		<hyperpass-svg svg="Generate Button" class="shaded" (click)="generate()"></hyperpass-svg>
+
+		<hyperpass-svg *ngIf="settingsChanged" svg="Save Button" class="shaded" (click)="saveSettings()"></hyperpass-svg>
+		<hyperpass-svg *ngIf="settingsChanged" svg="Restore Button" class="shaded" (click)="restoreSettings()"></hyperpass-svg>
 	</div>
 
 </div>
 
 
-<!-- Content. -->
-<div id="generator-content">
+<!-- Options. -->
+<ng-scrollbar #scrollbar>
+<div id="generator-options" class="tile-content">
 
-	<!-- Options. -->
-	<div id="generator-options" class="tile-content">
-
-		<!-- Title. -->
-		<div class="tile-section">
-			<h4>Options</h4>
+		<!-- Type. -->
+		<div class="tile-setting">
+			<span>Mode</span>
+			<hyperpass-dropdown [options]="types.generatorModes" [(selectedOption)]="state.mode" (selectedOptionChange)="settingsCallback()"></hyperpass-dropdown>
 		</div>
 
-		<!-- Scrollable content. -->
-		<ng-scrollbar #optionsScrollbar>
+		<div *ngIf="state.mode === 'Passphrase' then passphraseSettings else passwordSettings"></div>
 
-			<!-- Type. -->
+		<!-- Passphrase settings. -->
+		<ng-template #passphraseSettings>
+
+			<!-- Words. -->
 			<div class="tile-setting">
-				<span>Mode</span>
-				<hyperpass-dropdown [options]="types.generatorModes" [(selectedOption)]="state.mode"></hyperpass-dropdown>
+				<span>Words</span>
+				<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.wordCount" (ngModelChange)="settingsCallback()">
 			</div>
 
-			<div *ngIf="state.mode === 'Passphrase' then passphraseSettings else passwordSettings"></div>
-
-			<!-- Passphrase settings. -->
-			<ng-template #passphraseSettings>
-
-				<!-- Words. -->
-				<div class="tile-setting">
-					<span>Words</span>
-					<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.wordCount">
-				</div>
-
-				<!-- Numbers. -->
-				<div class="tile-setting">
-					<span>Numbers</span>
-					<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.numberCount">
-				</div>
-
-				<!-- Separator. -->
-				<div class="tile-setting">
-					<span>Separator</span>
-					<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.separator">
-				</div>
-
-				<!-- Capitalize. -->
-				<div class="tile-setting">
-					<span>Capitalize</span>
-					<hyperpass-switch [(state)]="state.capitalize"></hyperpass-switch>
-				</div>
-
-			</ng-template>
-
-			<!-- Password settings. -->
-			<ng-template #passwordSettings>
-
-				<!-- Length. -->
-				<div class="tile-setting">
-					<span>Length</span>
-					<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.length">
-				</div>
-
-				<!-- Use special characters. -->
-				<div class="tile-setting">
-					<span>Special</span>
-					<hyperpass-switch [(state)]="state.useSpecialCharacters"></hyperpass-switch>
-				</div>
-
-				<!-- Use numbers. -->
-				<div class="tile-setting">
-					<span>Numbers</span>
-					<hyperpass-switch [(state)]="state.useNumbers"></hyperpass-switch>
-				</div>
-
-				<!-- Use capitals. -->
-				<div class="tile-setting">
-					<span>Capitals</span>
-					<hyperpass-switch [(state)]="state.useCapitals"></hyperpass-switch>
-				</div>
-
-			</ng-template>
-
-		</ng-scrollbar>
-
-	</div>
-
-	<!-- History. -->
-	<div id="generator-history" class="tile-content" [ngClass]="{'disabled': !stateService.isOnline}">
-
-		<!-- Title. -->
-		<div class="tile-section">
-			<h4>History</h4>
-			<button (click)="clearHistory()">Clear</button>
-		</div>
-
-		<!-- No history overlay. -->
-		<div *ngIf="state.history.length < 1" class="overlay">
-			<span>No History</span>
-		</div>
-
-		<!-- Scrollable content. -->
-		<ng-scrollbar *ngIf="state.history.length > 0" id="history-container" #historyScrollbar>
-
-			<!-- Entries. -->
-			<div *ngFor="let entry of state.history; index as index" class="tile-section hoverable-container">
-
-				<div>
-					<span class="dimmed-text">{{utilityService.dateToString(entry.date)}}</span>
-					<input class="password-input" type="text" readonly value="{{entry.password}}">
-				</div>
-
-				<div [ngClass]="{'horizontal-container': true, 'hoverable-content': !platformService.isMobile}">
-					<hyperpass-svg svg="Copy Button" [cdkCopyToClipboard]="entry.password" (click)="sendCopiedMessage()"></hyperpass-svg>
-
-					<hyperpass-svg svg="Delete Button" (click)="deleteHistoryEntry(index)"></hyperpass-svg>
-				</div>
-
+			<!-- Numbers. -->
+			<div class="tile-setting">
+				<span>Numbers</span>
+				<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.numberCount" (ngModelChange)="settingsCallback()">
 			</div>
 
-		</ng-scrollbar>
+			<!-- Separator. -->
+			<div class="tile-setting">
+				<span>Separator</span>
+				<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.separator" (ngModelChange)="settingsCallback()">
+			</div>
 
-	</div>
+			<!-- Capitalize. -->
+			<div class="tile-setting">
+				<span>Capitalize</span>
+				<hyperpass-switch [(state)]="state.capitalize" (stateChange)="settingsCallback()"></hyperpass-switch>
+			</div>
 
-</div>
+		</ng-template>
+
+		<!-- Password settings. -->
+		<ng-template #passwordSettings>
+
+			<!-- Length. -->
+			<div class="tile-setting">
+				<span>Length</span>
+				<input type="text" spellcheck="false" autocomplete="off" [(ngModel)]="state.length" (ngModelChange)="settingsCallback()">
+			</div>
+
+			<!-- Use special characters. -->
+			<div class="tile-setting">
+				<span>Special</span>
+				<hyperpass-switch [(state)]="state.useSpecialCharacters" (stateChange)="settingsCallback()"></hyperpass-switch>
+			</div>
+
+			<!-- Use numbers. -->
+			<div class="tile-setting">
+				<span>Numbers</span>
+				<hyperpass-switch [(state)]="state.useNumbers" (stateChange)="settingsCallback()"></hyperpass-switch>
+			</div>
+
+			<!-- Use capitals. -->
+			<div class="tile-setting">
+				<span>Capitals</span>
+				<hyperpass-switch [(state)]="state.useCapitals" (stateChange)="settingsCallback()"></hyperpass-switch>
+			</div>
+
+		</ng-template>
 
 </div>
 </ng-scrollbar>
+
+</div>

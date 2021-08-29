@@ -54,6 +54,6 @@ export class AutofocusDirective implements AfterViewInit
 	{
 		if(!ignorePage && this.stateService.app.tab !== this.tab) return;
 		await this.utilityService.sleep();
-		(this.element.nativeElement as HTMLInputElement).focus();
+		(this.element.nativeElement as HTMLInputElement).focus({preventScroll: true});
 	}
 }

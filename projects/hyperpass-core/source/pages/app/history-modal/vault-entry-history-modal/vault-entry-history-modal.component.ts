@@ -37,4 +37,10 @@ export class VaultEntryHistoryModalComponent extends
 			utilityService, stateService.vaultEntryHistoryModal.history,
 			stateService.vaultEntryHistoryModal);
 	}
+
+	// Update callback.
+	public updateCallback(): void
+	{
+		this.stateService.vaultEntryHistoryModalSubject.next(this.history);
+	}
 }

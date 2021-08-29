@@ -50,7 +50,8 @@ export class PlatformService
 
 		// Load the OS and platform type.
 		this.os = (await Device.getInfo()).operatingSystem;
-		this.isMobile = this.ionicPlatform.is('mobile');
+		this.isMobile = this.ionicPlatform.is('mobile') ||
+			this.ionicPlatform.is('android') || this.ionicPlatform.is('ios');
 		this.isMobileApp = this.isMobile && !this.ionicPlatform.is('mobileweb');
 	}
 }

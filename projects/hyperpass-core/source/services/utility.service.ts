@@ -19,9 +19,6 @@ import * as Constants from '../constants';
 
 export class UtilityService
 {
-	public readonly updateVaultSubject = new Subject<void>();
-
-
 	// Constructor.
 	public constructor(private readonly router: Router,
 		private readonly route: ActivatedRoute){}
@@ -115,14 +112,6 @@ export class UtilityService
 	public naturalSort<T>(array: T[], getKey: (item: T) => string): T[]
 	{
 		return array.sort((a, b) => this.naturalCompare(getKey(a), getKey(b)));
-	}
-
-
-	// Domain extraction.
-	public extractDomain(url: string): string
-	{
-		const start = url.indexOf('://')+3;
-		return url.substring(start, url.indexOf('/', start)).replace('www.', '');
 	}
 
 

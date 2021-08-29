@@ -14,8 +14,7 @@
 	--titlebar-height: 2rem;
 	--titlebar-button-diameter: 1rem;
 	--resize-region-size: 5px;
-	--app-page-height: calc(100vh - var(--large-gap) * 2 -
-		var(--tile-title-height) - var(--titlebar-height));
+	--page-height-modifier: var(--titlebar-height);
 	--large-gap: 2.75rem;
 }
 

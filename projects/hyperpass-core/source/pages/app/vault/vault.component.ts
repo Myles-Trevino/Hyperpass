@@ -70,7 +70,7 @@ export class VaultComponent implements OnInit, OnDestroy
 		this.state = this.stateService.vault;
 
 		// Regenerate the page on vault updates.
-		this.updateSubscription = this.utilityService
+		this.updateSubscription = this.stateService
 			.updateVaultSubject.subscribe(() => { this.generatePage(); });
 
 		// Generate the page.

@@ -9,6 +9,7 @@
 *
 {
 	-webkit-tap-highlight-color: transparent;
+	-webkit-appearance: none;
 	user-select: none;
 	box-sizing: border-box;
 	border: 0;
@@ -48,11 +49,15 @@ html{ background-color: var(--background-color); }
 }
 
 
+/* Workaround to disable Safari's autofill icon. */
+::-webkit-credentials-auto-fill-button { visibility: hidden; }
+
+
 /* Pages. */
 .page, .centerer-page
 {
 	display: grid;
-	min-height: 100vh;
+	min-height: calc(100vh - var(--page-height-modifier));
 	opacity: 0;
 	animation: fade-in var(--medium-transition-duration) forwards;
 }
