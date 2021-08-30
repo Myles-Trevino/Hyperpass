@@ -9,7 +9,7 @@
 <div class="app-top-bar">
 
 	<!-- Searchbar. -->
-	<input type="text" placeholder="Search" spellcheck="false" autocomplete="off" [ngModel]="stateService.vault.query" (ngModelChange)="generatePage($event, true)" [autofocusDirective] tab="Vault">
+	<input type="text" placeholder="Search" spellcheck="false" autocomplete="off" [ngModel]="stateService.vault.query" (ngModelChange)="generatePage($event, true)" autofocusDirective tab="Vault">
 
 	<!-- History button. -->
 	<hyperpass-svg svg="History Button" class="shaded" (click)="openVaultHistoryModal()" [ngClass]="{'disabled': !stateService.isOnline}"></hyperpass-svg>

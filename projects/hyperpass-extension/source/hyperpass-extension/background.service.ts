@@ -6,8 +6,7 @@
 
 
 import {Injectable} from '@angular/core';
-import type {Menus, Tabs} from 'webextension-polyfill-ts';
-import {browser} from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import type {Types} from 'hyperpass-core';
 import {UtilityService, AccountService} from 'hyperpass-core';
@@ -94,7 +93,7 @@ export class BackgroundService
 
 	// Tab activation callback.
 	private async tabActivatedCallback(
-		activeInfo: Tabs.OnActivatedActiveInfoType): Promise<void>
+		activeInfo: browser.Tabs.OnActivatedActiveInfoType): Promise<void>
 	{
 		const tab = await browser.tabs.get(activeInfo.tabId);
 		this.urlChangeCallback(tab.url);
@@ -115,7 +114,7 @@ export class BackgroundService
 
 
 	// Context menu callback.
-	private contextMenuCallback(info: Menus.OnClickData): void
+	private contextMenuCallback(info: browser.Menus.OnClickData): void
 	{
 		const menuItemId = info.menuItemId.toString();
 		this.handleAutofill(menuItemId);

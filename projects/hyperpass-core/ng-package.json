@@ -22,7 +22,8 @@
 			"capacitor-native-biometric": "CapacitorNativeBiometric",
 			"uuid": "UUID",
 			"swiper/angular": "SwiperAngular",
-			"swiper/core": "SwiperCore",
+			"swiper_angular": "Swiper_Angular",
+			"swiper": "Swiper",
 			"parse-domain": "ParseDomain"
 		}
 	},

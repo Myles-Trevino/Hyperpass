@@ -9,7 +9,7 @@ import type {AfterContentInit, OnDestroy, OnInit} from '@angular/core';
 import {ElementRef, Component, HostBinding, HostListener,
 	ViewChild, ChangeDetectorRef} from '@angular/core';
 import {Router} from '@angular/router';
-import SwiperCore, {EffectFade} from 'swiper/core';
+import SwiperCore, {EffectFade} from 'swiper';
 import {SwiperComponent} from 'swiper/angular';
 import type {Subscription} from 'rxjs';
 import {App} from '@capacitor/app';

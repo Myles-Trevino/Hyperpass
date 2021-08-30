@@ -87,8 +87,7 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		HttpClientModule,
 		ClipboardModule,
 		RouterModule,
-		NgScrollbarModule.withConfig({visibility: 'hover',
-			viewClass: 'scrollbar-container'}),
+		NgScrollbarModule.withConfig({visibility: 'hover'}),
 		IonicModule.forRoot(),
 		SwiperModule,
 		RoutingModule

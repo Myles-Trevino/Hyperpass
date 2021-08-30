@@ -15,7 +15,11 @@
 				"build":
 				{
 					"builder": "@angular-devkit/build-angular:ng-packagr",
-					"options": {"project": "projects/hyperpass-core/ng-package.json"}
+					"options":
+					{
+						"project": "projects/hyperpass-core/ng-package.json",
+						"tsConfig": "projects/hyperpass-core/tsconfig.lib.json"
+					}
 				},
 				"lint":
 				{
@@ -143,7 +147,7 @@
 							"libsodium-wrappers",
 							"lodash",
 							"file-saver",
-							"webextension-polyfill-ts",
+							"webextension-polyfill",
 							"papaparse",
 							"is-ip"
 						],

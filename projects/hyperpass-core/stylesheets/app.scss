@@ -5,7 +5,7 @@
 */
 
 
-@import '~swiper/swiper-bundle';
+@import '~swiper/css/bundle';
 
 
 .app-top-bar
@@ -107,12 +107,12 @@ ion-spinner
 
 
 /* Swiper. */
-.swiper-container
+.swiper
 {
 	@include mobile{ border-radius: var(--medium-radius) var(--medium-radius) 0 0; }
 }
 
-.swiper-container .swiper-slide
+.swiper .swiper-slide
 {
 	height: var(--app-page-height);
 	min-height: var(--minimum-page-height);

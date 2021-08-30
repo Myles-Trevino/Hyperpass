@@ -7,7 +7,7 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
-import {browser} from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import {Router} from '@angular/router';
 
 import {AccountService, InitializationService,

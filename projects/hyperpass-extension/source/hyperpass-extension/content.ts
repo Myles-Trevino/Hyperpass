@@ -5,7 +5,7 @@
 */
 
 
-import {browser} from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import type {Types} from 'hyperpass-core';
 

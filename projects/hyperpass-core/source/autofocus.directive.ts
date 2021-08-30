@@ -17,7 +17,6 @@ import {UtilityService} from './services/utility.service';
 
 export class AutofocusDirective implements AfterViewInit
 {
-	@Input() public autofocusDirective = '';
 	@Input() public autofocusEnabled = true;
 	@Input() public isModal = false;
 

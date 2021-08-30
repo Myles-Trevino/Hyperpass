@@ -19,10 +19,9 @@
 		"moduleResolution": "node",
 		"importHelpers": true,
 		"target": "ES2015",
-		"module": "commonjs",
+		"module": "ESNext",
 		"esModuleInterop": true,
-		"lib": ["ES2020", "DOM"],
-		"emitDecoratorMetadata": true,
+		"lib": ["ESNext", "DOM"],
 		"paths":
 		{
 			"hyperpass-core": ["builds/hyperpass-core"],
@@ -31,6 +30,8 @@
 	},
 	"angularCompilerOptions":
 	{
+		"enableIvy": true,
+		"fullTemplateTypeCheck": true,
 		"strictInjectionParameters": true,
 		"strictInputAccessModifiers": true,
 		"strictTemplates": true
