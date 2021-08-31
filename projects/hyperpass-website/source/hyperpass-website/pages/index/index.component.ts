@@ -9,7 +9,7 @@ import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild, ElementRef} from '@angular/core';
 import * as Three from 'three';
 
-import {MetadataService, PlatformService,
+import {Constants, MetadataService, PlatformService,
 	ThemeService, Animations} from 'hyperpass-core';
 
 
@@ -35,7 +35,7 @@ export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
 	@ViewChild('canvas') private readonly canvas?: ElementRef;
 
 	public showCanvas = false;
-
+	public readonly constants = Constants;
 	private readonly fov = 80;
 	private readonly pointCount = 1000;
 	private readonly pointSize = 0.033;

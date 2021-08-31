@@ -8,7 +8,7 @@
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 
-import {ThemeService, MetadataService} from 'hyperpass-core';
+import {Constants, ThemeService, MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -21,6 +21,8 @@ import {ThemeService, MetadataService} from 'hyperpass-core';
 export class ImportingExistingAccountsComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
+
+	public readonly constants = Constants;
 
 
 	// Constructor.

@@ -9,7 +9,7 @@ import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
 
-import {Settings, Animations} from 'hyperpass-core';
+import {Constants, Animations} from 'hyperpass-core';
 import {navbarOverlayFadeAnimation} from '../animations';
 
 
@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit
 {
 	public overlay = false;
 	public overlayState = 'normal';
-	public settings = Settings;
+	public constants = Constants;
 
 
 	// Constructor.

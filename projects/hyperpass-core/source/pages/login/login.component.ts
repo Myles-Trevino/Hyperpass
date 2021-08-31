@@ -9,7 +9,7 @@ import type {OnInit} from '@angular/core';
 import {Component, HostBinding, HostListener, ViewChild, ElementRef} from '@angular/core';
 import {Router} from '@angular/router';
 
-import * as Settings from '../../constants';
+import * as Constants from '../../constants';
 import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
 import {StorageService} from '../../services/storage.service';
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit
 
 		// Load the cached email address if there is one and focus the appropriate input.
 		const cachedEmailAddress =
-			await this.storageService.getData(Settings.emailAddressKey);
+			await this.storageService.getData(Constants.emailAddressKey);
 
 		if(cachedEmailAddress)
 		{

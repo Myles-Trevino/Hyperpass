@@ -49,7 +49,7 @@ export type EmailAddressValidationKey =
 
 export type Account =
 {
-	_id: MongoDB.ObjectID;
+	_id: MongoDB.ObjectId;
 	version: number;
 	emailAddress: string;
 	validationKey?: string;

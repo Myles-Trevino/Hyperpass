@@ -24,6 +24,7 @@ export class PlatformService
 	public os: OperatingSystem = 'unknown';
 	public isMobile = false;
 	public isMobileApp = false;
+	public isAndroidApp = false;
 	public isServer = isPlatformServer(this.platformId);
 	public isExtension = false;
 	public isExtensionBackground = false;
@@ -53,5 +54,6 @@ export class PlatformService
 		this.isMobile = this.ionicPlatform.is('mobile') ||
 			this.ionicPlatform.is('android') || this.ionicPlatform.is('ios');
 		this.isMobileApp = this.isMobile && !this.ionicPlatform.is('mobileweb');
+		this.isAndroidApp = this.isMobileApp && this.ionicPlatform.is('android');
 	}
 }

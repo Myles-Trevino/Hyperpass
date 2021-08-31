@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 import {parseDomain, ParseResultType} from 'parse-domain';
 
 import * as Types from '../../../types';
-import * as Settings from '../../../constants';
+import * as Constants from '../../../constants';
 import {UtilityService} from '../../../services/utility.service';
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
@@ -149,7 +149,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 			// Otherwise, create a new entry.
 			else
 			{
-				if(Object.keys(accounts).length > Settings.maximumVaultEntries)
+				if(Object.keys(accounts).length > Constants.maximumVaultEntries)
 					throw new Error('You have exceeded the maximum number of vault entries.'+
 					'Please remove any unneeded entries and try again.');
 
@@ -183,7 +183,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 			vault.history.unshift({key: this.state.key,
 				value: _.cloneDeep(this.state), date: new Date()});
 
-			vault.history = vault.history.slice(0, Settings.maximumHistoryEntries);
+			vault.history = vault.history.slice(0, Constants.maximumHistoryEntries);
 
 			// Delete.
 			if(this.state.key) delete accounts[this.state.key];

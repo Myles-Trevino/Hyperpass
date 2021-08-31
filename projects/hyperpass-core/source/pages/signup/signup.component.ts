@@ -10,7 +10,7 @@ import {Component, HostBinding} from '@angular/core';
 import * as _ from 'lodash';
 
 import * as Types from '../../types';
-import * as Settings from '../../constants';
+import * as Constants from '../../constants';
 import * as Animations from '../../animations';
 import {CryptoService} from '../../services/crypto.service';
 import {AccountService} from '../../services/account.service';
@@ -70,7 +70,7 @@ export class SignupComponent implements OnInit
 				throw new Error('Invalid email address.');
 
 			// Cache the email address.
-			await this.storageService.setData(Settings.emailAddressKey, this.emailAddress);
+			await this.storageService.setData(Constants.emailAddressKey, this.emailAddress);
 
 			// Validate the master password.
 			this.accountService.validateMasterPassword(

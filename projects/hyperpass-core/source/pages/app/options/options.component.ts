@@ -12,7 +12,7 @@ import {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
 
 import * as Types from '../../../types';
-import * as Settings from '../../../constants';
+import * as Constants from '../../../constants';
 import {AccountService} from '../../../services/account.service';
 import {ThemeService} from '../../../services/theme.service';
 import {MessageService} from '../../../services/message.service';
@@ -35,7 +35,7 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 	@ViewChild('scrollbar') private readonly scrollbar?: NgScrollbar;
 
 	public readonly types = Types;
-	public settings = Settings;
+	public constants = Constants;
 	private scrollbarSubscription?: Subscription;
 
 
@@ -105,7 +105,7 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 	{
 		try
 		{
-			this.storageService.setData(Settings.loginTimeoutKey, loginTimeout);
+			this.storageService.setData(Constants.loginTimeoutKey, loginTimeout);
 			this.accountService.updateLoginTimeoutDuration();
 			this.accountService.resetLoginTimeout(true);
 		}

@@ -8,7 +8,7 @@
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 
-import {Settings, MetadataService} from 'hyperpass-core';
+import {Constants, MetadataService} from 'hyperpass-core';
 
 
 @Component
@@ -22,7 +22,7 @@ export class DownloadsComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
 
-	public readonly settings = Settings;
+	public readonly constants = Constants;
 
 
 	// Constructor.

@@ -65,28 +65,36 @@
 	<!-- Help. -->
 	<div class="tile-setting">
 		<span>Need Help?</span>
-		<a [href]="settings.websiteUrl+'/support'" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
+		<a [href]="constants.websiteUrl+'/support'" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>Support Page</button>
 		</a>
 	</div>
 
 	<!-- Support the project. -->
-	<div class="tile-setting">
+	<div *ngIf="!platformService.isAndroidApp" class="tile-setting">
 
 		<div id="options-support-the-project-container">
 			<span>Support the Project</span>
 			<hyperpass-svg svg="Heart"></hyperpass-svg>
 		</div>
 
-		<a [href]="settings.donateUrl" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
+		<a [href]="constants.donateUrl" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>Donate</button>
+		</a>
+	</div>
+
+	<!-- About this project. -->
+	<div *ngIf="platformService.isAndroidApp" class="tile-setting">
+		<span>About this Project</span>
+		<a [href]="constants.aboutUrl" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
+			<button>About Page</button>
 		</a>
 	</div>
 
 	<!-- Version. -->
 	<div class="tile-section">
 		<span>Version</span>
-		<span class="right-justified">{{settings.version}}</span>
+		<span class="right-justified">{{constants.version}}</span>
 	</div>
 
 </div>

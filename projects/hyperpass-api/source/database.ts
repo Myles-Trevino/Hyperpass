@@ -5,7 +5,7 @@
 */
 
 
-import MongoDB from 'mongodb';
+import * as MongoDB from 'mongodb';
 
 import * as Types from './types';
 
@@ -21,8 +21,9 @@ export async function getDatabase(): Promise<MongoDB.Db>
 		if(!process.env.MONGODB_URI)
 			throw new Error('No MongoDB URI environment variable.');
 
-		database = (await MongoDB.MongoClient.connect(
-			process.env.MONGODB_URI, {useUnifiedTopology: true})).db();
+		console.log('Connecting to MongoDB.');
+		database = (await MongoDB.MongoClient.connect(process.env.MONGODB_URI)).db();
+		console.log('Database retrieved.');
 	}
 
 	return database;

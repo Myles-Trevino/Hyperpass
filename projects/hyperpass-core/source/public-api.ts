@@ -7,7 +7,7 @@
 
 export * from './hyperpass-core.module';
 
-export * as Settings from './constants';
+export * as Constants from './constants';
 export * as Types from './types';
 export * as Animations from './animations';
 

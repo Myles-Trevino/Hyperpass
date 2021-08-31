@@ -7,5 +7,9 @@
 
 {
 	"extends": "../../tsconfig.json",
-	"compilerOptions": {"outDir": "../../builds/hyperpass-api"}
+	"compilerOptions":
+	{
+		"outDir": "../../builds/hyperpass-api",
+		"module": "CommonJS"
+	}
 }

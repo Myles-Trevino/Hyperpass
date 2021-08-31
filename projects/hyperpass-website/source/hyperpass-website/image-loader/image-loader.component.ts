@@ -9,7 +9,7 @@ import type {OnInit} from '@angular/core';
 import {Component, Input, ElementRef, Inject, PLATFORM_ID} from '@angular/core';
 import {isPlatformServer} from '@angular/common';
 
-import {Settings} from 'hyperpass-core';
+import {Constants} from 'hyperpass-core';
 import {imageFadeAnimation} from '../animations';
 
 
@@ -48,7 +48,7 @@ export class ImageLoaderComponent implements OnInit
 			{
 				if(isIntersecting)
 				{
-					this.imageSource = `${Settings.staticUrl}/images/${this.url}.webp`;
+					this.imageSource = `${Constants.staticUrl}/images/${this.url}.webp`;
 					intersectionObserver.unobserve(this.elementRef.nativeElement);
 				}
 			});

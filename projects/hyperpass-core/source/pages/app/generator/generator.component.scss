@@ -15,15 +15,16 @@
 	min-height: var(--minimum-page-height);
 }
 
-
-:host ::ng-deep hyperpass-svg
+:host ::ng-deep
 {
-	height: var(--button-and-input-height);
-	background-color: var(--background-color);
-
-	svg
+	#generator-top-bar hyperpass-svg
 	{
+		height: var(--button-and-input-height);
+		background-color: var(--background-color);
+
 		.base{ fill: var(--background-color); }
+		&:hover .base{ fill: var(--accent-color); }
+
 		.glyph{ stroke-width: var(--button-stroke-width); }
 	}
 }

@@ -33,7 +33,7 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<a href="https://chrome.google.com/webstore/detail/hyperpass/ceglgajhikekblmghjeaogljjohamcap" target="_blank">
+					<a [href]="constants.chromeExtensionUrl" target="_blank">
 						<button>Chrome Web Store</button>
 					</a>
 				</div>
@@ -48,7 +48,7 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<a href="https://addons.mozilla.org/en-US/firefox/addon/hyperpass/" target="_blank">
+					<a [href]="constants.firefoxExtensionUrl" target="_blank">
 						<button>Firefox Add-ons</button>
 					</a>
 				</div>
@@ -63,7 +63,7 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<a href="https://microsoftedge.microsoft.com/addons/detail/hyperpass/lhkmljofckjclaahcdgccbgclhcdfgdp" target="_blank">
+					<a [href]="constants.edgeExtensionUrl" target="_blank">
 						<button>Edge Add-ons</button>
 					</a>
 				</div>
@@ -90,7 +90,7 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<a href="https://play.google.com/store/apps/details?id=com.laventh.hyperpass" target="_blank">
+					<a [href]="constants.androidAppUrl" target="_blank">
 						<button>Google Play</button>
 					</a>
 				</div>
@@ -106,7 +106,9 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<button>Coming Soon</button>
+					<a [href]="constants.iosAppUrl">
+						<button>TestFlight</button>
+					</a>
 				</div>
 				</div>
 
@@ -131,7 +133,7 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<a [href]="settings.staticUrl+'/downloads/Hyperpass 2021.8.29.exe'">
+					<a [href]="constants.windowsUrl">
 						<button>EXE Download</button>
 					</a>
 				</div>
@@ -147,7 +149,7 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<a [href]="settings.staticUrl+'/downloads/Hyperpass 2021.8.29.pkg'">
+					<a [href]="constants.macUrl">
 						<button>PKG Download</button>
 					</a>
 				</div>
@@ -163,7 +165,7 @@
 
 				<div class="tile-content">
 				<div class="tile-section">
-					<a [href]="settings.staticUrl+'/downloads/Hyperpass 2021.8.29.deb'">
+					<a [href]="constants.linuxUrl">
 						<button>DEB Download</button>
 					</a>
 				</div>

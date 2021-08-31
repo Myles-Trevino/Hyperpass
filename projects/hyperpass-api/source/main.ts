@@ -38,7 +38,8 @@ async function createAccount(rawRequest: Express.Request,
 
 	// Make sure an account with the given email address does not already exist.
 	const accounts = await Database.getAccounts();
-	const findResult = await accounts.findOne({emailAddress: request.emailAddress});
+	const findResult = await accounts.findOne(
+		{emailAddress: request.emailAddress.toLowerCase()});
 
 	if(findResult) throw new Types.ApiError('An account '+
 		'with this email address already exists.', 409);
@@ -46,7 +47,7 @@ async function createAccount(rawRequest: Express.Request,
 	// Add the account to the database.
 	await accounts.insertOne
 	({
-		_id: new MongoDB.ObjectID(),
+		_id: new MongoDB.ObjectId(),
 		version: request.version,
 		emailAddress: request.emailAddress.toLowerCase(),
 		validationKey: Crypto.randomBytes(32).toString('base64'),
@@ -274,7 +275,9 @@ async function sendEmailAddressValidationEmail(rawRequest: Express.Request,
 
 	// Make sure the email address is not in use.
 	const accounts = await Database.getAccounts();
-	const findResult = await accounts.findOne({emailAddress: request.emailAddress});
+	const findResult = await accounts.findOne(
+		{emailAddress: request.emailAddress.toLowerCase()});
+
 	if(findResult) throw new Types.ApiError('This email address is already in use.', 409);
 
 	// Generate the validation key.
