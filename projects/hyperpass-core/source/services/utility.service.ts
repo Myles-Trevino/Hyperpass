@@ -136,6 +136,21 @@ export class UtilityService
 	}
 
 
+	// Checks whether the given account matches the given website.
+	public accountMatchesWebsite(account: Types.Account, website: string): boolean
+	{
+		const urls = account.url.split(',');
+
+		for(let url of urls)
+		{
+			url = url.trim();
+			if(url && website.includes(url)) return true;
+		}
+
+		return false;
+	}
+
+
 	// Adds the given entry to vault entry history.
 	public addToVaultEntryHistory(history: Types.VaultEntryHistoryEntry[],
 		entry: string): Types.VaultEntryHistoryEntry[]

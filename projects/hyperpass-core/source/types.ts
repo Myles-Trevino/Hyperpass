@@ -273,6 +273,8 @@ export const defaultAccount: Account = {username: '', usernameHistory: [], passw
 export function areAccountsEqual(a: Account, b: Account): boolean
 { return checkEquality(a, b, ['username', 'password', 'url', 'note']); }
 
+export type AccountEntry = Account & {key: string};
+
 
 // Vault.
 export type VaultHistoryEntry =

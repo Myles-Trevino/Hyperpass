@@ -27,7 +27,6 @@ export class PlatformService
 	public isAndroidApp = false;
 	public isServer = isPlatformServer(this.platformId);
 	public isExtension = false;
-	public isExtensionBackground = false;
 
 
 	// Constructor.

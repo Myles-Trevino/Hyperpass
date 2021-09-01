@@ -8,5 +8,9 @@
 module.exports =
 {
 	resolve: {fallback: {"crypto": false}},
-	entry: {content: 'projects/hyperpass-extension/source/hyperpass-extension/content.ts'}
+	entry:
+	{
+		background: 'projects/hyperpass-extension/source/hyperpass-extension/background.ts',
+		content: 'projects/hyperpass-extension/source/hyperpass-extension/content.ts'
+	}
 }

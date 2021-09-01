@@ -119,12 +119,14 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 			if(this.state.title !== this.state.key && _.has(accounts, this.state.title))
 				throw new Error(`Another account already has this title.`);
 
-			// If there is no default for this URL, make this account the default.
-			let hasDefault = false;
-			for(const value of Object.values(accounts))
-				if(value.url.includes(this.state.url)){ hasDefault = true; break; }
-
-			if(!hasDefault) this.state.default = true;
+			// Otherwise if there is another default for this URL and this account
+			// has been manually set as the default, make this the only default.
+			if(this.defaultExists(accounts) && this.state.default)
+			{
+				for(const value of Object.values(accounts))
+					if(this.utilityService.accountMatchesWebsite(
+						this.state, value.url)) value.default = false;
+			}
 
 			// Update the history.
 			this.state.usernameHistory = this.utilityService.addToVaultEntryHistory(
@@ -266,6 +268,17 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	{
 		this.stateService.vaultEntry = undefined;
 		this.utilityService.close('vault');
+	}
+
+
+	// Checks whether a default already exists for this URL.
+	private defaultExists(accounts: Record<string, Types.Account>): boolean
+	{
+		for(const [key, value] of Object.entries(accounts))
+			if(this.utilityService.accountMatchesWebsite(value, this.state.url) &&
+				key !== this.state.key) return true;
+
+		return false;
 	}
 
 

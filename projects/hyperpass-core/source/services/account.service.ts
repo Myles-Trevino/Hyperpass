@@ -32,7 +32,6 @@ export class AccountService implements OnDestroy
 	public readonly resetLoginTimeoutSubject = new Subject<number>();
 	public readonly loginTimeoutSubject = new Subject<void>();
 	public readonly vaultUpdateSubject = new Subject<void>();
-	public navigate = true;
 	public loggedIn = false;
 	public loggingIn = false;
 
@@ -104,13 +103,13 @@ export class AccountService implements OnDestroy
 				this.accessKey = {encrypted, value};
 
 				// Generate the next access key
-				if(!this.platformService.isExtensionBackground) this.nextAccessKey =
+				this.nextAccessKey =
 					await this.cryptoService.generateEncryptedKey(masterPassword);
 
 				// Redirect to the validation page if the account has not been validated
 				if(!this.publicInformation.validated)
 				{
-					if(this.navigate) this.router.navigate(['/validation']);
+					this.router.navigate(['/validation']);
 					this.loggingIn = false;
 					return;
 				}
@@ -122,18 +121,14 @@ export class AccountService implements OnDestroy
 			// Set the login flag.
 			this.loggedIn = true;
 
-			// If this is not the extension background...
-			if(!this.platformService.isExtensionBackground)
-			{
-				// Cache the login credentials.
-				await this.cacheLoginCredentials(masterPassword);
+			// Cache the login credentials.
+			await this.cacheLoginCredentials(masterPassword);
 
-				// Trigger the login subject.
-				this.loginSubject.next(this.loggedIn);
+			// Trigger the login subject.
+			this.loginSubject.next(this.loggedIn);
 
-				// Redirect to the web app.
-				if(this.navigate) this.router.navigate(['/app']);
-			}
+			// Redirect to the web app.
+			this.router.navigate(['/app']);
 
 			// If this is the extension, load the state.
 			if(this.platformService.isExtension)
@@ -352,12 +347,37 @@ export class AccountService implements OnDestroy
 	}
 
 
-	// Starts the login timeout.
-	public startLoginTimeout(): void
+	// Resets the login timeout if one is active.
+	public resetLoginTimeout(force = false): void
 	{
+		// Return if the login timeout has not been started.
+		if(!this.loginTimeoutTimeout) return;
+
+		// Enforce a cooldown unless forced not to.
+		if(!force && (this.loginTimeoutStart !== undefined) && performance.now()-
+			this.loginTimeoutStart < Constants.loginTimeoutGranularity) return;
+
+		// If online, update the automatic login key duration.
+		if(this.stateService.isOnline) this.apiService.setAutomaticLoginKey(
+			this.getAccessData(), undefined, this.loginTimeoutDuration);
+
+		// Reset the login timeout.
+		this.startLoginTimeout();
+	}
+
+
+	// Starts the login timeout.
+	private startLoginTimeout(): void
+	{
+		// Update the subject.
+		this.resetLoginTimeoutSubject.next(this.loginTimeoutDuration);
+
 		// Stop the timeout if it has been started.
-		if(this.loginTimeoutTimeout) clearTimeout(this.loginTimeoutTimeout);
-		this.loginTimeoutTimeout = undefined;
+		if(this.loginTimeoutTimeout)
+		{
+			clearTimeout(this.loginTimeoutTimeout);
+			this.loginTimeoutTimeout = undefined;
+		}
 
 		// Start the timeout.
 		this.loginTimeoutStart = performance.now();
@@ -372,44 +392,38 @@ export class AccountService implements OnDestroy
 	}
 
 
-	// Resets the login timeout if one is active.
-	public resetLoginTimeout(force = false): void
-	{
-		// Return if the login timeout has not been started.
-		if(!this.loginTimeoutTimeout) return;
-
-		// Enforce a cooldown unless forced not to.
-		if(!force && (this.loginTimeoutStart !== undefined) && performance.now()-
-			this.loginTimeoutStart < Constants.loginTimeoutGranularity) return;
-
-		// Update the subject.
-		this.resetLoginTimeoutSubject.next(this.loginTimeoutDuration);
-
-		// If online, update the automatic login key duration.
-		if(this.stateService.isOnline) this.apiService.setAutomaticLoginKey(
-			this.getAccessData(), undefined, this.loginTimeoutDuration);
-
-		// Reset the login timeout.
-		this.startLoginTimeout();
-	}
-
-
 	// Resets the account service.
 	private reset(): void
 	{
+		// Clear the login timeout.
 		if(this.loginTimeoutTimeout)
 		{
 			clearTimeout(this.loginTimeoutTimeout);
 			this.loginTimeoutTimeout = undefined;
 		}
 
+		// Reset the variables.
+		this.emailAddress = undefined;
+		this.vault = undefined;
+
 		this.loggingIn = false;
 
+		this.loginTimeout = Constants.defaultLoginTimeout;
+		this.loginTimeoutDuration = Constants.defaultLoginTimeoutDuration;
+		this.publicInformation = undefined;
+		this.accessKey = undefined;
+		this.vaultKey = undefined;
+		this.nextAccessKey = undefined;
+		this.automaticLoginKey = undefined;
+		this.loginTimeoutStart = undefined;
+		this.loginTimeoutTimeout = undefined;
+
+		// Log out and navigate to the login page.
 		if(this.loggedIn)
 		{
 			this.loggedIn = false;
 			this.loginSubject.next(this.loggedIn);
-			if(this.navigate) this.router.navigate(['/login']);
+			this.router.navigate(['/login']);
 		}
 	}
 

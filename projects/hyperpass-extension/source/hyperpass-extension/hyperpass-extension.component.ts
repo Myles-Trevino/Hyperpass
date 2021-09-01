@@ -11,8 +11,7 @@ import browser from 'webextension-polyfill';
 import {Router} from '@angular/router';
 
 import {AccountService, InitializationService,
-	PlatformService, StateService} from 'hyperpass-core';
-import {BackgroundService} from './background.service';
+	PlatformService, StateService, Types} from 'hyperpass-core';
 
 
 @Component
@@ -29,7 +28,6 @@ export class HyperpassExtensionComponent implements OnInit
 		public readonly initializationService: InitializationService,
 		public readonly platformService: PlatformService,
 		private readonly router: Router,
-		private readonly backgroundService: BackgroundService,
 		private readonly accountService: AccountService,
 		private readonly stateService: StateService){}
 
@@ -40,48 +38,44 @@ export class HyperpassExtensionComponent implements OnInit
 		await this.initializationService.initialize();
 		this.platformService.isExtension = true;
 
-		// If this is the background script, initialize the background service.
-		if(window === await browser.runtime.getBackgroundPage())
+		// Send login and logout messages.
+		this.accountService.loginSubject.subscribe((loggedIn) =>
 		{
-			this.platformService.isExtensionBackground = true;
-			this.backgroundService.initialize();
-		}
+			browser.runtime.sendMessage({type: 'loginUpdate', data: loggedIn});
+			if(loggedIn) this.sendVaultUpdate();
+		});
 
-		// If this is the popup...
-		else
+		// Send vault update messages.
+		this.accountService.vaultUpdateSubject.subscribe(() => { this.sendVaultUpdate(); });
+
+		// Send login timeout reset messages.
+		this.accountService.resetLoginTimeoutSubject.subscribe((loginTimeoutDuration) =>
 		{
-			// Send login update messages.
-			this.accountService.loginSubject.subscribe((loggedIn) =>
-			{ browser.runtime.sendMessage({type: 'loginUpdate', data: loggedIn}); });
+			browser.runtime.sendMessage({type: 'loginTimeoutReset',
+				data: loginTimeoutDuration});
+		});
 
-			// Send login timeout reset messages.
-			this.accountService.resetLoginTimeoutSubject.subscribe((loginTimeoutDuration) =>
-			{
-				browser.runtime.sendMessage
-				({
-					message: 'loginTimeoutReset',
-					loginTimeoutDuration
-				});
-			});
+		// Get the current tab URL.
+		const tabs = await browser.tabs.query({active: true, currentWindow: true});
+		const url = tabs[0].url;
+		if(url) this.stateService.url = url;
 
-			// Send vault update messages.
-			this.accountService.vaultUpdateSubject.subscribe(() =>
-			{ browser.runtime.sendMessage({type: 'vaultUpdate', data: null}); });
+		// Save the state when the extension popup is closed.
+		window.addEventListener('unload', () =>
+		{
+			if(this.accountService.vaultKey)
+				this.stateService.save(this.accountService.vaultKey);
+		});
 
-			// Get the current tab URL.
-			const tabs = await browser.tabs.query({active: true, currentWindow: true});
-			const url = tabs[0].url;
-			if(url) this.stateService.url = url;
+		// Navigate to the app.
+		this.router.navigate(['/app']);
+	}
 
-			// Save the state when the popup is closed.
-			window.addEventListener('unload', () =>
-			{
-				if(this.accountService.vaultKey)
-					this.stateService.save(this.accountService.vaultKey);
-			});
 
-			// Navigate to the app.
-			this.router.navigate(['/app']);
-		}
+	// Sends a vault update.
+	private sendVaultUpdate(): void
+	{
+		browser.runtime.sendMessage({type: 'vaultUpdate',
+			data: this.accountService.getVault().accounts});
 	}
 }
