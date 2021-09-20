@@ -1,0 +1,17 @@
+https://hyperpass.org/
+https://hyperpass.org/app
+https://hyperpass.org/login
+https://hyperpass.org/signup
+https://hyperpass.org/downloads
+https://hyperpass.org/support
+https://hyperpass.org/support/common-tasks/importing-existing-accounts
+https://hyperpass.org/support/common-tasks/generating-passwords
+https://hyperpass.org/support/common-tasks/creating-vault-entries
+https://hyperpass.org/support/common-tasks/autofilling-usernames-and-passwords
+https://hyperpass.org/support/common-tasks/viewing-and-restoring-vault-history
+https://hyperpass.org/support/common-tasks/creating-and-restoring-vault-backups
+https://hyperpass.org/support/faq/why-use-hyperpass-over-the-alternatives
+https://hyperpass.org/support/faq/how-is-my-private-data-handled
+https://hyperpass.org/support/faq/which-apps-and-extensions-should-i-use
+https://hyperpass.org/support/faq/who-is-behind-this-project
+https://hyperpass.org/support/faq/which-technologies-does-hyperpass-use

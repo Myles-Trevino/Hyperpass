@@ -32,10 +32,6 @@ export class HyperpassWebsiteComponent implements OnInit
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
-		// Determine the platform.
-		if(this.platformService.isServer) return;
-
-		// Initialize.
 		await this.initializationService.initialize();
 	}
 }

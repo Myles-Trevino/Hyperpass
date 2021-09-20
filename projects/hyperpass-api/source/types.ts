@@ -5,7 +5,7 @@
 */
 
 
-import type MongoDB from 'mongodb';
+import * as MongoDB from 'mongodb';
 
 
 export class ApiError extends Error

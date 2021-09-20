@@ -20,7 +20,7 @@ jobs:
       - checkout
       - restore_cache:
           key: hyperpass-{{.Branch}}-{{checksum "package-lock.json"}}
-      - run: npm install --force
+      - run: npm i --no-save
       - save_cache:
           key: hyperpass-{{.Branch}}-{{checksum "package-lock.json"}}
           paths:
@@ -36,7 +36,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: npm run build
+      - run: npm run build-all
       - persist_to_workspace:
           root: .
           paths:

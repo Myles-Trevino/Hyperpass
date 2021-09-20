@@ -6,7 +6,7 @@
 
 
 <!-- Container. -->
-<div id="hyperpass-container" *ngIf="initializationService.initialized" @initialFadeInAnimation>
+<div id="hyperpass-container" *ngIf="initializationService.initialized" [ngStyle]="{visibility: platformService.isServer ? 'hidden' : 'visible'}" @initialFadeInAnimation>
 
 	<!-- Navbar. -->
 	<hyperpass-navbar></hyperpass-navbar>

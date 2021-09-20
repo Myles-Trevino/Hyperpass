@@ -8,7 +8,7 @@
 import Express from 'express';
 import Dotenv from 'dotenv';
 import Crypto from 'crypto';
-import MongoDB from 'mongodb';
+import * as MongoDB from 'mongodb';
 
 import * as Types from './types';
 import * as Helpers from './helpers';

@@ -50,7 +50,8 @@ function run(): void
 
 	server.listen(port, () =>
 	{
-		console.log(`The Hyperpass website server has been started on port ${port}.`);
+		console.log(`The Hyperpass website server has been `+
+			`started on port ${port} (http://localhost:${port}).`);
 	});
 }
 

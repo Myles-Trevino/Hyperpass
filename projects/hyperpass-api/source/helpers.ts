@@ -7,7 +7,7 @@
 
 import FS from 'fs';
 import type Express from 'express';
-import type MongoDB from 'mongodb';
+import * as MongoDB from 'mongodb';
 import Handlebars from 'handlebars';
 import Nodemailer from 'nodemailer';
 import * as DateFns from 'date-fns';

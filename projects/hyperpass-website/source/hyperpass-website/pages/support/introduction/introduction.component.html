@@ -127,13 +127,15 @@
 	<div class="article-section">
 		<h3>Options</h3>
 
-		<p>On the options page, there are some settings and tools you can use. Again, to switch pages, you can press the page's title on the top of the app, or if you are on mobile, you can swipe left and right. At the top of the page, there are two buttons: 'Log Out' and 'Sync'. Pressing 'Log Out' will log you out of Hyperpass on all platforms. You will need to re-enter your master password on each platform to log in on that platform again. Pressing 'Sync' will synchronize your account across all devices. This includes your vault, your generator settings, and the options set on this page.</p>
+		<p>On the options page, there are some settings and tools you can use. Again, to switch pages, you can press the page's title on the top of the app, or if you are on mobile, you can swipe left and right. At the top of the page, there are two buttons: 'Log Out' and 'Sync'. Pressing the top 'Log Out' button will log you out of Hyperpass on the device you are currently on. Pressing 'Sync' will synchronize your account across all devices. This includes your vault, your generator settings, and the options set on this page.</p>
 
 		<hyperpass-image-loader [url]="'support/options-'+themeService.lowercaseTheme" [verticalAspect]="100/66"></hyperpass-image-loader>
 
 		<p>The first option is the 'Theme' option, which has two settings: 'Light' and 'Dark'. Your theme preference will be synchronized across all devices.</p>
 
-		<p>Following that is the 'Login Timeout' option. By default, it is set to 'Never', which means you will never be automatically logged out. For most users this is the most convenient option. However, if you are using Hyperpass on a potentially unattended computer in a public area, or if you just want an extra security measure, you may want to enable a login timeout.</p>
+		<p>Following that is the 'Login Timeout' option. By default, it is set to '1 Day', which means you will be automatically logged out on this device after 24 hours and be required to enter your master password to log in again. For most users this duration is a good balance between security and convenience. If you are on a public computer, however, you may want to set a login timeout of '5 minutes' on that device for better security, and if you are on a private computer the '1 week' option will be more convenient.</p>
+
+		<p>Below is the global logout button. Unlike the logout button at the top, pressing this will log you out of all of your devices. This is useful if you are unsure whether a device is still able to automatically sign in and want to ensure that it can't. After pressing this, the automatic login tokens for all your devices will be expired and you will need to enter your master password to sign in.</p>
 
 		<p>Next are the import and export options. Note that these options are not available on mobile. Using these, you can create and restore backups of your Hyperpass vault, or import vaults exported from other password managers. First, let's go over the export option.</p>
 	</div>

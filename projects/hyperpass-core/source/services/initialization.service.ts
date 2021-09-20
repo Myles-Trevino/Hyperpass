@@ -44,6 +44,13 @@ export class InitializationService
 	// Initializes the core.
 	public async initialize(): Promise<void>
 	{
+		// If this is the server, skip normal initialization.
+		if(this.platformService.isServer)
+		{
+			this.initialized = true;
+			return;
+		}
+
 		// Initialize the cryptography service.
 		await this.cryptoService.initialize();
 
