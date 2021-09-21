@@ -84,11 +84,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
-		// If this is the server, set the metadata and return.
+		// Set the metadata.
 		this.metadataService.clear();
 		this.metadataService.setTitle('Web App');
 		this.metadataService.setDescription('Access Hyperpass from your browser.');
 		this.metadataService.setImage('web-app');
+
+		// Do not initialize the app if this is the server.
 		if(this.platformService.isServer) return;
 
 		// Otherwise, initialize.

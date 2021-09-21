@@ -16,7 +16,6 @@ import * as Constants from '../../../constants';
 import {AccountService} from '../../../services/account.service';
 import {ThemeService} from '../../../services/theme.service';
 import {MessageService} from '../../../services/message.service';
-import {UtilityService} from '../../../services/utility.service';
 import {PlatformService} from '../../../services/platform.service';
 import {StateService} from '../../../services/state.service';
 import {StorageService} from '../../../services/storage.service';
@@ -44,7 +43,6 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 		public readonly accountService: AccountService,
 		public readonly themeService: ThemeService,
 		public readonly stateService: StateService,
-		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService,
 		private readonly storageService: StorageService){}
 
@@ -64,11 +62,7 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 	// Logs out.
 	public logOut(): void
 	{
-		try
-		{
-			this.accountService.logOut();
-			this.stateService.restoreDefaults();
-		}
+		try{ this.accountService.logOut(); }
 		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 
@@ -91,11 +85,7 @@ export class OptionsComponent implements AfterViewInit, OnDestroy
 	// Logs out of all devices.
 	public globalLogout(): void
 	{
-		try
-		{
-			this.accountService.globalLogout();
-			this.stateService.restoreDefaults();
-		}
+		try{ this.accountService.globalLogout(); }
 		catch(error: unknown){ this.messageService.error(error as Error); }
 	}
 

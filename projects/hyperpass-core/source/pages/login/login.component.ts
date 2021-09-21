@@ -68,8 +68,8 @@ export class LoginComponent implements OnInit
 		const cachedEmailAddress =
 			await this.storageService.getData(Constants.emailAddressKey);
 
-		// If initialized...
-		if(this.stateService.initialized)
+		// If online...
+		if(this.stateService.isOnline)
 		{
 			// Focus the master password input if an email address was loaded.
 			if(cachedEmailAddress)

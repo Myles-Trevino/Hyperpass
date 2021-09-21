@@ -161,5 +161,7 @@ export class StateService
 		this.vaultEntryHistoryModal = _.clone(Types.defaultVaultEntryHistoryModalState);
 
 		this.url = '';
+		this.isOnline = false;
+		this.initialized = false;
 	}
 }

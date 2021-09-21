@@ -19,6 +19,7 @@ import {StorageService} from './storage.service';
 import {BiometricService} from './biometric.service';
 import {PlatformService} from './platform.service';
 import {StateService} from './state.service';
+import {InitializationService} from './initialization.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -54,6 +55,7 @@ export class AccountService implements OnDestroy
 		private readonly apiService: ApiService,
 		private readonly storageService: StorageService,
 		private readonly platformService: PlatformService,
+		private readonly initializationService: InitializationService,
 		private readonly stateService: StateService){}
 
 
@@ -392,7 +394,7 @@ export class AccountService implements OnDestroy
 	}
 
 
-	// Resets the account service.
+	// Resets the account service and the state.
 	private reset(): void
 	{
 		// Clear the login timeout.
@@ -418,12 +420,12 @@ export class AccountService implements OnDestroy
 		this.loginTimeoutStart = undefined;
 		this.loginTimeoutTimeout = undefined;
 
-		// Log out and navigate to the login page.
+		// Log out and reinitialize if logged in.
 		if(this.loggedIn)
 		{
 			this.loggedIn = false;
 			this.loginSubject.next(this.loggedIn);
-			this.router.navigate(['/login']);
+			this.initializationService.reinitialize();
 		}
 	}
 

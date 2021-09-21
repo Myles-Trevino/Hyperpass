@@ -5,7 +5,7 @@
 	},
 	"name": "hyperpass",
 	"productName": "Hyperpass",
-	"version": "2021.9.20",
+	"version": "2021.9.21",
 	"description": "A modern, unified password manager.",
 	"homepage": "hyperpass.org",
 	"license": "Apache-2.0",
@@ -18,7 +18,7 @@
 	"scripts": {
 		"ng": "ng",
 		"lint": "ng lint && echo Linting \"hyperpass-api\"... && eslint \"projects/hyperpass-api/**/*.ts\" && echo Done.",
-		"build-all": "npm run build-core && npm run build-api && npm run build-website && npm run build-extension && npm run build-mobile && npm run build-desktop && npm run release-desktop",
+		"build-all": "npm run build-core && npm run build-api && npm run build-website && npm run build-extension && npm run build-mobile && npm run build-desktop",
 		"build-core": "ng run hyperpass-core:build",
 		"build-api": "tsc --project projects/hyperpass-api/tsconfig.json",
 		"build-website": "ng run hyperpass-website:build:production && ng run hyperpass-website:server:production",
