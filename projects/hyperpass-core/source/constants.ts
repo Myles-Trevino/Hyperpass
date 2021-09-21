@@ -51,11 +51,13 @@ export const apiPackageJsonFileUrl = `${supportResourcesUrl}/package.json`;
 export const apiEnvironmentVariablesFileUrl = `${supportResourcesUrl}/.env`;
 
 export const nodeWebsiteUrl = 'https://nodejs.org';
-export const mongodbUriDocumentationUrl = 'https://docs.mongodb.com/manual/reference/connection-string/';
+export const mongodbUriDocumentationUrl = 'https://docs.mongodb.com/manual/reference/connection-string';
+export const nginxWebsiteUrl = 'https://www.nginx.com';
+export const apacheWebsiteUrl = 'https://httpd.apache.org';
 export const dotenvDocumentationUrl = 'https://www.npmjs.com/package/dotenv';
-export const mongodbSetupGuideUrl = 'https://docs.mongodb.com/manual/administration/install-community/';
+export const mongodbSetupGuideUrl = 'https://docs.mongodb.com/manual/administration/install-community';
 export const serverSetupGuideUrl = 'https://www.digitalocean.com/community/tutorial_collections/initial-server-setup';
-export const pm2WebsiteUrl = 'https://pm2.keymetrics.io/';
+export const pm2WebsiteUrl = 'https://pm2.keymetrics.io';
 
 // Cache keys.
 export const apiServerKey = 'API Server';

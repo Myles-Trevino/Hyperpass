@@ -9,6 +9,7 @@ import Express from 'express';
 import Dotenv from 'dotenv';
 import Crypto from 'crypto';
 import * as MongoDB from 'mongodb';
+import Cors from 'cors';
 import _ from 'lodash';
 
 import * as Types from './types';
@@ -21,6 +22,16 @@ import * as Database from './database';
 const app = Express();
 app.disable('x-powered-by');
 app.use(Express.json());
+
+
+// Add the CORS headers if enabled.
+if(process.env.ENABLE_CORS) app.use(Cors
+({
+	origin: '*',
+	methods: ['POST', 'GET', 'OPTIONS'],
+	allowedHeaders: ['Content-Type'],
+	maxAge: 600
+}));
 
 
 // Gets the minimum valid Hyperpass version.
