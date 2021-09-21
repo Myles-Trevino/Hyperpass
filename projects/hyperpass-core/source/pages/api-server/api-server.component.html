@@ -1,0 +1,38 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- API Server Settings. -->
+<div class="form-tile">
+
+	<h4>API Server</h4>
+
+	<div class="tile-content">
+
+	<!-- Notice. -->
+	<div class="tile-section">
+		<p class="warning-text">This option is for advanced users only.</p>
+
+		<p>
+			You can change the Hyperpass API server here. Changing this will cause all API requests to be sent to the set server. This setting is per-device. To go back to the default API server, click the 'Reset' button.
+		</p>
+	</div>
+
+	<!-- Scrollable content. -->
+	<div class="tile-section">
+
+		<!-- Hyperpass API Server. -->
+		<input type="text" [(ngModel)]="apiServer" autofocusDirective tab="Options">
+
+		<!-- Bottom buttons. -->
+		<div class="tile-buttons">
+			<button (click)="cancel()">Cancel</button>
+			<button (click)="change(true)">Reset</button>
+			<button (click)="change()">Save</button>
+		</div>
+
+	</div>
+</div>

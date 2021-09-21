@@ -48,7 +48,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 	@ViewChild('swiper') private readonly swiper?: SwiperComponent;
 
 	public state: Types.AppState = _.clone(Types.defaultAppState);
-	public initialized = false;
 	public vaultComponent = VaultComponent;
 	public enableSwiping = false;
 
@@ -110,13 +109,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 				// If offline, check if there is cached email address and vault data.
 				else
 				{
-					// If not, return with an error notification.
+					// If not, return with an error notification
+					// and redirect to the login page.
 					if(!await this.storageService.getData(Constants.emailAddressKey) ||
 						!await this.storageService.getData(Constants.vaultKey))
 					{
 						this.messageService.error(new Error('You are offline, but no '+
 							'offline user data could be found. You must connect to the '+
 							'internet to log in.'), 0);
+						this.router.navigate(['/login']);
 						return;
 					}
 
@@ -137,7 +138,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 
 			// Set the initialized flag.
 			this.state = this.stateService.app;
-			this.initialized = true;
+			this.stateService.initialized = true;
 
 			// Navigate to the cached tab and route.
 			this.changeDetectorRef.detectChanges();

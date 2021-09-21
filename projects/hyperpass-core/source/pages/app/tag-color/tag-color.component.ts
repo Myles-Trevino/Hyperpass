@@ -30,7 +30,7 @@ export class TagColorComponent implements OnChanges
 		const noColor = (this.color === 'None');
 
 		this.boxShadow = noColor ? 'inset 0 0 0 var(--line-width) var(--text-color)' :
-			`0 0 .3rem var(--${this.color.toLowerCase()}-glow-color)`;
+			`0 0 0.3rem var(--${this.color.toLowerCase()}-glow-color)`;
 
 		this.backgroundColor = noColor ? 'transparent' :
 			`var(--${this.color.toLowerCase()}-color)`;

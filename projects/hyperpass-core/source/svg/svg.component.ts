@@ -184,6 +184,18 @@ const svgs: Record<string, string> =
 		<path class="glyph" d="M13.43,9.39l8.8,6a.74.74,0,0,1,0,1.22l-8.8,6a.76.76,0,0,1-1.2-.61V10A.76.76,0,0,1,13.43,9.39Z"/>
 	</svg>`,
 
+	// Server button.
+	'Server Button':
+	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+		<circle class="base" cx="16" cy="16" r="16"/>
+		<rect class="glyph" x="9" y="9" width="14" height="5.5" rx="1.5"/>
+		<rect class="glyph" x="9" y="17.5" width="14" height="5.5" rx="1.5"/>
+		<circle class="glyph" cx="16.25" cy="11.75" r="0.25"/>
+		<circle class="glyph" cx="19.75" cy="11.75" r="0.25"/>
+		<circle class="glyph" cx="16.25" cy="20.25" r="0.25"/>
+		<circle class="glyph" cx="19.75" cy="20.25" r="0.25"/>
+	</svg>`,
+
 	// Biometrics button.
 	'Biometrics Button':
 	`<svg class="svg-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">

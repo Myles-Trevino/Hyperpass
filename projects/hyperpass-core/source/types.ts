@@ -318,10 +318,10 @@ export const importFormats =
 [
 	'HY Encrypted',
 	'HY Unencrypted',
-	'Google',
-	'Firefox',
-	'Bitwarden',
-	'LastPass'
+	'Google CSV',
+	'Firefox CSV',
+	'Bitwarden CSV',
+	'LastPass CSV'
 ] as const;
 
 export type ImportFormat = typeof importFormats[number];

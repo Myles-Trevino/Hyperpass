@@ -6,13 +6,13 @@
 
 
 <!-- Loading overlay. -->
-<div *ngIf="!initialized" class="overlay">
+<div *ngIf="!stateService.initialized" class="overlay">
 	<ion-spinner name="crescent" @delayedFadeAnimation></ion-spinner>
 </div>
 
 
 <!-- Main. -->
-<div *ngIf="initialized" id="app-tile" class="tile" @fadeAnimation>
+<div *ngIf="stateService.initialized" id="app-tile" class="tile" @fadeAnimation>
 
 	<!-- Tabs. -->
 	<div id="app-tabs">
@@ -45,7 +45,7 @@
 
 
 <!-- Modals. -->
-<div *ngIf="initialized && state.modalOpen" id="app-modal-overlay" (mousedown)="closeModal($event)" @fadeAnimation #modalOverlay>
+<div *ngIf="stateService.initialized && state.modalOpen" id="app-modal-overlay" (mousedown)="closeModal($event)" @fadeAnimation #modalOverlay>
 	<hyperpass-tags-modal *ngIf="state.modalType === 'Tags'"></hyperpass-tags-modal>
 	<hyperpass-vault-entry-history-modal *ngIf="state.modalType === 'Vault Entry History'"></hyperpass-vault-entry-history-modal>
 	<hyperpass-vault-history-modal *ngIf="state.modalType === 'Vault History'"></hyperpass-vault-history-modal>

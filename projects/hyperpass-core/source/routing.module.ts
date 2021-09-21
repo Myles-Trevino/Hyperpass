@@ -12,6 +12,7 @@ import {RouterModule} from '@angular/router';
 import {LoginComponent} from './pages/login/login.component';
 import {SignupComponent} from './pages/signup/signup.component';
 import {ValidationComponent} from './pages/validation/validation.component';
+import {ApiServerComponent} from './pages/api-server/api-server.component';
 import {AppComponent} from './pages/app/app.component';
 
 import {VaultComponent} from './pages/app/vault/vault.component';
@@ -50,7 +51,8 @@ const routes: Routes =
 
 	{path: 'login', component: LoginComponent},
 	{path: 'signup', component: SignupComponent},
-	{path: 'validation', component: ValidationComponent}
+	{path: 'validation', component: ValidationComponent},
+	{path: 'api-server', component: ApiServerComponent}
 ];
 
 

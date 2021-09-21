@@ -1,0 +1,58 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<div class="article">
+
+	<!-- How Do I Self-Host Hyperpass? -->
+	<div class="article-section">
+		<h3>How Do I Self-Host Hyperpass?</h3>
+
+		<p>To have even greater control over your data, you may want to self-host Hyperpass. You should have some experience with servers and software development if you are trying to do this. First, get the Hyperpass source code from the <a [href]="constants.githubUrl" target="_blank">GitHub repository</a>. Next, install <a [href]="constants.nodeWebsiteUrl" target="_blank">Node</a>. Navigate to the Hyperpass source code directory and run <span class="code">npm i</span> to install Hyperpass' dependencies. Then run <span class="code">npm run build-api</span> to build the API. The built API will be located in <span class="code">builds/hyperpass-api</span>. Download and copy this <a [href]="constants.apiPackageJsonFileUrl" target="_blank">package.json</a> into the API's build folder. Also copy <span class="code">email-template.html</span> from <span class="code">projects/hyperpass-api/source</span> into the build folder.</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<div class="article-section">
+		<h3>The Environment Variables File</h3>
+
+		<p>
+			The last file you need is the environment variables file, which you will need to create yourself. Make a file named <span class="code">.env</span> and fill in the variables listed below. You can omit the email environment variables if you do not want to set up an email server, however if you do this, you will of course not be able to validate user accounts via email. In this case, you can either manually validate user accounts by removing their <span class="code">validationKey</span> field in the database, or you can disable the validation requirement altogether by setting <span class="code">DISABLE_VALIDATION</span> to true.<br><br>
+
+			PORT - The port for Express to serve the API on.<br>
+			<span class="code">MONGODB_URI</span> - The <a [href]="constants.mongodbUriDocumentationUrl" target="_blank">connection string URI</a> used to connect the API to the appropriate MongoDB database.<br>
+			<span class="code">DISABLE_VALIDATION</span> - Whether to use account validation or not.<br>
+			<span class="code">EMAIL_HOST</span> - The email provider hostname.<br>
+			<span class="code">EMAIL_ADDRESS</span> - The address to send emails with.<br>
+			<span class="code">EMAIL_PORT</span> - The port to send the email on.<br>
+			<span class="code">EMAIL_USERNAME</span> - The username for the email provider.<br>
+			<span class="code">EMAIL_PASSWORD</span> - The password for the email provider.<br><br>
+
+			Refer to the <a [href]="constants.dotenvDocumentationUrl" target="_blank">dotenv documentation</a> for more details on this file.
+		</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<div class="article-section">
+		<h3>Setting Up Your Server</h3>
+
+		<p>
+			Now you have all the files that you need to serve the API. Transfer the files in the API build folder to the computer and directory you would like to host from. You will need a server that has been set up for general hosting. If you need guidance on how to set a server up, you can follow a series such as <a [href]="constants.serverSetupGuideUrl" target="_blank">this one</a>. Note that you do not necessarily need to set up a server such as NGINX or Apache as the Hyperpass API uses Express. Next, install MongoDB and set up a database for Hyperpass. To do that, please refer to <a [href]="constants.mongodbSetupGuideUrl" target="_blank">MongoDB's documentation</a>. You will also need to install <a [href]="constants.nodeWebsiteUrl" target="_blank">Node</a> on the computer. Once you have done that, run <span class="code">npm i</span> in the API's directory to install its dependencies. You can then start the Hyperpass API server. Using a process manager such as <a [href]='constants.pm2WebsiteUrl' target="_blank">PM2</a> is recommended. To launch the API using PM2, run <span class="code">pm2 start main.js --name=hyperpass-api</span>.
+		</p>
+	</div>
+
+	<div class="separator"></div>
+
+	<div class="article-section">
+		<h3>Connecting the Apps to Your Server</h3>
+
+		<p>
+			Now that you have your server running, you will need to configure the Hyperpass applications you are using to access it instead of the default API server. On the login page of any Hyperpass app, you will notice a server icon on the top right. Click that to go to the API Server page and type in the domain name or IP address of your server. Click 'Save' and all API requests will be sent to your server instead of the default. Note that this setting is by necessity not synchronized, so you will need to repeat this step for each Hyperpass application you use. Congratulations! You should now be able to use Hyperpass with your account data saved on and served from your own server!
+		</p>
+	</div>
+
+</div>

@@ -45,6 +45,7 @@ export class StateService
 
 	public url = '';
 	public isOnline = false;
+	public initialized = false;
 
 
 	// Constructor.

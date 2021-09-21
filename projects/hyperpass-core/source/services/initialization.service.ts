@@ -95,4 +95,14 @@ export class InitializationService
 		// Set the initialized flag.
 		this.initialized = true;
 	}
+
+
+	// Reinitializes the core.
+	public async reinitialize(): Promise<void>
+	{
+		this.stateService.restoreDefaults();
+		this.initialized = false;
+		await this.initialize();
+		this.router.navigate(['/app']);
+	}
 }

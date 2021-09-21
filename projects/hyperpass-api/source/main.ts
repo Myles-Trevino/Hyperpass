@@ -9,13 +9,13 @@ import Express from 'express';
 import Dotenv from 'dotenv';
 import Crypto from 'crypto';
 import * as MongoDB from 'mongodb';
+import _ from 'lodash';
 
 import * as Types from './types';
 import * as Helpers from './helpers';
 import * as Response from './response';
 import * as Validation from './validation';
 import * as Database from './database';
-import _ from 'lodash';
 
 
 const app = Express();
@@ -44,17 +44,23 @@ async function createAccount(rawRequest: Express.Request,
 	if(findResult) throw new Types.ApiError('An account '+
 		'with this email address already exists.', 409);
 
-	// Add the account to the database.
-	await accounts.insertOne
-	({
+	// Create the new account.
+	const account: Types.Account =
+	{
 		_id: new MongoDB.ObjectId(),
 		version: request.version,
 		emailAddress: request.emailAddress.toLowerCase(),
-		validationKey: Crypto.randomBytes(32).toString('base64'),
 		accessKey: request.accessKey,
 		automaticLoginKeys: {},
 		encryptedVault: request.encryptedVault
-	});
+	};
+
+	// If validation is not disabled, add a validation key.
+	if(!process.env.DISABLE_VALIDATION)
+		account.validationKey = Crypto.randomBytes(32).toString('base64');
+
+	// Add the account to the database.
+	await accounts.insertOne(account);
 
 	// Send the success response.
 	Response.success(result);

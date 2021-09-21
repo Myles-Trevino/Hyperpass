@@ -13,5 +13,6 @@ https://hyperpass.org/support/common-tasks/creating-and-restoring-vault-backups
 https://hyperpass.org/support/faq/why-use-hyperpass-over-the-alternatives
 https://hyperpass.org/support/faq/how-is-my-private-data-handled
 https://hyperpass.org/support/faq/which-apps-and-extensions-should-i-use
+https://hyperpass.org/support/faq/how-do-i-self-host-hyperpass
 https://hyperpass.org/support/faq/who-is-behind-this-project
 https://hyperpass.org/support/faq/which-technologies-does-hyperpass-use

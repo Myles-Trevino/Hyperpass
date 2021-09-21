@@ -5,11 +5,27 @@
 */
 
 
+:host ::ng-deep .api-server-button
+{
+	.base{ fill: var(--main-color); }
+	&:hover .base{ fill: var(--accent-color); }
+}
+
+
 .form-tile
 {
+	position: relative;
 	grid-template-rows: 6rem auto;
 	width: 100%;
 	max-width: 30rem;
 
 	h2{ justify-self: center; }
+}
+
+
+.api-server-button
+{
+	position: absolute;
+	top: var(--small-gap);
+	right: var(--small-gap);
 }

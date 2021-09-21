@@ -23,6 +23,7 @@ import {GeneratingPasswordsComponent} from './pages/support/common-tasks/generat
 import {ImportingExistingAccountsComponent} from './pages/support/common-tasks/importing-existing-accounts/importing-existing-accounts.component';
 import {ViewingAndRestoringVaultHistoryComponent} from './pages/support/common-tasks/viewing-and-restoring-vault-history/viewing-and-restoring-vault-history.component';
 
+import {HowDoISelfHostHyperpassComponent} from './pages/support/faq/how-do-i-self-host-hyperpass/how-do-i-self-host-hyperpass.component';
 import {HowIsMyPrivateDataHandledComponent} from './pages/support/faq/how-is-my-private-data-handled/how-is-my-private-data-handled.component';
 import {WhichAppsAndExtensionsShouldIUseComponent} from './pages/support/faq/which-apps-and-extensions-should-i-use/which-apps-and-extensions-should-i-use.component';
 import {WhoIsBehindThisProjectComponent} from './pages/support/faq/who-is-behind-this-project/who-is-behind-this-project.component';
@@ -52,6 +53,8 @@ const routes: Routes =
 	{path: 'support/common-tasks/viewing-and-restoring-vault-history',
 		component: ViewingAndRestoringVaultHistoryComponent},
 
+	{path: 'support/faq/how-do-i-self-host-hyperpass',
+		component: HowDoISelfHostHyperpassComponent},
 	{path: 'support/faq/how-is-my-private-data-handled',
 		component: HowIsMyPrivateDataHandledComponent},
 	{path: 'support/faq/which-apps-and-extensions-should-i-use',

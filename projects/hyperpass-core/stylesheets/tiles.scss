@@ -40,7 +40,7 @@
 
 	.tile-section{ grid-auto-flow: row; }
 
-	.tile-buttons:not(:first-child), & > button:not(:first-child){ margin-top: .5rem; }
+	.tile-buttons:not(:first-child), & > button:not(:first-child){ margin-top: 0.5rem; }
 }
 
 

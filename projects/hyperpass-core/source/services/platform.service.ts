@@ -20,6 +20,7 @@ import {CryptoService} from './crypto.service';
 
 export class PlatformService
 {
+	public apiServer = Constants.defaultApiServer;
 	public deviceId?: string;
 	public os: OperatingSystem = 'unknown';
 	public isMobile = false;
@@ -39,6 +40,10 @@ export class PlatformService
 	// Initializer.
 	public async initialize(): Promise<void>
 	{
+		// Load the API server if one has been set.
+		const cachedApiServer = await this.storageService.getData(Constants.apiServerKey);
+		if(cachedApiServer) this.apiServer = cachedApiServer;
+
 		// Load or generate the device ID.
 		this.deviceId = await this.storageService.getData(Constants.deviceIdKey);
 

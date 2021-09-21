@@ -92,7 +92,7 @@ export function sendEmail(subject: string,
 		attachments:
 		[{
 			filename: 'logo.png',
-			path: process.env.EMAIL_LOGO_URL,
+			path: 'https://static.hyperpass.org/images/email-logo.png',
 			cid: 'logo'
 		}]
 	});

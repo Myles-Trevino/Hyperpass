@@ -64,22 +64,32 @@ export class LoginComponent implements OnInit
 		this.metadataService.setDescription('Log in to start using the Hyperpass web app.');
 		this.metadataService.setImage('login');
 
-		// Load the cached email address if there is one and focus the appropriate input.
+		// Load the cached email address if there is one.
 		const cachedEmailAddress =
 			await this.storageService.getData(Constants.emailAddressKey);
 
-		if(cachedEmailAddress)
+		// If initialized...
+		if(this.stateService.initialized)
 		{
-			this.emailAddress = cachedEmailAddress;
-			(this.masterPasswordInput?.input?.nativeElement as HTMLInputElement).focus();
+			// Focus the master password input if an email address was loaded.
+			if(cachedEmailAddress)
+			{
+				this.emailAddress = cachedEmailAddress;
+				(this.masterPasswordInput?.input?.nativeElement as HTMLInputElement).focus();
+			}
+
+			// Otherwise, focus the email address input.
+			else (this.emailAddressInput?.nativeElement as HTMLInputElement).focus();
+
+			// Check if biometric login is enabled.
+			this.biometricLoginEnabled =
+				await this.biometricService.isEnabled(this.emailAddress);
 		}
-
-		else (this.emailAddressInput?.nativeElement as HTMLInputElement).focus();
-
-		// Check if biometric login is enabled.
-		this.biometricLoginEnabled =
-			await this.biometricService.isEnabled(this.emailAddress);
 	}
+
+
+	// Redirects to the API server page.
+	public apiServer(): void { this.router.navigate(['/api-server']); }
 
 
 	// Redirects to the signup page.

@@ -105,21 +105,23 @@ export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 			{
 				case 'HY Encrypted': await this.importEncrypted(fileText); break;
 				case 'HY Unencrypted': this.importUnencrypted(fileText); break;
-				case 'Google': this.csvImport(fileText, 4, 0, 1, 2, 3); break;
-				case 'Firefox': this.csvImport(fileText, 9, 0, 0, 1, 2); break;
-				case 'Bitwarden': this.csvImport(fileText,
-					10, 3, 6, 7, 8, 4, 2, 'login'); break;
-				case 'LastPass': this.csvImport(fileText, 8, 5, 0, 1, 2, 4); break;
+				case 'Google CSV': this.csvImport(fileText, 4, 0, 1, 2, 3); break;
+				case 'Firefox CSV': this.csvImport(fileText, 9, 0, 0, 1, 2); break;
+				case 'Bitwarden CSV': this.csvImport(fileText,
+					11, 3, 7, 8, 9, 4, 2, 'login'); break;
+				case 'LastPass CSV': this.csvImport(fileText, 8, 5, 0, 1, 2, 4); break;
 				default: throw new Error('Invalid import format.');
 			}
 
-			// Print a success message and push the vault.
-			this.messageService.message(`Successfully imported the vault.`);
-			this.stateService.updateVaultSubject.next();
-			this.accountService.pushVault();
-
 			// If a vault entry is open for editing, close it.
 			this.utilityService.close('vault');
+
+			// Reset the vault state.
+			this.stateService.vault = Types.defaultVaultState;
+
+			// Print a success message and push the vault.
+			this.messageService.message(`Successfully imported the vault.`);
+			await this.accountService.pushVault();
 		}
 
 		// Handle errors.
@@ -257,7 +259,7 @@ export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 		const parse = PapaParse.parse<string[]>(fileText, {skipEmptyLines: true});
 
 		if(parse.errors.length !== 0)
-			throw new Error(`Invalid file. Errors: ${parse.errors.toString()}`);
+			throw new Error(`Invalid file.`);
 
 		// For each row in the CSV...
 		const importedAccounts: Record<string, Types.Account> = {};

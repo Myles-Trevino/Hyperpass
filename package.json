@@ -5,7 +5,7 @@
 	},
 	"name": "hyperpass",
 	"productName": "Hyperpass",
-	"version": "2021.9.1",
+	"version": "2021.9.20",
 	"description": "A modern, unified password manager.",
 	"homepage": "hyperpass.org",
 	"license": "Apache-2.0",
@@ -17,19 +17,14 @@
 	"private": true,
 	"scripts": {
 		"ng": "ng",
-		"lint": "ng lint",
+		"lint": "ng lint && echo Linting \"hyperpass-api\"... && eslint \"projects/hyperpass-api/**/*.ts\" && echo Done.",
 		"build-all": "npm run build-core && npm run build-api && npm run build-website && npm run build-extension && npm run build-mobile && npm run build-desktop && npm run release-desktop",
-
 		"build-core": "ng run hyperpass-core:build",
 		"build-api": "tsc --project projects/hyperpass-api/tsconfig.json",
-
 		"build-website": "ng run hyperpass-website:build:production && ng run hyperpass-website:server:production",
 		"test-website": "ng run hyperpass-website:serve-ssr",
-
 		"build-extension": "ng run hyperpass-extension:build:production",
-
 		"build-mobile": "ng run hyperpass-mobile:build:production",
-
 		"build-desktop": "ng run hyperpass-desktop:build:production --base-href ./",
 		"release-desktop": "electron-builder",
 		"start-desktop": "electron ./projects/hyperpass-desktop/electron.js"
@@ -84,6 +79,7 @@
 		"dotenv": "^10.0.0",
 		"fflate": "^0.7.1",
 		"file-saver": "^2.0.5",
+		"fs": "^0.0.1-security",
 		"handlebars": "^4.7.7",
 		"hash-wasm": "^4.9.0",
 		"joi": "^17.4.2",

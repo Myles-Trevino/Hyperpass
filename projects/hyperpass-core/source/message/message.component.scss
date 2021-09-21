@@ -68,14 +68,14 @@
 .message-error
 {
 	--shading-specular-color: rgb(255, 0, 0);
-	--shading-umbra-color: rgb(121, 0, 0, .3);
-	--shading-shadow-color: rgb(179, 0, 0, .65);
+	--shading-umbra-color: rgb(121, 0, 0, 0.3);
+	--shading-shadow-color: rgb(179, 0, 0, 0.65);
 
 	background-color: rgb(214, 0, 0);
 
 	@include shading-raised;
 
-	span, button{ color: rgb(255, 255, 255, .85); }
+	span, button{ color: rgb(255, 255, 255, 0.85); }
 
 	button
 	{

@@ -27,7 +27,7 @@ export class BiometricService
 		({
 			username: emailAddress,
 			password: masterPassword,
-			server: Constants.apiUrl
+			server: Constants.websiteUrl
 		});
 	}
 
@@ -35,7 +35,7 @@ export class BiometricService
 	// Disables biometric login.
 	public async disable(): Promise<void>
 	{
-		await NativeBiometric.deleteCredentials({server: Constants.apiUrl});
+		await NativeBiometric.deleteCredentials({server: Constants.websiteUrl});
 	}
 
 
@@ -80,7 +80,7 @@ export class BiometricService
 	private async getCredentials(emailAddress: string): Promise<Types.LoginCredentials>
 	{
 		const credentials =
-			await NativeBiometric.getCredentials({server: Constants.apiUrl});
+			await NativeBiometric.getCredentials({server: Constants.websiteUrl});
 
 		if(emailAddress !== credentials.username)
 			throw new Error('The saved credentials do not match the given email address.');

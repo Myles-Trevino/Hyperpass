@@ -108,7 +108,7 @@
 .vault-tile-content
 {
 	display: grid;
-	padding-top: .2rem;
+	padding-top: 0.2rem;
 }
 
 .vault-tile-bar
@@ -135,7 +135,7 @@
 	display: grid;
 	grid-auto-flow: column;
 	width: min-content;
-	gap: .75rem;
+	gap: 0.75rem;
 
 	.app-tag
 	{
@@ -156,7 +156,7 @@
 	align-items: center;
 	background-color: var(--alternate-color);
 	margin: var(--very-small-gap);
-	padding: .35rem;
+	padding: 0.35rem;
 	border-radius: 3rem;
 
 	@include mobile{ bottom: calc(var(--medium-radius) + var(--small-radius)); }

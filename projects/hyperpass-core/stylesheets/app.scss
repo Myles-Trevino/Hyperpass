@@ -34,8 +34,8 @@
 	align-items: center;
 	background-color: var(--alternate-color);
 	border-radius: var(--medium-radius);
-	padding: 0 .5rem;
-	span{ padding: 0 .5rem; }
+	padding: 0 0.5rem;
+	span{ padding: 0 0.5rem; }
 }
 
 .app-modal
@@ -90,7 +90,7 @@
 	div, & > hyperpass-svg
 	{
 		position: absolute;
-		top: .37rem;
+		top: 0.37rem;
 		right: var(--very-small-gap);
 		gap: var(--very-small-gap);
 	}

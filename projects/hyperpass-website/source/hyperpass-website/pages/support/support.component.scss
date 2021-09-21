@@ -43,7 +43,7 @@
 .tile-section
 {
 	grid-auto-flow: row;
-	gap: .5rem;
+	gap: 0.5rem;
 }
 
 
@@ -66,4 +66,13 @@
 	@include mobile{ padding: var(--medium-gap); }
 
 	p{ text-align: justify; }
+}
+
+.code
+{
+	font-family: "Iosevka SS08 Medium";
+	font-size: 0.96rem;
+	padding: 0 0.3rem;
+	border-radius: var(--very-small-radius);
+	background-color: var(--alternate-accent-color);
 }

@@ -91,7 +91,8 @@ export class SignupComponent implements OnInit
 			await this.apiService.createAccount(1,
 				this.emailAddress, accessKey, encryptedVault);
 
-			// Log in and redirect to the validation page.
+			// Log in and redirect to the validation page
+			// (or the login page if account validation is disabled).
 			await this.accountService.logIn(this.emailAddress, this.masterPassword);
 		}
 

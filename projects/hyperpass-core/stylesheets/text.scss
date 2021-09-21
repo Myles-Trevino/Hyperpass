@@ -77,7 +77,7 @@ p, span, button, input, textarea
 	color: var(--text-color);
 }
 
-p, p > a, input, textarea{ user-select: text; }
+p, p > span, p > a, input, textarea{ user-select: text; }
 
 input, textarea{ caret-color: var(--text-color); }
 

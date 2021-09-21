@@ -18,38 +18,38 @@ const lightTheme =
 {
 	'main-color': 'rgb(242, 244, 249)',
 	'alternate-color': 'rgb(229, 234, 244)',
-	'semitransparent-alternate-color': 'rgb(229, 234, 244, .75)',
+	'semitransparent-alternate-color': 'rgb(229, 234, 244, 0.75)',
 	'accent-color': 'rgb(249, 250, 252)',
-	'semitransparent-accent-color': 'rgb(252, 252, 253, .5)',
+	'semitransparent-accent-color': 'rgb(252, 252, 253, 0.5)',
 	'alternate-accent-color': 'rgb(255, 255, 255)',
 	'background-color': 'var(--main-color)',
-	'semitransparent-background-color': 'rgb(242, 244, 249, .7)',
+	'semitransparent-background-color': 'rgb(242, 244, 249, 0.7)',
 	'text-color': 'rgb(49, 57, 74)',
-	'semitransparent-text-color': 'rgb(49, 67, 105, .4)',
-	'selection-color': 'rgb(62, 105, 183, .1)',
+	'semitransparent-text-color': 'rgb(49, 67, 105, 0.4)',
+	'selection-color': 'rgb(62, 105, 183, 0.1)',
 
-	'shading-light-color': 'rgb(255, 255, 255, .8)',
+	'shading-light-color': 'rgb(255, 255, 255, 0.8)',
 	'shading-specular-color': 'var(--alternate-accent-color)',
 	'shading-bloom-color': 'rgb(255, 255, 255, 0)',
-	'shading-shadow-color': 'rgb(52, 73, 109, .2)',
-	'shading-umbra-color': 'rgb(52, 73, 109, .15)'
+	'shading-shadow-color': 'rgb(52, 73, 109, 0.2)',
+	'shading-umbra-color': 'rgb(52, 73, 109, 0.15)'
 };
 
 const darkTheme =
 {
 	'main-color': 'rgb(28, 31, 35)',
 	'alternate-color': 'rgb(20, 23, 27)',
-	'semitransparent-alternate-color': 'rgb(20, 23, 27, .75)',
+	'semitransparent-alternate-color': 'rgb(20, 23, 27, 0.75)',
 	'accent-color': 'rgb(37, 41, 47)',
-	'semitransparent-accent-color': 'rgb(37, 41, 47, .5)',
+	'semitransparent-accent-color': 'rgb(37, 41, 47, 0.5)',
 	'alternate-accent-color': 'rgb(47, 52, 61)',
 	'background-color': 'var(--main-color)',
-	'semitransparent-background-color': 'rgb(28, 31, 35, .8)',
+	'semitransparent-background-color': 'rgb(28, 31, 35, 0.8)',
 	'text-color': 'rgb(211, 221, 234)',
-	'semitransparent-text-color': 'rgb(190, 206, 226, .35)',
-	'selection-color': 'rgb(190, 215, 255, .14)',
+	'semitransparent-text-color': 'rgb(190, 206, 226, 0.35)',
+	'selection-color': 'rgb(190, 215, 255, 0.14)',
 
-	'shading-light-color': 'rgb(207, 225, 255, .06)',
+	'shading-light-color': 'rgb(207, 225, 255, 0.06)',
 	'shading-specular-color': 'var(--alternate-accent-color)',
 	'shading-bloom-color': 'rgb(255, 255, 255, 0)',
 	'shading-shadow-color': 'rgb(7, 10, 12)',
