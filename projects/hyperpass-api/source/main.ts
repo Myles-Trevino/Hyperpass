@@ -19,13 +19,16 @@ import * as Validation from './validation';
 import * as Database from './database';
 
 
+// Load the environment variables.
+Dotenv.config();
+
+// Initialize Express.
 const app = Express();
 app.disable('x-powered-by');
 app.use(Express.json());
 
-
 // Add the CORS headers if enabled.
-if(process.env.ENABLE_CORS) app.use(Cors
+if(process.env.ENABLE_CORS === 'true') app.use(Cors
 ({
 	origin: '*',
 	methods: ['POST', 'GET', 'OPTIONS'],
@@ -67,7 +70,7 @@ async function createAccount(rawRequest: Express.Request,
 	};
 
 	// If validation is not disabled, add a validation key.
-	if(!process.env.DISABLE_VALIDATION)
+	if(process.env.DISABLE_VALIDATION !== 'true')
 		account.validationKey = Crypto.randomBytes(32).toString('base64');
 
 	// Add the account to the database.
@@ -368,9 +371,6 @@ app.use((request, result) => { result.status(404).end(); });
 // Main.
 function main(): void
 {
-	// Load the environment variables.
-	Dotenv.config();
-
 	// Start Express.
 	if(!process.env.PORT) throw new Error('No port environment variable.');
 	console.log(`Starting Express on port ${process.env.PORT}.`);
