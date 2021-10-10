@@ -7,8 +7,8 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
-import {ElectronService} from 'ngx-electron';
 
+import {ElectronService} from './services/electron.service';
 import {Animations, InitializationService, PlatformService} from 'hyperpass-core';
 
 

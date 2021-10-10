@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit
 	public emailAddress = '';
 	public masterPassword = '';
 	public biometricLoginEnabled = false;
+	public disableLogin = false;
 
 
 	// Constructor.
@@ -68,15 +69,14 @@ export class LoginComponent implements OnInit
 		const cachedEmailAddress =
 			await this.storageService.getData(Constants.emailAddressKey);
 
+		if(cachedEmailAddress) this.emailAddress = cachedEmailAddress;
+
 		// If online...
 		if(this.stateService.isOnline)
 		{
 			// Focus the master password input if an email address was loaded.
-			if(cachedEmailAddress)
-			{
-				this.emailAddress = cachedEmailAddress;
+			if(this.emailAddress)
 				(this.masterPasswordInput?.input?.nativeElement as HTMLInputElement).focus();
-			}
 
 			// Otherwise, focus the email address input.
 			else (this.emailAddressInput?.nativeElement as HTMLInputElement).focus();
@@ -85,6 +85,8 @@ export class LoginComponent implements OnInit
 			this.biometricLoginEnabled =
 				await this.biometricService.isEnabled(this.emailAddress);
 		}
+
+		else this.disableLogin = (cachedEmailAddress === undefined);
 	}
 
 
