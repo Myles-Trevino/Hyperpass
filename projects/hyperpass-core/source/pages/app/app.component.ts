@@ -16,9 +16,9 @@ import {App} from '@capacitor/app';
 import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
 
-import * as Types from '../../types';
+import {Types, Constants, Utilities} from 'builds/hyperpass-common';
+
 import * as Animations from '../../animations';
-import * as Constants from '../../constants';
 import {AccountService} from '../../services/account.service';
 import {StateService} from '../../services/state.service';
 import {VaultComponent} from '../../pages/app/vault/vault.component';
@@ -63,7 +63,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 		private readonly metadataService: MetadataService,
 		private readonly changeDetectorRef: ChangeDetectorRef,
 		private readonly messageService: MessageService,
-		private readonly utilityService: UtilityService,
 		private readonly storageService: StorageService,
 		private readonly ionicPlatform: Ionic.Platform,
 		private readonly router: Router){}
@@ -157,7 +156,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 	public async ngAfterContentInit(): Promise<void>
 	{
 		// Recalculate Swiper's size.
-		await this.utilityService.sleep();
+		await Utilities.sleep();
 
 		if(this.swiper && this.swiper.isSwiperActive)
 			this.swiper.swiperRef.update();

@@ -7,6 +7,8 @@
 
 import * as MongoDB from 'mongodb';
 
+import {Types as CommonTypes} from 'builds/hyperpass-common';
+
 import * as Types from './types';
 
 
@@ -59,7 +61,7 @@ export async function getAccountUnsecured(emailAddress: string,
 
 // Returns the account that matches the given email, checking that the
 // access key matches and optionally checking if the user is validated.
-export async function getAccount(accessData: Types.AccessData,
+export async function getAccount(accessData: CommonTypes.AccessData,
 	checkValidation = true): Promise<Types.Account>
 {
 	const account = await getAccountUnsecured(accessData.emailAddress, checkValidation);

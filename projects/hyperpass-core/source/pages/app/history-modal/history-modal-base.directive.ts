@@ -11,7 +11,8 @@ import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
 import {NgScrollbar} from 'ngx-scrollbar';
 
-import * as Types from '../../../types';
+import {Types} from 'builds/hyperpass-common';
+
 import {StateService} from '../../../services/state.service';
 import {PlatformService} from '../../../services/platform.service';
 import {MessageService} from '../../../services/message.service';

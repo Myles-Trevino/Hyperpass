@@ -7,6 +7,8 @@
 
 import * as MongoDB from 'mongodb';
 
+import {Types as CommonTypes} from 'builds/hyperpass-common';
+
 
 export class ApiError extends Error
 {
@@ -18,20 +20,6 @@ export class ApiError extends Error
 		this.statusCode = statusCode;
 	}
 }
-
-
-export type EncryptedData =
-{
-	ciphertext: string;
-	nonce: string;
-	salt: string;
-};
-
-export type EncryptedKey =
-{
-	value: string;
-	encrypted: EncryptedData;
-};
 
 export type AutomaticLoginKey =
 {
@@ -53,24 +41,17 @@ export type Account =
 	version: number;
 	emailAddress: string;
 	validationKey?: string;
-	accessKey: EncryptedKey;
+	accessKey: CommonTypes.EncryptedKey;
 	automaticLoginKeys: Record<string, AutomaticLoginKey>;
-	encryptedVault: EncryptedData;
+	encryptedVault: CommonTypes.EncryptedData;
 	emailAddressValidationKey?: EmailAddressValidationKey;
-};
-
-
-export type AccessData =
-{
-	emailAddress: string;
-	accessKey: string;
 };
 
 
 // Requests.
 export type UnsecuredRequest = {emailAddress: string};
 
-export type SecuredRequest = {accessData: AccessData};
+export type SecuredRequest = {accessData: CommonTypes.AccessData};
 
 export type GetPublicDataRequest = UnsecuredRequest & {deviceId: string};
 
@@ -78,13 +59,14 @@ export type CreateAccountRequest = UnsecuredRequest &
 {
 	version: number;
 	validationKey: string;
-	accessKey: EncryptedKey;
-	encryptedVault: EncryptedData;
+	accessKey: CommonTypes.EncryptedKey;
+	encryptedVault: CommonTypes.EncryptedData;
 };
 
 export type ValidateAccountRequest = SecuredRequest & {validationKey: string};
 
-export type SetVaultRequest = SecuredRequest & {encryptedVault: EncryptedData};
+export type SetVaultRequest = SecuredRequest &
+{encryptedVault: CommonTypes.EncryptedData};
 
 export type SetAutomaticLoginKeyRequest = SecuredRequest &
 {
@@ -97,8 +79,8 @@ export type UpdateAutomaticLoginKeyRequest = SecuredRequest & {duration?: number
 
 export type ChangeMasterPasswordRequest = SecuredRequest &
 {
-	newAccessKey: EncryptedKey;
-	newEncryptedVault: EncryptedData;
+	newAccessKey: CommonTypes.EncryptedKey;
+	newEncryptedVault: CommonTypes.EncryptedData;
 };
 
 export type SendEmailAddressValidationEmailRequest = SecuredRequest & {emailAddress: string};
@@ -107,4 +89,5 @@ export type ChangeEmailAddressRequest = SecuredRequest & EmailAddressValidationK
 
 export type LogoutRequest = SecuredRequest & {deviceId: string};
 
-export type GlobalLogoutRequest = SecuredRequest & {newAccessKey: EncryptedKey};
+export type GlobalLogoutRequest = SecuredRequest &
+{newAccessKey: CommonTypes.EncryptedKey};

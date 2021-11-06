@@ -31,8 +31,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy
 
 
 	// Constructor.
-	public constructor(
-		public readonly utilityService: UtilityService,
+	public constructor(public readonly utilityService: UtilityService,
 		private readonly accountService: AccountService,
 		private readonly messageService: MessageService,
 		private readonly ionicPlatform: Ionic.Platform){}

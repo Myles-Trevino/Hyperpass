@@ -11,7 +11,8 @@ import * as Ionic from '@ionic/angular';
 import type {OperatingSystem} from '@capacitor/device';
 import {Device} from '@capacitor/device';
 
-import * as Constants from '../constants';
+import {Constants} from 'builds/hyperpass-common';
+
 import {StorageService} from './storage.service';
 import {CryptoService} from './crypto.service';
 

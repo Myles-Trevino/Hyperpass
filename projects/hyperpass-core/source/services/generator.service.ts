@@ -7,7 +7,8 @@
 
 import {Injectable} from '@angular/core';
 
-import type * as Types from '../types';
+import {Types} from 'builds/hyperpass-common';
+
 import Words from '../words';
 import {CryptoService} from './crypto.service';
 import {AccountService} from './account.service';

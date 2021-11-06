@@ -9,7 +9,8 @@ import type {OnInit} from '@angular/core';
 import {Component, Input, ElementRef, Inject, PLATFORM_ID} from '@angular/core';
 import {isPlatformServer} from '@angular/common';
 
-import {Constants} from 'hyperpass-core';
+import {Constants} from 'builds/hyperpass-common';
+
 import {imageFadeAnimation} from '../animations';
 
 

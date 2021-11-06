@@ -8,7 +8,8 @@
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 
-import {Constants, ThemeService, MetadataService} from 'hyperpass-core';
+import {Constants} from 'builds/hyperpass-common';
+import {ThemeService, MetadataService} from 'hyperpass-core';
 
 
 @Component

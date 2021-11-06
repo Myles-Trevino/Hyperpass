@@ -12,7 +12,8 @@ import {NgScrollbar} from 'ngx-scrollbar';
 import * as PapaParse from 'papaparse';
 import * as _ from 'lodash';
 
-import * as Types from '../../../types';
+import {Types, Utilities} from 'builds/hyperpass-common';
+
 import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
 import {CryptoService} from '../../../services/crypto.service';
@@ -172,11 +173,11 @@ export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 			// Trim.
 			if(this.state.trim === 'Enabled')
 				for(const account of Object.values(accounts))
-					account.url = this.utilityService.trimUrl(account.url);
+					account.url = Utilities.trimUrl(account.url);
 
 			// Import.
 			this.vault.accounts = (this.state.mode === 'Overwrite') ? accounts :
-				this.utilityService.uniqueAppend(accounts, this.vault.accounts,
+				Utilities.uniqueAppend(accounts, this.vault.accounts,
 					Types.areAccountsEqual, (this.state.mode === 'Merge'),
 					(a, b) => this.mergeAccounts(a, b));
 
@@ -283,7 +284,7 @@ export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy
 			// Add the account to the record.
 			if(!account.username && !account.password) continue;
 
-			this.utilityService.uniqueAppend(
+			Utilities.uniqueAppend(
 				{[row[nameIndex]]: _.cloneDeep(account)}, importedAccounts);
 		}
 

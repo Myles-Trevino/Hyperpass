@@ -9,7 +9,8 @@ import type {OnInit} from '@angular/core';
 import {Component, HostBinding, HostListener, ViewChild, ElementRef} from '@angular/core';
 import {Router} from '@angular/router';
 
-import * as Constants from '../../constants';
+import {Constants} from 'builds/hyperpass-common';
+
 import {AccountService} from '../../services/account.service';
 import {MessageService} from '../../services/message.service';
 import {StorageService} from '../../services/storage.service';

@@ -8,8 +8,7 @@
 import {Injectable} from '@angular/core';
 import {NativeBiometric} from 'capacitor-native-biometric';
 
-import type * as Types from '../types';
-import * as Constants from '../constants';
+import {Types, Constants} from 'builds/hyperpass-common';
 
 
 @Injectable({providedIn: 'root'})

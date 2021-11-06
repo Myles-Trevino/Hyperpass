@@ -8,6 +8,8 @@
 import type {AfterViewInit} from '@angular/core';
 import {Directive, ElementRef, Input} from '@angular/core';
 
+import {Utilities} from 'builds/hyperpass-common';
+
 import {StateService} from './services/state.service';
 import {PlatformService} from './services/platform.service';
 import {UtilityService} from './services/utility.service';
@@ -24,8 +26,7 @@ export class AutofocusDirective implements AfterViewInit
 
 	public constructor(private readonly element: ElementRef,
 		private readonly stateService: StateService,
-		private readonly platformService: PlatformService,
-		private readonly utilityService: UtilityService){}
+		private readonly platformService: PlatformService){}
 
 
 	// Initializer.
@@ -52,7 +53,7 @@ export class AutofocusDirective implements AfterViewInit
 	private async focus(ignorePage = false): Promise<void>
 	{
 		if(!ignorePage && this.stateService.app.tab !== this.tab) return;
-		await this.utilityService.sleep();
+		await Utilities.sleep();
 		(this.element.nativeElement as HTMLInputElement).focus({preventScroll: true});
 	}
 }

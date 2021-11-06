@@ -9,7 +9,8 @@ import type {OnDestroy, OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 import type {Subscription} from 'rxjs';
 
-import type * as Types from '../types';
+import {Types, Utilities} from 'builds/hyperpass-common';
+
 import {MessageService} from '../services/message.service';
 import {PlatformService} from '../services/platform.service';
 import {UtilityService} from '../services/utility.service';
@@ -36,8 +37,7 @@ export class MessageComponent implements OnInit, OnDestroy
 
 
 	// Constructor.
-	public constructor(private readonly utilityService: UtilityService,
-		private readonly platformService: PlatformService,
+	public constructor(private readonly platformService: PlatformService,
 		private readonly messageService: MessageService){}
 
 
@@ -64,12 +64,12 @@ export class MessageComponent implements OnInit, OnDestroy
 	{
 		const wasVisible = this.visible;
 		this.visible = false;
-		if(wasVisible) await this.utilityService.sleep(this.transitionDuration);
+		if(wasVisible) await Utilities.sleep(this.transitionDuration);
 
 		this.message = messageData.message;
 		this.duration = messageData.duration*1000;
 		this.type = messageData.type;
-		await this.utilityService.sleep(this.cssUpdateDuration);
+		await Utilities.sleep(this.cssUpdateDuration);
 		this.visible = true;
 
 		if(this.timeout)

@@ -10,8 +10,7 @@ import * as Sodium from 'libsodium-wrappers';
 import {argon2id} from 'hash-wasm';
 import * as Fflate from 'fflate';
 
-import type * as Types from '../types';
-import * as Constants from '../constants';
+import {Types, Constants} from 'builds/hyperpass-common';
 
 
 @Injectable({providedIn: 'root'})

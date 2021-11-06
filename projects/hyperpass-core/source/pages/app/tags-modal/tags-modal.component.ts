@@ -13,7 +13,8 @@ import {v4 as uuidv4} from 'uuid';
 import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
 
-import * as Types from '../../../types';
+import {Types, Utilities} from 'builds/hyperpass-common';
+
 import * as Animations from '../../../animations';
 import {AccountService} from '../../../services/account.service';
 import {StateService} from '../../../services/state.service';
@@ -49,7 +50,6 @@ export class TagsModalComponent implements OnInit, OnDestroy, AfterViewInit
 	public constructor(public readonly stateService: StateService,
 		public readonly platformService: PlatformService,
 		private readonly accountService: AccountService,
-		private readonly utilityService: UtilityService,
 		private readonly messageService: MessageService,
 		private readonly ionicPlatform: Ionic.Platform){}
 
@@ -104,7 +104,7 @@ export class TagsModalComponent implements OnInit, OnDestroy, AfterViewInit
 	{
 		// Add the tag.
 		const key = uuidv4();
-		const name = this.utilityService.generateUniqueName('New Tag', this.vault.tags,
+		const name = Utilities.generateUniqueName('New Tag', this.vault.tags,
 			(_name, entries) => Object.values(entries).some((e) => e.name === _name));
 
 		this.vault.tags[key] = {name, color: 'None'};
@@ -214,7 +214,7 @@ export class TagsModalComponent implements OnInit, OnDestroy, AfterViewInit
 	private async scrollTo(key: string, smooth = true): Promise<void>
 	{
 		// Wait for the content to load.
-		await this.utilityService.sleep();
+		await Utilities.sleep();
 
 		// Scroll the tag into view.
 		document.getElementById(this.getId(key))?.scrollIntoView(

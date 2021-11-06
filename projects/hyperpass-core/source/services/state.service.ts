@@ -12,8 +12,8 @@ import type {Subscription} from 'rxjs';
 import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 
-import * as Types from '../types';
-import * as Constants from '../constants';
+import {Types, Constants} from 'builds/hyperpass-common';
+
 import {StorageService} from './storage.service';
 import {CryptoService} from './crypto.service';
 

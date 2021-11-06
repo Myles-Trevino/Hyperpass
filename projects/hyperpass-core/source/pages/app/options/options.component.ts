@@ -11,8 +11,8 @@ import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
 
-import * as Types from '../../../types';
-import * as Constants from '../../../constants';
+import {Types, Constants} from 'builds/hyperpass-common';
+
 import {AccountService} from '../../../services/account.service';
 import {ThemeService} from '../../../services/theme.service';
 import {MessageService} from '../../../services/message.service';

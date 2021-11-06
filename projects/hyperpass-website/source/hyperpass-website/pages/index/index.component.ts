@@ -9,8 +9,8 @@ import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild, ElementRef} from '@angular/core';
 import * as Three from 'three';
 
-import {Constants, MetadataService, PlatformService,
-	ThemeService, Animations} from 'hyperpass-core';
+import {Constants} from 'builds/hyperpass-common';
+import {MetadataService, PlatformService, ThemeService, Animations} from 'hyperpass-core';
 
 
 type Point =

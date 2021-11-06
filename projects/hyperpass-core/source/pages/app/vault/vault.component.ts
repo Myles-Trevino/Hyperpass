@@ -11,7 +11,8 @@ import {NgScrollbar} from 'ngx-scrollbar';
 import type {Subscription} from 'rxjs';
 import * as _ from 'lodash';
 
-import * as Types from '../../../types';
+import {Types, Utilities} from 'builds/hyperpass-common';
+
 import * as Animations from '../../../animations';
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
@@ -197,7 +198,7 @@ export class VaultComponent implements OnInit, OnDestroy
 					username: value.username, url: value.url});
 			}
 
-			this.entries = this.utilityService.naturalSort(this.entries, (entry) => entry.key);
+			this.entries = Utilities.naturalSort(this.entries, (entry) => entry.key);
 
 			// Get the page entries.
 			this.pageCount = Math.floor(this.entries.length/this.pageSize)+1;

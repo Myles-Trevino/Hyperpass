@@ -9,7 +9,7 @@ import {Injectable} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Subject} from 'rxjs';
 
-import type * as Types from '../types';
+import {Types} from 'builds/hyperpass-common';
 
 
 @Injectable({providedIn: 'root'})

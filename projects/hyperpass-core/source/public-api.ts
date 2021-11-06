@@ -7,8 +7,6 @@
 
 export * from './hyperpass-core.module';
 
-export * as Constants from './constants';
-export * as Types from './types';
 export * as Animations from './animations';
 
 export * from './dropdown/dropdown.component';

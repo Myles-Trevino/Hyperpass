@@ -10,7 +10,8 @@ import {Component, Input, HostBinding} from '@angular/core';
 import type {Subscription} from 'rxjs';
 import * as _ from 'lodash';
 
-import * as Types from '../../../../types';
+import {Types} from 'builds/hyperpass-common';
+
 import {MessageService} from '../../../../services/message.service';
 import {StateService} from '../../../../services/state.service';
 import {AccountService} from '../../../../services/account.service';

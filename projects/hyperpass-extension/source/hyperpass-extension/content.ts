@@ -7,7 +7,7 @@
 
 import browser from 'webextension-polyfill';
 
-import type {Types} from 'hyperpass-core';
+import type {Types} from 'builds/hyperpass-common';
 
 
 // Command callback.

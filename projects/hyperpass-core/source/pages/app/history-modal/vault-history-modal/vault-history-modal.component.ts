@@ -5,10 +5,11 @@
 */
 
 
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component} from '@angular/core';
 import * as Ionic from '@ionic/angular';
 
-import type * as Types from '../../../../types';
+import {Types, Utilities} from 'builds/hyperpass-common';
+
 import {StateService} from '../../../../services/state.service';
 import {MessageService} from '../../../../services/message.service';
 import {AccountService} from '../../../../services/account.service';
@@ -49,7 +50,7 @@ export class VaultHistoryModalComponent extends
 			// Restore the entry to the vault.
 			const vault = this.accountService.getVault();
 
-			vault.accounts = this.utilityService.uniqueAppend(
+			vault.accounts = Utilities.uniqueAppend(
 				{[entry.key]: entry.value}, vault.accounts);
 
 			// Delete the entry from history.

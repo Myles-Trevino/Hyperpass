@@ -10,8 +10,8 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 
-import type * as Types from '../types';
-import * as Constants from '../constants';
+import {Types, Constants} from 'builds/hyperpass-common';
+
 import {CryptoService} from './crypto.service';
 import {MessageService} from './message.service';
 import {ApiService} from './api.service';

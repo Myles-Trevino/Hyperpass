@@ -11,7 +11,8 @@ import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
 
-import * as Types from '../../../types';
+import {Types, Utilities} from 'builds/hyperpass-common';
+
 import {GeneratorService} from '../../../services/generator.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
@@ -95,11 +96,11 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 			// Validate the parameters.
 			if(this.state.mode === 'Passphrase')
 			{
-				const parsedWordCount = this.utilityService.isWithinRange(
+				const parsedWordCount = Utilities.isWithinRange(
 					Number(this.state.wordCount), 1, 9, 'The number '+
 						'of words must be between 1 and 9.');
 
-				this.utilityService.isWithinRange(Number(this.state.numberCount),
+				Utilities.isWithinRange(Number(this.state.numberCount),
 					0, parsedWordCount, `The amount of numbers `+
 					`must be between 0 and ${parsedWordCount}.`);
 
@@ -109,7 +110,7 @@ export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit
 
 			else
 			{
-				this.utilityService.isWithinRange(
+				Utilities.isWithinRange(
 					Number(this.state.length), 4, 64, 'The length must be between 4 and 64.');
 			}
 

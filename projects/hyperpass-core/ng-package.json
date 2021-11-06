@@ -6,6 +6,7 @@
 		"entryFile": "source/public-api.ts",
 		"umdModuleIds":
 		{
+			"builds/hyperpass-common": "HyperpassCommon",
 			"ngx-scrollbar": "NgxScrollbar",
 			"libsodium-wrappers": "Sodium",
 			"hash-wasm": "HashWasm",

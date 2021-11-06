@@ -9,7 +9,7 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions":
 	{
-		"outDir": "./out-tsc/hyperpass-core",
-		"paths": {"hyperpass-common/*": ["../hyperpass-common/source/*"]}
+		"outDir": "../../builds/hyperpass-common",
+		"declaration": true
 	}
 }

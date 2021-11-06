@@ -7,11 +7,10 @@
 
 import {Injectable} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
-import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 
-import * as Types from '../types';
-import * as Constants from '../constants';
+import {Types, Constants, Utilities} from 'builds/hyperpass-common';
+
 import {ThemeService} from './theme.service';
 import {CryptoService} from './crypto.service';
 import {StorageService} from './storage.service';
@@ -37,8 +36,7 @@ export class InitializationService
 		private readonly storageService: StorageService,
 		private readonly messageService: MessageService,
 		private readonly platformService: PlatformService,
-		private readonly stateService: StateService,
-		private readonly utilityService: UtilityService){}
+		private readonly stateService: StateService){}
 
 
 	// Initializes the core.
@@ -81,7 +79,7 @@ export class InitializationService
 			const minimumVersion = await this.apiService.getMinimumVersion();
 			this.stateService.isOnline = true;
 
-			if(this.utilityService.naturalCompare(Constants.version, minimumVersion) < 0)
+			if(Utilities.naturalCompare(Constants.version, minimumVersion) < 0)
 			{
 				this.messageService.error(new Error('This version of Hyperpass is '+
 					'out of date. Please install the latest version to continue.'), 0);

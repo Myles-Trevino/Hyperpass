@@ -8,8 +8,8 @@
 import {Injectable} from '@angular/core';
 import {StatusBar, Style} from '@capacitor/status-bar';
 
-import type * as Types from '../types';
-import * as Constants from '../constants';
+import {Types, Constants} from 'builds/hyperpass-common';
+
 import {StorageService} from './storage.service';
 import {PlatformService} from '../services/platform.service';
 

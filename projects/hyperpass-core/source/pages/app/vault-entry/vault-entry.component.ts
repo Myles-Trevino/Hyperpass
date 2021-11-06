@@ -13,8 +13,8 @@ import * as Ionic from '@ionic/angular';
 import * as _ from 'lodash';
 import {parseDomain, ParseResultType} from 'parse-domain';
 
-import * as Types from '../../../types';
-import * as Constants from '../../../constants';
+import {Types, Constants, Utilities} from 'builds/hyperpass-common';
+
 import {UtilityService} from '../../../services/utility.service';
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
@@ -124,8 +124,8 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 			if(this.defaultExists(accounts) && this.state.default)
 			{
 				for(const value of Object.values(accounts))
-					if(this.utilityService.accountMatchesWebsite(
-						this.state, value.url)) value.default = false;
+					if(Utilities.accountMatchesWebsite(this.state, value.url))
+						value.default = false;
 			}
 
 			// Update the history.
@@ -275,7 +275,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	private defaultExists(accounts: Record<string, Types.Account>): boolean
 	{
 		for(const [key, value] of Object.entries(accounts))
-			if(this.utilityService.accountMatchesWebsite(value, this.state.url) &&
+			if(Utilities.accountMatchesWebsite(value, this.state.url) &&
 				key !== this.state.key) return true;
 
 		return false;
@@ -290,7 +290,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 
 		// Autofill the title and URL.
 		if(!this.platformService.isExtension) return;
-		const rawUrl = this.utilityService.trimUrl(this.stateService.url);
+		const rawUrl = Utilities.trimUrl(this.stateService.url);
 		const result = parseDomain(rawUrl);
 
 		let url = '';

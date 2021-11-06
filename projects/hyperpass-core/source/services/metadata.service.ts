@@ -8,7 +8,7 @@
 import {Injectable} from '@angular/core';
 import {Title, Meta} from '@angular/platform-browser';
 
-import * as Constants from '../constants';
+import {Constants} from 'builds/hyperpass-common';
 
 
 @Injectable({providedIn: 'root'})

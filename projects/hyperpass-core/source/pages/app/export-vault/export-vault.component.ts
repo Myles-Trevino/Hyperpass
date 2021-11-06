@@ -11,7 +11,8 @@ import {formatDate} from '@angular/common';
 import * as FileSaver from 'file-saver';
 import * as _ from 'lodash';
 
-import * as Types from '../../../types';
+import {Types} from 'builds/hyperpass-common';
+
 import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
 import {UtilityService} from '../../../services/utility.service';

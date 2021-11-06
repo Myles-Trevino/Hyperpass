@@ -8,7 +8,8 @@
 import {Component} from '@angular/core';
 import * as Ionic from '@ionic/angular';
 
-import type * as Types from '../../../../types';
+import {Types} from 'builds/hyperpass-common';
+
 import {StateService} from '../../../../services/state.service';
 import {MessageService} from '../../../../services/message.service';
 import {UtilityService} from '../../../../services/utility.service';

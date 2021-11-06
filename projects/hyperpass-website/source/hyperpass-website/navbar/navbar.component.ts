@@ -9,7 +9,9 @@ import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
 
-import {Constants, Animations} from 'hyperpass-core';
+import {Constants} from 'builds/hyperpass-common';
+import {Animations} from 'hyperpass-core';
+
 import {navbarOverlayFadeAnimation} from '../animations';
 
 

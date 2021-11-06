@@ -9,7 +9,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as Rxjs from 'rxjs';
 
-import type * as Types from '../types';
+import {Types} from 'builds/hyperpass-common';
+
 import {PlatformService} from './platform.service';
 
 

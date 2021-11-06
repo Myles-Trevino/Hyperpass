@@ -9,8 +9,8 @@ import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 import * as _ from 'lodash';
 
-import * as Types from '../../types';
-import * as Constants from '../../constants';
+import {Types, Constants} from 'builds/hyperpass-common';
+
 import * as Animations from '../../animations';
 import {CryptoService} from '../../services/crypto.service';
 import {AccountService} from '../../services/account.service';

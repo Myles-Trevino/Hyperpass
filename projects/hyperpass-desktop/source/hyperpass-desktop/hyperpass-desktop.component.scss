@@ -48,9 +48,7 @@
 	height: var(--titlebar-button-diameter);
 	border-radius: calc(var(--titlebar-button-diameter) / 2);
 	transition: background-color var(--regular-transition-duration);
-
-	/* Temporarily hardcoded the size to work around a Sass bug. */
-	box-shadow: 0 0 0 0.1rem var(--text-color) inset;
+	box-shadow: 0 0 0 var(--line-width) var(--text-color) inset;
 
 	&:hover{ background-color: var(--text-color); }
 }

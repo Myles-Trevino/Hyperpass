@@ -7,7 +7,7 @@
 
 import browser from 'webextension-polyfill';
 
-import type {Types} from 'hyperpass-core';
+import {Types, Utilities} from 'builds/hyperpass-common';
 
 
 let website = '';
@@ -40,7 +40,7 @@ function initialize(): void
 		}
 
 		// Handle login timeout reset messages.
-		// (partial duplicate code from account.service.ts startLoginTimeout()).
+		// (References account.service.ts startLoginTimeout())
 		else if(message.type === 'loginTimeoutReset')
 		{
 			const loginTimeoutDuration = (message.data as number);
@@ -89,14 +89,7 @@ async function tabActivatedCallback(
 function urlChangeCallback(url: string | undefined): void
 {
 	if(!url) return;
-
-	// Trim the URL (duplicate code from utility.service.ts trimUrl()).
-	url = url.toLowerCase();
-	const start = url.indexOf('://');
-	if(start !== -1) url = url.substring(start+3);
-	const end = url.indexOf('/');
-	if(end !== -1) url = url.substring(0, end);
-	url = url.replace('www.', '');
+	url = Utilities.trimUrl(url);
 
 	// Update the URL.
 	if(!url) return;
@@ -136,7 +129,7 @@ function update(): void
 		// website to the available accounts array.
 		for(const [key, value] of Object.entries(accounts))
 		{
-			if(!accountMatchesWebsite(value)) continue;
+			if(!Utilities.accountMatchesWebsite(value, website)) continue;
 			matchingAccounts[key] = value;
 
 			// Check if the currently selected account is still an option.
@@ -156,22 +149,6 @@ function update(): void
 
 	// Update the context menu.
 	createContextMenus();
-}
-
-
-// Checks if the given account matches the current website.
-// (duplicate code from utility.service.ts accountMatchesWebsite()).
-function accountMatchesWebsite(account: Types.Account): boolean
-{
-	const urls = account.url.split(',');
-
-	for(let url of urls)
-	{
-		url = url.trim();
-		if(url && website.includes(url)) return true;
-	}
-
-	return false;
 }
 
 

@@ -11,7 +11,8 @@ import {Router} from '@angular/router';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
 
-import * as Constants from '../../constants';
+import {Constants} from 'builds/hyperpass-common';
+
 import {MessageService} from '../../services/message.service';
 import {UtilityService} from '../../services/utility.service';
 import {StorageService} from '../../services/storage.service';
