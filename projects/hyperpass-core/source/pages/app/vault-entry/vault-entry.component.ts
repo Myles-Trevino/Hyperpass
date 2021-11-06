@@ -289,10 +289,12 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 		this.generatePassword();
 
 		// Autofill the title and URL.
-		if(!this.platformService.isExtension) return;
-		const rawUrl = Utilities.trimUrl(this.stateService.url);
-		const result = parseDomain(rawUrl);
+		if(!this.platformService.isExtension ||
+			Utilities.isInternalUrl(this.stateService.url)) return;
 
+		const rawUrl = Utilities.trimUrl(this.stateService.url);
+
+		const result = parseDomain(rawUrl);
 		let url = '';
 		if(result.type === ParseResultType.Listed && result.domain)
 			url = `${result.domain}.${result.topLevelDomains.join('.')}`;

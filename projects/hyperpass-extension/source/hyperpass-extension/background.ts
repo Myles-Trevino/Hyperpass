@@ -88,11 +88,8 @@ async function tabActivatedCallback(
 // URL change callback.
 function urlChangeCallback(url: string | undefined): void
 {
-	if(!url) return;
+	if(!url || Utilities.isInternalUrl(url)) return;
 	url = Utilities.trimUrl(url);
-
-	// Update the URL.
-	if(!url) return;
 	website = url;
 	update();
 }
