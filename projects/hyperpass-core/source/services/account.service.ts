@@ -129,12 +129,12 @@ export class AccountService implements OnDestroy
 			// Trigger the login subject.
 			this.loginSubject.next(this.loggedIn);
 
-			// Redirect to the web app.
-			this.router.navigate(['/app']);
-
 			// If this is the extension, load the state.
 			if(this.platformService.isExtension)
 				await this.stateService.load(masterPassword);
+
+			// Redirect to the web app.
+			this.router.navigate(['/app']);
 		}
 
 		// Handle errors.
@@ -483,7 +483,7 @@ export class AccountService implements OnDestroy
 			// Decrypt the automatic login cipher.
 			if(!this.automaticLoginKey) return undefined;
 
-			return this.cryptoService.decrypt(JSON.parse(cipher),
+			return this.cryptoService.decrypt(JSON.parse(cipher) as Types.EncryptedData,
 				{key: this.cryptoService.toBytes(this.automaticLoginKey)});
 		}
 
