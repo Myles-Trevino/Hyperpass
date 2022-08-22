@@ -67,7 +67,8 @@
 							"lodash",
 							"file-saver",
 							"papaparse",
-							"is-ip"
+							"is-ip",
+							"bezier-easing"
 						],
 						"styles": ["projects/hyperpass-desktop/source/global.scss"],
 						"aot": false,
@@ -149,7 +150,8 @@
 							"file-saver",
 							"webextension-polyfill",
 							"papaparse",
-							"is-ip"
+							"is-ip",
+							"bezier-easing"
 						],
 						"styles": ["projects/hyperpass-extension/source/global.scss"],
 						"scripts": [],
@@ -229,7 +231,8 @@
 							"lodash",
 							"file-saver",
 							"papaparse",
-							"is-ip"
+							"is-ip",
+							"bezier-easing"
 						],
 						"styles": ["projects/hyperpass-mobile/source/global.scss"],
 						"aot": false,
@@ -307,7 +310,8 @@
 							"lodash",
 							"file-saver",
 							"papaparse",
-							"is-ip"
+							"is-ip",
+							"bezier-easing"
 						],
 						"scripts": [],
 						"aot": false,

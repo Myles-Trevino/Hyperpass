@@ -1,33 +1,7 @@
 {
 	"$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
 	"dest": "../../builds/hyperpass-core",
-	"lib":
-	{
-		"entryFile": "source/public-api.ts",
-		"umdModuleIds":
-		{
-			"builds/hyperpass-common": "HyperpassCommon",
-			"ngx-scrollbar": "NgxScrollbar",
-			"libsodium-wrappers": "Sodium",
-			"hash-wasm": "HashWasm",
-			"lodash": "_",
-			"fflate": "Fflate",
-			"file-saver": "FileSaver",
-			"papaparse": "PapaParse",
-			"@ionic/angular": "IonicAngular",
-			"@capacitor/core": "CapacitorCore",
-			"@capacitor/device": "CapacitorDevice",
-			"@capacitor/storage": "CapacitorStorage",
-			"@capacitor/status-bar": "CapacitorStatusBar",
-			"@capacitor/app": "CapacitorApp",
-			"capacitor-native-biometric": "CapacitorNativeBiometric",
-			"uuid": "UUID",
-			"swiper/angular": "SwiperAngular",
-			"swiper_angular": "Swiper_Angular",
-			"swiper": "Swiper",
-			"parse-domain": "ParseDomain"
-		}
-	},
+	"lib": {"entryFile": "source/public-api.ts"},
 	"assets":
 	[
 		"assets",

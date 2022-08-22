@@ -20,7 +20,6 @@ export function app(): Express.Express
 {
 	const server = Express();
 	const browserFolder = join(process.cwd(), 'builds/hyperpass-website/browser');
-	const indexFile = 'index';
 
 	// Configure the Universal express engine.
 	server.engine('html', ngExpressEngine({bootstrap: HyperpassWebsiteServerModule}));
@@ -34,7 +33,7 @@ export function app(): Express.Express
 	// Otherwise use the Universal engine.
 	server.get('*', (req, res) =>
 	{
-		res.render(indexFile, {req, providers:
+		res.render('index', {req, providers:
 			[{provide: APP_BASE_HREF, useValue: req.baseUrl}]});
 	});
 
