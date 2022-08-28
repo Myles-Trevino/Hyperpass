@@ -38,7 +38,7 @@ export const linuxUrl = `${downloadsUrl}/Hyperpass ${version}.deb`;
 
 // Mobile app URLs.
 export const androidAppUrl = 'https://play.google.com/store/apps/details?id=com.laventh.hyperpass';
-export const iosAppUrl = 'https://testflight.apple.com/join/I0ApOyTj';
+export const iosAppUrl = 'https://apps.apple.com/us/app/hyperpass/id1583375792';
 
 // Support article URLs.
 export const googleExportUrl = 'https://support.google.com/chrome/answer/95606';

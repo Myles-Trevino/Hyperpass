@@ -13,11 +13,13 @@
 
 		<p>Hyperpass' history system lets you easily restore deleted vault entries and view previously used usernames, passwords, and notes.</p>
 
-		<p>The vault entry 'Username', 'Password', and 'Notes' inputs have history buttons represented by a clock encircled by a counterclockwise arrow. This button will appear when you press on or hover over the mentioned inputs. Pressing this icon will open a popup containing the history of saved changes for that input. Each input of each vault entry has its own separate history which can contain a maximum of ten entries. If the history for an input exceeds ten entries, the oldest value will be discarded to make room for the new one. You can copy the history entry's value to the clipboard by clicking the button with the icon of two identical squares on top of each other, and you can delete the history entry by pressing the button with the 'X' icon. On laptop and desktop devices, you must hover over the entry to see these buttons.</p>
+		<p>The vault entry 'Username', 'Password', and 'Notes' fields have a history button, represented by an icon of a clock encircled by a counterclockwise arrow. On desktop or laptop, these buttons will appear when you press on or hover over the input field, whereas on mobile they will be visible at all times. Pressing the history button will open a popup containing the history of saved changes for that field. Each field of each vault entry has its own separate history list which can contain a maximum of ten entries. If the history for a field exceeds ten entries, the oldest value will be discarded to make room for the new one.</p>
+
+		<p>You can copy a history entry's value to the clipboard by pressing the copy button, represented by an icon of two identical squares on top of each other. You can delete a history entry by pressing the 'X' button.</p>
 
 		<hyperpass-image-loader [url]="'support/vault-entry-history-'+themeService.lowercaseTheme" [verticalAspect]="100/66"></hyperpass-image-loader>
 
-		<p>On the Vault page, to the right of the search bar, you will see the history icon mentioned in the last section. Clicking on this will display a list of previously deleted vault entries. You can restore these vault entries by clicking on the button with the icon of a counterclockwise arrow, and you can delete these entries by clicking the button with an 'X' icon. Again, these icons are always visible on mobile, while on laptop or desktop you must hover over the entry to see them.</p>
+		<p>On the Vault page, to the right of the search bar, you will see a history button, represented by an icon of a clock encircled by a counterclockwise arrow. Pressing on this will display a list of previously deleted vault entries. You can restore these vault entries by pressing the restore button, represented by an icon of a counterclockwise arrow. You can delete these entries by pressing the 'X' button.</p>
 
 		<hyperpass-image-loader [url]="'support/vault-history-'+themeService.lowercaseTheme" [verticalAspect]="100/66"></hyperpass-image-loader>
 	</div>
