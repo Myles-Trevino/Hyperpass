@@ -23,7 +23,7 @@ export function wrapAsync(handler: (request: Express.Request,
 {
 	return (request: Express.Request, response: Express.Response): void =>
 	{
-		handler(request, response).catch(
+		handler(request.body as Express.Request, response).catch(
 			(error: unknown) => { Response.errorStatus(response, error); });
 	};
 }

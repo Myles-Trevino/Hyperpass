@@ -1,0 +1,38 @@
+<!--
+	Copyright Myles Trevino
+	Licensed under the Apache License, Version 2.0
+	http://www.apache.org/licenses/LICENSE-2.0
+-->
+
+
+<!-- Top bar. -->
+<div class="app-top-bar">
+	<button (click)="utilityService.close('options')">Back</button>
+	<button (click)='delete()'>Delete</button>
+</div>
+
+
+<!-- Scrollable content. -->
+<ng-scrollbar>
+<div class="vertical-container">
+
+	<!-- Notice. -->
+	<div class="tile-content">
+	<div class="tile-section">
+		<p class="warning-text">Upon entering your master password and clicking 'Delete', this account and all data associated with it will be permanently deleted. You will also be unable to decrypt any encrypted vault exports you may have made from this account. With this in mind, make sure you have properly transferred all data you want to keep out of this account before you delete it.</p>
+	</div>
+	</div>
+
+	<!-- Inputs. -->
+	<div class="tile-content">
+
+		<!-- Master password. -->
+		<div class="wide-tile-setting">
+			<span>Master Password</span>
+			<hyperpass-master-password-input [(masterPassword)]="masterPassword" [autofocus]="true" tab="Options"></hyperpass-master-password-input>
+		</div>
+
+	</div>
+
+</div>
+</ng-scrollbar>

@@ -222,46 +222,6 @@ async function setAutomaticLoginKey(rawRequest: Express.Request,
 }
 
 
-// Logs out on the given device.
-async function logOut(rawRequest: Express.Request,
-	result: Express.Response): Promise<void>
-{
-	// Parse the request.
-	const request = Validation.validate(rawRequest,
-		Validation.logoutRequestSchema) as Types.LogoutRequest;
-
-	// Update the key.
-	const account = await Database.getAccount(request.accessData);
-	const accounts = await Database.getAccounts();
-
-	accounts.updateOne({_id: account._id},
-		{$unset: {[`automaticLoginKeys.${request.deviceId}`]: true}});
-
-	// Send the success response.
-	Response.success(result);
-}
-
-
-// Logs out on all devices.
-async function globalLogout(rawRequest: Express.Request,
-	result: Express.Response): Promise<void>
-{
-	// Parse the request.
-	const request = Validation.validate(rawRequest,
-		Validation.globalLogoutRequestSchema) as Types.GlobalLogoutRequest;
-
-	// Update the key.
-	const account = await Database.getAccount(request.accessData);
-	const accounts = await Database.getAccounts();
-
-	accounts.updateOne({_id: account._id},
-		{$set: {accessKey: request.newAccessKey, automaticLoginKeys: {}}});
-
-	// Send the success response.
-	Response.success(result);
-}
-
-
 // Changes the master password.
 async function changeMasterPassword(rawRequest: Express.Request,
 	result: Express.Response): Promise<void>
@@ -279,6 +239,31 @@ async function changeMasterPassword(rawRequest: Express.Request,
 		accessKey: request.newAccessKey,
 		encryptedVault: request.newEncryptedVault
 	}});
+
+	// Send the success response.
+	Response.success(result);
+}
+
+
+// Changes the email address.
+async function changeEmailAddress(rawRequest: Express.Request,
+	result: Express.Response): Promise<void>
+{
+	// Validate the request's format.
+	const request = Validation.validate(rawRequest,
+		Validation.changeEmailAddressRequestSchema) as Types.ChangeEmailAddressRequest;
+
+	// Check that the validation key matches.
+	const account = await Database.getAccount(request.accessData, false);
+
+	if(!account.emailAddressValidationKey ||
+		request.emailAddress !== account.emailAddressValidationKey.emailAddress ||
+		request.validationKey !== account.emailAddressValidationKey.validationKey)
+		throw new Types.ApiError('Invalid email address validation key.', 400);
+
+	// Change the email address.
+	const accounts = await Database.getAccounts();
+	accounts.updateOne({_id: account._id}, {$set: {emailAddress: request.emailAddress}});
 
 	// Send the success response.
 	Response.success(result);
@@ -322,25 +307,59 @@ async function sendEmailAddressValidationEmail(rawRequest: Express.Request,
 }
 
 
-// Changes the email address.
-async function changeEmailAddress(rawRequest: Express.Request,
+// Logs out on the given device.
+async function logOut(rawRequest: Express.Request,
+	result: Express.Response): Promise<void>
+{
+	// Parse the request.
+	const request = Validation.validate(rawRequest,
+		Validation.logoutRequestSchema) as Types.LogoutRequest;
+
+	// Update the key.
+	const account = await Database.getAccount(request.accessData);
+	const accounts = await Database.getAccounts();
+
+	accounts.updateOne({_id: account._id},
+		{$unset: {[`automaticLoginKeys.${request.deviceId}`]: true}});
+
+	// Send the success response.
+	Response.success(result);
+}
+
+
+// Logs out on all devices.
+async function globalLogout(rawRequest: Express.Request,
+	result: Express.Response): Promise<void>
+{
+	// Parse the request.
+	const request = Validation.validate(rawRequest,
+		Validation.globalLogoutRequestSchema) as Types.GlobalLogoutRequest;
+
+	// Update the key.
+	const account = await Database.getAccount(request.accessData);
+	const accounts = await Database.getAccounts();
+
+	accounts.updateOne({_id: account._id},
+		{$set: {accessKey: request.newAccessKey, automaticLoginKeys: {}}});
+
+	// Send the success response.
+	Response.success(result);
+}
+
+
+// Deletes the account.
+async function deleteAccount(rawRequest: Express.Request,
 	result: Express.Response): Promise<void>
 {
 	// Validate the request's format.
 	const request = Validation.validate(rawRequest,
-		Validation.changeEmailAddressRequestSchema) as Types.ChangeEmailAddressRequest;
+		Validation.securedRequestSchema) as Types.SecuredRequest;
 
-	// Check that the validation key matches.
+	// Delete the account.
 	const account = await Database.getAccount(request.accessData, false);
-
-	if(!account.emailAddressValidationKey ||
-		request.emailAddress !== account.emailAddressValidationKey.emailAddress ||
-		request.validationKey !== account.emailAddressValidationKey.validationKey)
-		throw new Types.ApiError('Invalid email address validation key.', 400);
-
-	// Change the email address.
 	const accounts = await Database.getAccounts();
-	accounts.updateOne({_id: account._id}, {$set: {emailAddress: request.emailAddress}});
+
+	accounts.deleteOne({_id: account._id});
 
 	// Send the success response.
 	Response.success(result);
@@ -359,11 +378,12 @@ app.post('/get-vault', Helpers.wrapAsync(getVault));
 app.post('/set-vault', Helpers.wrapAsync(setVault));
 app.post('/set-automatic-login-key', Helpers.wrapAsync(setAutomaticLoginKey));
 app.post('/change-master-password', Helpers.wrapAsync(changeMasterPassword));
+app.post('/change-email-address', Helpers.wrapAsync(changeEmailAddress));
 app.post('/send-email-address-validation-email',
 	Helpers.wrapAsync(sendEmailAddressValidationEmail));
-app.post('/change-email-address', Helpers.wrapAsync(changeEmailAddress));
 app.post('/log-out', Helpers.wrapAsync(logOut));
 app.post('/global-logout', Helpers.wrapAsync(globalLogout));
+app.post('/delete-account', Helpers.wrapAsync(deleteAccount));
 
 app.use((request, result) => { result.status(404).end(); });
 

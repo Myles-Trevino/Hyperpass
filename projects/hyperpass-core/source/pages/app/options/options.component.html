@@ -62,6 +62,12 @@
 		<button [routerLink]="['/app', {outlets: {'options': ['master-password']}}]" [skipLocationChange]="true" [ngClass]="{'disabled': !stateService.isOnline}">Change</button>
 	</div>
 
+	<!-- Delete account. -->
+	<div class="tile-setting">
+		<span>Delete Account</span>
+		<button [routerLink]="['/app', {outlets: {'options': ['delete-account']}}]" [skipLocationChange]="true">Delete</button>
+	</div>
+
 	<!-- Help. -->
 	<div class="tile-setting">
 		<span>Need Help?</span>

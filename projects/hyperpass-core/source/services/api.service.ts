@@ -146,4 +146,12 @@ export class ApiService
 			`${this.platformService.apiServer}/global-logout`,
 			{accessData, newAccessKey}));
 	}
+
+
+	// /delete-account.
+	public async deleteAccount(accessData: Types.AccessData): Promise<void>
+	{
+		await Rxjs.firstValueFrom(this.httpClient.post(
+			`${this.platformService.apiServer}/delete-account`, {accessData}));
+	}
 }
