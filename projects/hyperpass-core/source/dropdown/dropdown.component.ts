@@ -6,7 +6,7 @@
 
 
 import {Component, Input, Output, ViewChild, HostListener,
-	ElementRef, EventEmitter} from '@angular/core';
+	ElementRef, EventEmitter, ChangeDetectorRef} from '@angular/core';
 
 import * as Animations from '../animations';
 
@@ -31,15 +31,21 @@ export class DropdownComponent<T1 extends Iterable<T2>, T2>
 	public show = false;
 
 
+	// Constructor.
+	public constructor(private readonly changeDetectorRef: ChangeDetectorRef){}
+
+
 	// Click callback.
 	@HostListener('document:click', ['$event'])
 	public clickCallback(event: MouseEvent): void
 	{
 		const headElement: ElementRef<HTMLElement> | undefined = this.dropdownHead;
+
 		if(!headElement) throw new Error('No dropdown head element.');
 		if(!event.target) throw new Error('No dropdown target element.');
-		if(!headElement.nativeElement.contains(event.target as Node)) this.hide();
-		else this.toggle();
+
+		if(headElement.nativeElement.contains(event.target as Node)) this.toggle();
+		else this.hide();
 	}
 
 
@@ -53,9 +59,17 @@ export class DropdownComponent<T1 extends Iterable<T2>, T2>
 
 
 	// Toggles the dropdown.
-	private toggle(): void { this.show = !this.show; }
+	private toggle(): void
+	{
+		this.show = !this.show;
+		this.changeDetectorRef.detectChanges();
+	}
 
 
 	// Hides the dropdown.
-	private hide(): void { this.show = false; }
+	private hide(): void
+	{
+		this.show = false;
+		this.changeDetectorRef.detectChanges();
+	}
 }
