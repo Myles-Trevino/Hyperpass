@@ -28,7 +28,7 @@ export class MasterPasswordInputComponent
 	@Input() public autofocus = false;
 	@Output() public readonly masterPasswordChange = new EventEmitter<string>();
 
-	@ViewChild('input') public readonly input?: ElementRef;
+	@ViewChild('input') public readonly input?: ElementRef<HTMLElement>;
 
 	public showPassword = false;
 

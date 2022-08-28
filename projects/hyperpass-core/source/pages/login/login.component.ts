@@ -30,7 +30,7 @@ import {StateService} from '../../services/state.service';
 export class LoginComponent implements OnInit
 {
 	@HostBinding('class') public readonly class = 'centerer-page';
-	@ViewChild('emailAddressInput') public readonly emailAddressInput?: ElementRef;
+	@ViewChild('emailAddressInput') public readonly emailAddressInput?: ElementRef<HTMLElement>;
 	@ViewChild('masterPasswordInput') public readonly masterPasswordInput?: MasterPasswordInputComponent;
 
 	public emailAddress = '';
@@ -76,11 +76,10 @@ export class LoginComponent implements OnInit
 		if(this.stateService.isOnline)
 		{
 			// Focus the master password input if an email address was loaded.
-			if(this.emailAddress)
-				(this.masterPasswordInput?.input?.nativeElement as HTMLInputElement).focus();
+			if(this.emailAddress) this.masterPasswordInput?.input?.nativeElement.focus();
 
 			// Otherwise, focus the email address input.
-			else (this.emailAddressInput?.nativeElement as HTMLInputElement).focus();
+			else this.emailAddressInput?.nativeElement.focus();
 
 			// Check if biometric login is enabled.
 			this.biometricLoginEnabled =

@@ -32,7 +32,7 @@ type Point =
 export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
 {
 	@HostBinding('class') protected readonly class = 'page';
-	@ViewChild('canvas') private readonly canvas?: ElementRef;
+	@ViewChild('canvas') private readonly canvas?: ElementRef<HTMLElement>;
 
 	public showCanvas = false;
 	public readonly constants = Constants;
@@ -77,7 +77,7 @@ export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
 		// Initialize Three.js.
 		this.renderer = new Three.WebGLRenderer
 		({
-			canvas: this.canvas.nativeElement as HTMLCanvasElement,
+			canvas: this.canvas.nativeElement,
 			alpha: true,
 			antialias: true
 		});

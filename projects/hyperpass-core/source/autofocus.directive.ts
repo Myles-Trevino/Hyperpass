@@ -24,7 +24,7 @@ export class AutofocusDirective implements AfterViewInit
 
 	private tab?: string;
 
-	public constructor(private readonly element: ElementRef,
+	public constructor(private readonly element: ElementRef<HTMLElement>,
 		private readonly stateService: StateService,
 		private readonly platformService: PlatformService){}
 
@@ -54,6 +54,6 @@ export class AutofocusDirective implements AfterViewInit
 	{
 		if(!ignorePage && this.stateService.app.tab !== this.tab) return;
 		await Utilities.sleep();
-		(this.element.nativeElement as HTMLInputElement).focus({preventScroll: true});
+		(this.element.nativeElement).focus({preventScroll: true});
 	}
 }

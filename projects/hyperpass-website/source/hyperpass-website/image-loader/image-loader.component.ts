@@ -33,7 +33,7 @@ export class ImageLoaderComponent implements OnInit
 
 
 	// Constructor.
-	public constructor(private readonly elementRef: ElementRef,
+	public constructor(private readonly elementRef: ElementRef<HTMLElement>,
 		@Inject(PLATFORM_ID) private readonly platformId: Object){}
 
 

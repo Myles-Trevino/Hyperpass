@@ -26,7 +26,6 @@ import {PlatformService} from '../../services/platform.service';
 import {MetadataService} from '../../services/metadata.service';
 import {MessageService} from '../../services/message.service';
 import {InitializationService} from '../../services/initialization.service';
-import {UtilityService} from '../../services/utility.service';
 import {StorageService} from '../../services/storage.service';
 
 
