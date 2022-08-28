@@ -71,7 +71,7 @@
 	</div>
 
 	<!-- Support the project. -->
-	<div *ngIf="!platformService.isAndroidApp" class="tile-setting">
+	<div *ngIf="!platformService.isMobileApp" class="tile-setting">
 
 		<div id="options-support-the-project-container">
 			<span>Support the Project</span>
@@ -84,7 +84,7 @@
 	</div>
 
 	<!-- About this project. -->
-	<div *ngIf="platformService.isAndroidApp" class="tile-setting">
+	<div *ngIf="platformService.isMobileApp" class="tile-setting">
 		<span>About This Project</span>
 		<a [href]="constants.aboutUrl" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>About Page</button>
