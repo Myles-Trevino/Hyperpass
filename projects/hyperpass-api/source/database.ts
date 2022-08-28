@@ -33,7 +33,8 @@ export async function getDatabase(): Promise<MongoDB.Db>
 
 
 // Retrieves the collection of the specified name.
-export async function getCollection<T>(name: string): Promise<MongoDB.Collection<T>>
+export async function getCollection<T extends MongoDB.Document>(
+	name: string): Promise<MongoDB.Collection<T>>
 { return (await getDatabase()).collection(name); }
 
 
