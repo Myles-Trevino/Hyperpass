@@ -58,7 +58,7 @@ export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit
 	{
 		// Close on back button press.
 		this.backButtonSubscription = this.ionicPlatform.backButton
-			.subscribeWithPriority(100, () => { this.utilityService.close('vault'); });
+			.subscribeWithPriority(100, () => { this.exit(); });
 
 		// If there is cached state, load it.
 		if(this.stateService.vaultEntry) this.state = this.stateService.vaultEntry;

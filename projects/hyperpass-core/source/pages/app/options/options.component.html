@@ -69,16 +69,20 @@
 	</div>
 
 	<!-- Help. -->
-	<div class="tile-setting">
+	<div *ngIf="false" class="tile-setting">
 		<span>Need Help?</span>
 		<a [href]="constants.websiteUrl+'/support'" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>Support Page</button>
 		</a>
 	</div>
 
-	<!-- Support the project. -->
-	<div *ngIf="!platformService.isMobileApp" class="tile-setting">
+	<div *ngIf="true" class="wide-tile-setting">
+		<span>Need Help?</span>
+		<p>Apple refuses to allow links to the Hyperpass website within the iOS app out of fear you might donate to this project without them being able to get in on the proceeds. Because of this, you will have to visit hyperpass.org in a browser to access the support articles. On their behalf, apologies for the trouble.</p>
+	</div>
 
+	<!-- Support the project/About this project. -->
+	<div *ngIf="!platformService.isMobileApp" class="tile-setting">
 		<div id="options-support-the-project-container">
 			<span>Support the Project</span>
 			<hyperpass-svg svg="Heart"></hyperpass-svg>
@@ -89,8 +93,7 @@
 		</a>
 	</div>
 
-	<!-- About this project. -->
-	<div *ngIf="platformService.isMobileApp" class="tile-setting">
+	<div *ngIf="platformService.isAndroidApp" class="tile-setting">
 		<span>About This Project</span>
 		<a [href]="constants.aboutUrl" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>About Page</button>

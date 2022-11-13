@@ -27,6 +27,7 @@ export class PlatformService
 	public isMobile = false;
 	public isMobileApp = false;
 	public isAndroidApp = false;
+	public isIosApp = false;
 	public isServer = isPlatformServer(this.platformId);
 	public isExtension = false;
 
@@ -60,5 +61,6 @@ export class PlatformService
 			this.ionicPlatform.is('android') || this.ionicPlatform.is('ios');
 		this.isMobileApp = this.isMobile && !this.ionicPlatform.is('mobileweb');
 		this.isAndroidApp = this.isMobileApp && this.ionicPlatform.is('android');
+		this.isIosApp = this.isMobileApp && this.ionicPlatform.is('ios');
 	}
 }
