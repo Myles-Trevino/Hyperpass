@@ -192,7 +192,7 @@ export class AccountService implements OnDestroy
 	public async biometricLogin(emailAddress: string): Promise<void>
 	{
 		const credentials = await this.biometricService.login(emailAddress);
-		await this.logIn(credentials.emailAddress, credentials.masterPassword, false);
+		await this.logIn(credentials.emailAddress, credentials.masterPassword);
 	}
 
 
