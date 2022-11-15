@@ -80,13 +80,13 @@ export class LoginComponent implements OnInit
 
 			// Otherwise, focus the email address input.
 			else this.emailAddressInput?.nativeElement.focus();
-
-			// Check if biometric login is enabled.
-			this.biometricLoginEnabled =
-				await this.biometricService.isEnabled(this.emailAddress);
 		}
 
 		else this.disableLogin = (cachedEmailAddress === undefined);
+
+		// Check if biometric login is enabled.
+		this.biometricLoginEnabled =
+			await this.biometricService.isEnabled(this.emailAddress);
 	}
 
 
