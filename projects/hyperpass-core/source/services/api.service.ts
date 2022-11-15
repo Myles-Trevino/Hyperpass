@@ -9,7 +9,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as Rxjs from 'rxjs';
 
-import {Types} from 'builds/hyperpass-common';
+import {Types, Constants} from 'builds/hyperpass-common';
 
 import {PlatformService} from './platform.service';
 
@@ -26,7 +26,7 @@ export class ApiService
 	// /get-minimum-version.
 	public getMinimumVersion(): Promise<string>
 	{
-		return Rxjs.firstValueFrom(this.httpClient.get(
+		return this.wrapper(this.httpClient.get(
 			`${this.platformService.apiServer}/get-minimum-version`,
 			{responseType: 'text'}));
 	}
@@ -36,7 +36,7 @@ export class ApiService
 	public async createAccount(version: number, emailAddress: string,
 		accessKey: Types.EncryptedKey, encryptedVault: Types.EncryptedData): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/create-account`,
 			{version, emailAddress, accessKey, encryptedVault}));
 	}
@@ -46,7 +46,7 @@ export class ApiService
 	public getPublicInformation(
 		emailAddress: string): Promise<Types.PublicAccountInformation>
 	{
-		return Rxjs.firstValueFrom(this.httpClient.post<Types.PublicAccountInformation>(
+		return this.wrapper(this.httpClient.post<Types.PublicAccountInformation>(
 			`${this.platformService.apiServer}/get-public-information`,
 			{emailAddress, deviceId: this.platformService.deviceId}));
 	}
@@ -55,7 +55,7 @@ export class ApiService
 	// /send-account-validation-email.
 	public async sendAccountValidationEmail(accessData: Types.AccessData): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/send-account-validation-email`,
 			{accessData}));
 	}
@@ -65,7 +65,7 @@ export class ApiService
 	public async validateAccount(accessData: Types.AccessData,
 		validationKey: string): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/validate-account`,
 			{accessData, validationKey}));
 	}
@@ -74,7 +74,7 @@ export class ApiService
 	// /get-vault.
 	public getVault(accessData: Types.AccessData): Promise<Types.EncryptedData>
 	{
-		return Rxjs.firstValueFrom(this.httpClient.post<Types.EncryptedData>(
+		return this.wrapper(this.httpClient.post<Types.EncryptedData>(
 			`${this.platformService.apiServer}/get-vault`, {accessData}));
 	}
 
@@ -83,7 +83,7 @@ export class ApiService
 	public async setVault(accessData: Types.AccessData,
 		encryptedVault: Types.EncryptedData): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/set-vault`, {accessData, encryptedVault}));
 	}
 
@@ -92,7 +92,7 @@ export class ApiService
 	public async setAutomaticLoginKey(accessData: Types.AccessData,
 		key: string | undefined, duration: number): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/set-automatic-login-key`,
 			{deviceId: this.platformService.deviceId, accessData, key, duration}));
 	}
@@ -103,7 +103,7 @@ export class ApiService
 		newAccessKey: Types.EncryptedKey,
 		newEncryptedVault: Types.EncryptedData): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/change-master-password`,
 			{accessData, newAccessKey, newEncryptedVault}));
 	}
@@ -113,7 +113,7 @@ export class ApiService
 	public async sendEmailAddressValidationEmail(
 		accessData: Types.AccessData, emailAddress: string): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/send-email-address-validation-email`,
 			{accessData, emailAddress}));
 	}
@@ -123,7 +123,7 @@ export class ApiService
 	public async changeEmailAddress(accessData: Types.AccessData,
 		emailAddress: string, validationKey: string): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/change-email-address`,
 			{accessData, emailAddress, validationKey}));
 	}
@@ -132,7 +132,7 @@ export class ApiService
 	// /log-out.
 	public async logOut(accessData: Types.AccessData): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/log-out`,
 			{accessData, deviceId: this.platformService.deviceId}));
 	}
@@ -142,7 +142,7 @@ export class ApiService
 	public async globalLogout(accessData: Types.AccessData,
 		newAccessKey: Types.EncryptedKey): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/global-logout`,
 			{accessData, newAccessKey}));
 	}
@@ -151,7 +151,14 @@ export class ApiService
 	// /delete-account.
 	public async deleteAccount(accessData: Types.AccessData): Promise<void>
 	{
-		await Rxjs.firstValueFrom(this.httpClient.post(
+		await this.wrapper(this.httpClient.post(
 			`${this.platformService.apiServer}/delete-account`, {accessData}));
+	}
+
+
+	// Wrapper for all API calls.
+	private wrapper<T>(child: Rxjs.Observable<T>): Promise<T>
+	{
+		return Rxjs.firstValueFrom(child.pipe(Rxjs.timeout(Constants.requestTimeout)));
 	}
 }

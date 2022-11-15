@@ -14,6 +14,7 @@ export const maximumHistoryEntries = 10;
 export const maximumVaultEntries = 10000;
 export const defaultLoginTimeout = '1 Day';
 export const defaultLoginTimeoutDuration = 60*24;
+export const requestTimeout = 7000;
 
 
 // General URLs.
