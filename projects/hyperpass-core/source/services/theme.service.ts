@@ -61,7 +61,7 @@ const darkTheme =
 
 export class ThemeService
 {
-	public theme: Types.Theme = 'Light';
+	public theme: Types.Theme = Constants.defaultTheme;
 	public lowercaseTheme = this.theme.toLowerCase();
 
 
@@ -70,28 +70,53 @@ export class ThemeService
 		private readonly platformService: PlatformService){}
 
 
-	// Sets the theme.
+	// Sets and applies the given theme.
 	public async setTheme(theme?: Types.Theme): Promise<void>
 	{
-		// If manually set, save the theme.
-		if(theme) await this.storageService.setData(Constants.themeKey, theme);
+		// If a theme has been manually set, cache it.
+		if(theme)
+		{
+			this.theme = theme;
+			await this.storageService.setData(Constants.themeKey, this.theme);
+		}
 
-		// Otherwise, automatically determine the preferred theme.
-		else theme = this.isDarkThemePreferred() ? 'Dark' : 'Light';
-		this.theme = theme;
-		this.lowercaseTheme = theme.toLowerCase();
+		// Otherwise, if no theme was manually set...
+		else
+		{
+			// If a theme is cached, set the cached theme.
+			const cachedTheme = await this.storageService.getData(Constants.themeKey);
+			if(cachedTheme && Types.isTheme(cachedTheme)) this.theme = cachedTheme;
 
+			// If no theme is cached, set the theme based on OS preference.
+			else
+			{
+				this.theme = this.isDarkThemePreferred() ? 'Dark' : 'Light';
+				this.lowercaseTheme = this.theme.toLowerCase();
+			}
+		}
+
+		// Apply the theme.
+		await this.applyTheme();
+	}
+
+
+	// Applies the current theme.
+	public async applyTheme(): Promise<void>
+	{
 		// Apply the CSS.
-		const css = (theme === 'Dark') ? darkTheme : lightTheme;
+		const css = (this.theme === 'Dark') ? darkTheme : lightTheme;
 
 		for(const [key, value] of Object.entries(css))
 			document.documentElement.style.setProperty(`--${key}`, value);
 
-		// If on mobile, set the status bar.
+		// If on mobile, apply the status bar attributes.
 		if(this.platformService.isMobile)
 		{
-			StatusBar.setStyle({style: (theme === 'Dark') ? Style.Dark : Style.Light});
-			StatusBar.setBackgroundColor({color: this.rgbToHex(css['alternate-color'])});
+			await StatusBar.setStyle(
+				{style: (this.theme === 'Dark') ? Style.Dark : Style.Light});
+
+			await StatusBar.setBackgroundColor(
+				{color: this.rgbToHex(css['alternate-color'])});
 		}
 	}
 

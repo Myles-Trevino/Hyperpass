@@ -6,7 +6,7 @@
 
 
 // Values.
-export const version = '2022.11.14';
+export const version = '2022.11.15';
 export const minimumMasterPasswordLength = 12;
 export const keyLength = 32; // crypto_aead_xchacha20poly1305_ietf_KEYBYTES
 export const loginTimeoutGranularity = 10000;
@@ -15,6 +15,7 @@ export const maximumVaultEntries = 10000;
 export const defaultLoginTimeout = '1 Day';
 export const defaultLoginTimeoutDuration = 60*24;
 export const requestTimeout = 7000;
+export const defaultTheme = 'Dark';
 
 
 // General URLs.

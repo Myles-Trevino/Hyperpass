@@ -10,6 +10,7 @@ import {isPlatformServer} from '@angular/common';
 import * as Ionic from '@ionic/angular';
 import type {OperatingSystem} from '@capacitor/device';
 import {Device} from '@capacitor/device';
+import {TextZoom} from '@capacitor/text-zoom';
 
 import {Constants} from 'builds/hyperpass-common';
 
@@ -62,5 +63,8 @@ export class PlatformService
 		this.isMobileApp = this.isMobile && !this.ionicPlatform.is('mobileweb');
 		this.isAndroidApp = this.isMobileApp && this.ionicPlatform.is('android');
 		this.isIosApp = this.isMobileApp && this.ionicPlatform.is('ios');
+
+		// Force text zoom to 100% to prevent UI issues.
+		await TextZoom.set({value: 1});
 	}
 }

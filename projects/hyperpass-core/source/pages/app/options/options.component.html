@@ -68,20 +68,20 @@
 		<button [routerLink]="['/app', {outlets: {'options': ['delete-account']}}]" [skipLocationChange]="true">Delete</button>
 	</div>
 
-	<!-- Help. -->
-	<div *ngIf="false" class="tile-setting">
+	<!-- Support page. -->
+	<div *ngIf="!platformService.isIosApp" class="tile-setting">
 		<span>Need Help?</span>
 		<a [href]="constants.websiteUrl+'/support'" target="_blank" [ngClass]="{'disabled': !stateService.isOnline}">
 			<button>Support Page</button>
 		</a>
 	</div>
 
-	<div *ngIf="true" class="wide-tile-setting">
+	<div *ngIf="platformService.isIosApp" class="wide-tile-setting">
 		<span>Need Help?</span>
 		<p>Apple refuses to allow links to the Hyperpass website within the iOS app out of fear you might donate to this project without them being able to get in on the proceeds. Because of this, you will have to visit hyperpass.org in a browser to access the support articles. On their behalf, apologies for the trouble.</p>
 	</div>
 
-	<!-- Support the project/About this project. -->
+	<!-- Donation link. -->
 	<div *ngIf="!platformService.isMobileApp" class="tile-setting">
 		<div id="options-support-the-project-container">
 			<span>Support the Project</span>

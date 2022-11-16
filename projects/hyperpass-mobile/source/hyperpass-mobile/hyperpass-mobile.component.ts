@@ -9,7 +9,7 @@ import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
 import {SplashScreen} from '@capacitor/splash-screen';
 
-import {InitializationService} from 'hyperpass-core';
+import {InitializationService, ThemeService} from 'hyperpass-core';
 
 
 @Component
@@ -21,13 +21,17 @@ import {InitializationService} from 'hyperpass-core';
 export class HyperpassMobileComponent implements OnInit
 {
 	// Constructor.
-	public constructor(public readonly initializationService: InitializationService){}
+	public constructor(public readonly initializationService: InitializationService,
+		private readonly themeService: ThemeService){}
 
 
 	// Initializer.
 	public async ngOnInit(): Promise<void>
 	{
 		await this.initializationService.initialize();
-		SplashScreen.hide();
+		await SplashScreen.hide();
+
+		// Temporary fix for Capacitor failing to set status bar attributes on Android 13+.
+		setTimeout(() => { this.themeService.applyTheme(); }, 500);
 	}
 }
