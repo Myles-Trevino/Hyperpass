@@ -14,4 +14,3 @@ if(environment.production){ enableProdMode(); }
 
 
 export {HyperpassWebsiteServerModule} from './hyperpass-website/hyperpass-website.server.module';
-export {renderModule, renderModuleFactory} from '@angular/platform-server';

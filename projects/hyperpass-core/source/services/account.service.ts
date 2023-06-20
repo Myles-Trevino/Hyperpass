@@ -178,7 +178,6 @@ export class AccountService implements OnDestroy
 			try
 			{
 				await this.biometricLogin(cachedEmailAddress);
-				return; // Success.
 			}
 			catch(error: unknown){ throw new Error('Could not automatically log in.'); }
 		}

@@ -110,7 +110,7 @@ export class ThemeService
 			document.documentElement.style.setProperty(`--${key}`, value);
 
 		// If on mobile, apply the status bar attributes.
-		if(this.platformService.isMobile)
+		if(this.platformService.isMobileApp)
 		{
 			await StatusBar.setStyle(
 				{style: (this.theme === 'Dark') ? Style.Dark : Style.Light});

@@ -64,7 +64,7 @@ export class PlatformService
 		this.isAndroidApp = this.isMobileApp && this.ionicPlatform.is('android');
 		this.isIosApp = this.isMobileApp && this.ionicPlatform.is('ios');
 
-		// Force text zoom to 100% to prevent UI issues.
-		await TextZoom.set({value: 1});
+		// Force text zoom to 100% to prevent mobile UI issues.
+		if(this.isMobileApp) await TextZoom.set({value: 1});
 	}
 }

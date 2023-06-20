@@ -95,7 +95,7 @@ export class IndexComponent implements OnInit, AfterViewInit, OnDestroy
 		{
 			const pivot = new Three.Group();
 
-			const geometry = new Three.SphereBufferGeometry(this.pointSize,
+			const geometry = new Three.SphereGeometry(this.pointSize,
 				this.pointResolution, this.pointResolution);
 
 			const material = new Three.MeshBasicMaterial({color: pointColor});

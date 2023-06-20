@@ -12,7 +12,7 @@
 	[
 		"source/main.ts",
 		"source/polyfills.ts",
-		"source/hyperpass-extension/background.ts",
+		"source/hyperpass-extension/service-worker.ts",
 		"source/hyperpass-extension/content.ts"
 	],
 	"include": ["source/**/*.d.ts"]

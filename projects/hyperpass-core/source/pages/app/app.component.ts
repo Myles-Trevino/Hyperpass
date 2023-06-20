@@ -94,7 +94,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 		// Otherwise, initialize.
 		try
 		{
-			this.enableSwiping = this.platformService.isMobile;
+			this.enableSwiping = this.platformService.isMobileApp;
 
 			// Close on back button press.
 			this.backButtonSubscription = this.ionicPlatform.backButton

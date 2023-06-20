@@ -10,7 +10,7 @@
 	"compilerOptions":
 	{
 		"outDir": "./out-tsc/server",
-		"target": "ES2016",
+		"target": "ES2022",
 		"types": ["node"]
 	},
 	"files":

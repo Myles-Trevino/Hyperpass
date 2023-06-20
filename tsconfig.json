@@ -9,31 +9,39 @@
 	"compileOnSave": false,
 	"compilerOptions":
 	{
-		"baseUrl": "./",
-		"forceConsistentCasingInFileNames": true,
-		"strict": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"downlevelIteration": true,
-		"experimentalDecorators": true,
-		"moduleResolution": "node",
-		"importHelpers": true,
-		"target": "ES2015",
-		"module": "ESNext",
-		"esModuleInterop": true,
-		"lib": ["ESNext", "DOM"],
-		"paths":
-		{
-			"hyperpass-core": ["builds/hyperpass-core"],
-			"hyperpass-core/*": ["builds/hyperpass-core/*"]
-		}
-	},
-	"angularCompilerOptions":
-	{
-		"enableIvy": true,
-		"fullTemplateTypeCheck": true,
-		"strictInjectionParameters": true,
-		"strictInputAccessModifiers": true,
-		"strictTemplates": true
-	}
+    "baseUrl": "./",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "paths": {
+      "hyperpass-core": [
+        "builds/hyperpass-core"
+      ],
+      "hyperpass-core/*": [
+        "builds/hyperpass-core/*"
+      ]
+    },
+    "useDefineForClassFields": false
+  },
+  "angularCompilerOptions":
+  {
+    "enableIvy": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }

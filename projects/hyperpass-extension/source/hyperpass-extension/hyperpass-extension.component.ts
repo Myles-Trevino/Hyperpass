@@ -10,7 +10,6 @@ import {Component} from '@angular/core';
 import browser from 'webextension-polyfill';
 import {Router} from '@angular/router';
 
-import {Types} from 'builds/hyperpass-common';
 import {AccountService, InitializationService,
 	PlatformService, StateService} from 'hyperpass-core';
 
