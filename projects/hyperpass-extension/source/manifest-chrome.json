@@ -36,17 +36,17 @@
 	{
 		"_execute_action":
 		{
-			"suggested_key": {"default": "Ctrl+Alt+H"},
+			"suggested_key": {"default": "Alt+H"},
 			"description": "Activate extension"
 		},
 		"Autofill Username":
 		{
-			"suggested_key": {"default": "Ctrl+Alt+U"},
+			"suggested_key": {"default": "Alt+U"},
 			"description": "Autofill username"
 		},
 		"Autofill Password":
 		{
-			"suggested_key": {"default": "Ctrl+Alt+P"},
+			"suggested_key": {"default": "Alt+P"},
 			"description": "Autofill password"
 		}
 	},
