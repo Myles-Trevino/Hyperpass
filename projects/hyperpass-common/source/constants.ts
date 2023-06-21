@@ -35,7 +35,7 @@ export const edgeExtensionUrl = 'https://microsoftedge.microsoft.com/addons/deta
 
 // Desktop app URLs.
 export const windowsUrl = `${downloadsUrl}/Hyperpass ${version}.exe`;
-export const macUrl = `${downloadsUrl}/Hyperpass ${version}.pkg`;
+export const macUrl = `${downloadsUrl}/Hyperpass 2022.8.28.pkg`;
 export const linuxUrl = `${downloadsUrl}/Hyperpass ${version}.deb`;
 
 // Mobile app URLs.

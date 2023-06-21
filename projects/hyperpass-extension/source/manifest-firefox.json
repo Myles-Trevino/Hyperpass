@@ -1,8 +1,8 @@
 {
-	"manifest_version": 3,
+	"manifest_version": 2,
 	"author": "Myles Trevino",
 	"name": "Hyperpass",
-	"version": "2023.6.20.1",
+	"version": "2023.6.20.2",
 	"description": "A modern, unified password manager.",
 	"homepage_url": "https://hyperpass.org",
 	"browser_specific_settings": {
@@ -20,11 +20,9 @@
 		"256": "256.png",
 		"512": "512.png"
 	},
-	"content_security_policy": {
-		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
-	 },
-	"permissions": ["alarms", "scripting", "storage", "tabs", "activeTab", "contextMenus"],
-	"action":
+	"content_security_policy": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'",
+	"permissions": ["<all_urls>", "activeTab", "tabs", "alarms", "scripting", "storage", "contextMenus"],
+	"browser_action":
 	{
 		"default_popup": "index.html",
 		"default_icon":
@@ -37,7 +35,7 @@
 	},
 	"commands":
 	{
-		"_execute_action":
+		"_execute_browser_action":
 		{
 			"suggested_key": {"default": "Ctrl+Alt+H"},
 			"description": "Activate extension"
@@ -53,8 +51,5 @@
 			"description": "Autofill password"
 		}
 	},
-	"background":
-	{
-		"scripts": ["service-worker.js", "runtime.js"]
-	}
+	"background": {"scripts": ["service-worker.js", "runtime.js"]}
 }
