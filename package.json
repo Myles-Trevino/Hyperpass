@@ -5,7 +5,7 @@
   },
   "name": "hyperpass",
   "productName": "Hyperpass",
-  "version": "2023.6.20",
+  "version": "2023.6.24",
   "description": "A modern, unified password manager.",
   "homepage": "hyperpass.org",
   "license": "Apache-2.0",
@@ -70,7 +70,12 @@
       "!**/.angular/*",
       "!**/.circleci/*",
       "!**/.git/*",
-      "!**/builds/*"
+      "!**/builds/hyperpass-api",
+      "!**/builds/hyperpass-common",
+      "!**/builds/hyperpass-core",
+      "!**/builds/hyperpass-extension",
+      "!**/builds/hyperpass-mobile",
+      "!**/builds/hyperpass-website"
     ]
   },
   "dependencies": {
