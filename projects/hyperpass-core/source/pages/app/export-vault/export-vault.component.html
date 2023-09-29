@@ -33,8 +33,8 @@
 		</div>
 
 		<!-- Unencrypted warning. -->
-		<div *ngIf="state.format === 'HY Unencrypted'" class="tile-section">
-			<p class="warning-text">If you export your vault in the unencrypted format, your vault information will be easily visible to anyone who has access to the file. Unencrypted exports have their uses, but they should not be sent over insecure channels and should be deleted or encrypted as soon as possible.</p>
+		<div *ngIf="state.format === 'HY Unencrypted' || state.format === 'Plaintext'" class="tile-section">
+			<p class="warning-text">If you export your vault in the unencrypted or plaintext formats, your vault information will be easily visible to anyone who has access to the file. Unencrypted exports have their uses, but they should not be sent over insecure channels and should be deleted or encrypted as soon as possible.</p>
 		</div>
 
 	</div>

@@ -2,54 +2,56 @@
 	"manifest_version": 2,
 	"author": "Myles Trevino",
 	"name": "Hyperpass",
-	"version": "2023.6.24",
+	"version": "2023.9.28",
 	"description": "A modern, unified password manager.",
 	"homepage_url": "https://hyperpass.org",
 	"browser_specific_settings": {
-		"gecko": {"id": "{07fe167d-a69b-4c4b-b1f6-c90d7848b18a}"}
-	},
-	"icons":
-	{
-		"16": "16.png",
-		"24": "24.png",
-		"32": "32.png",
-		"48": "48.png",
-		"64": "64.png",
-		"96": "96.png",
-		"128": "128.png",
-		"256": "256.png",
-		"512": "512.png"
-	},
-	"content_security_policy": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'",
-	"permissions": ["<all_urls>", "activeTab", "tabs", "alarms", "scripting", "storage", "contextMenus"],
-	"browser_action":
-	{
-		"default_popup": "index.html",
-		"default_icon":
-		{
-			"16": "16.png",
-			"19": "19.png",
-			"32": "32.png",
-			"38": "38.png"
+		"gecko": {
+			"id": "{07fe167d-a69b-4c4b-b1f6-c90d7848b18a}"
 		}
 	},
-	"commands":
-	{
-		"_execute_browser_action":
-		{
-			"suggested_key": {"default": "Ctrl+Alt+H"},
+	"icons": {
+		"16": "16.png",
+		"32": "32.png",
+		"64": "64.png",
+		"128": "128.png"
+	},
+	"content_security_policy": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'",
+	"permissions": [
+		"<all_urls>", "activeTab", "tabs", "alarms", "scripting", "storage", "contextMenus"
+	],
+	"browser_action": {
+		"default_popup": "index.html",
+		"default_icon": {
+			"16": "16.png",
+			"32": "32.png",
+			"64": "64.png",
+			"128": "128.png"
+		}
+	},
+	"commands": {
+		"_execute_browser_action": {
+			"suggested_key": {
+				"default": "Ctrl+Alt+H"
+			},
 			"description": "Activate extension"
 		},
-		"Autofill Username":
-		{
-			"suggested_key": {"default": "Ctrl+Alt+U"},
+		"Autofill Username": {
+			"suggested_key": {
+				"default": "Ctrl+Alt+U"
+			},
 			"description": "Autofill username"
 		},
-		"Autofill Password":
-		{
-			"suggested_key": {"default": "Ctrl+Alt+P"},
+		"Autofill Password": {
+			"suggested_key": {
+				"default": "Ctrl+Alt+P"
+			},
 			"description": "Autofill password"
 		}
 	},
-	"background": {"scripts": ["service-worker.js", "runtime.js"]}
+	"background": {
+		"scripts": [
+			"service-worker.js", "runtime.js"
+		]
+	}
 }

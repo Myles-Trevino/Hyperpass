@@ -13,7 +13,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {RouterModule} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
-import {NgScrollbarModule} from 'ngx-scrollbar';
+import {NgScrollbarModule, NG_SCROLLBAR_OPTIONS} from 'ngx-scrollbar';
 import {SwiperModule} from 'swiper/angular';
 
 import {RoutingModule} from './routing.module';
@@ -91,7 +91,7 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		HttpClientModule,
 		ClipboardModule,
 		RouterModule,
-		NgScrollbarModule.withConfig({visibility: 'hover'}),
+		NgScrollbarModule,
 		IonicModule.forRoot(),
 		SwiperModule,
 		RoutingModule
@@ -101,6 +101,13 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		MessageComponent,
 		DropdownComponent,
 		SwitchComponent
+	],
+	providers:
+	[
+		{
+			provide: NG_SCROLLBAR_OPTIONS,
+			useValue: {visibility: 'hover'}
+		}
 	]
 })
 

@@ -2,56 +2,53 @@
 	"manifest_version": 3,
 	"author": "Myles Trevino",
 	"name": "Hyperpass",
-	"version": "2023.6.24",
+	"version": "2023.9.28",
 	"description": "A modern, unified password manager.",
 	"homepage_url": "https://hyperpass.org",
-	"icons":
-	{
+	"icons": {
 		"16": "16.png",
-		"24": "24.png",
 		"32": "32.png",
-		"48": "48.png",
 		"64": "64.png",
-		"96": "96.png",
-		"128": "128.png",
-		"256": "256.png",
-		"512": "512.png"
+		"128": "128.png"
 	},
 	"content_security_policy": {
 		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
 	 },
-	"permissions": ["alarms", "scripting", "storage", "commands", "tabs", "activeTab", "contextMenus"],
-	"action":
-	{
+	"permissions": [
+		"alarms", "scripting", "storage", "commands", "tabs", "activeTab", "contextMenus"
+	],
+	"action": {
 		"default_popup": "index.html",
-		"default_icon":
-		{
+		"default_icon": {
 			"16": "16.png",
-			"19": "19.png",
 			"32": "32.png",
-			"38": "38.png"
+			"64": "64.png",
+			"128": "128.png"
 		}
 	},
-	"commands":
-	{
-		"_execute_action":
-		{
-			"suggested_key": {"default": "Alt+H"},
+	"commands": {
+		"_execute_action": {
+			"suggested_key": {
+				"default": "Alt+H"
+			},
 			"description": "Activate extension"
 		},
 		"Autofill Username":
 		{
-			"suggested_key": {"default": "Alt+U"},
+			"suggested_key": {
+				"default": "Alt+U"
+			},
 			"description": "Autofill username"
 		},
 		"Autofill Password":
 		{
-			"suggested_key": {"default": "Alt+P"},
+			"suggested_key": {
+				"default": "Alt+P"
+			},
 			"description": "Autofill password"
 		}
 	},
-	"background":
-	{
+	"background": {
 		"service_worker": "service-worker-wrapper.js"
 	}
 }

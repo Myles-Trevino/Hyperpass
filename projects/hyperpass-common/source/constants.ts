@@ -6,7 +6,7 @@
 
 
 // Values.
-export const version = '2023.6.24';
+export const version = '2023.9.28';
 export const minimumMasterPasswordLength = 12;
 export const keyLength = 32; // crypto_aead_xchacha20poly1305_ietf_KEYBYTES
 export const loginTimeoutGranularity = 10000;

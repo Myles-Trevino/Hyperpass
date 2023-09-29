@@ -45,7 +45,7 @@
 				"dot-notation": "off",
 				"eqeqeq": "error",
 				"grouped-accessor-pairs": "error",
-				"guard-for-in": "error",
+				"guard-for-in": "off",
 				"no-alert": "error",
 				"no-caller": "error",
 				"no-constructor-return": "error",

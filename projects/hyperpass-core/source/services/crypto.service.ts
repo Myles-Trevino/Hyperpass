@@ -6,7 +6,7 @@
 
 
 import {Injectable} from '@angular/core';
-import * as Sodium from 'libsodium-wrappers';
+import * as Sodium from 'libsodium-wrappers-sumo';
 import {argon2id} from 'hash-wasm';
 import * as Fflate from 'fflate';
 

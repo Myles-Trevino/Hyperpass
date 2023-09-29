@@ -337,7 +337,7 @@ export const importModes = ['Append', 'Merge', 'Overwrite'] as const;
 export type ImportMode = typeof importModes[number];
 
 
-export const exportFormats = ['HY Encrypted', 'HY Unencrypted'] as const;
+export const exportFormats = ['HY Encrypted', 'HY Unencrypted', 'Plaintext'] as const;
 
 export type ExportFormat = typeof exportFormats[number];
 

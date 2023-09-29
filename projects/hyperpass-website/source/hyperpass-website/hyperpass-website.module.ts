@@ -64,7 +64,7 @@ import {WhichTechnologiesDoesHyperpassUseComponent} from './pages/support/faq/wh
 	],
 	imports:
 	[
-		BrowserModule.withServerTransition({appId: 'hyperpass'}),
+		BrowserModule,
 		HttpClientModule,
 		FormsModule,
 		HyperpassCoreModule,

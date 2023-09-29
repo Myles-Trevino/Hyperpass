@@ -63,7 +63,7 @@
 						"allowedCommonJsDependencies":
 						[
 							"libsodium",
-							"libsodium-wrappers",
+							"libsodium-wrappers-sumo",
 							"lodash",
 							"file-saver",
 							"papaparse",
@@ -145,7 +145,7 @@
 						"allowedCommonJsDependencies":
 						[
 							"libsodium",
-							"libsodium-wrappers",
+							"libsodium-wrappers-sumo",
 							"lodash",
 							"file-saver",
 							"webextension-polyfill",
@@ -227,7 +227,7 @@
 						"allowedCommonJsDependencies":
 						[
 							"libsodium",
-							"libsodium-wrappers",
+							"libsodium-wrappers-sumo",
 							"lodash",
 							"file-saver",
 							"papaparse",
@@ -306,7 +306,7 @@
 						"allowedCommonJsDependencies":
 						[
 							"libsodium",
-							"libsodium-wrappers",
+							"libsodium-wrappers-sumo",
 							"lodash",
 							"file-saver",
 							"papaparse",

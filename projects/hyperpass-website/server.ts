@@ -9,6 +9,7 @@ import 'zone.js/node';
 
 import {ngExpressEngine} from '@nguniversal/express-engine';
 import Express from 'express';
+import Helmet from 'helmet';
 import {join} from 'path';
 
 import {HyperpassWebsiteServerModule} from './source/main.server';
@@ -26,6 +27,23 @@ export function app(): Express.Express
 	server.set('view engine', 'html');
 	server.set('views', browserFolder);
 	server.disable('x-powered-by');
+
+	// Content security policy.
+	server.use
+	(
+		Helmet
+		({
+			contentSecurityPolicy:
+			{
+				directives:
+				{
+					'connect-src': ['*', 'data:'],
+					'script-src': [`'self'`, `'unsafe-inline'`, `'unsafe-eval'`],
+					'script-src-attr': [`'unsafe-inline'`]
+				}
+			}
+		})
+	);
 
 	// Serve static files from /browser.
 	server.get('*.*', Express.static(browserFolder, {maxAge: '10m'}));

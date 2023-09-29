@@ -54,6 +54,7 @@ export class ExportVaultComponent implements OnInit
 			{
 				case 'HY Encrypted': this.exportEncrypted(); break;
 				case 'HY Unencrypted': this.exportUnencrypted(); break;
+				case 'Plaintext': this.exportPlaintext(); break;
 				default: throw new Error('Invalid export format.');
 			}
 		}
@@ -91,5 +92,21 @@ export class ExportVaultComponent implements OnInit
 	{
 		const vault = this.accountService.getVault();
 		this.save(JSON.stringify(vault), 'json');
+	}
+
+	// Exports the unencrypted vault.
+	private exportPlaintext(): void
+	{
+		const accounts = this.accountService.getVault().accounts;
+		let data = 'Name | Username | Password | URL';
+
+		for(const accountName in accounts)
+		{
+			const account = accounts[accountName];
+			data += `${accountName} | ${account.username}`+
+				` | ${account.password} | ${account.url}\n`;
+		}
+
+		this.save(data, 'txt');
 	}
 }
