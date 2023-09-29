@@ -5,7 +5,7 @@
   },
   "name": "hyperpass",
   "productName": "Hyperpass",
-  "version": "2023.9.28",
+  "version": "2023.9.29",
   "description": "A modern, unified password manager.",
   "homepage": "hyperpass.org",
   "license": "Apache-2.0",

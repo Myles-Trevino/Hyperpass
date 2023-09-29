@@ -10,15 +10,6 @@ import browser from 'webextension-polyfill';
 import {Types, Utilities} from 'builds/hyperpass-common';
 
 
-/*
-let website = '';
-let loggedIn = false;
-let accounts: Record<string, Types.Account> = {};
-let matchingAccounts: Record<string, Types.Account> = {};
-let selectedAccount: Types.AccountEntry | undefined = undefined;
-let manuallySelected = false;
-*/
-
 type State = {
 	website: string;
 	loggedIn: boolean;
@@ -40,7 +31,6 @@ const defaultState: State = {
 
 // Set default state.
 await resetState();
-
 
 // Handle update messages.
 browser.runtime.onMessage.addListener(async (message: Types.Message) =>
@@ -195,15 +185,15 @@ async function createContextMenus(): Promise<void>
 
 	// Root.
 	const loggedIn = await load<boolean>('loggedIn');
+	let rootId: string | number = '68d858e3-2d2b-4664-972c-0cc4c3cc8825';
 
-	if(loggedIn) browser.contextMenus.create(
-		{id: 'Hyperpass', title: 'Hyperpass', contexts: ['all']});
+	if(loggedIn) rootId = browser.contextMenus.create(
+		{id: rootId, title: 'Hyperpass', contexts: ['all']});
 
 	else
 	{
-		browser.contextMenus.create({id: 'Hyperpass (Locked)',
-			title: 'Hyperpass (Locked)', contexts: ['all']});
-
+		rootId = browser.contextMenus.create(
+			{id: rootId, title: 'Hyperpass (Locked)', contexts: ['all']});
 		return;
 	}
 
@@ -212,16 +202,16 @@ async function createContextMenus(): Promise<void>
 
 	if(selectedAccount)
 	{
-		browser.contextMenus.create({parentId: 'Hyperpass', id: 'Autofill Username',
+		browser.contextMenus.create({parentId: rootId, id: 'Autofill Username',
 			title: 'Autofill Username', contexts: ['all']});
 
-		browser.contextMenus.create({parentId: 'Hyperpass', id: 'Autofill Password',
+		browser.contextMenus.create({parentId: rootId, id: 'Autofill Password',
 			title: 'Autofill Password', contexts: ['all']});
 	}
 
 	else
 	{
-		browser.contextMenus.create({parentId: 'Hyperpass',
+		browser.contextMenus.create({parentId: rootId,
 			id: 'No Accounts', title: 'No Accounts', contexts: ['all']});
 		return;
 	}
@@ -230,16 +220,16 @@ async function createContextMenus(): Promise<void>
 	const matchingAccounts = await load<Record<string, Types.Account>>('matchingAccounts');
 	if(Object.keys(matchingAccounts).length < 2) return;
 
-	browser.contextMenus.create({parentId: 'Hyperpass',
+	browser.contextMenus.create({parentId: rootId,
 		id: 'Separator', type: 'separator', contexts: ['all']});
 
-	browser.contextMenus.create({parentId: 'Hyperpass',
+	const accountId = browser.contextMenus.create({parentId: rootId,
 		id: 'Account', title: 'Account', contexts: ['all']});
 
 	for(const [key, account] of Object.entries(matchingAccounts))
 		browser.contextMenus.create
 		({
-			parentId: 'Account',
+			parentId: accountId,
 			id: `Account-${key}`,
 			title: account.username,
 			type: 'radio',

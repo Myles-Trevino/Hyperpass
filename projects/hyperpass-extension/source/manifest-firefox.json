@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"author": "Myles Trevino",
 	"name": "Hyperpass",
-	"version": "2023.9.28",
+	"version": "2023.9.29",
 	"description": "A modern, unified password manager.",
 	"homepage_url": "https://hyperpass.org",
 	"browser_specific_settings": {

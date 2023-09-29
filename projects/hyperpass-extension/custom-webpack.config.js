@@ -18,10 +18,12 @@ module.exports =
 		({
 			patterns:
 			[
-				{from: 'projects/hyperpass-extension/source/manifest-firefox.json', to: 'manifest.json'},
+				{from: 'projects/hyperpass-extension/source/manifest-chrome.json', to: 'manifest.json'},
 				{from: 'LICENSE', to: '.'},
 				{from: 'NOTICE', to: '.'},
-				{from: 'projects/hyperpass-extension/source/hyperpass-extension/service-worker-wrapper.js', to: '.'}
+				{from: 'projects/hyperpass-extension/source/hyperpass-extension/service-worker-wrapper.js', to: '.'},
+				{from: 'projects/hyperpass-extension/source/hyperpass-extension/offscreen.html', to: '.'},
+				{from: 'projects/hyperpass-extension/source/hyperpass-extension/offscreen.js', to: '.'}
 			]
 		})
 	],
