@@ -196,7 +196,6 @@
 				"@typescript-eslint/no-confusing-non-null-assertion": "error",
 				"@typescript-eslint/no-confusing-void-expression": "error",
 				"@typescript-eslint/no-floating-promises": "off",
-				"@typescript-eslint/no-implicit-any-catch": "error",
 				"@typescript-eslint/no-invalid-void-type": "error",
 				"@typescript-eslint/no-require-imports": "error",
 				"@typescript-eslint/no-unnecessary-boolean-literal-compare":
@@ -258,7 +257,6 @@
 					{"exceptAfterSingleLine": true}
 				],
 				"@typescript-eslint/no-dupe-class-members": "error",
-				"@typescript-eslint/no-duplicate-imports": "error",
 				"@typescript-eslint/no-invalid-this": "error",
 				"@typescript-eslint/no-loop-func": "error",
 				"@typescript-eslint/no-loss-of-precision": "error",

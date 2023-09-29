@@ -24,7 +24,7 @@
     "build-api": "tsc --project projects/hyperpass-api/tsconfig.json",
     "build-website": "ng run hyperpass-website:build:production && ng run hyperpass-website:server:production",
     "test-website": "ng run hyperpass-website:serve-ssr",
-    "build-extension": "ng run hyperpass-extension:build",
+    "build-extension": "ng run hyperpass-extension:build:production",
     "build-mobile": "ng run hyperpass-mobile:build:production",
     "build-desktop": "ng run hyperpass-desktop:build:production --base-href ./",
     "release-desktop": "electron-builder",
