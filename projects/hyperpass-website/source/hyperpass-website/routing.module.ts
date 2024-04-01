@@ -26,9 +26,9 @@ import {ViewingAndRestoringVaultHistoryComponent} from './pages/support/common-t
 import {HowDoISelfHostHyperpassComponent} from './pages/support/faq/how-do-i-self-host-hyperpass/how-do-i-self-host-hyperpass.component';
 import {HowIsMyPrivateDataHandledComponent} from './pages/support/faq/how-is-my-private-data-handled/how-is-my-private-data-handled.component';
 import {WhichAppsAndExtensionsShouldIUseComponent} from './pages/support/faq/which-apps-and-extensions-should-i-use/which-apps-and-extensions-should-i-use.component';
+import {HowDoIDeleteMyAccountComponent} from './pages/support/faq/how-do-i-delete-my-account/how-do-i-delete-my-account.component';
 import {WhoIsBehindThisProjectComponent} from './pages/support/faq/who-is-behind-this-project/who-is-behind-this-project.component';
 import {WhyUseHyperpassOverTheAlternativesComponent} from './pages/support/faq/why-use-hyperpass-over-the-alternatives/why-use-hyperpass-over-the-alternatives.component';
-import {WhichTechnologiesDoesHyperpassUseComponent} from './pages/support/faq/which-technologies-does-hyperpass-use/which-technologies-does-hyperpass-use.component';
 
 
 const routes: Routes =
@@ -59,12 +59,12 @@ const routes: Routes =
 		component: HowIsMyPrivateDataHandledComponent},
 	{path: 'support/faq/which-apps-and-extensions-should-i-use',
 		component: WhichAppsAndExtensionsShouldIUseComponent},
+	{path: 'support/faq/how-do-i-delete-my-account',
+		component: HowDoIDeleteMyAccountComponent},
 	{path: 'support/faq/who-is-behind-this-project',
 		component: WhoIsBehindThisProjectComponent},
 	{path: 'support/faq/why-use-hyperpass-over-the-alternatives',
 		component: WhyUseHyperpassOverTheAlternativesComponent},
-	{path: 'support/faq/which-technologies-does-hyperpass-use',
-		component: WhichTechnologiesDoesHyperpassUseComponent},
 
 	{path: '**', component: NotFoundComponent}
 ];

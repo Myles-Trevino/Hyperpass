@@ -30,61 +30,62 @@ const defaultState: State = {
 
 
 // Set default state.
-await resetState();
-
-// Handle update messages.
-browser.runtime.onMessage.addListener(async (message: Types.Message) =>
+resetState().then(() =>
 {
-	// Debug.
-	// console.log('Received message', message);
-
-	// Handle login and logout messages.
-	if(message.type === 'loginUpdate')
+	// Handle update messages.
+	browser.runtime.onMessage.addListener(async (message: Types.Message) =>
 	{
-		const loggedIn = message.data as boolean;
-		await save({loggedIn});
-		if(!loggedIn) logOut();
-	}
+		// Debug.
+		// console.log('Received message', message);
 
-	// Handle vault update messages.
-	else if(message.type === 'vaultUpdate')
-	{
-		await save({accounts: message.data as Record<string, Types.Account>});
-		await update();
-	}
+		// Handle login and logout messages.
+		if(message.type === 'loginUpdate')
+		{
+			const loggedIn = message.data as boolean;
+			await save({loggedIn});
+			if(!loggedIn) logOut();
+		}
 
-	// Handle login timeout reset messages.
-	// (References account.service.ts startLoginTimeout())
-	else if(message.type === 'loginTimeoutReset')
-	{
-		const loginTimeoutDuration = (message.data as number);
+		// Handle vault update messages.
+		else if(message.type === 'vaultUpdate')
+		{
+			await save({accounts: message.data as Record<string, Types.Account>});
+			await update();
+		}
 
-		// Stop the timeout if it has been started.
-		await stopLoginTimeout();
+		// Handle login timeout reset messages.
+		// (References account.service.ts startLoginTimeout())
+		else if(message.type === 'loginTimeoutReset')
+		{
+			const loginTimeoutDuration = (message.data as number);
 
-		// Start the timeout.
-		browser.alarms.create('loginTimeout', {delayInMinutes: loginTimeoutDuration});
-		browser.alarms.onAlarm.addListener(() => { logOut(); });
-	}
+			// Stop the timeout if it has been started.
+			await stopLoginTimeout();
+
+			// Start the timeout.
+			browser.alarms.create('loginTimeout', {delayInMinutes: loginTimeoutDuration});
+			browser.alarms.onAlarm.addListener(() => { logOut(); });
+		}
+	});
+
+	// URL change callback.
+	browser.tabs.onActivated.addListener(
+		(activeInfo) => { tabActivatedCallback(activeInfo); });
+
+	browser.tabs.onUpdated.addListener(
+		(tabId, changeInfo) => { urlChangeCallback(changeInfo.url); });
+
+	// Context menu click callback.
+	browser.contextMenus.onClicked.addListener(
+		(info) => { contextMenuCallback(info); });
+
+	// Command callback.
+	browser.commands.onCommand.addListener(
+		(command) => { handleAutofill(command); });
+
+	// Create the context menus.
+	createContextMenus();
 });
-
-// URL change callback.
-browser.tabs.onActivated.addListener(
-	(activeInfo) => { tabActivatedCallback(activeInfo); });
-
-browser.tabs.onUpdated.addListener(
-	(tabId, changeInfo) => { urlChangeCallback(changeInfo.url); });
-
-// Context menu click callback.
-browser.contextMenus.onClicked.addListener(
-	(info) => { contextMenuCallback(info); });
-
-// Command callback.
-browser.commands.onCommand.addListener(
-	(command) => { handleAutofill(command); });
-
-// Create the context menus.
-createContextMenus();
 
 
 // Tab activation callback.

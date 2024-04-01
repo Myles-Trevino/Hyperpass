@@ -5,9 +5,9 @@
 */
 
 
-import 'zone.js/node';
+import 'zone.js';
 
-import {ngExpressEngine} from '@nguniversal/express-engine';
+import {CommonEngine, CommonEngineRenderOptions} from '@angular/ssr';
 import Express from 'express';
 import Helmet from 'helmet';
 import {join} from 'path';
@@ -23,7 +23,25 @@ export function app(): Express.Express
 	const browserFolder = join(process.cwd(), 'builds/hyperpass-website/browser');
 
 	// Configure the Universal express engine.
-	server.engine('html', ngExpressEngine({bootstrap: HyperpassWebsiteServerModule}));
+	const engine = new CommonEngine({bootstrap: HyperpassWebsiteServerModule});
+
+	server.engine('html', (
+		filePath: string,
+		options: object,
+		callback: (err?: Error | null, html?: string) => void) =>
+	{
+		const renderOptions = {...options} as CommonEngineRenderOptions;
+		renderOptions.documentFilePath = filePath;
+
+		/* eslint-disable-next-line */
+		renderOptions.publicPath = (options as any).settings?.views;
+
+		engine
+			.render(renderOptions)
+			.then((html) => { callback(null, html); })
+			.catch(callback);
+	});
+
 	server.set('view engine', 'html');
 	server.set('views', browserFolder);
 	server.disable('x-powered-by');

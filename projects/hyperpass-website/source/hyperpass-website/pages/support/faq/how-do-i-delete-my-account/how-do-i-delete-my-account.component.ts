@@ -13,12 +13,12 @@ import {MetadataService} from 'hyperpass-core';
 
 @Component
 ({
-	selector: 'hyperpass-which-technologies-does-hyperpass-use',
-	templateUrl: './which-technologies-does-hyperpass-use.component.html',
+	selector: 'hyperpass-how-do-i-delete-my-account',
+	templateUrl: './how-do-i-delete-my-account.component.html',
 	styleUrls: ['../../support.component.scss']
 })
 
-export class WhichTechnologiesDoesHyperpassUseComponent implements OnInit
+export class HowDoIDeleteMyAccountComponent implements OnInit
 {
 	@HostBinding('class') protected readonly class = 'page';
 
@@ -31,9 +31,9 @@ export class WhichTechnologiesDoesHyperpassUseComponent implements OnInit
 	public ngOnInit(): void
 	{
 		this.metadataService.clear();
-		this.metadataService.setTitle('Which Technologies Does Hyperpass Use? - Support');
+		this.metadataService.setTitle('How Do I Delete My Account? - Support');
 		this.metadataService.setDescription(
-			'Learn about the technologies that were used to create Hyperpass.');
+			'Guidance on how to delete your Hyperpass account.');
 		this.metadataService.setImage('support');
 	}
 }

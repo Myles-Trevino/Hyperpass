@@ -32,9 +32,9 @@ import {ViewingAndRestoringVaultHistoryComponent} from './pages/support/common-t
 
 import {HowIsMyPrivateDataHandledComponent} from './pages/support/faq/how-is-my-private-data-handled/how-is-my-private-data-handled.component';
 import {WhichAppsAndExtensionsShouldIUseComponent} from './pages/support/faq/which-apps-and-extensions-should-i-use/which-apps-and-extensions-should-i-use.component';
+import {HowDoIDeleteMyAccountComponent} from './pages/support/faq/how-do-i-delete-my-account/how-do-i-delete-my-account.component';
 import {WhoIsBehindThisProjectComponent} from './pages/support/faq/who-is-behind-this-project/who-is-behind-this-project.component';
 import {WhyUseHyperpassOverTheAlternativesComponent} from './pages/support/faq/why-use-hyperpass-over-the-alternatives/why-use-hyperpass-over-the-alternatives.component';
-import {WhichTechnologiesDoesHyperpassUseComponent} from './pages/support/faq/which-technologies-does-hyperpass-use/which-technologies-does-hyperpass-use.component';
 
 
 @NgModule
@@ -58,9 +58,9 @@ import {WhichTechnologiesDoesHyperpassUseComponent} from './pages/support/faq/wh
 		ViewingAndRestoringVaultHistoryComponent,
 		HowIsMyPrivateDataHandledComponent,
 		WhichAppsAndExtensionsShouldIUseComponent,
+		HowDoIDeleteMyAccountComponent,
 		WhoIsBehindThisProjectComponent,
-		WhyUseHyperpassOverTheAlternativesComponent,
-		WhichTechnologiesDoesHyperpassUseComponent
+		WhyUseHyperpassOverTheAlternativesComponent
 	],
 	imports:
 	[

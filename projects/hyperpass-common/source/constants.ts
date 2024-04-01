@@ -6,7 +6,7 @@
 
 
 // Values.
-export const version = '2023.9.29';
+export const version = '2024.3.21';
 export const minimumMasterPasswordLength = 12;
 export const keyLength = 32; // crypto_aead_xchacha20poly1305_ietf_KEYBYTES
 export const loginTimeoutGranularity = 10000;
@@ -39,7 +39,7 @@ export const macUrl = `${downloadsUrl}/Hyperpass 2022.8.28.pkg`;
 export const linuxUrl = `${downloadsUrl}/Hyperpass ${version}.deb`;
 
 // Mobile app URLs.
-export const androidAppUrl = 'https://play.google.com/store/apps/details?id=com.laventh.hyperpass';
+export const androidAppUrl = `${downloadsUrl}/Hyperpass ${version}.apk`;
 export const iosAppUrl = 'https://apps.apple.com/us/app/hyperpass/id1583375792';
 
 // Support article URLs.

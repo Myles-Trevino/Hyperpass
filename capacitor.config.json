@@ -3,7 +3,6 @@
 	"appName": "Hyperpass",
 	"webDir": "builds/hyperpass-mobile/build",
 	"backgroundColor": "#000000",
-	"bundledWebRuntime": false,
 	"loggingBehavior": "production",
 	"android": {"path": "builds/hyperpass-mobile/android"},
 	"ios": {"path": "builds/hyperpass-mobile/ios"},

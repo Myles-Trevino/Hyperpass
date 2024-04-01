@@ -370,18 +370,16 @@
 				},
 				"serve-ssr":
 				{
-					"builder": "@nguniversal/builders:ssr-dev-server",
+					"builder": "@angular-devkit/build-angular:dev-server",
 					"options":
 					{
-						"browserTarget": "hyperpass-website:build",
-						"serverTarget": "hyperpass-website:server"
+						"buildTarget": "hyperpass-website:build"
 					},
 					"configurations":
 					{
 						"production":
 						{
-							"browserTarget": "hyperpass-website:build:production",
-							"serverTarget": "hyperpass-website:server:production"
+							"buildTarget": "hyperpass-website:build:production"
 						}
 					}
 				},

@@ -190,10 +190,10 @@ const svgs: Record<string, string> =
 		<circle class="base" cx="16" cy="16" r="16"/>
 		<rect class="glyph" x="9" y="9" width="14" height="5.5" rx="1.5"/>
 		<rect class="glyph" x="9" y="17.5" width="14" height="5.5" rx="1.5"/>
-		<circle class="glyph" cx="16.25" cy="11.75" r="0.25"/>
-		<circle class="glyph" cx="19.75" cy="11.75" r="0.25"/>
-		<circle class="glyph" cx="16.25" cy="20.25" r="0.25"/>
-		<circle class="glyph" cx="19.75" cy="20.25" r="0.25"/>
+		<circle class="glyph" cx="16.25" cy="11.75" r="0.8"/>
+		<circle class="glyph" cx="19.75" cy="11.75" r="0.8"/>
+		<circle class="glyph" cx="16.25" cy="20.25" r="0.8"/>
+		<circle class="glyph" cx="19.75" cy="20.25" r="0.8"/>
 	</svg>`,
 
 	// Biometrics button.

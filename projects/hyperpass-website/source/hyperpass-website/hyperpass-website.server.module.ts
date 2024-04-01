@@ -8,6 +8,7 @@
 import {NgModule} from '@angular/core';
 import {ServerModule} from '@angular/platform-server';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {provideServerRendering} from '@angular/platform-server';
 
 import {HyperpassWebsiteModule} from './hyperpass-website.module';
 import {HyperpassWebsiteComponent} from './hyperpass-website.component';
@@ -21,7 +22,8 @@ import {HyperpassWebsiteComponent} from './hyperpass-website.component';
 		HyperpassWebsiteModule,
 		ServerModule
 	],
-	bootstrap: [HyperpassWebsiteComponent]
+	bootstrap: [HyperpassWebsiteComponent],
+	providers: [provideServerRendering()]
 })
 
 export class HyperpassWebsiteServerModule{}
