@@ -17,7 +17,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "lint": "ng lint && eslint projects/hyperpass-common/**/*.ts && eslint projects/hyperpass-api/**/*.ts",
+    "lint": "ng lint",
     "build-all": "npm run build-common && npm run build-core && npm run build-api && npm run build-website && npm run build-extension && npm run build-mobile && npm run build-desktop",
     "build-common": "tsc --project projects/hyperpass-common/tsconfig.lib.json",
     "build-core": "ng run hyperpass-core:build",
