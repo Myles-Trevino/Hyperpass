@@ -9,13 +9,15 @@ import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 
 import {ThemeService, MetadataService} from 'hyperpass-core';
+import {ImageLoaderComponent} from '../../../../image-loader/image-loader.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-generating-passwords',
 	templateUrl: './generating-passwords.component.html',
-	styleUrls: ['../../support.component.scss']
+	styleUrls: ['../../support.component.scss'],
+	imports: [ImageLoaderComponent]
 })
 
 export class GeneratingPasswordsComponent implements OnInit

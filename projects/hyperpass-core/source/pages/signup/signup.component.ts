@@ -7,6 +7,9 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
 import * as _ from 'lodash';
 
 import {Types, Constants} from 'builds/hyperpass-common';
@@ -19,13 +22,16 @@ import {ApiService} from '../../services/api.service';
 import {StorageService} from '../../services/storage.service';
 import {MetadataService} from '../../services/metadata.service';
 import {PlatformService} from '../../services/platform.service';
+import {AutofocusDirective} from '../../autofocus.directive';
+import {MasterPasswordInputComponent} from '../../master-password-input/master-password-input.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-signup',
 	templateUrl: './signup.component.html',
-	animations: [Animations.fadeInAnimation]
+	animations: [Animations.fadeInAnimation],
+	imports: [FormsModule, AutofocusDirective, MasterPasswordInputComponent, RouterLink, IonicModule]
 })
 
 export class SignupComponent implements OnInit

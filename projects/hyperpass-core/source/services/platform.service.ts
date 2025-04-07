@@ -34,7 +34,7 @@ export class PlatformService
 
 
 	// Constructor.
-	public constructor(@Inject(PLATFORM_ID) private readonly platformId: Object,
+	public constructor(@Inject(PLATFORM_ID) private readonly platformId: object,
 		private readonly ionicPlatform: Ionic.Platform,
 		private readonly storageService: StorageService,
 		private readonly cryptoService: CryptoService){}

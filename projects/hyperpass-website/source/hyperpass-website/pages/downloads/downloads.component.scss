@@ -5,7 +5,7 @@
 */
 
 
-@import "builds/hyperpass-core/stylesheets/mixins.scss";
+@use "builds/hyperpass-core/stylesheets/mixins.scss";
 
 
 :host
@@ -25,7 +25,7 @@
 	width: calc(100% - var(--large-gap) * 2);
 	max-width: var(--page-content-width-limit);
 
-	@include mobile
+	@include mixins.mobile
 	{
 		margin: var(--large-gap) var(--small-gap);
 		width: calc(100% - var(--small-gap) * 2);

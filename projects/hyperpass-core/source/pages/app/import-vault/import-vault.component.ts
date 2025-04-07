@@ -7,6 +7,7 @@
 
 import type {OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {ElementRef, Component, HostBinding, ViewChild} from '@angular/core';
+import {NgIf} from '@angular/common';
 import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import * as PapaParse from 'papaparse';
@@ -19,12 +20,15 @@ import {AccountService} from '../../../services/account.service';
 import {CryptoService} from '../../../services/crypto.service';
 import {UtilityService} from '../../../services/utility.service';
 import {StateService} from '../../../services/state.service';
+import {DropdownComponent} from '../../../dropdown/dropdown.component';
+import {MasterPasswordInputComponent} from '../../../master-password-input/master-password-input.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-import-vault',
-	templateUrl: './import-vault.component.html'
+	templateUrl: './import-vault.component.html',
+	imports: [NgScrollbar, DropdownComponent, NgIf, MasterPasswordInputComponent]
 })
 
 export class ImportVaultComponent implements OnInit, AfterViewInit, OnDestroy

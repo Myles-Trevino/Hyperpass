@@ -7,6 +7,9 @@
 
 import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {Component, ViewChild} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {NgIf} from '@angular/common';
+import {CdkCopyToClipboard} from '@angular/cdk/clipboard';
 import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
@@ -19,13 +22,17 @@ import {UtilityService} from '../../../services/utility.service';
 import {AccountService} from '../../../services/account.service';
 import {PlatformService} from '../../../services/platform.service';
 import {StateService} from '../../../services/state.service';
+import {SvgComponent} from '../../../svg/svg.component';
+import {DropdownComponent} from '../../../dropdown/dropdown.component';
+import {SwitchComponent} from '../../../switch/switch.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-generator',
 	templateUrl: './generator.component.html',
-	styleUrls: ['./generator.component.scss']
+	styleUrls: ['./generator.component.scss'],
+	imports: [SvgComponent, CdkCopyToClipboard, NgIf, NgScrollbar, DropdownComponent, FormsModule, SwitchComponent]
 })
 
 export class GeneratorComponent implements OnInit, OnDestroy, AfterViewInit

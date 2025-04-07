@@ -5,7 +5,7 @@
 */
 
 
-@import "builds/hyperpass-core/stylesheets/mixins.scss";
+@use "builds/hyperpass-core/stylesheets/mixins.scss";
 
 
 :host
@@ -20,7 +20,7 @@
 	box-shadow: 0 1px var(--shading-dark-color);
 	opacity: 0.95;
 
-	@include mobile
+	@include mixins.mobile
 	{
 		grid-template-columns: var(--navbar-height)
 			auto var(--navbar-height);
@@ -43,7 +43,7 @@ svg
 	right: 0;
 	display: none;
 
-	@include mobile{ display: block; }
+	@include mixins.mobile{ display: block; }
 }
 
 :host > .navbar-links
@@ -51,7 +51,7 @@ svg
 	padding-right: var(--medium-gap);
 	padding-bottom: 0.15rem;
 
-	@include mobile{ display: none; }
+	@include mixins.mobile{ display: none; }
 }
 
 
@@ -68,7 +68,7 @@ svg
 	height: calc(100vh - var(--navbar-height));
 	background-color: var(--background-color);
 
-	@include mobile{ display: grid; }
+	@include mixins.mobile{ display: grid; }
 
 	.navbar-links
 	{

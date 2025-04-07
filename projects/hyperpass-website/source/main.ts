@@ -5,17 +5,27 @@
 */
 
 
-import {enableProdMode} from '@angular/core';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {enableProdMode, importProvidersFrom} from '@angular/core';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {bootstrapApplication} from '@angular/platform-browser';
 
-import {HyperpassWebsiteBrowserModule} from './hyperpass-website/hyperpass-website.browser.module';
 import {environment} from './environments/environment';
+import {HyperpassWebsiteModule} from './hyperpass-website/hyperpass-website.module';
+import {HyperpassWebsiteComponent} from './hyperpass-website/hyperpass-website.component';
 
 
 if(environment.production){ enableProdMode(); }
 
 document.addEventListener('DOMContentLoaded', () =>
 {
-	platformBrowserDynamic().bootstrapModule(HyperpassWebsiteBrowserModule)
-		.catch((error) => { console.error(error); });
+	'use strict';
+	bootstrapApplication(HyperpassWebsiteComponent,
+	{
+		providers:
+		[
+			importProvidersFrom(HyperpassWebsiteModule),
+			provideAnimations()
+		]
+	})
+	.catch((error) => { console.error(error); });
 });

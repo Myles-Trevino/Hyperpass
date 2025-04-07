@@ -9,7 +9,6 @@ import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {HyperpassWebsiteModule} from './hyperpass-website.module';
-import {HyperpassWebsiteComponent} from './hyperpass-website.component';
 
 
 @NgModule
@@ -18,8 +17,7 @@ import {HyperpassWebsiteComponent} from './hyperpass-website.component';
 	[
 		BrowserAnimationsModule,
 		HyperpassWebsiteModule
-	],
-	bootstrap: [HyperpassWebsiteComponent]
+	]
 })
 
 export class HyperpassWebsiteBrowserModule{}

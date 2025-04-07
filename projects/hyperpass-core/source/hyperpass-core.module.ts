@@ -8,7 +8,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {provideHttpClient} from '@angular/common/http'
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {RouterModule} from '@angular/router';
 
@@ -51,16 +51,21 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 
 @NgModule
 ({
-	declarations:
+	imports:
 	[
+		CommonModule,
+		FormsModule,
+		ClipboardModule,
+		RouterModule,
+		NgScrollbarModule,
+		IonicModule.forRoot(),
+		SwiperModule,
 		LoginComponent,
 		SignupComponent,
 		ValidationComponent,
 		ApiServerComponent,
 		AppComponent,
-
 		AutofocusDirective,
-
 		VaultComponent,
 		VaultEntryComponent,
 		GeneratorComponent,
@@ -71,7 +76,6 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		EmailAddressComponent,
 		MasterPasswordComponent,
 		DeleteAccountComponent,
-
 		MessageComponent,
 		DropdownComponent,
 		MasterPasswordInputComponent,
@@ -79,21 +83,9 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 		SvgComponent,
 		TagColorComponent,
 		TagListComponent,
-
 		TagsModalComponent,
 		VaultHistoryModalComponent,
-		VaultEntryHistoryModalComponent
-	],
-	imports:
-	[
-		CommonModule,
-		FormsModule,
-		HttpClientModule,
-		ClipboardModule,
-		RouterModule,
-		NgScrollbarModule,
-		IonicModule.forRoot(),
-		SwiperModule,
+		VaultEntryHistoryModalComponent,
 		RoutingModule
 	],
 	exports:
@@ -104,6 +96,7 @@ import {VaultEntryHistoryModalComponent} from './pages/app/history-modal/vault-e
 	],
 	providers:
 	[
+		provideHttpClient(),
 		{
 			provide: NG_SCROLLBAR_OPTIONS,
 			useValue: {visibility: 'hover'}

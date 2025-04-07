@@ -7,18 +7,19 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
+import {NgIf} from '@angular/common';
 import browser from 'webextension-polyfill';
-import {Router} from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 
-import {AccountService, InitializationService,
-	PlatformService, StateService} from 'hyperpass-core';
+import {AccountService, InitializationService, PlatformService, StateService, HyperpassCoreModule} from 'hyperpass-core';
 
 
 @Component
 ({
 	selector: 'hyperpass-extension-root',
 	templateUrl: './hyperpass-extension.component.html',
-	styleUrls: ['./hyperpass-extension.component.scss']
+	styleUrls: ['./hyperpass-extension.component.scss'],
+	imports: [NgIf, RouterOutlet, HyperpassCoreModule]
 })
 
 export class HyperpassExtensionComponent implements OnInit

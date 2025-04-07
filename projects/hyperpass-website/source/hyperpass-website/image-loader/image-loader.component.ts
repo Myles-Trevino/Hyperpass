@@ -7,7 +7,7 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, Input, ElementRef, Inject, PLATFORM_ID} from '@angular/core';
-import {isPlatformServer} from '@angular/common';
+import {isPlatformServer, NgClass} from '@angular/common';
 
 import {Constants} from 'builds/hyperpass-common';
 
@@ -19,7 +19,8 @@ import {imageFadeAnimation} from '../animations';
 	selector: 'hyperpass-image-loader',
 	templateUrl: './image-loader.component.html',
 	styleUrls: ['./image-loader.component.scss'],
-	animations: [imageFadeAnimation]
+	animations: [imageFadeAnimation],
+	imports: [NgClass]
 })
 
 export class ImageLoaderComponent implements OnInit
@@ -34,7 +35,7 @@ export class ImageLoaderComponent implements OnInit
 
 	// Constructor.
 	public constructor(private readonly elementRef: ElementRef<HTMLElement>,
-		@Inject(PLATFORM_ID) private readonly platformId: Object){}
+		@Inject(PLATFORM_ID) private readonly platformId: object){}
 
 
 	// Initializer.

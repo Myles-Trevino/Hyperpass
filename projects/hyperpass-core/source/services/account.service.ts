@@ -449,7 +449,7 @@ export class AccountService implements OnDestroy
 		if(!this.stateService.isOnline) return;
 
 		// If the master password was not provided, try to load it.
-		if(!masterPassword) masterPassword = await this.loadCachedMasterPassword();
+		masterPassword ??= await this.loadCachedMasterPassword();
 		if(!masterPassword) throw new Error('No master password was provided.');
 
 		// Create a new automatic login key if the previous one expired.

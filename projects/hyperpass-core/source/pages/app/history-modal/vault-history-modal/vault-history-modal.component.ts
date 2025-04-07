@@ -7,6 +7,8 @@
 
 import {Component} from '@angular/core';
 import * as Ionic from '@ionic/angular';
+import {NgIf, NgFor, NgClass} from '@angular/common';
+import {NgScrollbar} from 'ngx-scrollbar';
 
 import {Types, Utilities} from 'builds/hyperpass-common';
 
@@ -16,13 +18,15 @@ import {AccountService} from '../../../../services/account.service';
 import {UtilityService} from '../../../../services/utility.service';
 import {PlatformService} from '../../../../services/platform.service';
 import {HistoryModalBaseDirective} from '../history-modal-base.directive';
+import {SvgComponent} from '../../../../svg/svg.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-vault-history-modal',
 	templateUrl: './vault-history-modal.component.html',
-	styleUrls: ['../history-modal.component.scss']
+	styleUrls: ['../history-modal.component.scss'],
+	imports: [NgIf, NgScrollbar, NgFor, NgClass, SvgComponent]
 })
 
 export class VaultHistoryModalComponent extends

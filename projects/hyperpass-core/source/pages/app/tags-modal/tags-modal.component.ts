@@ -7,6 +7,8 @@
 
 import type {OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
+import {NgIf, NgFor, NgClass, KeyValuePipe} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import {v4 as uuidv4} from 'uuid';
@@ -19,8 +21,10 @@ import * as Animations from '../../../animations';
 import {AccountService} from '../../../services/account.service';
 import {StateService} from '../../../services/state.service';
 import {MessageService} from '../../../services/message.service';
-import {UtilityService} from '../../../services/utility.service';
 import {PlatformService} from '../../../services/platform.service';
+import {TagColorComponent} from '../tag-color/tag-color.component';
+import {SvgComponent} from '../../../svg/svg.component';
+import {AutofocusDirective} from '../../../autofocus.directive';
 
 
 @Component
@@ -28,7 +32,8 @@ import {PlatformService} from '../../../services/platform.service';
 	selector: 'hyperpass-tags-modal',
 	templateUrl: './tags-modal.component.html',
 	styleUrls: ['./tags-modal.component.scss'],
-	animations: [Animations.fadeInAnimation]
+	animations: [Animations.fadeInAnimation],
+	imports: [NgIf, NgScrollbar, NgFor, TagColorComponent, NgClass, SvgComponent, FormsModule, AutofocusDirective, KeyValuePipe]
 })
 
 export class TagsModalComponent implements OnInit, OnDestroy, AfterViewInit

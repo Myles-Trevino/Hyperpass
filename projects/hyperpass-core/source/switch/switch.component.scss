@@ -5,7 +5,7 @@
 */
 
 
-@import "../../stylesheets/mixins.scss";
+@use "../../stylesheets/mixins.scss";
 
 
 #switch-body
@@ -20,7 +20,7 @@
 	background-color: var(--main-color);
 	transition: background-color var(--regular-transition-duration);
 
-	@include shading-raised;
+	@include mixins.shading-raised;
 
 	&.on #switch-notch
 	{

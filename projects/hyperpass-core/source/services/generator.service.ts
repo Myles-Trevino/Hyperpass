@@ -147,7 +147,7 @@ export class GeneratorService
 	public generate(state?: Types.GeneratorSyncedState): string
 	{
 		// Load the state if none was provided.
-		if(!state) state = this.accountService.getVault().generatorState;
+		state ??= this.accountService.getVault().generatorState;
 
 		// Generate.
 		if(state.mode === 'Passphrase') return this.generatePassphrase(

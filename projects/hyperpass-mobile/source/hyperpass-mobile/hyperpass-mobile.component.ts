@@ -7,15 +7,18 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
+import {NgIf} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
 import {SplashScreen} from '@capacitor/splash-screen';
 
-import {InitializationService, ThemeService} from 'hyperpass-core';
+import {InitializationService, ThemeService, HyperpassCoreModule} from 'hyperpass-core';
 
 
 @Component
 ({
 	selector: 'hyperpass-mobile-root',
-	templateUrl: 'hyperpass-mobile.component.html'
+	templateUrl: 'hyperpass-mobile.component.html',
+	imports: [NgIf, RouterOutlet, HyperpassCoreModule]
 })
 
 export class HyperpassMobileComponent implements OnInit

@@ -5,7 +5,7 @@
 */
 
 
-@import "builds/hyperpass-core/stylesheets/mixins.scss";
+@use "builds/hyperpass-core/stylesheets/mixins.scss";
 
 
 svg
@@ -42,5 +42,5 @@ svg
 	content: "";
 	padding-top: var(--aspect);
 
-	@include vertical{ padding-top: var(--vertical-aspect); }
+	@include mixins.vertical{ padding-top: var(--vertical-aspect); }
 }

@@ -5,14 +5,29 @@
 */
 
 
-import {enableProdMode} from '@angular/core';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {enableProdMode, importProvidersFrom} from '@angular/core';
+import {BrowserModule, bootstrapApplication} from '@angular/platform-browser';
+import {provideAnimations} from '@angular/platform-browser/animations';
 
-import {HyperpassDesktopModule} from './hyperpass-desktop/hyperpass-desktop.module';
+
+import {HyperpassCoreModule} from 'hyperpass-core';
 import {environment} from './environments/environment';
+import {RoutingModule} from './hyperpass-desktop/routing.module';
+import {HyperpassDesktopComponent} from './hyperpass-desktop/hyperpass-desktop.component';
 
 
 if(environment.production){ enableProdMode(); }
 
-platformBrowserDynamic().bootstrapModule(HyperpassDesktopModule)
-	.catch((error) => { console.error(error); });
+bootstrapApplication(HyperpassDesktopComponent,
+{
+	providers:
+	[
+		importProvidersFrom(BrowserModule, HyperpassCoreModule, RoutingModule),
+		provideAnimations()
+	]
+})
+.catch((error) =>
+{
+	'use strict';
+	console.error(error);
+});

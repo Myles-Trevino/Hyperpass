@@ -5,7 +5,7 @@
 */
 
 
-@import "../../stylesheets/mixins.scss";
+@use "../../stylesheets/mixins.scss";
 
 
 #dropdown-selected-option{ flex-grow: 1; }
@@ -30,7 +30,7 @@
 {
 	position: relative;
 	border-radius: var(--small-radius);
-	@include shading-raised;
+	@include mixins.shading-raised;
 }
 
 
@@ -45,7 +45,7 @@
 
 	.dropdown-element:not(:last-child){ border-bottom: 1px solid var(--alternate-color); }
 
-	@include shading-raised;
+	@include mixins.shading-raised;
 }
 
 

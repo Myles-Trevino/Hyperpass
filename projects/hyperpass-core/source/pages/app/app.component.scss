@@ -5,19 +5,19 @@
 */
 
 
-@import "../../../stylesheets/mixins.scss";
+@use "../../../stylesheets/mixins.scss";
 
 
 :host
 {
 	position: relative;
-	@include mobile{ padding: 0; }
+	@include mixins.mobile{ padding: 0; }
 }
 
 
 #app-tile
 {
-	@include mobile
+	@include mixins.mobile
 	{
 		border-radius: 0;
 		box-shadow: none;
@@ -35,7 +35,7 @@
 	margin: 0 var(--medium-radius);
 	height: var(--tile-title-height);
 
-	@include mobile
+	@include mixins.mobile
 	{
 		justify-content: center;
 		gap: 1.55rem;
@@ -66,7 +66,7 @@
 	padding: var(--large-gap);
 	background-color: var(--semitransparent-background-color);
 
-	@include mobile{ padding: var(--small-gap); }
+	@include mixins.mobile{ padding: var(--small-gap); }
 }
 
 

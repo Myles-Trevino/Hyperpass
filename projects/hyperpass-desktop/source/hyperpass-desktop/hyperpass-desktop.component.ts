@@ -7,9 +7,11 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
+import {NgStyle, NgIf} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
 
 import {ElectronService} from './services/electron.service';
-import {Animations, InitializationService, PlatformService} from 'hyperpass-core';
+import {Animations, InitializationService, PlatformService, HyperpassCoreModule} from 'hyperpass-core';
 
 
 @Component
@@ -17,7 +19,8 @@ import {Animations, InitializationService, PlatformService} from 'hyperpass-core
 	selector: 'hyperpass-desktop-root',
 	templateUrl: './hyperpass-desktop.component.html',
 	styleUrls: ['./hyperpass-desktop.component.scss'],
-	animations: [Animations.initialFadeInAnimation]
+	animations: [Animations.initialFadeInAnimation],
+	imports: [NgStyle, NgIf, RouterOutlet, HyperpassCoreModule]
 })
 
 export class HyperpassDesktopComponent implements OnInit

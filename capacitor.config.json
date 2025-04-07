@@ -6,5 +6,6 @@
 	"loggingBehavior": "production",
 	"android": {"path": "builds/hyperpass-mobile/android"},
 	"ios": {"path": "builds/hyperpass-mobile/ios"},
-	"plugins": {"SplashScreen": {"launchAutoHide": false}}
+	"plugins": {"SplashScreen": {"launchAutoHide": false}},
+	"server": {"androidScheme": "http"}
 }

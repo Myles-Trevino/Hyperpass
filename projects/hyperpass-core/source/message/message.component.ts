@@ -7,20 +7,21 @@
 
 import type {OnDestroy, OnInit} from '@angular/core';
 import {Component} from '@angular/core';
+import {NgClass} from '@angular/common';
 import type {Subscription} from 'rxjs';
 
 import {Types, Utilities} from 'builds/hyperpass-common';
 
 import {MessageService} from '../services/message.service';
 import {PlatformService} from '../services/platform.service';
-import {UtilityService} from '../services/utility.service';
 
 
 @Component
 ({
 	selector: 'hyperpass-message',
 	templateUrl: './message.component.html',
-	styleUrls: ['./message.component.scss']
+	styleUrls: ['./message.component.scss'],
+	imports: [NgClass]
 })
 
 export class MessageComponent implements OnInit, OnDestroy

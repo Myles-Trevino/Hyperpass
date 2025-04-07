@@ -10,13 +10,15 @@ import {Component, HostBinding} from '@angular/core';
 
 import {Constants} from 'builds/hyperpass-common';
 import {ThemeService, MetadataService} from 'hyperpass-core';
+import {ImageLoaderComponent} from '../../../../image-loader/image-loader.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-importing-existing-accounts',
 	templateUrl: './importing-existing-accounts.component.html',
-	styleUrls: ['../../support.component.scss']
+	styleUrls: ['../../support.component.scss'],
+	imports: [ImageLoaderComponent]
 })
 
 export class ImportingExistingAccountsComponent implements OnInit

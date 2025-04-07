@@ -5,14 +5,15 @@
 */
 
 
-@import "builds/hyperpass-core/stylesheets/styles.scss";
+@use "builds/hyperpass-core/stylesheets/styles.scss";
+@use "builds/hyperpass-core/stylesheets/mixins.scss";
 
 
-// iOS safe area handling.
+/* iOS safe area handling. */
 :root{ --page-height-modifier: env(safe-area-inset-top); }
 
 html
 {
 	padding-top: env(safe-area-inset-top);
-	@include mobile{ background-color: var(--alternate-color); }
+	@include mixins.mobile{ background-color: var(--alternate-color); }
 }

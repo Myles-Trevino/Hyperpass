@@ -7,6 +7,9 @@
 
 import type {AfterViewInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
+import {NgClass, NgIf} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {IonicModule} from '@ionic/angular';
 import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import * as _ from 'lodash';
@@ -19,13 +22,16 @@ import {MessageService} from '../../../services/message.service';
 import {PlatformService} from '../../../services/platform.service';
 import {StateService} from '../../../services/state.service';
 import {StorageService} from '../../../services/storage.service';
+import {DropdownComponent} from '../../../dropdown/dropdown.component';
+import {SvgComponent} from '../../../svg/svg.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-options',
 	templateUrl: './options.component.html',
-	styleUrls: ['./options.component.scss']
+	styleUrls: ['./options.component.scss'],
+	imports: [NgClass, NgScrollbar, DropdownComponent, NgIf, RouterLink, IonicModule, SvgComponent]
 })
 
 export class OptionsComponent implements AfterViewInit, OnDestroy

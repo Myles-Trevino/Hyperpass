@@ -7,7 +7,9 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
-import {Router} from '@angular/router';
+import {NgIf} from '@angular/common';
+import {Router, RouterLink} from '@angular/router';
+import {IonicModule} from '@ionic/angular';
 
 import * as Animations from '../../animations';
 import {AccountService} from '../../services/account.service';
@@ -21,7 +23,8 @@ import {PlatformService} from '../../services/platform.service';
 ({
 	selector: 'hyperpass-validation',
 	templateUrl: './validation.component.html',
-	animations: [Animations.fadeInAnimation]
+	animations: [Animations.fadeInAnimation],
+	imports: [NgIf, RouterLink, IonicModule]
 })
 
 export class ValidationComponent implements OnInit

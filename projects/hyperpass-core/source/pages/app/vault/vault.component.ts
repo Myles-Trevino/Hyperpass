@@ -7,6 +7,11 @@
 
 import type {OnInit, OnDestroy} from '@angular/core';
 import {Component, HostBinding, ChangeDetectorRef, ViewChild} from '@angular/core';
+import {NgClass, NgIf, NgFor} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {CdkCopyToClipboard} from '@angular/cdk/clipboard';
+import {IonicModule} from '@ionic/angular';
 import {NgScrollbar} from 'ngx-scrollbar';
 import type {Subscription} from 'rxjs';
 import * as _ from 'lodash';
@@ -18,6 +23,9 @@ import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
 import {StateService} from '../../../services/state.service';
+import {AutofocusDirective} from '../../../autofocus.directive';
+import {SvgComponent} from '../../../svg/svg.component';
+import {TagColorComponent} from '../tag-color/tag-color.component';
 
 
 type Entry =
@@ -35,7 +43,8 @@ type Entry =
 	templateUrl: './vault.component.html',
 	styleUrls: ['./vault.component.scss'],
 	animations: [Animations.fadeInAnimation,
-		Animations.delayedFadeInAnimation]
+		Animations.delayedFadeInAnimation],
+	imports: [FormsModule, AutofocusDirective, SvgComponent, NgClass, RouterLink, IonicModule, NgIf, NgScrollbar, NgFor, TagColorComponent, CdkCopyToClipboard]
 })
 
 export class VaultComponent implements OnInit, OnDestroy

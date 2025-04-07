@@ -6,13 +6,15 @@
 
 
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {NgClass} from '@angular/common';
 
 
 @Component
 ({
 	selector: 'hyperpass-switch',
 	templateUrl: './switch.component.html',
-	styleUrls: ['./switch.component.scss']
+	styleUrls: ['./switch.component.scss'],
+	imports: [NgClass]
 })
 
 export class SwitchComponent

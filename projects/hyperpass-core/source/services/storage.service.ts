@@ -17,7 +17,7 @@ export class StorageService
 	public async getData(key: string): Promise<string | undefined>
 	{
 		const result = await Preferences.get({key});
-		return result.value ? result.value : undefined;
+		return result.value ?? undefined;
 	}
 
 

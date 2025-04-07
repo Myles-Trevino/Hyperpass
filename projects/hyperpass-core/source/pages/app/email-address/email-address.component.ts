@@ -7,19 +7,24 @@
 
 import type {OnDestroy, OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import {NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
+import {NgScrollbar} from 'ngx-scrollbar';
 
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
 import {ApiService} from '../../../services/api.service';
 import {UtilityService} from '../../../services/utility.service';
+import {AutofocusDirective} from '../../../autofocus.directive';
 
 
 @Component
 ({
 	selector: 'hyperpass-email-address',
-	templateUrl: './email-address.component.html'
+	templateUrl: './email-address.component.html',
+	imports: [NgScrollbar, FormsModule, AutofocusDirective, NgIf]
 })
 
 export class EmailAddressComponent implements OnInit, OnDestroy

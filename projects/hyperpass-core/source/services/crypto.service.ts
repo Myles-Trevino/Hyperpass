@@ -55,7 +55,7 @@ export class CryptoService
 	{
 		// Generate the salt if none was provided.
 		let salt = encryptedData?.salt ? this.toBytes(encryptedData.salt) : undefined;
-		if(!salt) salt = Sodium.randombytes_buf(Sodium.crypto_pwhash_SALTBYTES);
+		salt ??= Sodium.randombytes_buf(Sodium.crypto_pwhash_SALTBYTES);
 
 		// Hash the given password using Argon2id.
 		const key = await argon2id

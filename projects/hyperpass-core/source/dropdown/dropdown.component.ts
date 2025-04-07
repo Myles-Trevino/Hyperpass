@@ -7,8 +7,10 @@
 
 import {Component, Input, Output, ViewChild, HostListener,
 	ElementRef, EventEmitter, ChangeDetectorRef} from '@angular/core';
+import {NgIf, NgFor} from '@angular/common';
 
 import * as Animations from '../animations';
+import {SvgComponent} from '../svg/svg.component';
 
 
 @Component
@@ -16,7 +18,8 @@ import * as Animations from '../animations';
 	selector: 'hyperpass-dropdown',
 	templateUrl: './dropdown.component.html',
 	styleUrls: ['./dropdown.component.scss'],
-	animations: [Animations.fadeAnimation]
+	animations: [Animations.fadeAnimation],
+	imports: [NgIf, SvgComponent, NgFor]
 })
 
 export class DropdownComponent<T1 extends Iterable<T2>, T2>

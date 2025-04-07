@@ -4,6 +4,8 @@
 	http://www.apache.org/licenses/LICENSE-2.0
 */
 
+/* eslint-disable strict */
+/* eslint-disable no-implicit-globals */
 
 import browser from 'webextension-polyfill';
 
@@ -33,31 +35,33 @@ const defaultState: State = {
 resetState().then(() =>
 {
 	// Handle update messages.
-	browser.runtime.onMessage.addListener(async (message: Types.Message) =>
+	browser.runtime.onMessage.addListener(async (message: unknown) =>
 	{
+		const typedMessage = message as Types.Message;
+
 		// Debug.
-		// console.log('Received message', message);
+		// console.log('Received message', typedMessage);
 
 		// Handle login and logout messages.
-		if(message.type === 'loginUpdate')
+		if(typedMessage.type === 'loginUpdate')
 		{
-			const loggedIn = message.data as boolean;
+			const loggedIn = typedMessage.data as boolean;
 			await save({loggedIn});
 			if(!loggedIn) logOut();
 		}
 
 		// Handle vault update messages.
-		else if(message.type === 'vaultUpdate')
+		else if(typedMessage.type === 'vaultUpdate')
 		{
-			await save({accounts: message.data as Record<string, Types.Account>});
+			await save({accounts: typedMessage.data as Record<string, Types.Account>});
 			await update();
 		}
 
 		// Handle login timeout reset messages.
 		// (References account.service.ts startLoginTimeout())
-		else if(message.type === 'loginTimeoutReset')
+		else if(typedMessage.type === 'loginTimeoutReset')
 		{
-			const loginTimeoutDuration = (message.data as number);
+			const loginTimeoutDuration = (typedMessage.data as number);
 
 			// Stop the timeout if it has been started.
 			await stopLoginTimeout();
@@ -291,7 +295,7 @@ async function resetState(): Promise<void>
 	await save({...defaultState});
 }
 
-async function save(data: Object): Promise<void>
+async function save(data: Record<string, unknown>): Promise<void>
 {
 	await browser.storage.local.set(data);
 }

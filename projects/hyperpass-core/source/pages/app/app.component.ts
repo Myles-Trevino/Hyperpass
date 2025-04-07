@@ -8,9 +8,10 @@
 import type {AfterContentInit, OnDestroy, OnInit} from '@angular/core';
 import {ElementRef, Component, HostBinding, HostListener,
 	ViewChild, ChangeDetectorRef} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
+import {NgIf, NgClass} from '@angular/common';
 import SwiperCore, {EffectFade} from 'swiper';
-import {SwiperComponent} from 'swiper/angular';
+import {SwiperComponent, SwiperModule} from 'swiper/angular';
 import type {Subscription} from 'rxjs';
 import {App} from '@capacitor/app';
 import * as Ionic from '@ionic/angular';
@@ -27,6 +28,10 @@ import {MetadataService} from '../../services/metadata.service';
 import {MessageService} from '../../services/message.service';
 import {InitializationService} from '../../services/initialization.service';
 import {StorageService} from '../../services/storage.service';
+import {GeneratorComponent} from './generator/generator.component';
+import {TagsModalComponent} from './tags-modal/tags-modal.component';
+import {VaultEntryHistoryModalComponent} from './history-modal/vault-entry-history-modal/vault-entry-history-modal.component';
+import {VaultHistoryModalComponent} from './history-modal/vault-history-modal/vault-history-modal.component';
 
 
 SwiperCore.use([EffectFade]);
@@ -37,7 +42,8 @@ SwiperCore.use([EffectFade]);
 	selector: 'hyperpass-app',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
-	animations: [Animations.fadeAnimation, Animations.delayedFadeAnimation]
+	animations: [Animations.fadeAnimation, Animations.delayedFadeAnimation],
+	imports: [NgIf, Ionic.IonicModule, NgClass, SwiperModule, RouterOutlet, GeneratorComponent, TagsModalComponent, VaultEntryHistoryModalComponent, VaultHistoryModalComponent]
 })
 
 export class AppComponent implements OnInit, OnDestroy, AfterContentInit
@@ -114,16 +120,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit
 					if(!await this.storageService.getData(Constants.emailAddressKey) ||
 						!await this.storageService.getData(Constants.vaultKey))
 					{
-						this.messageService.error(new Error('You are offline, but no '+
-							'offline user data could be found. You must connect to the '+
-							'internet to log in.'), 0);
+						this.messageService.error(new Error('Could not connect to the API. '+
+							'No offline vault was found, so you must reconnect to login.'), 0);
 						this.router.navigate(['/login']);
 						return;
 					}
 
 					// Otherwise display an "offline mode" notification and continue.
-					this.messageService.error(new Error('Launching in offline '+
-						'mode. Functionality will be limited.'), 0);
+					this.messageService.error(new Error('Could not connect to the API. '+
+						'Launching in offline mode using your last synced vault. '+
+						'Functionality will be limited.'), 0);
 				}
 
 				// If automatic login failed, redirect to the login page.

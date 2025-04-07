@@ -7,20 +7,24 @@
 
 import type {OnDestroy, OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import {NgIf} from '@angular/common';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
+import {NgScrollbar} from 'ngx-scrollbar';
 
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
 import {CryptoService} from '../../../services/crypto.service';
 import {BiometricService} from '../../../services/biometric.service';
+import {MasterPasswordInputComponent} from '../../../master-password-input/master-password-input.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-biometric-login',
-	templateUrl: './biometric-login.component.html'
+	templateUrl: './biometric-login.component.html',
+	imports: [NgIf, NgScrollbar, MasterPasswordInputComponent]
 })
 
 export class BiometricLoginComponent implements OnInit, OnDestroy

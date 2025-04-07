@@ -7,15 +7,20 @@
 
 import {Component, Input, Output, EventEmitter,
 	HostBinding, ViewChild, ElementRef} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {NgClass, NgIf} from '@angular/common';
 
 import {GeneratorService} from '../services/generator.service';
 import {PlatformService} from '../services/platform.service';
+import {AutofocusDirective} from '../autofocus.directive';
+import {SvgComponent} from '../svg/svg.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-master-password-input',
-	templateUrl: './master-password-input.component.html'
+	templateUrl: './master-password-input.component.html',
+	imports: [FormsModule, AutofocusDirective, NgClass, NgIf, SvgComponent]
 })
 
 export class MasterPasswordInputComponent

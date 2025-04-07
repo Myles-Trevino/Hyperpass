@@ -7,13 +7,12 @@
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {provideHttpClient} from '@angular/common/http'
 import {FormsModule} from '@angular/forms';
 
 import {HyperpassCoreModule} from 'hyperpass-core';
 
 import {RoutingModule} from './routing.module';
-import {HyperpassWebsiteComponent} from './hyperpass-website.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {ImageLoaderComponent} from './image-loader/image-loader.component';
 import {IndexComponent} from './pages/index/index.component';
@@ -39,16 +38,17 @@ import {WhyUseHyperpassOverTheAlternativesComponent} from './pages/support/faq/w
 
 @NgModule
 ({
-	declarations:
-	[
-		HyperpassWebsiteComponent,
+	imports: [
+		BrowserModule,
+		FormsModule,
+		HyperpassCoreModule,
+		RoutingModule,
 		NavbarComponent,
 		ImageLoaderComponent,
 		IndexComponent,
 		DownloadsComponent,
 		SupportComponent,
 		NotFoundComponent,
-
 		IntroductionComponent,
 		AutofillingUsernamesAndPasswordsComponent,
 		CreatingAndRestoringVaultBackupsComponent,
@@ -62,15 +62,7 @@ import {WhyUseHyperpassOverTheAlternativesComponent} from './pages/support/faq/w
 		WhoIsBehindThisProjectComponent,
 		WhyUseHyperpassOverTheAlternativesComponent
 	],
-	imports:
-	[
-		BrowserModule,
-		HttpClientModule,
-		FormsModule,
-		HyperpassCoreModule,
-		RoutingModule
-	],
-	bootstrap: [HyperpassWebsiteComponent]
+	providers: [provideHttpClient()]
 })
 
 

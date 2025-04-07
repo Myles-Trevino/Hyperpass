@@ -7,6 +7,8 @@
 
 import type {OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {Component, HostBinding, ViewChild} from '@angular/core';
+import {NgClass, NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import type {Subscription} from 'rxjs';
 import {NgScrollbar} from 'ngx-scrollbar';
 import * as Ionic from '@ionic/angular';
@@ -21,12 +23,17 @@ import {MessageService} from '../../../services/message.service';
 import {GeneratorService} from '../../../services/generator.service';
 import {StateService} from '../../../services/state.service';
 import {PlatformService} from '../../../services/platform.service';
+import {AutofocusDirective} from '../../../autofocus.directive';
+import {SvgComponent} from '../../../svg/svg.component';
+import {SwitchComponent} from '../../../switch/switch.component';
+import {TagListComponent} from './tag-list/tag-list.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-vault-entry',
-	templateUrl: './vault-entry.component.html'
+	templateUrl: './vault-entry.component.html',
+	imports: [NgClass, NgIf, NgScrollbar, FormsModule, AutofocusDirective, SvgComponent, SwitchComponent, TagListComponent]
 })
 
 export class VaultEntryComponent implements OnInit, OnDestroy, AfterViewInit

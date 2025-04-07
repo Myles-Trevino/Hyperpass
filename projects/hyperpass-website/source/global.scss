@@ -5,7 +5,8 @@
 */
 
 
-@import "builds/hyperpass-core/stylesheets/styles.scss";
+@use "builds/hyperpass-core/stylesheets/styles.scss";
+@use "builds/hyperpass-core/stylesheets/mixins.scss";
 
 
 /* Variables. */
@@ -16,7 +17,7 @@
 
 
 	/* Mobile. */
-	@include mobile{ --navbar-height: 5rem; }
+	@include mixins.mobile{ --navbar-height: 5rem; }
 }
 
 
@@ -63,5 +64,5 @@
 		max-width: var(--page-content-width-limit);
 	}
 
-	@include mobile{ margin: var(--large-gap) var(--small-gap); }
+	@include mixins.mobile{ margin: var(--large-gap) var(--small-gap); }
 }

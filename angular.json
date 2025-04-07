@@ -93,8 +93,9 @@
 							"extractLicenses": true,
 							"buildOptimizer": true,
 							"sourceMap": false,
-							"optimization": {"styles": {"inlineCritical": false}},
-							"namedChunks": false
+							"optimization": true,
+							"namedChunks": false,
+							"outputHashing": "all"
 						}
 					}
 				},
@@ -177,8 +178,9 @@
 							"extractLicenses": true,
 							"buildOptimizer": true,
 							"sourceMap": false,
-							"optimization": {"styles": {"inlineCritical": false}},
-							"namedChunks": false
+							"optimization": true,
+							"namedChunks": false,
+							"outputHashing": "all"
 						}
 					}
 				},
@@ -257,8 +259,9 @@
 							"extractLicenses": true,
 							"buildOptimizer": true,
 							"sourceMap": false,
-							"optimization": {"styles": {"inlineCritical": false}},
-							"namedChunks": false
+							"optimization": true,
+							"namedChunks": false,
+							"outputHashing": "all"
 						}
 					}
 				},
@@ -336,8 +339,9 @@
 							"extractLicenses": true,
 							"buildOptimizer": true,
 							"sourceMap": false,
-							"optimization": {"styles": {"inlineCritical": false}},
-							"namedChunks": false
+							"optimization": true,
+							"namedChunks": false,
+							"outputHashing": "all"
 						}
 					}
 				},
@@ -364,7 +368,8 @@
 								"with": "projects/hyperpass-website/source/environments/environment.prod.ts"
 							}],
 							"sourceMap": false,
-							"optimization": true
+							"optimization": true,
+							"outputHashing": "all"
 						}
 					}
 				},

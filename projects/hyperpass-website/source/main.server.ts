@@ -5,12 +5,22 @@
 */
 
 
-import {enableProdMode} from '@angular/core';
+import {ApplicationRef, enableProdMode, importProvidersFrom} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
 
 import {environment} from './environments/environment';
+import {HyperpassWebsiteServerModule} from './hyperpass-website/hyperpass-website.server.module';
+import {HyperpassWebsiteComponent} from './hyperpass-website/hyperpass-website.component';
 
 
-if(environment.production){ enableProdMode(); }
+export const Server = () : Promise<ApplicationRef> =>
+{
+	'use strict';
 
+	if(environment.production){ enableProdMode(); }
 
-export {HyperpassWebsiteServerModule} from './hyperpass-website/hyperpass-website.server.module';
+	return bootstrapApplication(HyperpassWebsiteComponent,
+	{
+		providers: [importProvidersFrom(HyperpassWebsiteServerModule)]
+	})
+};

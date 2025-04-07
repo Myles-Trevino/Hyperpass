@@ -16,5 +16,6 @@ export class ElectronService
 {
 	public ipcRenderer: typeof ipcRenderer;
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 	public constructor(){ this.ipcRenderer = window.require('electron').ipcRenderer; }
 }

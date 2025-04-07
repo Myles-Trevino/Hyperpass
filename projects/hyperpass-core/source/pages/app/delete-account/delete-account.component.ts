@@ -9,18 +9,21 @@ import type {OnDestroy, OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
+import {NgScrollbar} from 'ngx-scrollbar';
 
 import {UtilityService} from '../../../services/utility.service';
 import {CryptoService} from '../../../services/crypto.service';
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
 import {ApiService} from '../../../services/api.service';
+import {MasterPasswordInputComponent} from '../../../master-password-input/master-password-input.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-delete-account',
-	templateUrl: './delete-account.component.html'
+	templateUrl: './delete-account.component.html',
+	imports: [NgScrollbar, MasterPasswordInputComponent]
 })
 
 export class DeleteAccountComponent implements OnInit, OnDestroy

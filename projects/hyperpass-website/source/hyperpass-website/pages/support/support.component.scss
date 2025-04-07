@@ -5,7 +5,7 @@
 */
 
 
-@import "builds/hyperpass-core/stylesheets/mixins.scss";
+@use "builds/hyperpass-core/stylesheets/mixins.scss";
 
 
 /* Host. */
@@ -24,7 +24,7 @@
 	max-width: var(--page-content-width-limit);
 	margin: var(--large-gap);
 
-	@include mobile
+	@include mixins.mobile
 	{
 		width: calc(100% - var(--small-gap) * 2);
 		margin: var(--large-gap) var(--small-gap);
@@ -63,7 +63,7 @@
 	max-width: var(--page-content-width-limit);
 	padding: var(--large-gap);
 
-	@include mobile{ padding: var(--medium-gap); }
+	@include mixins.mobile{ padding: var(--medium-gap); }
 
 	p{ text-align: justify; }
 }

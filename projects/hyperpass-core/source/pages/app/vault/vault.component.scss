@@ -5,7 +5,7 @@
 */
 
 
-@import "../../../../stylesheets/mixins.scss";
+@use "../../../../stylesheets/mixins.scss";
 
 
 :host
@@ -14,7 +14,7 @@
 	grid-template-rows: min-content auto;
 	gap: 0;
 
-	@include mobile{ padding: var(--medium-radius) 0 0 0; }
+	@include mixins.mobile{ padding: var(--medium-radius) 0 0 0; }
 }
 
 .app-top-bar
@@ -28,7 +28,7 @@
 		max-width: 35rem;
 	}
 
-	@include mobile{ padding: 0 var(--medium-radius); }
+	@include mixins.mobile{ padding: 0 var(--medium-radius); }
 }
 
 :host ::ng-deep .app-top-bar hyperpass-svg
@@ -52,7 +52,7 @@
 	{
 		cursor: pointer;
 
-		@include shading-raised;
+		@include mixins.shading-raised;
 	}
 
 	.tile-section
@@ -80,7 +80,7 @@
 		background-color: var(--main-color);
 		transition: background-color var(--regular-transition-duration);
 
-		@include mobile{ height: 9.5rem; }
+		@include mixins.mobile{ height: 9.5rem; }
 
 		&:hover
 		{
@@ -159,5 +159,5 @@
 	padding: 0.35rem;
 	border-radius: 3rem;
 
-	@include mobile{ bottom: calc(var(--medium-radius) + var(--small-radius)); }
+	@include mixins.mobile{ bottom: calc(var(--medium-radius) + var(--small-radius)); }
 }

@@ -7,9 +7,10 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
-import {formatDate} from '@angular/common';
+import {formatDate, NgIf} from '@angular/common';
 import * as FileSaver from 'file-saver';
 import * as _ from 'lodash';
+import {NgScrollbar} from 'ngx-scrollbar';
 
 import {Types} from 'builds/hyperpass-common';
 
@@ -17,12 +18,14 @@ import {MessageService} from '../../../services/message.service';
 import {AccountService} from '../../../services/account.service';
 import {UtilityService} from '../../../services/utility.service';
 import {StateService} from '../../../services/state.service';
+import {DropdownComponent} from '../../../dropdown/dropdown.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-export-vault',
-	templateUrl: './export-vault.component.html'
+	templateUrl: './export-vault.component.html',
+	imports: [NgScrollbar, DropdownComponent, NgIf]
 })
 
 export class ExportVaultComponent implements OnInit

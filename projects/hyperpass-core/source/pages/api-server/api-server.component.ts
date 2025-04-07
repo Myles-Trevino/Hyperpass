@@ -8,6 +8,7 @@
 import type {OnDestroy, OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
 import {Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
 
@@ -18,12 +19,14 @@ import {UtilityService} from '../../services/utility.service';
 import {StorageService} from '../../services/storage.service';
 import {PlatformService} from '../../services/platform.service';
 import {InitializationService} from '../../services/initialization.service';
+import {AutofocusDirective} from '../../autofocus.directive';
 
 
 @Component
 ({
 	selector: 'hyperpass-api-server',
-	templateUrl: './api-server.component.html'
+	templateUrl: './api-server.component.html',
+	imports: [FormsModule, AutofocusDirective]
 })
 
 export class ApiServerComponent implements OnInit, OnDestroy

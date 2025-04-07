@@ -7,6 +7,7 @@
 
 import type {OnInit, OnDestroy} from '@angular/core';
 import {Component, Input, HostBinding} from '@angular/core';
+import {NgFor, NgClass, NgIf} from '@angular/common';
 import type {Subscription} from 'rxjs';
 import * as _ from 'lodash';
 
@@ -15,13 +16,16 @@ import {Types} from 'builds/hyperpass-common';
 import {MessageService} from '../../../../services/message.service';
 import {StateService} from '../../../../services/state.service';
 import {AccountService} from '../../../../services/account.service';
+import {TagColorComponent} from '../../tag-color/tag-color.component';
+import {SvgComponent} from '../../../../svg/svg.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-tag-list',
 	templateUrl: './tag-list.component.html',
-	styleUrls: ['./tag-list.component.scss']
+	styleUrls: ['./tag-list.component.scss'],
+	imports: [NgFor, NgClass, NgIf, TagColorComponent, SvgComponent]
 })
 
 export class TagListComponent implements OnInit, OnDestroy

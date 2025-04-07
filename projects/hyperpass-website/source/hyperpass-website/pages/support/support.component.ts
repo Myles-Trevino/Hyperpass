@@ -7,6 +7,7 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 import {MetadataService} from 'hyperpass-core';
 
@@ -15,7 +16,8 @@ import {MetadataService} from 'hyperpass-core';
 ({
 	selector: 'hyperpass-support',
 	templateUrl: './support.component.html',
-	styleUrls: ['./support.component.scss']
+	styleUrls: ['./support.component.scss'],
+	imports: [RouterLink]
 })
 
 export class SupportComponent implements OnInit

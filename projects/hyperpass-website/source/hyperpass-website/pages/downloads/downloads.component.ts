@@ -7,6 +7,7 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 import {Constants} from 'builds/hyperpass-common';
 import {MetadataService} from 'hyperpass-core';
@@ -16,7 +17,8 @@ import {MetadataService} from 'hyperpass-core';
 ({
 	selector: 'hyperpass-downloads',
 	templateUrl: './downloads.component.html',
-	styleUrls: ['./downloads.component.scss']
+	styleUrls: ['./downloads.component.scss'],
+	imports: [RouterLink]
 })
 
 export class DownloadsComponent implements OnInit

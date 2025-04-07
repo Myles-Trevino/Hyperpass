@@ -7,7 +7,8 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
-import {Router, NavigationStart} from '@angular/router';
+import {Router, NavigationStart, RouterLink} from '@angular/router';
+import {NgIf} from '@angular/common';
 
 import {Constants} from 'builds/hyperpass-common';
 import {Animations} from 'hyperpass-core';
@@ -20,7 +21,8 @@ import {navbarOverlayFadeAnimation} from '../animations';
 	selector: 'hyperpass-navbar',
 	templateUrl: './navbar.component.html',
 	styleUrls: ['./navbar.component.scss'],
-	animations: [Animations.fadeAnimation, navbarOverlayFadeAnimation]
+	animations: [Animations.fadeAnimation, navbarOverlayFadeAnimation],
+	imports: [RouterLink, NgIf]
 })
 
 export class NavbarComponent implements OnInit

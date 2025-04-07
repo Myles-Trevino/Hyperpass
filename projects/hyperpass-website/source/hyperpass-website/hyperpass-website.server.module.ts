@@ -11,7 +11,6 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {provideServerRendering} from '@angular/platform-server';
 
 import {HyperpassWebsiteModule} from './hyperpass-website.module';
-import {HyperpassWebsiteComponent} from './hyperpass-website.component';
 
 
 @NgModule
@@ -22,7 +21,6 @@ import {HyperpassWebsiteComponent} from './hyperpass-website.component';
 		HyperpassWebsiteModule,
 		ServerModule
 	],
-	bootstrap: [HyperpassWebsiteComponent],
 	providers: [provideServerRendering()]
 })
 

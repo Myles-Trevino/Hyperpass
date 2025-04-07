@@ -7,15 +7,19 @@
 
 import type {OnInit} from '@angular/core';
 import {Component} from '@angular/core';
+import {NgStyle, NgIf} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
 
-import {Animations, InitializationService, PlatformService} from 'hyperpass-core';
+import {Animations, InitializationService, MessageComponent, PlatformService} from 'hyperpass-core';
+import {NavbarComponent} from './navbar/navbar.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-website-root',
 	templateUrl: './hyperpass-website.component.html',
-	animations: [Animations.initialFadeInAnimation]
+	animations: [Animations.initialFadeInAnimation],
+		imports: [RouterOutlet, NgStyle, NgIf, NavbarComponent, MessageComponent]
 })
 
 export class HyperpassWebsiteComponent implements OnInit

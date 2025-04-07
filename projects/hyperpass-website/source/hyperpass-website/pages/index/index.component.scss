@@ -5,7 +5,7 @@
 */
 
 
-@import "builds/hyperpass-core/stylesheets/mixins.scss";
+@use "builds/hyperpass-core/stylesheets/mixins.scss";
 
 
 /* Host. */
@@ -63,7 +63,7 @@ canvas
 	align-items: center;
 	background-color: var(--semitransparent-background-color);
 
-	@include mobile{ gap: 7rem; }
+	@include mixins.mobile{ gap: 7rem; }
 }
 
 .index-section
@@ -73,7 +73,7 @@ canvas
 	align-items: center;
 	padding: var(--large-gap);
 
-	@include mobile{ padding: var(--small-gap); }
+	@include mixins.mobile{ padding: var(--small-gap); }
 }
 
 .index-section-content
@@ -86,13 +86,13 @@ canvas
 	width: 100%;
 	max-width: var(--page-content-width-limit);
 
-	@include vertical
+	@include mixins.vertical
 	{
 		grid-template-columns: auto;
 		grid-template-rows: 1fr 1fr;
 	}
 
-	@include mobile{ gap: var(--medium-gap); }
+	@include mixins.mobile{ gap: var(--medium-gap); }
 }
 
 .index-section-text
@@ -125,7 +125,7 @@ canvas
 		padding: 0;
 	}
 
-	@include vertical{ grid-row-start: 2; }
+	@include mixins.vertical{ grid-row-start: 2; }
 }
 
 #index-peace-of-mind

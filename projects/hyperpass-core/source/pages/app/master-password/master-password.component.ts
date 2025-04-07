@@ -7,18 +7,21 @@
 
 import type {OnDestroy, OnInit} from '@angular/core';
 import {Component, HostBinding} from '@angular/core';
+import {NgScrollbar} from 'ngx-scrollbar';
 import type {Subscription} from 'rxjs';
 import * as Ionic from '@ionic/angular';
 
 import {AccountService} from '../../../services/account.service';
 import {MessageService} from '../../../services/message.service';
 import {UtilityService} from '../../../services/utility.service';
+import {MasterPasswordInputComponent} from '../../../master-password-input/master-password-input.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-master-password',
-	templateUrl: './master-password.component.html'
+	templateUrl: './master-password.component.html',
+	imports: [NgScrollbar, MasterPasswordInputComponent]
 })
 
 export class MasterPasswordComponent implements OnInit, OnDestroy

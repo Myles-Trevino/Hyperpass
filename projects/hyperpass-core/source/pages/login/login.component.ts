@@ -7,7 +7,9 @@
 
 import type {OnInit} from '@angular/core';
 import {Component, HostBinding, HostListener, ViewChild, ElementRef} from '@angular/core';
+import {NgClass, NgIf} from '@angular/common';
 import {Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
 
 import {Constants} from 'builds/hyperpass-common';
 
@@ -18,13 +20,15 @@ import {MetadataService} from '../../services/metadata.service';
 import {BiometricService} from '../../services/biometric.service';
 import {MasterPasswordInputComponent} from '../../master-password-input/master-password-input.component';
 import {StateService} from '../../services/state.service';
+import {SvgComponent} from '../../svg/svg.component';
 
 
 @Component
 ({
 	selector: 'hyperpass-login',
 	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.scss']
+	styleUrls: ['./login.component.scss'],
+	imports: [SvgComponent, FormsModule, NgClass, MasterPasswordInputComponent, NgIf]
 })
 
 export class LoginComponent implements OnInit

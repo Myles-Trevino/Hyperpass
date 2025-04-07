@@ -4,26 +4,27 @@
 	http://www.apache.org/licenses/LICENSE-2.0
 */
 
-
 import 'zone.js';
 
-import {CommonEngine, CommonEngineRenderOptions} from '@angular/ssr';
+import {CommonEngine, CommonEngineRenderOptions} from '@angular/ssr/node';
 import Express from 'express';
 import Helmet from 'helmet';
 import {join} from 'path';
 
-import {HyperpassWebsiteServerModule} from './source/main.server';
+import {Server} from './source/main.server';
 import {APP_BASE_HREF} from '@angular/common';
 
 
 // Starts the application.
-export function app(): Express.Express
+export const app = (): Express.Express =>
 {
+	'use strict';
+
 	const server = Express();
 	const browserFolder = join(process.cwd(), 'builds/hyperpass-website/browser');
 
 	// Configure the Universal express engine.
-	const engine = new CommonEngine({bootstrap: HyperpassWebsiteServerModule});
+	const engine = new CommonEngine({bootstrap: Server});
 
 	server.engine('html', (
 		filePath: string,
@@ -57,7 +58,8 @@ export function app(): Express.Express
 				{
 					'connect-src': ['*', 'data:'],
 					'script-src': [`'self'`, `'unsafe-inline'`, `'unsafe-eval'`],
-					'script-src-attr': [`'unsafe-inline'`]
+					'script-src-attr': [`'unsafe-inline'`],
+					'img-src': [`'self'`, 'data: https://static.hyperpass.org']
 				}
 			}
 		})
@@ -78,8 +80,10 @@ export function app(): Express.Express
 
 
 // Starts the Node server.
-function run(): void
+export const run = (): void =>
 {
+	'use strict';
+
 	const port = process.env.PORT ?? 4001;
 	const server = app();
 
@@ -91,10 +95,11 @@ function run(): void
 }
 
 
-/* eslint-disable */
-declare const __non_webpack_require__: NodeRequire;
+// eslint-disable-next-line camelcase
+declare const __non_webpack_require__: NodeJS.Require;
+// eslint-disable-next-line camelcase
 const mainModule = __non_webpack_require__.main;
-const moduleFilename = mainModule && mainModule.filename || '';
+const moduleFilename = (mainModule && mainModule.filename) ?? '';
 if(moduleFilename === __filename || moduleFilename.includes('iisnode'))
 {
 	run();
